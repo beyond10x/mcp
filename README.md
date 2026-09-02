@@ -8,7 +8,7 @@ The client prefers MCP `2026-07-28` and falls back to `2025-11-25`. Consumers re
 Harness supplies envelopes and approvals; Connectors supplies catalog, grants, egress, and hosted
 credential custody. MCP server annotations never grant either consumer anything.
 
-```console
+```bash
 cargo xtask gate
 cargo run -p b10x-mcp-cli -- connections list
 ```
