@@ -1,0 +1,20 @@
+[package]
+name = "b10x-mcp-oauth"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+async-trait.workspace = true
+b10x-mcp-types.workspace = true
+oauth2.workspace = true
+http.workspace = true
+rmcp = { workspace = true, features = ["auth"] }
+serde.workspace = true
+serde_json.workspace = true
+url.workspace = true
+
+[lints]
+workspace = true

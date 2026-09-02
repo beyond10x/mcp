@@ -1,0 +1,22 @@
+[package]
+name = "b10x-mcp-command"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+async-trait.workspace = true
+b10x-mcp-client.workspace = true
+b10x-mcp-config.workspace = true
+b10x-mcp-oauth.workspace = true
+b10x-mcp-types.workspace = true
+clap.workspace = true
+reqwest.workspace = true
+serde_json.workspace = true
+tokio.workspace = true
+url.workspace = true
+
+[lints]
+workspace = true

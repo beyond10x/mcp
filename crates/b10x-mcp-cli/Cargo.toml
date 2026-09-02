@@ -1,0 +1,18 @@
+[package]
+name = "b10x-mcp-cli"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[[bin]]
+name = "b10x-mcp"
+path = "src/main.rs"
+
+[dependencies]
+b10x-mcp-command.workspace = true
+tokio.workspace = true
+
+[lints]
+workspace = true

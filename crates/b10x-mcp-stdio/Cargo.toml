@@ -1,0 +1,15 @@
+[package]
+name = "b10x-mcp-stdio"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+b10x-mcp-client.workspace = true
+b10x-mcp-types.workspace = true
+
+[lints]
+workspace = true
+

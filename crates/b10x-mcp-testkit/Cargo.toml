@@ -1,0 +1,14 @@
+[package]
+name = "b10x-mcp-testkit"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+b10x-mcp-types.workspace = true
+serde_json.workspace = true
+
+[lints]
+workspace = true
