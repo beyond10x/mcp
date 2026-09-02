@@ -55,3 +55,9 @@ snapshotting, bounds, and calls.
 ## License
 
 Apache-2.0.
+
+<!-- b10x-docs:start -->
+## Documentation
+
+[MCP documentation](https://beyond10x.github.io/docs/mcp/) · [Start](https://beyond10x.github.io/) · [Ecosystem](https://beyond10x.github.io/ecosystem/) · [Impact](https://beyond10x.github.io/changes/) · [Releases](https://beyond10x.github.io/releases/)
+<!-- b10x-docs:end -->
