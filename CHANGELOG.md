@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 - Declare the MCP library, CLI, and consumer-authority design as a public documentation surface.
 - Mark operator commands as executable input for the unified documentation renderer.
+- Publish the consumer-authority design at its canonical generated documentation route.
 
 ## [0.1.1] - 2026-09-02
 
