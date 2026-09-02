@@ -48,6 +48,10 @@ The library returns lossless descriptors and results. It does not convert MCP an
 permissions, risk, idempotency, grants, or approvals. An embedding consumer must review and attach
 those facts itself. See [the boundary design](docs/design/0001-consumer-authority.md).
 
+Hosts with their own egress and secret boundary can use `connect_http_with_client`; the supplied
+client performs every HTTP exchange while the foundation retains protocol negotiation, discovery,
+snapshotting, bounds, and calls.
+
 ## License
 
 Apache-2.0.

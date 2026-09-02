@@ -119,6 +119,37 @@ pub async fn connect_http(
     connect(id, transport, limits).await
 }
 
+/// Connect through a caller-supplied Streamable HTTP client and freeze its tool list.
+///
+/// This is the embedding boundary for a host that owns network admission, DNS policy,
+/// credential custody, or observability. The supplied client receives every HTTP exchange; this
+/// crate still owns MCP lifecycle negotiation, the frozen tool snapshot, named bounds, and tool
+/// calls. `config.headers` remains value-only metadata and cannot contain `authorization`.
+pub async fn connect_http_with_client<C>(
+    id: ConnectionId,
+    config: &HttpTransportConfig,
+    bearer: Option<&SecretString>,
+    limits: Limits,
+    client: C,
+) -> Result<Connection, ClientError>
+where
+    C: rmcp::transport::streamable_http_client::StreamableHttpClient,
+{
+    validate_http_url(&config.url)?;
+    let headers = parse_headers(&config.headers)?;
+    let transport_config = StreamableHttpClientTransportConfig::with_uri(config.url.clone())
+        .custom_headers(headers)
+        .max_sse_event_size(limits.max_frame_bytes)
+        .max_concurrent_requests(16);
+    let transport_config = if let Some(bearer) = bearer {
+        transport_config.auth_header(bearer.expose().to_owned())
+    } else {
+        transport_config
+    };
+    let transport = StreamableHttpClientTransport::with_client(client, transport_config);
+    connect(id, transport, limits).await
+}
+
 /// Start an exact stdio child and freeze its tool list.
 pub async fn connect_stdio(
     id: ConnectionId,

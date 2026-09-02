@@ -109,7 +109,7 @@ dependencies = [
 
 [[package]]
 name = "b10x-mcp-cli"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "b10x-mcp-command",
  "tokio",
@@ -117,7 +117,7 @@ dependencies = [
 
 [[package]]
 name = "b10x-mcp-client"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "b10x-mcp-types",
  "http",
@@ -129,7 +129,7 @@ dependencies = [
 
 [[package]]
 name = "b10x-mcp-command"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "async-trait",
  "b10x-mcp-client",
@@ -145,7 +145,7 @@ dependencies = [
 
 [[package]]
 name = "b10x-mcp-config"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "async-trait",
  "b10x-mcp-oauth",
@@ -160,7 +160,7 @@ dependencies = [
 
 [[package]]
 name = "b10x-mcp-http"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "b10x-mcp-client",
  "b10x-mcp-types",
@@ -168,7 +168,7 @@ dependencies = [
 
 [[package]]
 name = "b10x-mcp-oauth"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "async-trait",
  "b10x-mcp-types",
@@ -182,7 +182,7 @@ dependencies = [
 
 [[package]]
 name = "b10x-mcp-stdio"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "b10x-mcp-client",
  "b10x-mcp-types",
@@ -190,7 +190,7 @@ dependencies = [
 
 [[package]]
 name = "b10x-mcp-testkit"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "b10x-mcp-types",
  "serde_json",
@@ -198,7 +198,7 @@ dependencies = [
 
 [[package]]
 name = "b10x-mcp-types"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "serde",
  "serde_json",
@@ -2388,7 +2388,7 @@ checksum = "3ad82d2a33cdc9674dc7465672f271e096168fcdbe0f799d9e6db8c5892679dc"
 
 [[package]]
 name = "xtask"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "yoke"
