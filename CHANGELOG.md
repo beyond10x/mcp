@@ -4,9 +4,16 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-09-10
+
 - Declare the MCP library, CLI, and consumer-authority design as a public documentation surface.
 - Mark operator commands as executable input for the unified documentation renderer.
 - Publish the consumer-authority design at its canonical generated documentation route.
+- Make ordinary source publication independent of Atlas admission and checkout freshness,
+  using standalone bot delivery while preserving MCP's own checks and contracts.
+
+This source release was cut without running gates, tests or binary packaging, at the operator's
+request.
 
 ## [0.1.1] - 2026-09-02
 
@@ -22,6 +29,7 @@ All notable changes to this project will be documented in this file.
 - A tools-only MCP client with `2026-07-28` discovery and `2025-11-25` initialization fallback.
 - Stdio and Streamable HTTP transports, OAuth support, a named local registry, and `b10x-mcp`.
 
-[Unreleased]: https://github.com/beyond10x/mcp/compare/0.1.1...HEAD
+[Unreleased]: https://github.com/beyond10x/mcp/compare/0.1.2...HEAD
+[0.1.2]: https://github.com/beyond10x/mcp/compare/0.1.1...0.1.2
 [0.1.1]: https://github.com/beyond10x/mcp/compare/0.1.0...0.1.1
 [0.1.0]: https://github.com/beyond10x/mcp/releases/tag/0.1.0
