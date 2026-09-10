@@ -32,6 +32,17 @@
 Released contract directories are immutable. A wire-visible change cuts a new directory and enters
 `CHANGELOG.md`. Run `cargo xtask gate` before every commit.
 
+## Source publication
+
+This repository owns its correctness checks, required reviews and release artifacts. Ordinary
+commits, pushes and releases require no Atlas checkout, current Atlas main or organization-wide
+dependency admission. Use standalone `b10x-gates bot --repo . -- <git-command>` with protected local
+credentials and the existing `b10x-bot[bot]` identity. Preserve repository and worktree hooks.
+
+Atlas documentation validation belongs to documentation operations; it is not a prerequisite for
+source publication. Documentation failures affect documentation delivery. Organization privacy
+rules still apply; historical brand exemptions do not authorize new public associations.
+
 <!-- b10x-docs-operations:start -->
 ## Public documentation operations
 
