@@ -28,6 +28,7 @@ b10x-mcp-stdio = { version = "0.1.2", path = "crates/b10x-mcp-stdio" }
 b10x-mcp-oauth = { version = "0.1.2", path = "crates/b10x-mcp-oauth" }
 b10x-mcp-config = { version = "0.1.2", path = "crates/b10x-mcp-config" }
 b10x-mcp-command = { version = "0.1.2", path = "crates/b10x-mcp-command" }
+b10x-mcp-testkit = { version = "0.1.2", path = "crates/b10x-mcp-testkit" }
 async-trait = "0.1"
 clap = { version = "4.5", features = ["derive"] }
 futures = "0.3"

@@ -10,6 +10,14 @@ repository.workspace = true
 b10x-mcp-client.workspace = true
 b10x-mcp-types.workspace = true
 
+# The transport is proven by driving it against a controlled server the testkit compiles from
+# standard-library source, so nothing in the proof shares framing code with what it is proving.
+[dev-dependencies]
+b10x-mcp-testkit.workspace = true
+serde_json.workspace = true
+tempfile.workspace = true
+tokio.workspace = true
+
 [lints]
 workspace = true
 

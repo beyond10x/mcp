@@ -4,6 +4,12 @@ Reusable Rust client support for the Model Context Protocol. The workspace provi
 client, stdio and Streamable HTTP transports, OAuth, a strict named local registry, and a standalone
 `b10x-mcp` operator CLI.
 
+Both transports are exercised here rather than only in a consumer:
+`crates/b10x-mcp-stdio/tests/transport.rs` and `crates/b10x-mcp-http/tests/transport.rs` drive a real
+pipe and a real loopback socket against the controlled server `b10x-mcp-testkit` compiles from
+standard-library source, and assert the negotiated version, the frozen snapshot and one tool call on
+each.
+
 The client prefers MCP `2026-07-28` and falls back to `2025-11-25`. Consumers retain authority:
 Harness supplies envelopes and approvals; Connectors supplies catalog, grants, egress, and hosted
 credential custody. MCP server annotations never grant either consumer anything.

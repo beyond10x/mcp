@@ -27,10 +27,13 @@
 - OAuth client credentials are bound to the authorization-server issuer and MCP resource.
 - Stdio receives only explicitly named environment variables and never runs through a shell.
 
-## Contracts and gate
+## Gate
 
-Released contract directories are immutable. A wire-visible change cuts a new directory and enters
-`CHANGELOG.md`. Run `cargo xtask gate` before every commit.
+`cargo xtask gate` is `cargo fmt --all --check`, `cargo test --workspace --locked`,
+`cargo clippy --workspace --all-targets --locked -- -D warnings` and
+`cargo doc --workspace --no-deps --locked` under `RUSTDOCFLAGS=-Dwarnings`
+(`crates/xtask/src/main.rs:12-30`). There is no pinned contract directory in this repository and
+nothing checks one; a wire-visible change enters `CHANGELOG.md`. Run the gate before every commit.
 
 ## Source publication
 

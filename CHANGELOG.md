@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Added
+
+- `b10x_mcp_testkit::controlled_server_source` and `build_controlled_server` compile a
+  standard-library MCP server that answers `initialize`, `tools/list` and `tools/call` with the same
+  bytes over stdio and over Streamable HTTP. It is the reusable conformance fixture this repository's
+  boundaries already claimed.
+- `b10x-mcp-stdio` and `b10x-mcp-http` each drive their transport against that server over a real
+  pipe and a real loopback socket: version negotiation, the frozen snapshot with its uninterpreted
+  annotations, one tool call, and the named refusal each transport owns. Both crates carried zero
+  tests before this, so the only exercise of either transport lived in a consumer's suite in another
+  repository.
+
+### Changed
+
+- `AGENTS.md` no longer states that released contract directories are immutable. This repository has
+  no contract directory and the gate checks none; the gate's four steps are named instead.
+
 ## [0.1.2] - 2026-09-10
 
 - Declare the MCP library, CLI, and consumer-authority design as a public documentation surface.
