@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-02T21:51:21Z",
+  "actor": "human:timo",
+  "artifact": "story:constructor-conformance-target",
+  "kind": "story",
+  "revision": 9,
+  "change": {
+    "change": "evidence",
+    "kind": "review_outcome",
+    "source": "Adversary: one added boundary case passes; no findings; original report ca0b80063eb2f51f5a89d2a2c8cac7b7c650703305784350260ca6a6d937ac9a, public path-redacted derivative 36ada06a0fca56030ec1c9dffe45ed0bda0b906c1825ed979a555de4d24407b2",
+    "review": "review-result:constructor-target-20261002",
+    "outcome": "no-op"
+  }
+}

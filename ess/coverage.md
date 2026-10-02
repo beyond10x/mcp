@@ -2,6 +2,25 @@
 
 This is a **partial constructor-binding draft**, not the full MCP API contract. Original named obligations remain in `obligations.md`. Six public value shapes are retained; two additional types are explicitly binding-only bounded input profiles. Neither excluded input shapes nor emitted scenarios are counted as passing.
 
+The supported selection now executes against actual `ConnectionId::new`,
+`ToolDescriptor::from_raw` and `ToolResult::from_raw`: nine passed (four generated,
+five authored), zero failed/error/unsupported/skipped. This increases actual
+execution from zero to nine; it does not resolve any synthesis refusal. Full
+authored selection still refuses `id-valid`, `id-max-length` and `snapshot-literal`;
+partial synthesis still emits four refusals. The snapshot command has no execution
+credit. Report/2 says execution `passed`, conformance `inconclusive`, coverage
+`unknown`. The wrong-return control fails exactly `result-success` and
+`result-tool-error` by flipping the actual return field, without reading expectations.
+
+The observation binding admits JSON null, boolean, text, containers and exact signed
+64-bit integers without a floating-point intermediate. Other numbers are explicitly
+unsupported. Observation bounds are 1 MiB serialized bytes, depth 128 and 65,536
+nodes; overflow is refused without truncation. Optional fields use the declared
+`null_when_absent` serialization, so `None` and `Some(null)` both project as null;
+the retained raw JSON still distinguishes absent `outputSchema` from explicit null.
+Three native projection tests check these boundaries separately from the nine
+ESS scenarios; they are not additional specification coverage.
+
 | Original obligation | Successor coverage / remaining work |
 | --- | --- |
 | connection-id-admits-only-bounded-ascii | Four authored cases: valid a_0, valid64, empty, overlength65. Only empty/overlength compile into partial suite; success cases refused by constrained-response observer. Alphabet excludes forbidden characters before invocation; those cases and serde path are NOT covered. |

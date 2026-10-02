@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-02T21:53:48Z",
+  "actor": "human:timo",
+  "artifact": "story:constructor-conformance-target",
+  "kind": "story",
+  "revision": 9,
+  "change": {
+    "change": "evidence",
+    "kind": "test_result",
+    "source": "Integrated Rust1.88 cargo xtask gate exit0:21 passed,0 failed,0 ignored across21 summaries; log SHA256 cbce62bc321844ea4395b4b59ef8afb33b51b629de38010a3fa2db184ad7465e; 9 real ESS cases passed, other terminal counts0, coverage unknown/conformance inconclusive; adversary boundary included",
+    "reference": ".cache/mcp-adoption/target-integration/gate.log"
+  }
+}

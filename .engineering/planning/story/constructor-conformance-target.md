@@ -2,7 +2,7 @@
 format: aep.planning-md/3
 id: story:constructor-conformance-target
 kind: story
-status: active
+status: implemented
 title: Execute supported constructor conformance against real MCP methods
 relations:
 - informed_by: specification:governed-compatibility-baseline
@@ -20,10 +20,11 @@ scope:
   path: ess/README.md
 - confidence: cited
   path: ess/coverage.md
-revision: 9
+revision: 10
 transitions:
 - {from: "draft", to: "proposed", at: "2026-10-02T21:18:41Z", actor: "human:timo", revision: 8}
 - {from: "proposed", to: "active", at: "2026-10-02T21:18:41Z", actor: "human:timo", revision: 9}
+- {from: "active", to: "implemented", at: "2026-10-02T21:53:48Z", actor: "human:timo", revision: 10, decided_on: {"recorded":{"test_result":1,"review_outcome":1,"verification":1}}}
 ---
 ## Outcome
 
