@@ -1,0 +1,13 @@
+# Explicit partial constructor coverage; refused authored cases remain in conformance/scenarios.
+# See ess/README.md and ess/coverage.md. This manifest claims no full conformance.
+format: ess-inputs/1
+specification:
+  - ess/system.yaml
+  - ess/domains/values.yaml
+  - ess/domains/constructor_checks.yaml
+scenarios:
+  - conformance/scenarios/id-empty.yaml
+  - conformance/scenarios/id-overlength.yaml
+  - conformance/scenarios/descriptor-raw-content.yaml
+  - conformance/scenarios/result-success.yaml
+  - conformance/scenarios/result-tool-error.yaml

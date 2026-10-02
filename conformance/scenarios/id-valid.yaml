@@ -1,0 +1,10 @@
+type: ess-scenario/4
+domain: mcp.constructor_checks
+scenario: id-valid
+summary: Real ConnectionId constructor returns the exact admitted input.
+timeline:
+  - at: 2026-10-02T00:00:00Z
+    command: mcp.constructor_checks.MakeConnectionId
+    input: {value: a_0}
+    outcome: returned
+    response: {id: a_0}

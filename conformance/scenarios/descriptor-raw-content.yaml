@@ -1,0 +1,21 @@
+type: ess-scenario/4
+domain: mcp.constructor_checks
+scenario: descriptor-raw-content
+summary: Real bounded from_raw preserves untrusted annotation, metadata and extension contents.
+timeline:
+  - at: 2026-10-02T00:00:00Z
+    command: mcp.constructor_checks.MakeToolDescriptor
+    input: {name: read_issue, read_only_hint: false, note: fixture_note}
+    outcome: returned
+    response:
+      descriptor:
+        name: read_issue
+        description: null
+        input_schema: {}
+        output_schema: null
+        raw:
+          name: read_issue
+          inputSchema: {}
+          annotations: {readOnlyHint: false}
+          _meta: {note: fixture_note}
+          extension: retained

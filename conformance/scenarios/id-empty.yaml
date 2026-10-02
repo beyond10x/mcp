@@ -1,0 +1,12 @@
+type: ess-scenario/4
+domain: mcp.constructor_checks
+scenario: id-empty
+summary: Empty input reaches the actual constructor and returns its exact Configuration message.
+timeline:
+  - at: 2026-10-02T00:00:00Z
+    command: mcp.constructor_checks.MakeConnectionId
+    input: {value: ''}
+    outcome: empty
+    error:
+      name: mcp.constructor_checks.Configuration
+      fields: {message: 'connection id must match [a-z0-9_]{1,64}'}
