@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-02T23:07:16Z",
+  "actor": "human:timo",
+  "artifact": "specification:strict-http-exchange-scope",
+  "kind": "specification",
+  "revision": 2,
+  "change": {
+    "change": "evidence",
+    "kind": "test_result",
+    "source": "RUSTUP_TOOLCHAIN=1.88.0 CARGO_BUILD_JOBS=2 RUSTC_WRAPPER=/usr/bin/sccache task check; exit 0; 26 passed, 0 failed, 0 ignored; log SHA256 71165edeffdabe0ed080b71c1d68dd0eafee522550aabfc1153fb3fe6b7dcac6; six explicit synthesis refusals retained; zero HTTP runtime conformance",
+    "reference": ".cache/mcp-next-runtime/model-integration-gate.log"
+  }
+}

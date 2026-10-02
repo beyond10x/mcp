@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-02T22:37:15Z",
+  "actor": "human:timo",
+  "artifact": "story:specification-gate-enrollment",
+  "kind": "story",
+  "revision": 17,
+  "change": {
+    "change": "evidence",
+    "kind": "test_result",
+    "source": "Exact merged foundation main gate succeeded",
+    "reference": "https://github.com/beyond10x/mcp/actions/runs/37072777035"
+  }
+}

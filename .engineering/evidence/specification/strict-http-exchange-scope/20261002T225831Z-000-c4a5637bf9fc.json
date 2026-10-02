@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-02T22:58:31Z",
+  "actor": "human:timo",
+  "artifact": "specification:strict-http-exchange-scope",
+  "kind": "specification",
+  "revision": 2,
+  "change": {
+    "change": "evidence",
+    "kind": "verification",
+    "source": "Pinned ESS0.50 structural model and projections; independent design omission control, no runtime HTTP execution",
+    "reference": "ess/domains/http_observations.yaml"
+  }
+}

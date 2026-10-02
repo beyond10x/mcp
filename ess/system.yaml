@@ -5,3 +5,4 @@ version: v1
 domains:
   - mcp.tools
   - mcp.constructor_checks
+  - mcp.http_observations
