@@ -1,0 +1,38 @@
+{
+  "ess": {
+    "version": "0.50.0",
+    "revision": "8700d0808e8f3b19711629d8a17afc5281680f58",
+    "url": "https://github.com/beyond10x/ess/releases/download/0.50.0/ess-0.50.0-x86_64-unknown-linux-gnu.tar.gz",
+    "sha256": "f2fed60e432ad86c51b8fc963a1beb9b8a5773d6e26c0c649c5cac3960b37c29",
+    "member": "ess-0.50.0-x86_64-unknown-linux-gnu/ess"
+  },
+  "aep": {
+    "version": "0.68.0",
+    "revision": "6d7a44d3607d2d9a6ffdf0a165993c546c43d0db",
+    "url": "https://github.com/beyond10x/aep/releases/download/0.68.0/aep-0.68.0-x86_64-unknown-linux-gnu.tar.gz",
+    "sha256": "02bf6a2c4bc9a3ffd717edfb365f665491005004f159774a8847d3cbd18c5e91",
+    "member": "aep-0.68.0-x86_64-unknown-linux-gnu/aep"
+  },
+  "scenarios": [
+    "mcp.constructor_checks.MakeConnectionId/outcome/empty",
+    "mcp.constructor_checks.MakeConnectionId/outcome/too-long",
+    "mcp.constructor_checks.MakeToolDescriptor/outcome/returned",
+    "mcp.constructor_checks.MakeToolResult/outcome/returned",
+    "mcp.constructor_checks/authored/descriptor-raw-content",
+    "mcp.constructor_checks/authored/id-empty",
+    "mcp.constructor_checks/authored/id-overlength",
+    "mcp.constructor_checks/authored/result-success",
+    "mcp.constructor_checks/authored/result-tool-error"
+  ],
+  "partial_refusals": [
+    "refusal[ESS-SYNTH-001]: outcome mcp.constructor_checks.MakeConnectionId/returned has no scenario `mcp.constructor_checks.MakeConnectionId/outcome/returned`",
+    "refusal[ESS-SYNTH-001]: outcome mcp.constructor_checks.MakeToolSnapshot/returned has no scenario `mcp.constructor_checks.MakeToolSnapshot/outcome/returned`",
+    "refusal[ESS-SYNTH-013]: type mcp.constructor_checks.ShortAsciiText has no scenario",
+    "refusal[ESS-SYNTH-013]: type mcp.tools.ConnectionId has no scenario"
+  ],
+  "authored_refusals": [
+    "refusal[ESS-AUTHOR-001]: `mcp.constructor_checks/authored/id-max-length` in conformance/scenarios/id-max-length.yaml",
+    "refusal[ESS-AUTHOR-001]: `mcp.constructor_checks/authored/id-valid` in conformance/scenarios/id-valid.yaml",
+    "refusal[ESS-AUTHOR-001]: `mcp.constructor_checks/authored/snapshot-literal` in conformance/scenarios/snapshot-literal.yaml"
+  ]
+}

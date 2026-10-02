@@ -1,0 +1,13 @@
+type: ess-scenario/4
+domain: mcp.constructor_checks
+scenario: result-success
+summary: Real bounded result constructor preserves the complete selected raw value and false marker.
+timeline:
+  - at: 2026-10-02T00:00:00Z
+    command: mcp.constructor_checks.MakeToolResult
+    input: {text: issue_open, is_error: false}
+    outcome: returned
+    response:
+      result:
+        raw: {content: [{type: text, text: issue_open}], isError: false}
+        is_error: false

@@ -16,3 +16,7 @@ zeroize.workspace = true
 [lints]
 workspace = true
 
+
+[dev-dependencies]
+ess-conformance = { git = "https://github.com/beyond10x/ess", rev = "8700d0808e8f3b19711629d8a17afc5281680f58" }
+ess-primitives = { git = "https://github.com/beyond10x/ess", rev = "8700d0808e8f3b19711629d8a17afc5281680f58" }

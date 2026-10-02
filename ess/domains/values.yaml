@@ -1,0 +1,89 @@
+domain: mcp.tools
+summary: Existing reusable tools value boundary; no persistent session or authority model.
+
+# All source paths below are relative to this MCP repository at
+# 51b9c7969def3dc0fbee9026cd26f4ce5837d62c. These declarations model public
+# values, not protocol capabilities, durable rows, or new Connectors APIs.
+types:
+  # crates/b10x-mcp-types/src/lib.rs:80-105,122-127: constructor and serde try_from enforce this.
+  - name: mcp.tools.ConnectionId
+    kind: newtype
+    of: String
+    alphabet: "abcdefghijklmnopqrstuvwxyz0123456789_"
+    invariants:
+      - value.count >= 1
+      - value.count <= 64
+
+  # crates/b10x-mcp-types/src/lib.rs:162-176. Constructor behavior is in
+  # ../obligations.md; no universal schema-object/name/raw-coherence invariants:
+  # fields are public and serde deserialization does not call from_raw.
+  - name: mcp.tools.ToolDescriptor
+    kind: struct
+    fields:
+      - {name: name, type: String}
+      - {name: description, type: 'Optional<String>', presence: null_when_absent}
+      - {name: input_schema, type: Json}
+      # Some(JSON null) and None collapse at this serialization boundary.
+      - {name: output_schema, type: 'Optional<Json>', presence: null_when_absent}
+      - {name: raw, type: Json}
+
+  # crates/b10x-mcp-types/src/lib.rs:221-232. Ordered public value, not a
+  # persistence relation. new() computes a digest; arbitrary serde input does not.
+  - name: mcp.tools.ToolSnapshot
+    kind: struct
+    fields:
+      - {name: connection, type: mcp.tools.ConnectionId}
+      - {name: protocol_version, type: String}
+      - {name: tools, type: 'List<mcp.tools.ToolDescriptor>'}
+      - {name: sha256, type: String}
+
+  # crates/b10x-mcp-types/src/lib.rs:271-291. validate(), not deserialization,
+  # checks the argument object and serialized-byte bound. Name is any String here.
+  - name: mcp.tools.ToolCall
+    kind: struct
+    fields:
+      - {name: name, type: String}
+      - {name: arguments, type: Json}
+
+  # crates/b10x-mcp-types/src/lib.rs:298-319. Decoded selected-codec JSON;
+  # not original wire bytes. from_raw derives is_error; fields remain public.
+  - name: mcp.tools.ToolResult
+    kind: struct
+    fields:
+      - {name: raw, type: Json}
+      - {name: is_error, type: Boolean}
+
+  # crates/b10x-mcp-types/src/lib.rs:42-48. headers defaults empty on serde
+  # input; this struct describes the materialized Rust value, not omission rules.
+  # URL/header validation occurs in connect_http[_with_client], not deserialization.
+  - name: mcp.tools.HttpTransportConfig
+    kind: struct
+    fields:
+      - {name: url, type: String}
+      - {name: headers, type: 'Map<String, String>'}
+
+# No entities, lifecycle, views or fictional events are introduced.
+# Constructor commands live in constructor_checks.yaml; HTTP receivers remain
+# outside this slice. See ../README.md and ../coverage.md for exact
+# supported profiles, retained refusals and the historical18-obligation mapping.
+#
+# UNMAPPED U1: AGENTS.md:16 forbids credential values in types, but
+# crates/b10x-mcp-types/src/lib.rs:137-149 defines SecretString. Excluded here.
+# UNMAPPED U2: Limits.max_pages is not read by the wrapper; max_frame_bytes is
+# wired only to HTTP SSE. See client/src/lib.rs:111,142,180-184,228.
+# UNMAPPED U3: client/src/lib.rs:21-27,90-96 has no public session lifecycle
+# enum; close/drop/reap/use-after-close semantics need pinned-SDK observation.
+# UNMAPPED U4: registry removal, custody cascade and concurrent handle
+# cardinality have no source-owned deletion relation (config/src/lib.rs:155-216).
+# UNMAPPED U5: snapshot has no persistence/retention/authority relation
+# (client/src/lib.rs:26,36); composition above asserts no owns/references edge.
+# UNMAPPED U6: OAuth issuer/state one-use and refresh concurrency remain SDK
+# dependent; clear credentials is not clear authorization states (oauth:166).
+# UNMAPPED U7: preferred/current+legacy config does not prove compatibility
+# refusal coverage; absent resources/prompts APIs are not named error paths.
+# UNMAPPED U8: consumer caller/Connection, external process and credential
+# ownership relations remain Connectors decisions, not reusable-library facts.
+# UNMAPPED U9: Limits usize/Duration serialization and all failure payload
+# encodings are not projected by this minimum type domain; target binding must
+# preserve exact named actual/limit values and Duration precision. No new wire
+# schema for Rust ClientError or Limits is asserted.

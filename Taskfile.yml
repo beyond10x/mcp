@@ -1,0 +1,7 @@
+version: '3'
+tasks:
+  check:
+    desc: Validate pinned specifications and run the complete Rust gate
+    dir: '{{.TASKFILE_DIR}}'
+    cmds:
+      - cargo xtask gate

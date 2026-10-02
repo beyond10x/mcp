@@ -1,0 +1,700 @@
+{
+  "provenance": {
+    "suite_version": "ess-conformance/28",
+    "system": "mcp",
+    "specification_version": "v1",
+    "spec_digest": "2656cf17271a670d6bbb1b69ff961ea54d597ad82d4139bfa4e3fa6b1e18c66c",
+    "contract_digest": "d13b267bad7c8df2fc9ddb0834811f8cfa50660c23fc2a046529b3c9075569cc"
+  },
+  "scenarios": {
+    "mcp.constructor_checks.MakeConnectionId/outcome/empty": {
+      "purpose": "`mcp.constructor_checks.MakeConnectionId` answers `empty` for an input that satisfies that branch's guard",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.constructor_checks.MakeConnectionId",
+          "input": {
+            "value": {
+              "kind": "literal",
+              "value": ""
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.constructor_checks.MakeConnectionId",
+            "outcome": "empty"
+          }
+        },
+        {
+          "step": "expect_error",
+          "error": "mcp.constructor_checks.Configuration"
+        }
+      ],
+      "source": [
+        {
+          "kind": "type",
+          "name": "mcp.constructor_checks.IdAlphabetText"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.constructor_checks.MakeConnectionId"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.constructor_checks.MakeConnectionId",
+            "outcome": "empty"
+          }
+        },
+        {
+          "kind": "error",
+          "name": "mcp.constructor_checks.Configuration"
+        }
+      ]
+    },
+    "mcp.constructor_checks.MakeConnectionId/outcome/too-long": {
+      "purpose": "`mcp.constructor_checks.MakeConnectionId` answers `too-long` for an input that satisfies that branch's guard",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.constructor_checks.MakeConnectionId",
+          "input": {
+            "value": {
+              "kind": "literal",
+              "value": "valuevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevalue"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.constructor_checks.MakeConnectionId",
+            "outcome": "too-long"
+          }
+        },
+        {
+          "step": "expect_error",
+          "error": "mcp.constructor_checks.Configuration"
+        }
+      ],
+      "source": [
+        {
+          "kind": "type",
+          "name": "mcp.constructor_checks.IdAlphabetText"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.constructor_checks.MakeConnectionId"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.constructor_checks.MakeConnectionId",
+            "outcome": "too-long"
+          }
+        },
+        {
+          "kind": "error",
+          "name": "mcp.constructor_checks.Configuration"
+        }
+      ]
+    },
+    "mcp.constructor_checks.MakeToolDescriptor/outcome/returned": {
+      "purpose": "`mcp.constructor_checks.MakeToolDescriptor` answers `returned` for an input no other branch's guard claims",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.constructor_checks.MakeToolDescriptor",
+          "input": {
+            "name": {
+              "kind": "literal",
+              "value": "name"
+            },
+            "note": {
+              "kind": "literal",
+              "value": "note"
+            },
+            "read_only_hint": {
+              "kind": "literal",
+              "value": true
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.constructor_checks.MakeToolDescriptor",
+            "outcome": "returned"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.constructor_checks.MakeToolDescriptor",
+            "outcome": {
+              "command": "mcp.constructor_checks.MakeToolDescriptor",
+              "outcome": "returned"
+            },
+            "fields": [
+              {
+                "name": "descriptor",
+                "type": "mcp.tools.ToolDescriptor"
+              }
+            ],
+            "declarations": {
+              "mcp.tools.ToolDescriptor": {
+                "kind": "struct",
+                "fields": [
+                  {
+                    "name": "name",
+                    "type": "String"
+                  },
+                  {
+                    "name": "description",
+                    "type": "Optional<String>",
+                    "presence": "null_when_absent"
+                  },
+                  {
+                    "name": "input_schema",
+                    "type": "Json"
+                  },
+                  {
+                    "name": "output_schema",
+                    "type": "Optional<Json>",
+                    "presence": "null_when_absent"
+                  },
+                  {
+                    "name": "raw",
+                    "type": "Json"
+                  }
+                ]
+              }
+            },
+            "expected": {}
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "type",
+          "name": "mcp.constructor_checks.ShortAsciiText"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.tools.ConnectionId"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.constructor_checks.MakeToolDescriptor"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.constructor_checks.MakeToolDescriptor",
+            "outcome": "returned"
+          }
+        }
+      ]
+    },
+    "mcp.constructor_checks.MakeToolResult/outcome/returned": {
+      "purpose": "`mcp.constructor_checks.MakeToolResult` answers `returned` for an input no other branch's guard claims",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.constructor_checks.MakeToolResult",
+          "input": {
+            "is_error": {
+              "kind": "literal",
+              "value": true
+            },
+            "text": {
+              "kind": "literal",
+              "value": "text"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.constructor_checks.MakeToolResult",
+            "outcome": "returned"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.constructor_checks.MakeToolResult",
+            "outcome": {
+              "command": "mcp.constructor_checks.MakeToolResult",
+              "outcome": "returned"
+            },
+            "fields": [
+              {
+                "name": "result",
+                "type": "mcp.tools.ToolResult"
+              }
+            ],
+            "declarations": {
+              "mcp.tools.ToolResult": {
+                "kind": "struct",
+                "fields": [
+                  {
+                    "name": "raw",
+                    "type": "Json"
+                  },
+                  {
+                    "name": "is_error",
+                    "type": "Boolean"
+                  }
+                ]
+              }
+            },
+            "expected": {}
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "type",
+          "name": "mcp.constructor_checks.ShortAsciiText"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.constructor_checks.MakeToolResult"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.constructor_checks.MakeToolResult",
+            "outcome": "returned"
+          }
+        }
+      ]
+    },
+    "mcp.constructor_checks/authored/descriptor-raw-content": {
+      "purpose": "Real bounded from_raw preserves untrusted annotation, metadata and extension contents.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.constructor_checks.MakeToolDescriptor",
+          "input": {
+            "name": {
+              "kind": "literal",
+              "value": "read_issue"
+            },
+            "note": {
+              "kind": "literal",
+              "value": "fixture_note"
+            },
+            "read_only_hint": {
+              "kind": "literal",
+              "value": false
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.constructor_checks.MakeToolDescriptor",
+            "outcome": "returned"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.constructor_checks.MakeToolDescriptor",
+            "outcome": {
+              "command": "mcp.constructor_checks.MakeToolDescriptor",
+              "outcome": "returned"
+            },
+            "fields": [
+              {
+                "name": "descriptor",
+                "type": "mcp.tools.ToolDescriptor"
+              }
+            ],
+            "declarations": {
+              "mcp.tools.ToolDescriptor": {
+                "kind": "struct",
+                "fields": [
+                  {
+                    "name": "name",
+                    "type": "String"
+                  },
+                  {
+                    "name": "description",
+                    "type": "Optional<String>",
+                    "presence": "null_when_absent"
+                  },
+                  {
+                    "name": "input_schema",
+                    "type": "Json"
+                  },
+                  {
+                    "name": "output_schema",
+                    "type": "Optional<Json>",
+                    "presence": "null_when_absent"
+                  },
+                  {
+                    "name": "raw",
+                    "type": "Json"
+                  }
+                ]
+              }
+            },
+            "expected": {
+              "descriptor": {
+                "description": null,
+                "input_schema": {},
+                "name": "read_issue",
+                "output_schema": null,
+                "raw": {
+                  "_meta": {
+                    "note": "fixture_note"
+                  },
+                  "annotations": {
+                    "readOnlyHint": false
+                  },
+                  "extension": "retained",
+                  "inputSchema": {},
+                  "name": "read_issue"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.constructor_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.constructor_checks.ShortAsciiText"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.tools.ConnectionId"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.tools.ToolDescriptor"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.constructor_checks.MakeToolDescriptor"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.constructor_checks.MakeToolDescriptor",
+            "outcome": "returned"
+          }
+        }
+      ]
+    },
+    "mcp.constructor_checks/authored/id-empty": {
+      "purpose": "Empty input reaches the actual constructor and returns its exact Configuration message.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.constructor_checks.MakeConnectionId",
+          "input": {
+            "value": {
+              "kind": "literal",
+              "value": ""
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.constructor_checks.MakeConnectionId",
+            "outcome": "empty"
+          }
+        },
+        {
+          "step": "expect_error",
+          "error": "mcp.constructor_checks.Configuration",
+          "fields": {
+            "message": "connection id must match [a-z0-9_]{1,64}"
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.constructor_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.constructor_checks.IdAlphabetText"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.constructor_checks.MakeConnectionId"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.constructor_checks.MakeConnectionId",
+            "outcome": "empty"
+          }
+        },
+        {
+          "kind": "error",
+          "name": "mcp.constructor_checks.Configuration"
+        }
+      ]
+    },
+    "mcp.constructor_checks/authored/id-overlength": {
+      "purpose": "Allowed alphabet with65 bytes reaches the actual constructor and is refused.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.constructor_checks.MakeConnectionId",
+          "input": {
+            "value": {
+              "kind": "literal",
+              "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.constructor_checks.MakeConnectionId",
+            "outcome": "too-long"
+          }
+        },
+        {
+          "step": "expect_error",
+          "error": "mcp.constructor_checks.Configuration",
+          "fields": {
+            "message": "connection id must match [a-z0-9_]{1,64}"
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.constructor_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.constructor_checks.IdAlphabetText"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.constructor_checks.MakeConnectionId"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.constructor_checks.MakeConnectionId",
+            "outcome": "too-long"
+          }
+        },
+        {
+          "kind": "error",
+          "name": "mcp.constructor_checks.Configuration"
+        }
+      ]
+    },
+    "mcp.constructor_checks/authored/result-success": {
+      "purpose": "Real bounded result constructor preserves the complete selected raw value and false marker.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.constructor_checks.MakeToolResult",
+          "input": {
+            "is_error": {
+              "kind": "literal",
+              "value": false
+            },
+            "text": {
+              "kind": "literal",
+              "value": "issue_open"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.constructor_checks.MakeToolResult",
+            "outcome": "returned"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.constructor_checks.MakeToolResult",
+            "outcome": {
+              "command": "mcp.constructor_checks.MakeToolResult",
+              "outcome": "returned"
+            },
+            "fields": [
+              {
+                "name": "result",
+                "type": "mcp.tools.ToolResult"
+              }
+            ],
+            "declarations": {
+              "mcp.tools.ToolResult": {
+                "kind": "struct",
+                "fields": [
+                  {
+                    "name": "raw",
+                    "type": "Json"
+                  },
+                  {
+                    "name": "is_error",
+                    "type": "Boolean"
+                  }
+                ]
+              }
+            },
+            "expected": {
+              "result": {
+                "is_error": false,
+                "raw": {
+                  "content": [
+                    {
+                      "text": "issue_open",
+                      "type": "text"
+                    }
+                  ],
+                  "isError": false
+                }
+              }
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.constructor_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.constructor_checks.ShortAsciiText"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.tools.ToolResult"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.constructor_checks.MakeToolResult"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.constructor_checks.MakeToolResult",
+            "outcome": "returned"
+          }
+        }
+      ]
+    },
+    "mcp.constructor_checks/authored/result-tool-error": {
+      "purpose": "Tool-level error is data in a successful real constructor return.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.constructor_checks.MakeToolResult",
+          "input": {
+            "is_error": {
+              "kind": "literal",
+              "value": true
+            },
+            "text": {
+              "kind": "literal",
+              "value": "issue_closed"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.constructor_checks.MakeToolResult",
+            "outcome": "returned"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.constructor_checks.MakeToolResult",
+            "outcome": {
+              "command": "mcp.constructor_checks.MakeToolResult",
+              "outcome": "returned"
+            },
+            "fields": [
+              {
+                "name": "result",
+                "type": "mcp.tools.ToolResult"
+              }
+            ],
+            "declarations": {
+              "mcp.tools.ToolResult": {
+                "kind": "struct",
+                "fields": [
+                  {
+                    "name": "raw",
+                    "type": "Json"
+                  },
+                  {
+                    "name": "is_error",
+                    "type": "Boolean"
+                  }
+                ]
+              }
+            },
+            "expected": {
+              "result": {
+                "is_error": true,
+                "raw": {
+                  "content": [
+                    {
+                      "text": "issue_closed",
+                      "type": "text"
+                    }
+                  ],
+                  "isError": true
+                }
+              }
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.constructor_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.constructor_checks.ShortAsciiText"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.tools.ToolResult"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.constructor_checks.MakeToolResult"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.constructor_checks.MakeToolResult",
+            "outcome": "returned"
+          }
+        }
+      ]
+    }
+  }
+}

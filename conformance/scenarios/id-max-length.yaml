@@ -1,0 +1,10 @@
+type: ess-scenario/4
+domain: mcp.constructor_checks
+scenario: id-max-length
+summary: The real constructor accepts exactly64 ASCII bytes.
+timeline:
+  - at: 2026-10-02T00:00:00Z
+    command: mcp.constructor_checks.MakeConnectionId
+    input: {value: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa}
+    outcome: returned
+    response: {id: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa}

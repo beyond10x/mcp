@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-02T21:17:13Z",
+  "actor": "human:timo",
+  "artifact": "specification:governed-compatibility-baseline",
+  "kind": "specification",
+  "revision": 2,
+  "change": {
+    "change": "evidence",
+    "kind": "test_result",
+    "source": "Existing cargo xtask gate exit0:15passed/0failed/0ignored; fmt/Clippy/docs pass; ESS0.50 structural3filesvalid; partial9emitted/4refusals, no conformance execution",
+    "reference": ".cache/mcp-adoption/observations.md"
+  }
+}

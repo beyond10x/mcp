@@ -1,0 +1,12 @@
+type: ess-scenario/4
+domain: mcp.constructor_checks
+scenario: id-overlength
+summary: Allowed alphabet with65 bytes reaches the actual constructor and is refused.
+timeline:
+  - at: 2026-10-02T00:00:00Z
+    command: mcp.constructor_checks.MakeConnectionId
+    input: {value: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa}
+    outcome: too-long
+    error:
+      name: mcp.constructor_checks.Configuration
+      fields: {message: 'connection id must match [a-z0-9_]{1,64}'}

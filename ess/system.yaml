@@ -1,0 +1,7 @@
+# Initial retrofit: commands observe actual constructor returns, not durable entities.
+format: ess/17
+system: mcp
+version: v1
+domains:
+  - mcp.tools
+  - mcp.constructor_checks

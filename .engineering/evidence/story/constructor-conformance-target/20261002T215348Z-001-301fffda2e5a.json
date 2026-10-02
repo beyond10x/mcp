@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-02T21:53:48Z",
+  "actor": "human:timo",
+  "artifact": "story:constructor-conformance-target",
+  "kind": "story",
+  "revision": 9,
+  "change": {
+    "change": "evidence",
+    "kind": "verification",
+    "source": "VERIFIED new constructor target absent at d36abd82 baseline; exact6file candidate copied with SHA verification; actual target observes9 passes and deliberate wrong actualreturn causes2namedfailures, unlike baseline with no target; no full MCP conformance claim",
+    "reference": ".cache/mcp-adoption/target-integration/source.sha256"
+  }
+}

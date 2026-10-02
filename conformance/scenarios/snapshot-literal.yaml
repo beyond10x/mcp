@@ -1,0 +1,15 @@
+type: ess-scenario/4
+domain: mcp.constructor_checks
+scenario: snapshot-literal
+summary: Actual empty-tools snapshot returns exact id/version/digest; not negotiated protocol evidence.
+timeline:
+  - at: 2026-10-02T00:00:00Z
+    command: mcp.constructor_checks.MakeToolSnapshot
+    input: {connection: library_a}
+    outcome: returned
+    response:
+      snapshot:
+        connection: library_a
+        protocol_version: '2026-07-28'
+        tools: []
+        sha256: 6f9ef693f80fb5973b692e5248d5e3f9295623699a4c039b470562e43ade4a8d

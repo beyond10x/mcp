@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-02T22:13:49Z",
+  "actor": "human:timo",
+  "artifact": "story:specification-gate-enrollment",
+  "kind": "story",
+  "revision": 14,
+  "change": {
+    "change": "evidence",
+    "kind": "test_result",
+    "source": "Rust1.88 task check exit0:26passed0failed0ignored across21summaries; exactESS9cases/4partialrefusals/full3authoredrefusals; AEPvalid with one historical review-format warning; gate log SHA2569e8de771191f377cd4d6277a07201a2c26ffe12ec8899bdcb184017248ae45fd; docs check2documents0changes2fences exit0",
+    "reference": ".cache/specification-gate/task-check-final.log"
+  }
+}

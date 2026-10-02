@@ -1,0 +1,104 @@
+domain: mcp.constructor_checks
+summary: Bounded source-grounded constructor bindings for actual library-return conformance.
+
+# Binding-only input profiles below are NOT new MCP public product types.
+# Source methods are in crates/b10x-mcp-types/src/lib.rs at
+# 51b9c7969def3dc0fbee9026cd26f4ce5837d62c. All use actual Limits::default().
+# The profiles deliberately restrict which raw JSON shapes can be submitted;
+# omitted arbitrary raw Json cases remain UNMAPPED, not a default success claim.
+types:
+  - name: mcp.constructor_checks.IdAlphabetText
+    kind: newtype
+    of: String
+    alphabet: "abcdefghijklmnopqrstuvwxyz0123456789_"
+    # No length invariant: empty and 65-byte input must reach the real constructor.
+    # MCP:80-105. ASCII character count equals the source's byte length here.
+  - name: mcp.constructor_checks.ShortAsciiText
+    kind: newtype
+    of: String
+    alphabet: " abcdefghijklmnopqrstuvwxyz0123456789_-"
+    invariants:
+      - value.count <= 128
+    # Binding subset keeps the known descriptor/result profile below default bounds.
+
+errors:
+  # Actual ClientError::Configuration(String), source:349-352, raised at92-97.
+  - name: mcp.constructor_checks.Configuration
+    fields:
+      - {name: message, type: String}
+
+commands:
+  - name: mcp.constructor_checks.MakeConnectionId
+    # Call ConnectionId::new on allowed-alphabet text, including invalid lengths.
+    input:
+      - {name: value, type: mcp.constructor_checks.IdAlphabetText}
+    response:
+      - {name: id, type: mcp.tools.ConnectionId}
+    outcomes:
+      - name: empty
+        when: value.count == 0
+        error: mcp.constructor_checks.Configuration
+      - name: too-long
+        when: value.count > 64
+        error: mcp.constructor_checks.Configuration
+      - name: returned
+        returns: true
+    # UNMAPPED C1: forbidden alphabet/non-ASCII must be additional real-method
+    # tests; this profile excludes them and makes no passing claim for them.
+
+  - name: mcp.constructor_checks.MakeToolDescriptor
+    # Call ToolDescriptor::from_raw with the exact bounded raw object described below.
+    input:
+      - {name: name, type: mcp.tools.ConnectionId}
+      - {name: read_only_hint, type: Boolean}
+      - {name: note, type: mcp.constructor_checks.ShortAsciiText}
+    response:
+      - {name: descriptor, type: mcp.tools.ToolDescriptor}
+    outcomes:
+      - name: returned
+        returns: true
+    # Binding of actual raw argument, not an expected return:
+    # {"name": input.name, "inputSchema": {},
+    #  "annotations": {"readOnlyHint": input.read_only_hint},
+    #  "_meta": {"note": input.note}, "extension": "retained"}
+    # Actual source179-214 retains all of this object, picks inputSchema and
+    # derives description/output_schema None. Profile bytes are <default65536.
+    # UNMAPPED C2: general JSON shape/serialized-byte rejection cannot be inferred
+    # from this bounded profile; no fake external Protocol/Bound outcome is added.
+
+  - name: mcp.constructor_checks.MakeToolSnapshot
+    # Call ToolSnapshot::new with caller id, current protocol text and an empty tool vector.
+    input:
+      - {name: connection, type: mcp.tools.ConnectionId}
+    response:
+      - {name: snapshot, type: mcp.tools.ToolSnapshot}
+    outcomes:
+      - name: returned
+        returns: true
+    # Actual arguments: connection, "2026-07-28", vec![], Limits::default().
+    # Source236-265 succeeds for this subset and computes SHA256 over serde tuple
+    # [connection,"2026-07-28",[]]. It does not assert negotiated compatibility.
+    # UNMAPPED C3: nonempty order, duplicates and tool-count bounds are excluded.
+
+  - name: mcp.constructor_checks.MakeToolResult
+    # Call ToolResult::from_raw on a bounded text result and exact boolean marker.
+    input:
+      - {name: text, type: mcp.constructor_checks.ShortAsciiText}
+      - {name: is_error, type: Boolean}
+    response:
+      - {name: result, type: mcp.tools.ToolResult}
+    outcomes:
+      - name: returned
+        returns: true
+    # Actual raw argument: {"content":[{"type":"text","text":input.text}],
+    # "isError":input.is_error}. Source307-319; well below default262144 bound.
+    # is_error=true remains a successful constructor return, not ClientError.
+    # UNMAPPED C4: arbitrary scalar/null/alias precedence and oversized result
+    # cases remain named obligations outside this executable profile.
+
+# UNMAPPED C5: real HTTP opaque receivers, zero-provider observations, deadlines
+# and exact numeric projection need their separately reviewed target binding.
+# No HTTP call or product entity/event/view is manufactured in this first slice.
+# UNMAPPED C6: measured ESS0.45 synthesis refuses constrained ConnectionId
+# response and .count invariant observations. See synthesis logs; do not erase
+# these invariants, weaken outputs to String, or manufacture persistent views.

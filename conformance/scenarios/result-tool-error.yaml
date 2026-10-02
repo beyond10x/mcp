@@ -1,0 +1,13 @@
+type: ess-scenario/4
+domain: mcp.constructor_checks
+scenario: result-tool-error
+summary: Tool-level error is data in a successful real constructor return.
+timeline:
+  - at: 2026-10-02T00:00:00Z
+    command: mcp.constructor_checks.MakeToolResult
+    input: {text: issue_closed, is_error: true}
+    outcome: returned
+    response:
+      result:
+        raw: {content: [{type: text, text: issue_closed}], isError: true}
+        is_error: true

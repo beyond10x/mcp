@@ -29,11 +29,22 @@
 
 ## Gate
 
-`cargo xtask gate` is `cargo fmt --all --check`, `cargo test --workspace --locked`,
+`cargo xtask gate` (also `task check`) checks the exact ESS/AEP versions and source
+revisions in `toolchain.json`, validates ESS, compares the generated constructor
+suite and remaining refusal identities, and validates AEP. It then runs
+`cargo fmt --all --check`, `cargo test --workspace --locked`,
 `cargo clippy --workspace --all-targets --locked -- -D warnings` and
-`cargo doc --workspace --no-deps --locked` under `RUSTDOCFLAGS=-Dwarnings`
-(`crates/xtask/src/main.rs:12-30`). There is no pinned contract directory in this repository and
-nothing checks one; a wire-visible change enters `CHANGELOG.md`. Run the gate before every commit.
+`cargo doc --workspace --no-deps --locked` under `RUSTDOCFLAGS=-Dwarnings`.
+Workspace tests execute the actual partial constructor target; passing the gate
+does not establish full MCP conformance. See `ess/coverage.md` for remaining gaps.
+
+Set `ESS_BIN` and `AEP_BIN` to matching tools, use repository-local `.cache/tools`,
+or provide exact versions on PATH, in that order. A supplied or local wrong version
+fails without fallback. The gate never installs tools. On Linux x86_64, explicitly
+run `cargo xtask bootstrap-tools` to install the pinned, SHA256-verified release
+binaries under `.cache/tools`; CI invokes this prerequisite. Other hosts supply
+matching binaries. `cargo xtask specification` runs only the specification checks.
+A wire-visible change enters `CHANGELOG.md`. Run the gate before every commit.
 
 ## Source publication
 
