@@ -7,7 +7,8 @@ The supported selection now executes against actual `ConnectionId::new`,
 five authored), zero failed/error/unsupported/skipped. This increases actual
 execution from zero to nine; it does not resolve any synthesis refusal. Full
 authored selection still refuses `id-valid`, `id-max-length` and `snapshot-literal`;
-partial synthesis still emits four refusals. The snapshot command has no execution
+partial synthesis emits the original four refusals plus two for the new HTTP
+observation type invariants. The snapshot command has no execution
 credit. Report/2 says execution `passed`, conformance `inconclusive`, coverage
 `unknown`. The wrong-return control fails exactly `result-success` and
 `result-tool-error` by flipping the actual return field, without reading expectations.
@@ -45,3 +46,15 @@ ESS scenarios; they are not additional specification coverage.
 UNMAPPED U1–U9 from the earlier draft remain in values.yaml: credential source conflict; max_pages/frame enforcement; live lifecycle; registry/custody cascade and multiplicity; snapshot persistence/authority; OAuth one-use/issuer/concurrency; version/capability coverage; consumer ownership decisions; exact Limits/error binding. No operator decision is resolved here.
 
 New C1–C6: profile-excluded ID alphabet cases; general descriptor JSON/byte validation; nonempty snapshot/count/duplicates; arbitrary result JSON/aliases/byte limits; actual HTTP handle/effect observation; measured ESS constrained-response and .count observer refusals. Scope expansion must retain genuine SUT inputs, source-grounded branches and independently authored observations. Never turn an excluded case into a passing count.
+
+The proposed HTTP observation domain has **zero executed conformance scenarios**.
+Its eleven values validate and project structurally. Partial synthesis now also
+reports `ESS-SYNTH-013` for `mcp.http_observations.BoundedWireBytes` and
+`mcp.http_observations.OctetCount`; no view observes their invariants. The constructor
+suite's scenario bodies are unchanged; only its regenerated specification and
+contract digests change. H1–H4 cover decoded byte length, length/retention consistency,
+peer-error preservation and truthful send/terminal correlation. Generated codec
+obligations also require base64 validation and exact integral numbers. Type validation,
+projection and the independent design-review control establish none of these runtime
+properties. A planted removal of peer data remained structurally valid and was caught
+by design review, illustrating that distinction.

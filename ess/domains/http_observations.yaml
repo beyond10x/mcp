@@ -1,0 +1,100 @@
+domain: mcp.http_observations
+summary: Immutable observations of a strict HTTP exchange, not authority, effects or durable lifecycle.
+
+# Proposed additive values. No current Connection or ToolResult API is redefined.
+# The observer must see the actual encoded/received bytes before SDK decoding.
+# Bytes uses ESS's padded-base64 wire projection; it denotes exact octets, not
+# UTF-8 text, parsed JSON, or bytes reconstructed by serializing SDK values.
+types:
+  - name: mcp.http_observations.ProtocolRevision
+    kind: enum
+    variants: ["2026-07-28", "2025-11-25"]
+    # The selected successful negotiation, never a default for an unknown peer.
+
+  - name: mcp.http_observations.SendObservation
+    kind: enum
+    variants: [not_sent, send_observed, unknown]
+    # not_sent requires observation that no request bytes crossed the owned send
+    # boundary. send_observed means transmission started at that boundary; it
+    # proves neither full delivery, peer receipt nor business effects. unknown
+    # preserves missing/inconclusive instrumentation rather than inventing zero.
+
+  - name: mcp.http_observations.TerminalObservation
+    kind: enum
+    variants: [correlated_terminal, incomplete]
+    # correlated_terminal is a full correlated JSON-RPC final-message boundary
+    # (HTTP single-body end or assembled SSE message), not business success or
+    # schema validity. Body Content-Length, progress and an early valid JSON
+    # prefix do not establish it. incomplete makes no claim about remote effects.
+
+  - name: mcp.http_observations.OctetCount
+    kind: newtype
+    of: Integer
+    invariants: [value >= 0]
+
+  - name: mcp.http_observations.RetentionCounts
+    kind: struct
+    fields:
+      - {name: retained_octets, type: mcp.http_observations.OctetCount}
+      - {name: limit_octets, type: mcp.http_observations.OctetCount}
+
+  - name: mcp.http_observations.MessageLength
+    kind: union
+    tag: kind
+    variants:
+      exact: mcp.http_observations.OctetCount
+      at_least: mcp.http_observations.OctetCount
+    # exact requires independently observed whole-message length; at_least is
+    # only bytes actually observed. A prefix never reveals an unseen remainder.
+
+  - name: mcp.http_observations.RetentionKind
+    kind: enum
+    variants: [whole_message, prefix]
+    # prefix is explicit incomplete retention, including a zero-length prefix.
+    # Overflow refuses; no retained prefix can be returned as a complete result.
+
+  - name: mcp.http_observations.BoundedWireBytes
+    kind: struct
+    fields:
+      - {name: bytes, type: Bytes}
+      - {name: counts, type: mcp.http_observations.RetentionCounts}
+      - {name: message_length, type: mcp.http_observations.MessageLength}
+      - {name: retention, type: mcp.http_observations.RetentionKind}
+    invariants:
+      - counts.retained_octets <= counts.limit_octets
+    # UNMAPPED H1: counts.retained_octets equals decoded Bytes octet length;
+    # Bytes.count is not String.count or a count of encoded base64 characters.
+    # UNMAPPED H2: message_length's selected value >= retained_octets; for
+    # whole_message it is exact and equal. These cross-union/cross-byte facts
+    # require an actual observer/constructor guard, not a fabricated view.
+    # This type declares no default ceiling; zero is a valid retention ceiling.
+
+  - name: mcp.http_observations.AbsentPeerData
+    kind: enum
+    variants: [absent]
+    # ESS union variants require a typed payload; this singleton encodes the
+    # absence marker without inventing an empty object or using JSON null.
+
+  - name: mcp.http_observations.PeerData
+    kind: union
+    tag: presence
+    variants:
+      absent: mcp.http_observations.AbsentPeerData
+      present: Json
+    # present with JSON null is distinct from absent. This internal observation
+    # representation is not a replacement JSON-RPC wire error codec.
+
+  - name: mcp.http_observations.PeerError
+    kind: struct
+    fields:
+      - {name: code, type: Integer}
+      - {name: message, type: String}
+      - {name: data, type: mcp.http_observations.PeerData}
+    # Opaque peer content, never safe local diagnostic prose or a closed error
+    # code enum. Decode only from the complete, bounded observed message.
+    # UNMAPPED H3: these fields and their exact absent/null presence match that
+    # observed message. The observer must preserve them without logging secrets.
+
+# No entity, persistent identity, relation, event, command or conformance credit.
+# UNMAPPED H4: truthful send/terminal instrumentation and per-request correlation
+# are behavior of the future HTTP observer; enum values cannot prove them.

@@ -29,7 +29,7 @@ scope:
   path: ess/README.md
 - confidence: inferred
   path: toolchain.json
-revision: 16
+revision: 17
 transitions:
 - {from: "draft", to: "proposed", at: "2026-10-02T21:55:18Z", actor: "human:timo", revision: 13}
 - {from: "proposed", to: "active", at: "2026-10-02T21:55:18Z", actor: "human:timo", revision: 14}
@@ -124,3 +124,14 @@ refs through git ls-remote, then pinned their exact commits (annotated rust-cach
 tag peeled). No workflow permission, trigger, job authority or Rust version change.
 The final native gate evidence above covers unchanged Rust/specification inputs;
 actual clean CI remains pending the source push. No release is claimed here.
+
+## Foundation publication — 2026-10-03
+
+PR https://github.com/beyond10x/mcp/pull/4 merged by b10x-bot[bot] into main at
+62e522298bcc6e116c2f6b82bed60b34ca62e16a. Its tree
+b58f22d520276cb0dd0ffdfe0eb605cd5ba11164 equals the gated candidate
+a718fca357b54d6ead0551238382ae5a26867fc0. Direct commits have exact bot author and
+committer; the App-authorized GitHub merge has bot author and GitHub committer.
+PR gate37072026561, docs37072026548 and shared security37072027183 succeeded.
+Main gate37072777035, shared37072777618 and docs source check/bundle succeeded.
+This is source integration, not a new MCP release or full MCP conformance.
