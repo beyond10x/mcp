@@ -15,9 +15,24 @@ Harness supplies envelopes and approvals; Connectors supplies catalog, grants, e
 credential custody. MCP server annotations never grant either consumer anything.
 
 ```bash
+cargo xtask bootstrap-tools # explicit Linux x86_64 setup, into .cache/tools
 cargo xtask gate
 cargo run -p b10x-mcp-cli -- connections list
 ```
+
+The gate requires the ESS 0.50.0 and AEP 0.68.0 tools pinned in
+[`toolchain.json`](toolchain.json). `bootstrap-tools` verifies release archive
+SHA256 digests before installing the exact binary members; it requires `curl` and
+`tar`. It does not change globally installed tools. Alternatively set `ESS_BIN`
+and `AEP_BIN` to matching executables, or provide those versions on PATH when no
+repository-local tools exist. Explicit paths take priority, then `.cache/tools`,
+then PATH; a wrong selected version fails without fallback or automatic download.
+
+`task check` invokes the same gate. It validates ESS and AEP, checks the exact
+partial constructor suite and remaining synthesis refusals, then runs formatting,
+workspace tests (including the real constructor target), Clippy and Rustdoc.
+`cargo xtask specification` performs only the specification checks. Passing those
+checks does not establish full MCP conformance; see [coverage](ess/coverage.md).
 
 The default registry is `$XDG_CONFIG_HOME/b10x/mcp.toml` (falling back to the XDG location below
 `HOME`). OAuth material lives separately under `$XDG_STATE_HOME/b10x/mcp`, with owner-only

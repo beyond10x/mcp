@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-02T22:13:49Z",
+  "actor": "human:timo",
+  "artifact": "story:specification-gate-enrollment",
+  "kind": "story",
+  "revision": 14,
+  "change": {
+    "change": "evidence",
+    "kind": "verification",
+    "source": "VERIFIED gate now runs pinned ESS/AEP and realtarget; baseline xtask had only Rustgate. Four checker tests RED against disabledguard scaffolding thenGREEN, actualwrongESSversion/missingtool refusals each exit1. Review danglinglocaltool caseRED thenGREEN unchanged; explicitbootstrap archive hashes matched pins before member extraction. Partialconformance remains inconclusive.",
+    "reference": ".cache/specification-gate/red.log"
+  }
+}

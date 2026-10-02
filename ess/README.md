@@ -8,9 +8,9 @@ No product entities, lifecycle state, events or persistent views are invented.
 
 ESS 0.50.0 validates the three specification files. The same installed release
 reproduced ESS 0.45.0's refusals during preparation; inspected 0.51.0 source retains
-the constrained direct-return and count-invariant boundaries. A repository tool
-pin and executable gate enrollment are the next work, not established by the
-current structural result.
+the constrained direct-return and count-invariant boundaries. `toolchain.json`
+pins ESS 0.50.0 and AEP 0.68.0, their source revisions, tool archives and the exact
+scenario/refusal inventory. The normal gate verifies those selections.
 
 `ess-inputs.yaml` explicitly selects five authored constructor cases. All eight
 cases remain under `conformance/scenarios/`: the three successful constrained-return cases
@@ -41,6 +41,10 @@ Any synthesis refusal,
 missing native invariant observation, skipped case or undeclared coverage remains
 visible; do not weaken nominal constraints or fabricate state to remove it.
 
-The current `cargo xtask gate` runs the target through workspace tests. Pinned ESS
-structural validation, synthesis drift/refusal inventory and AEP validation are
-still pending separate gate enrollment.
+`cargo xtask gate` and `task check` validate the specification, regenerate and
+compare the partial suite byte-for-byte, check all four partial refusals and all
+three full authored-selection refusals, validate AEP and run the target through
+workspace tests. Unexpected synthesis success is drift requiring review, just as
+a new refusal or missing case is. The narrower `cargo xtask specification` performs
+the document checks only; it does not execute conformance. Tool setup and exact
+version selection are documented in the root README and AGENTS.md.

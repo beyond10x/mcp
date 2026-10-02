@@ -6,7 +6,7 @@ status: draft
 title: Bounded MCP constructor conformance implementation wave
 relations:
 - informed_by: specification:governed-compatibility-baseline
-revision: 1
+revision: 2
 ---
 ## Selected unit
 
@@ -50,3 +50,30 @@ actualtargetexecution in cargoxtaskgate/taskcheck. That code is a separate scope
 story because itownsxtask/Cargomanifest/toolchainresolution. Do notclaiminitial
 draftgatealreadydoesit. Existing15tests, semanticreportcounts andfourrefusals must
 remain distinguishable from fullMCPwire/providerconformance.
+
+## Integrated constructor and gate results
+
+Initial adoption commit d36abd82d1beeb2302b339db9cadc434e11dae6f was followed by
+constructor commit1fcb09186aafdec1e6a6acd6655f0d4f29b361f0, both bot/bot. The
+six-file worker candidate plus adversary boundary case was copied with every hash
+verified; integratedRust1.88gate21passed0failed0ignored. The actual target reports
+9passed0otherterminalcounts, wrong-returncontrol7passed2namedfailed; report coverage
+unknown/conformanceinconclusive. The original18obligations and allrefusals remain.
+Worker cb26f-target and root cb26f-mcp retain raw evidence; worker targetcleaned after
+preservingexacttestbinary, source/rawarchive and lifecycle retirement pending publication.
+
+The following gate-enrollment story is implemented after its own bounded review.
+The defaultgate/taskcheck now validates exactESS0.50/AEP0.68, sources, structuralmodel,
+partial-suitebytes/9identities,4partialrefusals and3full-authoredrefusals, thenAEP and
+existingRustchecks. ExplicitRustbootstrap provisions SHA256-verified Linuxx86_64 assets
+under.cache/tools forCI; gate itself neverdownloads. AmbientESS0.51 is explicitly
+refused instead of silently adopted. CleanCI execution remains pending publication.
+
+Reviewer found danglinglocaltools silentlyfellbacktoPATH; exactcasefirstRED then
+unchangedGREEN after symlink_metadata selectionfix. Followup5nativechecks passed,
+no additionalfinding. FinalRust1.88 taskcheck26passed0failed0ignored,21summaries;
+logSHA2569e8de771191f377cd4d6277a07201a2c26ffe12ec8899bdcb184017248ae45fd.
+Docs sourcecheck2documents/2fences passed. Oldreview-formatwarning retained, not
+rewritten. This closes the bounded foundation units, not MCP runtime delivery.
+Nextroot owns additiveclient capability modeling, consumerHTTP integration and
+inbound/composition contracts. No Harnessrepin, deployment or productdecision inferred.

@@ -2,13 +2,15 @@
 format: aep.planning-md/3
 id: story:specification-gate-enrollment
 kind: story
-status: draft
+status: implemented
 title: Enroll pinned specification and real conformance checks in the MCP gate
 relations:
 - depends_on: story:constructor-conformance-target
 - informed_by: specification:governed-compatibility-baseline
 - serves: vision:consumer-owned-mcp-mechanics
 scope:
+- confidence: cited
+  path: .github/workflows/gate.yml
 - confidence: cited
   path: AGENTS.md
 - confidence: inferred
@@ -27,7 +29,11 @@ scope:
   path: ess/README.md
 - confidence: inferred
   path: toolchain.json
-revision: 10
+revision: 16
+transitions:
+- {from: "draft", to: "proposed", at: "2026-10-02T21:55:18Z", actor: "human:timo", revision: 13}
+- {from: "proposed", to: "active", at: "2026-10-02T21:55:18Z", actor: "human:timo", revision: 14}
+- {from: "active", to: "implemented", at: "2026-10-02T22:13:49Z", actor: "human:timo", revision: 15, decided_on: {"recorded":{"test_result":1,"review_outcome":2,"verification":1}}}
 ---
 ## Outcome
 
@@ -88,3 +94,33 @@ would hide unsupported obligations. Preserve diagnostic text and exact inventory
 Root owns this following unit and every AEP mutation. Source authority and protocol
 review remain independent; no tool installation or upstream ESS implementation is
 part of this story. Twojobs,sccache,isolatedtarget,8GiBreserve and exact exitcodes.
+
+## CI prerequisite correction before implementation
+
+The existing .github/workflows/gate.yml installs Rust1.88 only; enrolling external
+ESS/AEP commands without provisioning them would break clean CI. Extend this unit's
+scope to that workflow and an explicit Rust/clap `bootstrap-tools` subcommand.
+The default gate never downloads or installs. The explicit bootstrap operation may
+populate only repository-local ignored .cache/tools with the exact Linux x86_64
+release archives and SHA256 digests recorded in toolchain.json. Extract only the
+known binary member after verifying the archive; refuse unsupported platforms.
+CI invokes this prerequisite explicitly, then gate. Local explicit ESS_BIN/AEP_BIN
+paths remain supported and checked, with no fallback after a supplied tool fails.
+The two release assets were read through GitHub on 2026-10-02; versions remain
+ESS0.50.0/AEP0.68.0 even though ambient ESS now reports0.51.0. The exact0.50.0 binary
+already cached locally reports its pinned version; no ambient upgrade is inferred.
+
+The same pin owns CLI version, source revision, Linux archive/member/digest and
+expected scenario/refusal inventory. A source-revision comparison checks the types
+crate ESS dev dependencies against it. Negative controls must reject wrong version,
+wrong archive digest, unexpected scenario/refusal and missing cases before success.
+
+## Publication check correction
+
+The first bot commit was refused by workflow-pins because editing the existing
+workflow exposed its inherited mutable action references. No bypass occurred.
+Resolved the same upstream checkout v4, rust-toolchain stable and rust-cache v2
+refs through git ls-remote, then pinned their exact commits (annotated rust-cache
+tag peeled). No workflow permission, trigger, job authority or Rust version change.
+The final native gate evidence above covers unchanged Rust/specification inputs;
+actual clean CI remains pending the source push. No release is claimed here.
