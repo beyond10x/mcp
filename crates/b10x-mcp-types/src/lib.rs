@@ -1,6 +1,17 @@
 #![forbid(unsafe_code)]
 //! I/O-free public values for the b10x MCP client.
 
+/// Generated structural carriers for strict HTTP exchanges.
+///
+/// These codecs do not establish the constraints in `types-report.json` or
+/// truthful wire observations. Use the strict receiver to obtain observations.
+/// Their `Debug` includes opaque business data and is never a safe diagnostic.
+#[allow(missing_docs, clippy::all, clippy::pedantic)]
+#[cfg(feature = "strict-http")]
+#[rustfmt::skip]
+#[path = "http_exchange_generated/types.rs"]
+pub mod http_exchange;
+
 use std::collections::BTreeMap;
 use std::fmt;
 use std::time::Duration;

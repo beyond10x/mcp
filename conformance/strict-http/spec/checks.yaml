@@ -1,0 +1,31 @@
+domain: mcp.strict_http_checks
+summary: Actual bounded HTTP exchange against an independently framed owned endpoint.
+types:
+  - name: mcp.strict_http_checks.Case
+    kind: enum
+    variants: ["json-complete","peer-data-absent","peer-data-null","wrong-id","exclusive-result-error","response-bound","request-bound-before-send","body-loss","deadline","session-expired-once","sse-terminal","sse-prefix-incomplete","sse-event-bound"]
+  - name: mcp.strict_http_checks.Revision
+    kind: enum
+    variants: ["2025-11-25", "2026-07-28"]
+commands:
+  - name: mcp.strict_http_checks.ObserveExchange
+    input:
+      - {name: case, type: mcp.strict_http_checks.Case}
+      - {name: revision, type: mcp.strict_http_checks.Revision}
+    response:
+      - {name: business_calls, type: Integer}
+      - {name: result_kind, type: String}
+      - {name: refusal_reason, type: String}
+      - {name: terminal, type: String}
+      - {name: peer_data_presence, type: String}
+      - {name: retained_octets, type: Integer}
+    outcomes:
+      - name: observed
+        returns: true
+    # The test binding chooses an independently parsed owned HTTP fixture from
+    # the input, invokes strict_http::exchange, joins teardown, and returns actual
+    # wire count and actual generated-carrier fields. It never reads expected
+    # outcomes. Setup, parsing and teardown failures are target errors.
+    # Revision is already negotiated input; this target does not prove negotiation
+    # or revision-specific tool/resource/prompt result validation.
+

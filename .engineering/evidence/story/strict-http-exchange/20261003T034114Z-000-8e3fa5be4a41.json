@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-03T03:41:14Z",
+  "actor": "human:timo",
+  "artifact": "story:strict-http-exchange",
+  "kind": "story",
+  "revision": 7,
+  "change": {
+    "change": "evidence",
+    "kind": "test_result",
+    "source": "Rust1.88 cargo xtask gate; default workspace checked; all-feature tests38passed/0failed/0ignored across24summaries; strict HTTP target27passed/0failed/error/unsupported/skipped; logSHA256329142d486c8af49bf8c049aa773283140fa253a0ac2795127848504928d068f",
+    "reference": ".cache/mcp-next-runtime/strict-exchange/gate-opt-in.log"
+  }
+}

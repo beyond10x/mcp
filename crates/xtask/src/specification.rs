@@ -25,6 +25,7 @@ struct Pins {
     aep: Tool,
     scenarios: Vec<String>,
     http_replay_scenarios: Vec<String>,
+    strict_http_scenarios: Vec<String>,
     partial_refusals: Vec<String>,
     authored_refusals: Vec<String>,
 }
@@ -263,6 +264,7 @@ pub(super) fn check(root: &Path) -> Result<(), String> {
         &fs::read(root.join("conformance/http-replay/suite.json")).map_err(|e| e.to_string())?,
         &pins.http_replay_scenarios,
     )?;
+    check_strict_http(root, &ess, temporary.path(), &pins.strict_http_scenarios)?;
     run(
         Command::new(aep)
             .args(["plan", "artifact", "validate"])
@@ -270,8 +272,90 @@ pub(super) fn check(root: &Path) -> Result<(), String> {
         0,
     )?;
     println!(
-        "specification: exact constructor and HTTP replay suites retained; constructor refusal inventory unchanged; execution follows in workspace tests; full conformance remains inconclusive"
+        "specification: constructor, HTTP replay and strict HTTP suites plus generated types verified; explicit partial refusal inventory retained; execution follows in workspace tests; full conformance remains inconclusive"
     );
+    Ok(())
+}
+
+fn check_strict_http(
+    root: &Path,
+    ess: &Path,
+    temporary: &Path,
+    ids: &[String],
+) -> Result<(), String> {
+    run(
+        Command::new(ess)
+            .args([
+                "specify",
+                "validate",
+                "--path",
+                "conformance/strict-http/spec",
+            ])
+            .current_dir(root),
+        0,
+    )?;
+    let strict_suite = temporary.join("strict-http.json");
+    let strict = run(
+        Command::new(ess)
+            .args([
+                "verify",
+                "conform",
+                "synthesize",
+                "--path",
+                "conformance/strict-http/spec",
+                "--scenarios",
+                "conformance/strict-http/scenarios",
+                "--out",
+            ])
+            .arg(&strict_suite)
+            .current_dir(root),
+        0,
+    )?;
+    if !refusals(&strict).is_empty() {
+        return Err("strict HTTP selection has synthesis refusals".into());
+    }
+    check_suite(
+        &fs::read(&strict_suite).map_err(|e| e.to_string())?,
+        &fs::read(root.join("conformance/strict-http/suite.json")).map_err(|e| e.to_string())?,
+        ids,
+    )?;
+    let generated = temporary.join("http-values");
+    run(
+        Command::new(ess)
+            .args([
+                "generate",
+                "types",
+                "--path",
+                "ess",
+                "--target",
+                "rust",
+                "--package",
+                "mcp-http-exchange-values",
+                "--root",
+                "mcp.http_exchange.ExchangeInput",
+                "--root",
+                "mcp.http_exchange.ExchangeResult",
+                "--out",
+            ])
+            .arg(&generated)
+            .current_dir(root),
+        0,
+    )?;
+    for file in [
+        "Cargo.toml",
+        "types.rs",
+        "types-report.json",
+        "source.schema.json",
+    ] {
+        let committed = root
+            .join("crates/b10x-mcp-types/src/http_exchange_generated")
+            .join(file);
+        if fs::read(generated.join(file)).map_err(|e| e.to_string())?
+            != fs::read(committed).map_err(|e| e.to_string())?
+        {
+            return Err(format!("strict HTTP generated type drift: {file}"));
+        }
+    }
     Ok(())
 }
 

@@ -7,7 +7,7 @@ title: Source-grounded scope for strict HTTP observations before resource and pr
 relations:
 - serves: vision:consumer-owned-mcp-mechanics
 - informed_by: specification:governed-compatibility-baseline
-revision: 5
+revision: 6
 ---
 # Next MCP runtime slice: source-grounded scope
 
@@ -149,3 +149,39 @@ The input proposal now has a companion scratch result domain: seven new immutabl
 Pinned ESS0.50 validates the combined five files. Generation rooted at ExchangeInput and ExchangeResult emits22types, whose four deliverable files byte-match a repeated projection. The actual generated standalone Rust crate passes cargo check under Rust1.88 (exit0,7.09s). Nineteen runtime codec obligations remain. H7 requires real correlation/exclusive result-error/body fidelity and H8 requires truthful refusal classification/no-redispatch/deadline conservation/safe diagnostics. H1-H6 remain. No HTTP runtime conformance is established.
 
 This remains a proposal: no product model or API promoted, no implementation story closed, no independent review claim. All three delegated agents report account usage exhaustion; the coordinator's separate design pass is disclosed as such. Source .cache/mcp-next-runtime/exchange-result-draft/spec/ess/domains/http_exchange.yaml SHA2561c5b44c655ec6a8584225cafb73d7cd66220e2a6d8d3a6cd4292517e8b9088dc; generated types.rs SHA2565a3ad65666f97c0ab480d1ed336cec28ba2d2656752b2937de4b9cf6c95ef5d9; report SHA2563580c1424c89a1d27c1dccc7c0ca5f61c5536788f0119185bc3342929f72572f. Existing suite and APIs remain unchanged until a reviewed runtime unit adopts the typed model and its guards.
+
+
+## Implemented strict transport foundation, 2026-10-03
+
+story:strict-http-exchange promotes the additive input/result model and its
+22 generated types into the opt-in strict-http profile. H7 now preserves unknown
+send knowledge independently of an observed correlated terminal. The receiver
+consumes an admitted request and caller-configured HTTP builder, enforces explicit
+bounds and an absolute monotonic deadline, and retains actual JSON/SSE message
+bytes before typed SDK decoding. Its result remains a transport envelope, not
+family acceptance. No existing default client feature selection was broadened.
+
+The separate suite has 27 scenarios, 26 authored across both revision inputs, with
+zero synthesis refusals. All 27 executed successfully against real owned HTTP.
+The full Rust 1.88 gate passed 38 native tests, zero failed or ignored; it checks
+the default workspace and tests/lints/documents all features. Correlation mutation
+failed exactly both wrong-id scenarios (25 passed, 2 failed). Four author controls
+also exposed and corrected SSE prefix loss, BOM handling, codec-private object-key
+reinterpretation and an invalid HTTP status entering the constrained carrier.
+Review was a separate pass by the same coordinator; agent quota prevents an
+independent-agent claim. review-result:strict-http-exchange-20261003 records this.
+
+The old constructor bodies remain unchanged with regenerated model digests.
+Two new ESS invariant-observer refusals for HttpStatus and PositiveMilliseconds
+join the six existing partial refusals; all three authored refusals remain.
+The strict runtime target is separate and claims no full model conformance.
+Default runner timestamps are logical test time; AEP evidence records actual run
+observations and hashes instead of importing those timestamps as execution time.
+
+Next delivery remains the actual negotiated strict tool connection, bounded family
+discovery, concrete resource operations, prompt operations, and Connectors
+integration under its original admission and credential-custody requirements.
+The input's revision is not evidence of negotiation. Caller assignment and stdio
+ownership blockers remain unanswered. Mixed-feature old SDK decoding does not
+inherit the strict receiver's preservation guarantees. No MCP release is cut by
+this transport foundation, and the broad MCP goal remains incomplete.

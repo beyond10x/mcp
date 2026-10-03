@@ -1,0 +1,150 @@
+domain: mcp.http_exchange
+summary: Immutable inputs and observations for one already-negotiated bounded business exchange.
+
+# Additive strict exchange; not a change to existing Limits.
+# These values have no durable identity, ownership or credential material.
+# Request bytes may contain sensitive business input and are never diagnostics.
+types:
+  - name: mcp.http_exchange.RequestId
+    kind: union
+    tag: kind
+    variants:
+      integer: Integer
+      string: String
+    # Internal typed carrier, not the JSON-RPC wire representation. JSON null,
+    # booleans, fractional numbers and absent ids are not request identities.
+    # The strict client can allocate signed-i64 identities as an implementation
+    # choice; this Integer declaration does not impose a signed-i64 wire bound.
+    # Do not narrow the existing client API through this additive proposal.
+
+  - name: mcp.http_exchange.PositiveMilliseconds
+    kind: newtype
+    of: Integer
+    invariants: [value > 0]
+    # Explicit millisecond input profile, not a projection of existing Duration.
+
+  - name: mcp.http_exchange.ExchangeBudget
+    kind: struct
+    fields:
+      - {name: request_octets, type: mcp.http_observations.OctetCount}
+      - {name: response_octets, type: mcp.http_observations.OctetCount}
+      - {name: sse_event_octets, type: mcp.http_observations.OctetCount}
+      - {name: remaining_execution_ms, type: mcp.http_exchange.PositiveMilliseconds}
+      - {name: provider_ms, type: mcp.http_exchange.PositiveMilliseconds}
+      - {name: connect_ms, type: mcp.http_exchange.PositiveMilliseconds}
+    # Separate response-message and SSE-event limits: event bounds do not prove
+    # an assembled correlated-message bound. Zero byte ceilings are legitimate
+    # and refuse a nonempty message; exhausted time refuses before this input.
+    # UNMAPPED H5: the receiver conserves one caller-owned monotonic deadline,
+    # accounts for elapsed admission/auth/encoding, and applies each phase cap
+    # against remaining time. Constructing a duration value cannot prove this.
+
+  - name: mcp.http_exchange.ExchangeInput
+    kind: struct
+    fields:
+      - {name: revision, type: mcp.http_observations.ProtocolRevision}
+      - {name: request_id, type: mcp.http_exchange.RequestId}
+      - {name: encoded_request, type: Bytes}
+      - {name: budget, type: mcp.http_exchange.ExchangeBudget}
+    # This input follows successful version negotiation; it does not model the
+    # initialization exchange, notifications, or permit per-call fallback.
+    # Endpoint, credentials and HTTP client remain the consumer-owned ports;
+    # this input cannot redirect or authorize the selected peer.
+    # UNMAPPED H6: encoded_request is one valid JSON-RPC request, whose exact
+    # non-null id matches request_id and whose actual byte count fits budget.
+    # Checking the carrier alone cannot compare parsed JSON with Bytes.
+    # No request regeneration, retry, result cache or persistent request record
+    # is authorized by this immutable input.
+
+  - name: mcp.http_exchange.HttpStatus
+    kind: newtype
+    of: Integer
+    invariants: [value >= 100, value <= 599]
+    # Received response status only; no invented zero before response headers.
+
+  - name: mcp.http_exchange.ExchangeObservation
+    kind: struct
+    fields:
+      - {name: send, type: mcp.http_observations.SendObservation}
+      - {name: terminal, type: mcp.http_observations.TerminalObservation}
+      - {name: http_status, type: "Optional<mcp.http_exchange.HttpStatus>"}
+      - {name: response, type: mcp.http_observations.BoundedWireBytes}
+    # response contains exactly retained response-message octets, not headers or
+    # SSE framing. Before any response bytes, use an empty prefix with an
+    # observed lower bound of zero, never a fictional complete empty message.
+    # Whole-message retention does not by itself prove a correlated terminal:
+    # a fully received malformed or wrong-id body is retained but refused.
+    # A raw SSE event is not an observed JSON-RPC result; incomplete event data
+    # must never become a successful result merely because it parses as JSON.
+
+  - name: mcp.http_exchange.RefusalReason
+    kind: enum
+    variants:
+      - invalid_input
+      - request_bound
+      - response_bound
+      - sse_event_bound
+      - deadline_exhausted
+      - transport_failure
+      - invalid_response
+      - unsupported_response
+      - session_expired
+      - authorization_required
+      - http_status
+    # Local, closed classifications; never peer-supplied error prose or a closed
+    # enumeration of upstream JSON-RPC integers. Any safe diagnostic is derived
+    # from this kind, not from opaque response content. Reason does not imply
+    # send status, rollback, remote cancellation or safe retry.
+
+  - name: mcp.http_exchange.CompleteResult
+    kind: struct
+    fields:
+      - {name: observation, type: mcp.http_exchange.ExchangeObservation}
+      - {name: result, type: Json}
+    # Exact decoded JSON-RPC result object, including unknown members and nulls.
+    # This transport envelope does not declare typed tool/resource/prompt data
+    # or claim business success. Family/revision validation remains mandatory
+    # before a strict family API accepts it; tool isError is not a peer error.
+
+  - name: mcp.http_exchange.PeerErrorResult
+    kind: struct
+    fields:
+      - {name: observation, type: mcp.http_exchange.ExchangeObservation}
+      - {name: error, type: mcp.http_observations.PeerError}
+    # A complete correlated JSON-RPC error, preserving integer code, untrusted
+    # message and absent versus present-null data. It is not caller input error.
+
+  - name: mcp.http_exchange.RefusedExchange
+    kind: struct
+    fields:
+      - {name: observation, type: mcp.http_exchange.ExchangeObservation}
+      - {name: reason, type: mcp.http_exchange.RefusalReason}
+    # Overflow retains a bounded exact prefix and remains refusal even when a
+    # terminal boundary is later known. Capacity plus loss retains the capacity
+    # reason; the independent observation preserves incomplete knowledge.
+
+  - name: mcp.http_exchange.ExchangeResult
+    kind: union
+    tag: kind
+    variants:
+      result: mcp.http_exchange.CompleteResult
+      peer_error: mcp.http_exchange.PeerErrorResult
+      refused: mcp.http_exchange.RefusedExchange
+    # UNMAPPED H7: result and peer_error require whole-message retention,
+    # a correlated terminal, exact request-id match and one
+    # exclusive valid JSON-RPC result/error member decoded from retained bytes.
+    # CompleteResult.result must be an object. Invalid/unsupported envelopes
+    # remain refused even if the whole body was received. An enum cannot prove
+    # any of these actual wire facts or family-specific result semantics.
+    # Send knowledge is independent: unknown instrumentation does not invalidate
+    # an actually observed correlated terminal; never promote unknown to sent.
+    # UNMAPPED H8: receiver maps each refusal from actual local/transport/peer
+    # evidence; makes at most one business dispatch; conserves H5 deadline; and
+    # never logs or promotes retained input/output into trusted diagnostics.
+
+# Basis: reviewed http_observations.yaml H1-H4; existing strict exchange
+# scope; Connectors client/v1alpha1/invocation.md (result bytes, completeness,
+# error distinctions and no redispatch). These are additive internal carriers,
+# not a wire payload, persisted record or authority. The strict HTTP receiver
+# checks its inputs and constructs observations from actual exchange behavior;
+# the generated structural codecs alone do not establish H1-H8.

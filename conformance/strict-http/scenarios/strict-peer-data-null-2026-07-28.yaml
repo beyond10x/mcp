@@ -1,0 +1,16 @@
+type: ess-scenario/4
+domain: mcp.strict_http_checks
+scenario: strict-peer-data-null-2026-07-28
+summary: Real strict HTTP peer-data-null under negotiated 2026-07-28.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_http_checks.ObserveExchange
+    input: {case: peer-data-null, revision: "2026-07-28"}
+    outcome: observed
+    response:
+      business_calls: 1
+      result_kind: "peer_error"
+      refusal_reason: ""
+      terminal: "correlated_terminal"
+      peer_data_presence: "present"
+

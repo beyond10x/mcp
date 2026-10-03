@@ -6,6 +6,15 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- An opt-in `strict-http` feature with a `b10x_mcp_client::strict_http::exchange` boundary for one already
+  negotiated, caller-admitted HTTP POST. It retains bounded original JSON/SSE
+  message bytes, correlation and completion observations, and opaque integer
+  peer errors with absent versus present-null data. It disables redirects,
+  retries and transparent decompression on the caller-supplied HTTP builder,
+  and conserves an absolute monotonic deadline. It performs no initialization,
+  family-result validation, resource/prompt workflow or credential repair.
+  The generated ESS carriers are structural codecs; use the receiver to obtain
+  validated observations and do not log their business-data-bearing `Debug`.
 - `b10x_mcp_testkit::controlled_server_source` and `build_controlled_server` compile a
   standard-library MCP server that answers `initialize`, `tools/list` and `tools/call` with the same
   bytes over stdio and over Streamable HTTP. It is the reusable conformance fixture this repository's
@@ -18,6 +27,12 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- With `strict-http` enabled, JSON numbers retain arbitrary precision for peer-error observations.
+  Strict decoding preserves legal codec-private-looking object keys as objects;
+  it rejects duplicate members instead of silently choosing their last value.
+  Default clients retain their previous dependency feature selection. Cargo
+  unifies JSON features in a consumer binary that opts in; existing SDK decoding
+  paths in that binary do not gain the strict receiver's raw-object guarantees.
 - HTTP clients explicitly disable automatic session recovery that can resend an
   ordinary tool request after a session-expired response. Both the default and
   caller-supplied HTTP client entry points return the failure; a caller decides

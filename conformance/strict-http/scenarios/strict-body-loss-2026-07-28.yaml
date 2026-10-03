@@ -1,0 +1,16 @@
+type: ess-scenario/4
+domain: mcp.strict_http_checks
+scenario: strict-body-loss-2026-07-28
+summary: Real strict HTTP body-loss under negotiated 2026-07-28.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_http_checks.ObserveExchange
+    input: {case: body-loss, revision: "2026-07-28"}
+    outcome: observed
+    response:
+      business_calls: 1
+      result_kind: "refused"
+      refusal_reason: "transport_failure"
+      terminal: "incomplete"
+      peer_data_presence: ""
+

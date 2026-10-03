@@ -6,6 +6,7 @@ specification:
   - ess/domains/values.yaml
   - ess/domains/constructor_checks.yaml
   - ess/domains/http_observations.yaml
+  - ess/domains/http_exchange.yaml
 scenarios:
   - conformance/scenarios/id-empty.yaml
   - conformance/scenarios/id-overlength.yaml

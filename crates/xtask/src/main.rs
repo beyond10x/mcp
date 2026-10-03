@@ -43,13 +43,18 @@ fn main() -> ExitCode {
     }
     for (program, arguments) in [
         ("cargo", &["fmt", "--all", "--check"][..]),
-        ("cargo", &["test", "--workspace", "--locked"][..]),
+        ("cargo", &["check", "--workspace", "--locked"][..]),
+        (
+            "cargo",
+            &["test", "--workspace", "--all-features", "--locked"][..],
+        ),
         (
             "cargo",
             &[
                 "clippy",
                 "--workspace",
                 "--all-targets",
+                "--all-features",
                 "--locked",
                 "--",
                 "-D",
@@ -58,7 +63,13 @@ fn main() -> ExitCode {
         ),
         (
             "cargo",
-            &["doc", "--workspace", "--no-deps", "--locked"][..],
+            &[
+                "doc",
+                "--workspace",
+                "--all-features",
+                "--no-deps",
+                "--locked",
+            ][..],
         ),
     ] {
         let status = Command::new(program)
