@@ -1,0 +1,14 @@
+type: ess-scenario/4
+domain: mcp.http_replay_checks
+scenario: default-expired
+summary: One real tool call through the default HTTP constructor with expired session response.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.http_replay_checks.ObserveSessionCall
+    input: {constructor: default_http, expire_session: true}
+    outcome: observed
+    response:
+      business_calls: 1
+      initialization_calls: 1
+      call_succeeded: false
+      returned_text: ""

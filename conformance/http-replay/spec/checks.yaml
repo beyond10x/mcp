@@ -1,0 +1,38 @@
+domain: mcp.http_replay_checks
+summary: Real loopback observations of the public HTTP constructors; no product entity or persistent state.
+
+types:
+  - name: mcp.http_replay_checks.HttpConstructor
+    kind: enum
+    variants: [default_http, injected_http]
+    # Test binding selector for connect_http and connect_http_with_client.
+    # The injected client forwards actual HTTP to the same owned fixture.
+
+commands:
+  - name: mcp.http_replay_checks.ObserveSessionCall
+    input:
+      - {name: constructor, type: mcp.http_replay_checks.HttpConstructor}
+      - {name: expire_session, type: Boolean}
+    response:
+      - {name: business_calls, type: Integer}
+      - {name: initialization_calls, type: Integer}
+      - {name: call_succeeded, type: Boolean}
+      - {name: returned_text, type: String}
+    outcomes:
+      - name: observed
+        returns: true
+    # Binding creates a fresh owned loopback endpoint, calls the selected public
+    # constructor, then calls the advertised effect tool once. The fixture uses
+    # legacy 2025-11-25 negotiation and a real session header. If expire_session
+    # is true it returns HTTP404 for the first business request; a second request
+    # would succeed, making automatic redispatch observable rather than masked.
+    # Otherwise the first request returns text actual-call. No annotation grants
+    # retry authority. Wire requests are independently parsed and counted.
+    # Response fields come from actual final counters and actual call result,
+    # after bounded connection shutdown and joined fixture teardown. returned_text
+    # is the actual text on success, otherwise empty; it is not an expected value.
+    # Startup, framing, teardown or observation failures fail the target; they
+    # never fabricate a successful command or the expected request counts.
+    # This is a prospective conformance binding, not an implemented target yet.
+    # It covers automatic expired-session recovery only, not SSE resume,
+    # arbitrary disconnects, full strict results, OAuth or consumer policy.

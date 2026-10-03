@@ -1,0 +1,412 @@
+{
+  "provenance": {
+    "suite_version": "ess-conformance/28",
+    "system": "mcp",
+    "specification_version": "v1",
+    "spec_digest": "f16bdfafb6b9da52601461f6903b3b1c06ddbbd0df7b9771b07fc8573af84d8f",
+    "contract_digest": "ed83f0e7cf480c8ed03de62b60cce26de3b102ec245c1e8700bb771f114ed43c"
+  },
+  "scenarios": {
+    "mcp.http_replay_checks.ObserveSessionCall/outcome/observed": {
+      "purpose": "`mcp.http_replay_checks.ObserveSessionCall` answers `observed` for an input no other branch's guard claims",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.http_replay_checks.ObserveSessionCall",
+          "input": {
+            "constructor": {
+              "kind": "literal",
+              "value": "default_http"
+            },
+            "expire_session": {
+              "kind": "literal",
+              "value": true
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.http_replay_checks.ObserveSessionCall",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.http_replay_checks.ObserveSessionCall",
+            "outcome": {
+              "command": "mcp.http_replay_checks.ObserveSessionCall",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "initialization_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "call_succeeded",
+                "type": "Boolean"
+              },
+              {
+                "name": "returned_text",
+                "type": "String"
+              }
+            ],
+            "declarations": {},
+            "expected": {}
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "type",
+          "name": "mcp.http_replay_checks.HttpConstructor"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.http_replay_checks.ObserveSessionCall"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.http_replay_checks.ObserveSessionCall",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.http_replay_checks/authored/default-expired": {
+      "purpose": "One real tool call through the default HTTP constructor with expired session response.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.http_replay_checks.ObserveSessionCall",
+          "input": {
+            "constructor": {
+              "kind": "literal",
+              "value": "default_http"
+            },
+            "expire_session": {
+              "kind": "literal",
+              "value": true
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.http_replay_checks.ObserveSessionCall",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.http_replay_checks.ObserveSessionCall",
+            "outcome": {
+              "command": "mcp.http_replay_checks.ObserveSessionCall",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "initialization_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "call_succeeded",
+                "type": "Boolean"
+              },
+              {
+                "name": "returned_text",
+                "type": "String"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "call_succeeded": false,
+              "initialization_calls": 1.0,
+              "returned_text": ""
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.http_replay_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.http_replay_checks.HttpConstructor"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.http_replay_checks.ObserveSessionCall"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.http_replay_checks.ObserveSessionCall",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.http_replay_checks/authored/default-success": {
+      "purpose": "One real tool call through the default HTTP constructor with success session response.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.http_replay_checks.ObserveSessionCall",
+          "input": {
+            "constructor": {
+              "kind": "literal",
+              "value": "default_http"
+            },
+            "expire_session": {
+              "kind": "literal",
+              "value": false
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.http_replay_checks.ObserveSessionCall",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.http_replay_checks.ObserveSessionCall",
+            "outcome": {
+              "command": "mcp.http_replay_checks.ObserveSessionCall",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "initialization_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "call_succeeded",
+                "type": "Boolean"
+              },
+              {
+                "name": "returned_text",
+                "type": "String"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "call_succeeded": true,
+              "initialization_calls": 1.0,
+              "returned_text": "actual-call"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.http_replay_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.http_replay_checks.HttpConstructor"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.http_replay_checks.ObserveSessionCall"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.http_replay_checks.ObserveSessionCall",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.http_replay_checks/authored/injected-expired": {
+      "purpose": "One real tool call through the injected HTTP constructor with expired session response.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.http_replay_checks.ObserveSessionCall",
+          "input": {
+            "constructor": {
+              "kind": "literal",
+              "value": "injected_http"
+            },
+            "expire_session": {
+              "kind": "literal",
+              "value": true
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.http_replay_checks.ObserveSessionCall",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.http_replay_checks.ObserveSessionCall",
+            "outcome": {
+              "command": "mcp.http_replay_checks.ObserveSessionCall",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "initialization_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "call_succeeded",
+                "type": "Boolean"
+              },
+              {
+                "name": "returned_text",
+                "type": "String"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "call_succeeded": false,
+              "initialization_calls": 1.0,
+              "returned_text": ""
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.http_replay_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.http_replay_checks.HttpConstructor"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.http_replay_checks.ObserveSessionCall"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.http_replay_checks.ObserveSessionCall",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.http_replay_checks/authored/injected-success": {
+      "purpose": "One real tool call through the injected HTTP constructor with success session response.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.http_replay_checks.ObserveSessionCall",
+          "input": {
+            "constructor": {
+              "kind": "literal",
+              "value": "injected_http"
+            },
+            "expire_session": {
+              "kind": "literal",
+              "value": false
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.http_replay_checks.ObserveSessionCall",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.http_replay_checks.ObserveSessionCall",
+            "outcome": {
+              "command": "mcp.http_replay_checks.ObserveSessionCall",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "initialization_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "call_succeeded",
+                "type": "Boolean"
+              },
+              {
+                "name": "returned_text",
+                "type": "String"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "call_succeeded": true,
+              "initialization_calls": 1.0,
+              "returned_text": "actual-call"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.http_replay_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.http_replay_checks.HttpConstructor"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.http_replay_checks.ObserveSessionCall"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.http_replay_checks.ObserveSessionCall",
+            "outcome": "observed"
+          }
+        }
+      ]
+    }
+  }
+}

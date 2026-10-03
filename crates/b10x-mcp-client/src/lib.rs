@@ -108,6 +108,8 @@ pub async fn connect_http(
     let headers = parse_headers(&config.headers)?;
     let transport_config = StreamableHttpClientTransportConfig::with_uri(config.url.clone())
         .custom_headers(headers)
+        // Session expiry does not authorize replaying a tool with possible effects.
+        .reinit_on_expired_session(false)
         .max_sse_event_size(limits.max_frame_bytes)
         .max_concurrent_requests(16);
     let transport_config = if let Some(bearer) = bearer {
@@ -139,6 +141,8 @@ where
     let headers = parse_headers(&config.headers)?;
     let transport_config = StreamableHttpClientTransportConfig::with_uri(config.url.clone())
         .custom_headers(headers)
+        // The embedding caller owns any decision to make a new operation.
+        .reinit_on_expired_session(false)
         .max_sse_event_size(limits.max_frame_bytes)
         .max_concurrent_requests(16);
     let transport_config = if let Some(bearer) = bearer {

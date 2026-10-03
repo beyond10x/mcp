@@ -58,3 +58,29 @@ obligations also require base64 validation and exact integral numbers. Type vali
 projection and the independent design-review control establish none of these runtime
 properties. A planted removal of peer data remained structurally valid and was caught
 by design review, illustrating that distinction.
+
+## Bounded HTTP session-replay selection
+
+`conformance/http-replay/spec` describes a separate test-binding selection for the
+same MCP system. It synthesizes five scenarios (four authored), with zero synthesis
+refusals. `crates/b10x-mcp-client/tests/http_replay.rs` executes all five against the
+real default and caller-supplied HTTP constructors. Each scenario creates an owned
+loopback server that independently parses HTTP and JSON-RPC, counts actual tool
+requests and initializations, and joins teardown before returning observations.
+
+The first retained target run passed five, with zero failed, error, unsupported or
+skipped scenarios. Re-enabling SDK session recovery made exactly `default-expired`
+and `injected-expired` fail: the actual client repeated the business POST and
+initialized again. The generated case and both successful-call controls still
+passed. The corrected constructors explicitly disable that recovery policy. The
+repository gate regenerates and compares this suite and runs its target; neither
+the original constructor suite nor its refusal inventory is replaced.
+
+This evidence establishes the expired-session no-redispatch behavior exercised over
+the legacy session transport. It does not establish modern strict-result behavior,
+resources/prompts, exact wire bounds, SSE resume, authentication recovery or any
+consumer custody/ownership decision. Report/2 says execution `passed`, conformance
+`inconclusive`, coverage `unknown`. Its default deterministic runner clock is a
+logical test clock, not the wall-clock time of execution; dated execution evidence
+comes from the enclosing gate/run record. The strict HTTP observation obligations
+are not discharged by this narrow HTTP suite.
