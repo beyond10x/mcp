@@ -82,8 +82,23 @@ raw family exchange at a time. `strict_discovery::discover` adds bounded complet
 tool, resource or prompt catalogs using generated `McpHttpDiscoveryFamily` and
 `McpHttpDiscoveryListLimits`. Pages share one deadline; empty cursors remain valid
 continuations. Catalogs preserve raw metadata and do not grant invocation authority
-or validate arbitrary JSON Schema semantics. Typed call/read/get results remain
-unfinished. The caller supplies authority and network policy;
+or validate arbitrary JSON Schema semantics. `strict_invocation::InvocationClient`
+owns that connection and obtains its own selected catalogs before typed tool
+calls, resource reads and prompt retrieval. It preserves ordered content, opaque
+fields, business errors and structured-output presence. Invalid modern parameter
+header annotations exclude the affected tool; valid annotations mirror arguments
+into safely encoded `Mcp-Param-*` headers.
+
+Supply `schema_worker::SchemaWorker` with an admitted absolute path to the
+`b10x-mcp-schema-worker` binary and an explicit IPC byte ceiling. Build that binary
+with `cargo build --locked -p b10x-mcp-client --features strict-http --bin
+b10x-mcp-schema-worker`. Tool input and declared output schemas execute offline
+JSON Schema 2020-12 in a one-shot child sharing the invocation deadline. Unsupported
+dialects or external references refuse before business dispatch. Awaited failures
+kill and reap the worker; dropping the future initiates termination without an
+observed reap barrier. This internal validator does not select MCP stdio ownership.
+
+The caller supplies authority and network policy;
 the builder must contain no hidden MCP protocol/session/routing header defaults.
 The existing tools-only constructors retain their separate compatibility behavior.
 

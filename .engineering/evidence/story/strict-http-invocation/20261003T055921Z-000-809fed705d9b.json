@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-03T05:59:21Z",
+  "actor": "human:timo",
+  "artifact": "story:strict-http-invocation",
+  "kind": "story",
+  "revision": 6,
+  "change": {
+    "change": "evidence",
+    "kind": "test_result",
+    "source": "Actual schema worker regression: 5 passed after opaque JSON decoding fix",
+    "reference": ".cache/mcp-next-runtime/invocation/schema-matrix-fixed.log"
+  }
+}

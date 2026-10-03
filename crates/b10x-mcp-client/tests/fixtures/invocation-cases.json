@@ -1,0 +1,1376 @@
+{
+  "format": "mcp-invocation-document-cases/1",
+  "limits": [
+    "request_bytes",
+    "result_bytes",
+    "execution_ms",
+    "provider_ms",
+    "connect_ms"
+  ],
+  "cases": [
+    {
+      "id": "inv.modern.tools",
+      "revision": "2026-07-28",
+      "family": "tools",
+      "obligation": "tools",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"resultType\":\"complete\",\"content\":[{\"type\":\"text\",\"text\":\"café\"}]}}",
+      "eof": true,
+      "result_limit": 102,
+      "citations": [
+        "mcp-2026-07-28-server-tools.mdx:738",
+        "mcp-2026-07-28-schema.ts:1809"
+      ],
+      "expected": {
+        "outcome": "result",
+        "code": null,
+        "response_bytes": 102,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c22726573756c74223a7b22726573756c7454797065223a22636f6d706c657465222c22636f6e74656e74223a5b7b2274797065223a2274657874222c2274657874223a22636166c3a9227d5d7d7d",
+        "complete": true,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": {
+          "resultType": "complete",
+          "content": [
+            {
+              "type": "text",
+              "text": "café"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inv.modern.resources",
+      "revision": "2026-07-28",
+      "family": "resources",
+      "obligation": "resources",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"resources/read\",\"params\":{\"uri\":\"example://selected\"}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"resultType\":\"complete\",\"contents\":[{\"uri\":\"example://selected\",\"text\":\"café\"},{\"uri\":\"example://binary\",\"blob\":\"AAE=\"}],\"ttlMs\":0,\"cacheScope\":\"private\"}}",
+      "eof": true,
+      "result_limit": 190,
+      "citations": [
+        "mcp-2026-07-28-server-resources.mdx:402",
+        "mcp-2026-07-28-schema.ts:1229",
+        "mcp-2026-07-28-schema.ts:1081"
+      ],
+      "expected": {
+        "outcome": "result",
+        "code": null,
+        "response_bytes": 190,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c22726573756c74223a7b22726573756c7454797065223a22636f6d706c657465222c22636f6e74656e7473223a5b7b22757269223a226578616d706c653a2f2f73656c6563746564222c2274657874223a22636166c3a9227d2c7b22757269223a226578616d706c653a2f2f62696e617279222c22626c6f62223a224141453d227d5d2c2274746c4d73223a302c22636163686553636f7065223a2270726976617465227d7d",
+        "complete": true,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": {
+          "resultType": "complete",
+          "contents": [
+            {
+              "uri": "example://selected",
+              "text": "café"
+            },
+            {
+              "uri": "example://binary",
+              "blob": "AAE="
+            }
+          ],
+          "ttlMs": 0,
+          "cacheScope": "private"
+        }
+      }
+    },
+    {
+      "id": "inv.modern.prompts",
+      "revision": "2026-07-28",
+      "family": "prompts",
+      "obligation": "prompts",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"prompts/get\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"resultType\":\"complete\",\"messages\":[{\"role\":\"user\",\"content\":{\"type\":\"text\",\"text\":\"Untrusted prompt\"}}]}}",
+      "eof": true,
+      "result_limit": 140,
+      "citations": [
+        "mcp-2026-07-28-server-prompts.mdx:319",
+        "mcp-2026-07-28-schema.ts:1634"
+      ],
+      "expected": {
+        "outcome": "result",
+        "code": null,
+        "response_bytes": 140,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c22726573756c74223a7b22726573756c7454797065223a22636f6d706c657465222c226d65737361676573223a5b7b22726f6c65223a2275736572222c22636f6e74656e74223a7b2274797065223a2274657874222c2274657874223a22556e747275737465642070726f6d7074227d7d5d7d7d",
+        "complete": true,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": {
+          "resultType": "complete",
+          "messages": [
+            {
+              "role": "user",
+              "content": {
+                "type": "text",
+                "text": "Untrusted prompt"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inv.modern.structured",
+      "revision": "2026-07-28",
+      "family": "tools",
+      "obligation": "structured",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"resultType\":\"complete\",\"content\":[{\"type\":\"text\",\"text\":\"café\"}],\"structuredContent\":[1,null,\"café\"]}}",
+      "eof": true,
+      "result_limit": 139,
+      "citations": [
+        "mcp-2026-07-28-server-tools.mdx:738",
+        "mcp-2026-07-28-schema.ts:1809"
+      ],
+      "expected": {
+        "outcome": "result",
+        "code": null,
+        "response_bytes": 139,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c22726573756c74223a7b22726573756c7454797065223a22636f6d706c657465222c22636f6e74656e74223a5b7b2274797065223a2274657874222c2274657874223a22636166c3a9227d5d2c2273747275637475726564436f6e74656e74223a5b312c6e756c6c2c22636166c3a9225d7d7d",
+        "complete": true,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": {
+          "resultType": "complete",
+          "content": [
+            {
+              "type": "text",
+              "text": "café"
+            }
+          ],
+          "structuredContent": [
+            1,
+            null,
+            "café"
+          ]
+        }
+      }
+    },
+    {
+      "id": "inv.modern.structured-null",
+      "revision": "2026-07-28",
+      "family": "tools",
+      "obligation": "structured",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"resultType\":\"complete\",\"content\":[{\"type\":\"text\",\"text\":\"café\"}],\"structuredContent\":null}}",
+      "eof": true,
+      "result_limit": 127,
+      "citations": [
+        "mcp-2026-07-28-server-tools.mdx:738",
+        "mcp-2026-07-28-schema.ts:1809"
+      ],
+      "expected": {
+        "outcome": "result",
+        "code": null,
+        "response_bytes": 127,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c22726573756c74223a7b22726573756c7454797065223a22636f6d706c657465222c22636f6e74656e74223a5b7b2274797065223a2274657874222c2274657874223a22636166c3a9227d5d2c2273747275637475726564436f6e74656e74223a6e756c6c7d7d",
+        "complete": true,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": {
+          "resultType": "complete",
+          "content": [
+            {
+              "type": "text",
+              "text": "café"
+            }
+          ],
+          "structuredContent": null
+        }
+      }
+    },
+    {
+      "id": "inv.modern.business",
+      "revision": "2026-07-28",
+      "family": "tools",
+      "obligation": "business",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"resultType\":\"complete\",\"content\":[{\"type\":\"text\",\"text\":\"café\"}],\"isError\":true,\"structuredContent\":null}}",
+      "eof": true,
+      "result_limit": 142,
+      "citations": [
+        "mcp-2026-07-28-server-tools.mdx:738",
+        "mcp-2026-07-28-schema.ts:1809"
+      ],
+      "expected": {
+        "outcome": "provider-business-error",
+        "code": null,
+        "response_bytes": 142,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c22726573756c74223a7b22726573756c7454797065223a22636f6d706c657465222c22636f6e74656e74223a5b7b2274797065223a2274657874222c2274657874223a22636166c3a9227d5d2c2269734572726f72223a747275652c2273747275637475726564436f6e74656e74223a6e756c6c7d7d",
+        "complete": true,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": {
+          "resultType": "complete",
+          "content": [
+            {
+              "type": "text",
+              "text": "café"
+            }
+          ],
+          "isError": true,
+          "structuredContent": null
+        }
+      }
+    },
+    {
+      "id": "inv.modern.protocol",
+      "revision": "2026-07-28",
+      "family": "tools",
+      "obligation": "protocol",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"error\":{\"code\":-32602,\"message\":\"Unknown tool\",\"data\":{\"name\":\"selected\"}}}",
+      "eof": true,
+      "result_limit": 100,
+      "citations": [
+        "mcp-2026-07-28-server-tools.mdx:738",
+        "mcp-2026-07-28-schema.ts:1809"
+      ],
+      "expected": {
+        "outcome": "peer-protocol-error",
+        "code": "upstream_protocol",
+        "response_bytes": 100,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c226572726f72223a7b22636f6465223a2d33323630322c226d657373616765223a22556e6b6e6f776e20746f6f6c222c2264617461223a7b226e616d65223a2273656c6563746564227d7d7d",
+        "complete": true,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": {
+          "code": -32602,
+          "message": "Unknown tool",
+          "data": {
+            "name": "selected"
+          }
+        }
+      }
+    },
+    {
+      "id": "inv.modern.resource-missing",
+      "revision": "2026-07-28",
+      "family": "resources",
+      "obligation": "protocol",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"resources/read\",\"params\":{\"uri\":\"example://selected\"}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"error\":{\"code\":-32602,\"message\":\"Resource unavailable\",\"data\":{\"uri\":\"example://selected\"}}}",
+      "eof": true,
+      "result_limit": 117,
+      "citations": [
+        "mcp-2026-07-28-server-resources.mdx:402",
+        "mcp-2026-07-28-schema.ts:1229"
+      ],
+      "expected": {
+        "outcome": "peer-protocol-error",
+        "code": "upstream_protocol",
+        "response_bytes": 117,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c226572726f72223a7b22636f6465223a2d33323630322c226d657373616765223a225265736f7572636520756e617661696c61626c65222c2264617461223a7b22757269223a226578616d706c653a2f2f73656c6563746564227d7d7d",
+        "complete": true,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": {
+          "code": -32602,
+          "message": "Resource unavailable",
+          "data": {
+            "uri": "example://selected"
+          }
+        }
+      }
+    },
+    {
+      "id": "inv.modern.prompt-missing",
+      "revision": "2026-07-28",
+      "family": "prompts",
+      "obligation": "protocol",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"prompts/get\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"error\":{\"code\":-32602,\"message\":\"Unknown prompt\"}}",
+      "eof": true,
+      "result_limit": 75,
+      "citations": [
+        "mcp-2026-07-28-server-prompts.mdx:319",
+        "mcp-2026-07-28-schema.ts:1634"
+      ],
+      "expected": {
+        "outcome": "peer-protocol-error",
+        "code": "upstream_protocol",
+        "response_bytes": 75,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c226572726f72223a7b22636f6465223a2d33323630322c226d657373616765223a22556e6b6e6f776e2070726f6d7074227d7d",
+        "complete": true,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": {
+          "code": -32602,
+          "message": "Unknown prompt"
+        }
+      }
+    },
+    {
+      "id": "inv.modern.caller-input",
+      "revision": "2026-07-28",
+      "family": "tools",
+      "obligation": "caller-input",
+      "tool_annotations": null,
+      "request_valid": false,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": false,
+      "response": "",
+      "eof": false,
+      "result_limit": 0,
+      "citations": [
+        "mcp-2026-07-28-server-tools.mdx:738",
+        "mcp-2026-07-28-schema.ts:1809"
+      ],
+      "expected": {
+        "outcome": "caller-input",
+        "code": "invalid_input",
+        "response_bytes": 0,
+        "retained_hex": "",
+        "complete": false,
+        "effect": "not_dispatched",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": null
+      }
+    },
+    {
+      "id": "inv.modern.request-bound",
+      "revision": "2026-07-28",
+      "family": "tools",
+      "obligation": "request-bound",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 1,
+      "sent": false,
+      "response": "",
+      "eof": false,
+      "result_limit": 0,
+      "citations": [
+        "mcp-2026-07-28-server-tools.mdx:738",
+        "mcp-2026-07-28-schema.ts:1809"
+      ],
+      "expected": {
+        "outcome": "request-bound",
+        "code": "invalid_input",
+        "response_bytes": 0,
+        "retained_hex": "",
+        "complete": false,
+        "effect": "not_dispatched",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": null
+      }
+    },
+    {
+      "id": "inv.modern.malformed-peer",
+      "revision": "2026-07-28",
+      "family": "tools",
+      "obligation": "malformed-peer",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{broken",
+      "eof": true,
+      "result_limit": 7,
+      "citations": [
+        "mcp-2026-07-28-server-tools.mdx:738",
+        "mcp-2026-07-28-schema.ts:1809"
+      ],
+      "expected": {
+        "outcome": "malformed-peer",
+        "code": "upstream_protocol",
+        "response_bytes": 7,
+        "retained_hex": "7b62726f6b656e",
+        "complete": false,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": null
+      }
+    },
+    {
+      "id": "inv.modern.partial-valid-prefix",
+      "revision": "2026-07-28",
+      "family": "tools",
+      "obligation": "partial",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"resultType\":\"complete\",\"content\":[{\"type\":\"text\",\"text\":\"café\"}]}}",
+      "eof": false,
+      "result_limit": 102,
+      "citations": [
+        "mcp-2026-07-28-server-tools.mdx:738",
+        "mcp-2026-07-28-schema.ts:1809"
+      ],
+      "expected": {
+        "outcome": "unobserved",
+        "code": "outcome_unknown",
+        "response_bytes": 102,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c22726573756c74223a7b22726573756c7454797065223a22636f6d706c657465222c22636f6e74656e74223a5b7b2274797065223a2274657874222c2274657874223a22636166c3a9227d5d7d7d",
+        "complete": false,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": null
+      }
+    },
+    {
+      "id": "inv.modern.lost",
+      "revision": "2026-07-28",
+      "family": "tools",
+      "obligation": "partial",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "",
+      "eof": false,
+      "result_limit": 0,
+      "citations": [
+        "mcp-2026-07-28-server-tools.mdx:738",
+        "mcp-2026-07-28-schema.ts:1809"
+      ],
+      "expected": {
+        "outcome": "unobserved",
+        "code": "outcome_unknown",
+        "response_bytes": 0,
+        "retained_hex": "",
+        "complete": false,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": null
+      }
+    },
+    {
+      "id": "inv.modern.mid-utf8-bound",
+      "revision": "2026-07-28",
+      "family": "tools",
+      "obligation": "bound",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"resultType\":\"complete\",\"content\":[{\"type\":\"text\",\"text\":\"café\"}]}}",
+      "eof": true,
+      "result_limit": 96,
+      "citations": [
+        "mcp-2026-07-28-server-tools.mdx:738",
+        "mcp-2026-07-28-schema.ts:1809"
+      ],
+      "expected": {
+        "outcome": "result-bound",
+        "code": "capacity",
+        "response_bytes": 102,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c22726573756c74223a7b22726573756c7454797065223a22636f6d706c657465222c22636f6e74656e74223a5b7b2274797065223a2274657874222c2274657874223a22636166c3",
+        "complete": false,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": null
+      }
+    },
+    {
+      "id": "inv.modern.annotations",
+      "revision": "2026-07-28",
+      "family": "tools",
+      "obligation": "annotations",
+      "tool_annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"resultType\":\"complete\",\"content\":[{\"type\":\"text\",\"text\":\"café\"}]}}",
+      "eof": true,
+      "result_limit": 102,
+      "citations": [
+        "mcp-2026-07-28-server-tools.mdx:738",
+        "mcp-2026-07-28-schema.ts:1809"
+      ],
+      "expected": {
+        "outcome": "result",
+        "code": null,
+        "response_bytes": 102,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c22726573756c74223a7b22726573756c7454797065223a22636f6d706c657465222c22636f6e74656e74223a5b7b2274797065223a2274657874222c2274657874223a22636166c3a9227d5d7d7d",
+        "complete": true,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": {
+          "resultType": "complete",
+          "content": [
+            {
+              "type": "text",
+              "text": "café"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inv.modern.unknown-content",
+      "revision": "2026-07-28",
+      "family": "tools",
+      "obligation": "unknown-content",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"resultType\":\"complete\",\"content\":[{\"type\":\"future\",\"opaque\":{\"secret\":\"display-only\"}}]}}",
+      "eof": true,
+      "result_limit": 124,
+      "citations": [
+        "mcp-2026-07-28-server-tools.mdx:738",
+        "mcp-2026-07-28-schema.ts:1809"
+      ],
+      "expected": {
+        "outcome": "unknown-content",
+        "code": "unsupported",
+        "response_bytes": 124,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c22726573756c74223a7b22726573756c7454797065223a22636f6d706c657465222c22636f6e74656e74223a5b7b2274797065223a22667574757265222c226f7061717565223a7b22736563726574223a22646973706c61792d6f6e6c79227d7d5d7d7d",
+        "complete": false,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": {
+          "resultType": "complete",
+          "content": [
+            {
+              "type": "future",
+              "opaque": {
+                "secret": "display-only"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inv.modern.input-required",
+      "revision": "2026-07-28",
+      "family": "tools",
+      "obligation": "unselected-result",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"resultType\":\"input_required\",\"requestState\":\"opaque\"}}",
+      "eof": true,
+      "result_limit": 89,
+      "citations": [
+        "mcp-2026-07-28-server-tools.mdx:738",
+        "mcp-2026-07-28-schema.ts:1809"
+      ],
+      "expected": {
+        "outcome": "unselected-result",
+        "code": "unsupported",
+        "response_bytes": 89,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c22726573756c74223a7b22726573756c7454797065223a22696e7075745f7265717569726564222c22726571756573745374617465223a226f7061717565227d7d",
+        "complete": false,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": {
+          "resultType": "input_required",
+          "requestState": "opaque"
+        }
+      }
+    },
+    {
+      "id": "inv.modern.future-result",
+      "revision": "2026-07-28",
+      "family": "tools",
+      "obligation": "unselected-result",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"resultType\":\"future\",\"opaque\":7}}",
+      "eof": true,
+      "result_limit": 68,
+      "citations": [
+        "mcp-2026-07-28-server-tools.mdx:738",
+        "mcp-2026-07-28-schema.ts:1809"
+      ],
+      "expected": {
+        "outcome": "unselected-result",
+        "code": "unsupported",
+        "response_bytes": 68,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c22726573756c74223a7b22726573756c7454797065223a22667574757265222c226f7061717565223a377d7d",
+        "complete": false,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": {
+          "resultType": "future",
+          "opaque": 7
+        }
+      }
+    },
+    {
+      "id": "inv.modern.missing-result-type",
+      "revision": "2026-07-28",
+      "family": "tools",
+      "obligation": "malformed-peer",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"content\":[]}}",
+      "eof": true,
+      "result_limit": 48,
+      "citations": [
+        "mcp-2026-07-28-server-tools.mdx:738",
+        "mcp-2026-07-28-schema.ts:1809"
+      ],
+      "expected": {
+        "outcome": "malformed-peer",
+        "code": "upstream_protocol",
+        "response_bytes": 48,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c22726573756c74223a7b22636f6e74656e74223a5b5d7d7d",
+        "complete": false,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": null
+      }
+    },
+    {
+      "id": "inv.modern.protocol-32020",
+      "revision": "2026-07-28",
+      "family": "tools",
+      "obligation": "protocol",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"error\":{\"code\":-32020,\"message\":\"Protocol refusal\"}}",
+      "eof": true,
+      "result_limit": 77,
+      "citations": [
+        "mcp-2026-07-28-server-tools.mdx:738",
+        "mcp-2026-07-28-schema.ts:1809"
+      ],
+      "expected": {
+        "outcome": "peer-protocol-error",
+        "code": "internal",
+        "response_bytes": 77,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c226572726f72223a7b22636f6465223a2d33323032302c226d657373616765223a2250726f746f636f6c207265667573616c227d7d",
+        "complete": true,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": {
+          "code": -32020,
+          "message": "Protocol refusal"
+        }
+      }
+    },
+    {
+      "id": "inv.modern.protocol-32021",
+      "revision": "2026-07-28",
+      "family": "tools",
+      "obligation": "protocol",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"error\":{\"code\":-32021,\"message\":\"Protocol refusal\"}}",
+      "eof": true,
+      "result_limit": 77,
+      "citations": [
+        "mcp-2026-07-28-server-tools.mdx:738",
+        "mcp-2026-07-28-schema.ts:1809"
+      ],
+      "expected": {
+        "outcome": "peer-protocol-error",
+        "code": "unsupported",
+        "response_bytes": 77,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c226572726f72223a7b22636f6465223a2d33323032312c226d657373616765223a2250726f746f636f6c207265667573616c227d7d",
+        "complete": true,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": {
+          "code": -32021,
+          "message": "Protocol refusal"
+        }
+      }
+    },
+    {
+      "id": "inv.modern.protocol-32022",
+      "revision": "2026-07-28",
+      "family": "tools",
+      "obligation": "protocol",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"error\":{\"code\":-32022,\"message\":\"Protocol refusal\"}}",
+      "eof": true,
+      "result_limit": 77,
+      "citations": [
+        "mcp-2026-07-28-server-tools.mdx:738",
+        "mcp-2026-07-28-schema.ts:1809"
+      ],
+      "expected": {
+        "outcome": "peer-protocol-error",
+        "code": "unsupported",
+        "response_bytes": 77,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c226572726f72223a7b22636f6465223a2d33323032322c226d657373616765223a2250726f746f636f6c207265667573616c227d7d",
+        "complete": true,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": {
+          "code": -32022,
+          "message": "Protocol refusal"
+        }
+      }
+    },
+    {
+      "id": "inv.legacy.tools",
+      "revision": "2025-11-25",
+      "family": "tools",
+      "obligation": "tools",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"content\":[{\"type\":\"text\",\"text\":\"café\"}]}}",
+      "eof": true,
+      "result_limit": 78,
+      "citations": [
+        "mcp-2025-11-25-server-tools.mdx:449",
+        "mcp-2025-11-25-schema.ts:1102"
+      ],
+      "expected": {
+        "outcome": "result",
+        "code": null,
+        "response_bytes": 78,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c22726573756c74223a7b22636f6e74656e74223a5b7b2274797065223a2274657874222c2274657874223a22636166c3a9227d5d7d7d",
+        "complete": true,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": {
+          "content": [
+            {
+              "type": "text",
+              "text": "café"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inv.legacy.resources",
+      "revision": "2025-11-25",
+      "family": "resources",
+      "obligation": "resources",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"resources/read\",\"params\":{\"uri\":\"example://selected\"}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"contents\":[{\"uri\":\"example://selected\",\"text\":\"café\"},{\"uri\":\"example://binary\",\"blob\":\"AAE=\"}]}}",
+      "eof": true,
+      "result_limit": 133,
+      "citations": [
+        "mcp-2025-11-25-server-resources.mdx:385",
+        "mcp-2025-11-25-schema.ts:721"
+      ],
+      "expected": {
+        "outcome": "result",
+        "code": null,
+        "response_bytes": 133,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c22726573756c74223a7b22636f6e74656e7473223a5b7b22757269223a226578616d706c653a2f2f73656c6563746564222c2274657874223a22636166c3a9227d2c7b22757269223a226578616d706c653a2f2f62696e617279222c22626c6f62223a224141453d227d5d7d7d",
+        "complete": true,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": {
+          "contents": [
+            {
+              "uri": "example://selected",
+              "text": "café"
+            },
+            {
+              "uri": "example://binary",
+              "blob": "AAE="
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inv.legacy.prompts",
+      "revision": "2025-11-25",
+      "family": "prompts",
+      "obligation": "prompts",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"prompts/get\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"messages\":[{\"role\":\"user\",\"content\":{\"type\":\"text\",\"text\":\"Untrusted prompt\"}}]}}",
+      "eof": true,
+      "result_limit": 116,
+      "citations": [
+        "mcp-2025-11-25-server-prompts.mdx:270",
+        "mcp-2025-11-25-schema.ts:969"
+      ],
+      "expected": {
+        "outcome": "result",
+        "code": null,
+        "response_bytes": 116,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c22726573756c74223a7b226d65737361676573223a5b7b22726f6c65223a2275736572222c22636f6e74656e74223a7b2274797065223a2274657874222c2274657874223a22556e747275737465642070726f6d7074227d7d5d7d7d",
+        "complete": true,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": {
+          "messages": [
+            {
+              "role": "user",
+              "content": {
+                "type": "text",
+                "text": "Untrusted prompt"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inv.legacy.structured",
+      "revision": "2025-11-25",
+      "family": "tools",
+      "obligation": "structured",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"content\":[{\"type\":\"text\",\"text\":\"café\"}],\"structuredContent\":{\"value\":1}}}",
+      "eof": true,
+      "result_limit": 110,
+      "citations": [
+        "mcp-2025-11-25-server-tools.mdx:449",
+        "mcp-2025-11-25-schema.ts:1102"
+      ],
+      "expected": {
+        "outcome": "result",
+        "code": null,
+        "response_bytes": 110,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c22726573756c74223a7b22636f6e74656e74223a5b7b2274797065223a2274657874222c2274657874223a22636166c3a9227d5d2c2273747275637475726564436f6e74656e74223a7b2276616c7565223a317d7d7d",
+        "complete": true,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": {
+          "content": [
+            {
+              "type": "text",
+              "text": "café"
+            }
+          ],
+          "structuredContent": {
+            "value": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "inv.legacy.business",
+      "revision": "2025-11-25",
+      "family": "tools",
+      "obligation": "business",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"content\":[{\"type\":\"text\",\"text\":\"café\"}],\"isError\":true,\"structuredContent\":{\"reason\":\"denied\"}}}",
+      "eof": true,
+      "result_limit": 133,
+      "citations": [
+        "mcp-2025-11-25-server-tools.mdx:449",
+        "mcp-2025-11-25-schema.ts:1102"
+      ],
+      "expected": {
+        "outcome": "provider-business-error",
+        "code": null,
+        "response_bytes": 133,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c22726573756c74223a7b22636f6e74656e74223a5b7b2274797065223a2274657874222c2274657874223a22636166c3a9227d5d2c2269734572726f72223a747275652c2273747275637475726564436f6e74656e74223a7b22726561736f6e223a2264656e696564227d7d7d",
+        "complete": true,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": {
+          "content": [
+            {
+              "type": "text",
+              "text": "café"
+            }
+          ],
+          "isError": true,
+          "structuredContent": {
+            "reason": "denied"
+          }
+        }
+      }
+    },
+    {
+      "id": "inv.legacy.protocol",
+      "revision": "2025-11-25",
+      "family": "tools",
+      "obligation": "protocol",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"error\":{\"code\":-32602,\"message\":\"Unknown tool\",\"data\":{\"name\":\"selected\"}}}",
+      "eof": true,
+      "result_limit": 100,
+      "citations": [
+        "mcp-2025-11-25-server-tools.mdx:449",
+        "mcp-2025-11-25-schema.ts:1102"
+      ],
+      "expected": {
+        "outcome": "peer-protocol-error",
+        "code": "upstream_protocol",
+        "response_bytes": 100,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c226572726f72223a7b22636f6465223a2d33323630322c226d657373616765223a22556e6b6e6f776e20746f6f6c222c2264617461223a7b226e616d65223a2273656c6563746564227d7d7d",
+        "complete": true,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": {
+          "code": -32602,
+          "message": "Unknown tool",
+          "data": {
+            "name": "selected"
+          }
+        }
+      }
+    },
+    {
+      "id": "inv.legacy.resource-missing",
+      "revision": "2025-11-25",
+      "family": "resources",
+      "obligation": "protocol",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"resources/read\",\"params\":{\"uri\":\"example://selected\"}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"error\":{\"code\":-32002,\"message\":\"Resource unavailable\",\"data\":{\"uri\":\"example://selected\"}}}",
+      "eof": true,
+      "result_limit": 117,
+      "citations": [
+        "mcp-2025-11-25-server-resources.mdx:385",
+        "mcp-2025-11-25-schema.ts:721"
+      ],
+      "expected": {
+        "outcome": "peer-protocol-error",
+        "code": "upstream_protocol",
+        "response_bytes": 117,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c226572726f72223a7b22636f6465223a2d33323030322c226d657373616765223a225265736f7572636520756e617661696c61626c65222c2264617461223a7b22757269223a226578616d706c653a2f2f73656c6563746564227d7d7d",
+        "complete": true,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": {
+          "code": -32002,
+          "message": "Resource unavailable",
+          "data": {
+            "uri": "example://selected"
+          }
+        }
+      }
+    },
+    {
+      "id": "inv.legacy.prompt-missing",
+      "revision": "2025-11-25",
+      "family": "prompts",
+      "obligation": "protocol",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"prompts/get\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"error\":{\"code\":-32602,\"message\":\"Unknown prompt\"}}",
+      "eof": true,
+      "result_limit": 75,
+      "citations": [
+        "mcp-2025-11-25-server-prompts.mdx:270",
+        "mcp-2025-11-25-schema.ts:969"
+      ],
+      "expected": {
+        "outcome": "peer-protocol-error",
+        "code": "upstream_protocol",
+        "response_bytes": 75,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c226572726f72223a7b22636f6465223a2d33323630322c226d657373616765223a22556e6b6e6f776e2070726f6d7074227d7d",
+        "complete": true,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": {
+          "code": -32602,
+          "message": "Unknown prompt"
+        }
+      }
+    },
+    {
+      "id": "inv.legacy.caller-input",
+      "revision": "2025-11-25",
+      "family": "tools",
+      "obligation": "caller-input",
+      "tool_annotations": null,
+      "request_valid": false,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": false,
+      "response": "",
+      "eof": false,
+      "result_limit": 0,
+      "citations": [
+        "mcp-2025-11-25-server-tools.mdx:449",
+        "mcp-2025-11-25-schema.ts:1102"
+      ],
+      "expected": {
+        "outcome": "caller-input",
+        "code": "invalid_input",
+        "response_bytes": 0,
+        "retained_hex": "",
+        "complete": false,
+        "effect": "not_dispatched",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": null
+      }
+    },
+    {
+      "id": "inv.legacy.request-bound",
+      "revision": "2025-11-25",
+      "family": "tools",
+      "obligation": "request-bound",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 1,
+      "sent": false,
+      "response": "",
+      "eof": false,
+      "result_limit": 0,
+      "citations": [
+        "mcp-2025-11-25-server-tools.mdx:449",
+        "mcp-2025-11-25-schema.ts:1102"
+      ],
+      "expected": {
+        "outcome": "request-bound",
+        "code": "invalid_input",
+        "response_bytes": 0,
+        "retained_hex": "",
+        "complete": false,
+        "effect": "not_dispatched",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": null
+      }
+    },
+    {
+      "id": "inv.legacy.malformed-peer",
+      "revision": "2025-11-25",
+      "family": "tools",
+      "obligation": "malformed-peer",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{broken",
+      "eof": true,
+      "result_limit": 7,
+      "citations": [
+        "mcp-2025-11-25-server-tools.mdx:449",
+        "mcp-2025-11-25-schema.ts:1102"
+      ],
+      "expected": {
+        "outcome": "malformed-peer",
+        "code": "upstream_protocol",
+        "response_bytes": 7,
+        "retained_hex": "7b62726f6b656e",
+        "complete": false,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": null
+      }
+    },
+    {
+      "id": "inv.legacy.partial-valid-prefix",
+      "revision": "2025-11-25",
+      "family": "tools",
+      "obligation": "partial",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"content\":[{\"type\":\"text\",\"text\":\"café\"}]}}",
+      "eof": false,
+      "result_limit": 78,
+      "citations": [
+        "mcp-2025-11-25-server-tools.mdx:449",
+        "mcp-2025-11-25-schema.ts:1102"
+      ],
+      "expected": {
+        "outcome": "unobserved",
+        "code": "outcome_unknown",
+        "response_bytes": 78,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c22726573756c74223a7b22636f6e74656e74223a5b7b2274797065223a2274657874222c2274657874223a22636166c3a9227d5d7d7d",
+        "complete": false,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": null
+      }
+    },
+    {
+      "id": "inv.legacy.lost",
+      "revision": "2025-11-25",
+      "family": "tools",
+      "obligation": "partial",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "",
+      "eof": false,
+      "result_limit": 0,
+      "citations": [
+        "mcp-2025-11-25-server-tools.mdx:449",
+        "mcp-2025-11-25-schema.ts:1102"
+      ],
+      "expected": {
+        "outcome": "unobserved",
+        "code": "outcome_unknown",
+        "response_bytes": 0,
+        "retained_hex": "",
+        "complete": false,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": null
+      }
+    },
+    {
+      "id": "inv.legacy.mid-utf8-bound",
+      "revision": "2025-11-25",
+      "family": "tools",
+      "obligation": "bound",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"content\":[{\"type\":\"text\",\"text\":\"café\"}]}}",
+      "eof": true,
+      "result_limit": 72,
+      "citations": [
+        "mcp-2025-11-25-server-tools.mdx:449",
+        "mcp-2025-11-25-schema.ts:1102"
+      ],
+      "expected": {
+        "outcome": "result-bound",
+        "code": "capacity",
+        "response_bytes": 78,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c22726573756c74223a7b22636f6e74656e74223a5b7b2274797065223a2274657874222c2274657874223a22636166c3",
+        "complete": false,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": null
+      }
+    },
+    {
+      "id": "inv.legacy.annotations",
+      "revision": "2025-11-25",
+      "family": "tools",
+      "obligation": "annotations",
+      "tool_annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"content\":[{\"type\":\"text\",\"text\":\"café\"}]}}",
+      "eof": true,
+      "result_limit": 78,
+      "citations": [
+        "mcp-2025-11-25-server-tools.mdx:449",
+        "mcp-2025-11-25-schema.ts:1102"
+      ],
+      "expected": {
+        "outcome": "result",
+        "code": null,
+        "response_bytes": 78,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c22726573756c74223a7b22636f6e74656e74223a5b7b2274797065223a2274657874222c2274657874223a22636166c3a9227d5d7d7d",
+        "complete": true,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": {
+          "content": [
+            {
+              "type": "text",
+              "text": "café"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inv.legacy.unknown-content",
+      "revision": "2025-11-25",
+      "family": "tools",
+      "obligation": "unknown-content",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"content\":[{\"type\":\"future\",\"opaque\":{\"secret\":\"display-only\"}}]}}",
+      "eof": true,
+      "result_limit": 100,
+      "citations": [
+        "mcp-2025-11-25-server-tools.mdx:449",
+        "mcp-2025-11-25-schema.ts:1102"
+      ],
+      "expected": {
+        "outcome": "unknown-content",
+        "code": "unsupported",
+        "response_bytes": 100,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c22726573756c74223a7b22636f6e74656e74223a5b7b2274797065223a22667574757265222c226f7061717565223a7b22736563726574223a22646973706c61792d6f6e6c79227d7d5d7d7d",
+        "complete": false,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": {
+          "content": [
+            {
+              "type": "future",
+              "opaque": {
+                "secret": "display-only"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inv.legacy.invalid-structured-array",
+      "revision": "2025-11-25",
+      "family": "tools",
+      "obligation": "malformed-peer",
+      "tool_annotations": null,
+      "request_valid": true,
+      "request": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"selected\",\"arguments\":{}}}",
+      "request_limit": 4096,
+      "sent": true,
+      "response": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"content\":[{\"type\":\"text\",\"text\":\"café\"}],\"structuredContent\":[]}}",
+      "eof": true,
+      "result_limit": 101,
+      "citations": [
+        "mcp-2025-11-25-server-tools.mdx:449",
+        "mcp-2025-11-25-schema.ts:1102"
+      ],
+      "expected": {
+        "outcome": "malformed-peer",
+        "code": "upstream_protocol",
+        "response_bytes": 101,
+        "retained_hex": "7b226a736f6e727063223a22322e30222c226964223a312c22726573756c74223a7b22636f6e74656e74223a5b7b2274797065223a2274657874222c2274657874223a22636166c3a9227d5d2c2273747275637475726564436f6e74656e74223a5b5d7d7d",
+        "complete": false,
+        "effect": "unknown",
+        "automatic_redispatches": 0,
+        "local_write_authority": false,
+        "preserved": null
+      }
+    }
+  ]
+}

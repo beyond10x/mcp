@@ -1,0 +1,21 @@
+type: ess-scenario/4
+domain: mcp.strict_invocation_checks
+scenario: invoke-tool-structured-presence-tools-2025-11-25
+summary: Actual tools invoke-tool-structured-presence under configured 2025-11-25.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_invocation_checks.ObserveInvocation
+    input: {case: invoke-tool-structured-presence, family: tools, revision: "2025-11-25"}
+    outcome: observed
+    response:
+      complete: true
+      reason: ""
+      calls: 1
+      blocks: 1
+      retained: true
+      structured: "value"
+      business_error: false
+      usable: 1
+      rejected: 0
+      parameter_headers: 0
+      header_agreement: false

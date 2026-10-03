@@ -159,7 +159,7 @@ fn complete(exchange: ExchangeResult) -> Result<CompleteResult, Reason> {
         _ => Err(Reason::V3),
     }
 }
-fn cache(raw: &Value) -> Result<CacheHints, Reason> {
+pub(crate) fn cache(raw: &Value) -> Result<CacheHints, Reason> {
     let ttl = raw["ttlMs"].as_number().ok_or(Reason::V6)?;
     if !ttl.to_string().bytes().all(|b| b.is_ascii_digit()) {
         return Err(Reason::V6);
@@ -237,7 +237,7 @@ fn schema(raw: &Value, object_root: bool, legacy: bool) -> Result<(), Reason> {
     }
     Ok(())
 }
-fn descriptor(raw: &Value, family: &Family, modern: bool) -> Result<Descriptor, Reason> {
+pub(crate) fn descriptor(raw: &Value, family: &Family, modern: bool) -> Result<Descriptor, Reason> {
     let mut value = base(raw)?;
     icons(raw)?;
     annotations(raw, family)?;
@@ -343,7 +343,7 @@ fn icons(raw: &Value) -> Result<(), Reason> {
     }
     Ok(())
 }
-fn annotations(raw: &Value, family: &Family) -> Result<(), Reason> {
+pub(crate) fn annotations(raw: &Value, family: &Family) -> Result<(), Reason> {
     // Prompt has no standard annotations field in either selected schema.
     if matches!(family, Family::V0) {
         return Ok(());

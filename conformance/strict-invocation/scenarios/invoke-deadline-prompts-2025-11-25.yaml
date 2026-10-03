@@ -1,0 +1,21 @@
+type: ess-scenario/4
+domain: mcp.strict_invocation_checks
+scenario: invoke-deadline-prompts-2025-11-25
+summary: Actual prompts invoke-deadline under configured 2025-11-25.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_invocation_checks.ObserveInvocation
+    input: {case: invoke-deadline, family: prompts, revision: "2025-11-25"}
+    outcome: observed
+    response:
+      complete: false
+      reason: "deadline_exhausted"
+      calls: 1
+      blocks: 0
+      retained: true
+      structured: "absent"
+      business_error: false
+      usable: 1
+      rejected: 0
+      parameter_headers: 0
+      header_agreement: false

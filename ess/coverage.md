@@ -96,8 +96,8 @@ supported negotiated-revision inputs. This tests the transport envelope, not
 negotiation or a modern typed family result. The target consumes only fixture
 inputs and returns actual request counts and receiver fields after joined teardown.
 
-The receiver, connection and discovery use 43 ESS-generated model types. The four generated artifacts are
-regenerated and compared by the gate. Their 27 structural-codec obligations remain
+The receiver, connection, discovery and invocation use 64 ESS-generated model types. The four generated artifacts are
+regenerated and compared by the gate. Their 31 structural-codec obligations remain
 visible in `types-report.json`. Numeric input guards require nonnegative byte
 limits representable on this host and positive millisecond values representable as
 u64; a nonrepresentable input is refused before I/O. Canonical base64, exact request
@@ -178,8 +178,49 @@ results in AEP; a suite's existence alone establishes no execution result.
 D1–D5 retain runtime limits, schema selection, homogeneous ordered descriptors,
 unique keys, faithful raw fields and shared-deadline obligations. A catalog is an
 observation, never authorization to invoke. Arbitrary JSON Schema semantics and
-supported dialect admission are unfinished, even when descriptor root shapes are
-valid. Resource URI strings are validated but preserved without normalization or
+supported dialect admission belong to invocation, even when descriptor root shapes
+are valid. Resource URI strings are validated but preserved without normalization or
 fetching. Descriptor-byte bounds count compact JSON encoding; page observations
 retain exact wire bytes under the separate transport budget. A page-limit refusal's
 actual count is the next required page ordinal, not an unseen remote page total.
+
+## Typed invocation and isolated schema validation
+
+`conformance/strict-invocation` executes 54 scenarios (53 authored) over real HTTP
+and the one-shot Rust schema worker. All 54 pass with no errors, unsupported cases
+or skips. Authored assertions read returned typed values, refusal observations and
+captured business requests. They cover all three families, revision-specific
+result selection, null versus absent structured output, input/output schema checks,
+business errors, unknown content, incomplete responses, deadlines, failed refreshes
+and modern parameter headers. No default-returning target could satisfy both the
+successful-result and refusal assertions. The synthesized outcome-only scenario is
+structural coverage; it adds no independent behavioral assurance.
+
+Temporarily accepting an output-schema mismatch made exactly two authored scenarios
+fail, one per revision (50 passed, two failed); restoring the rejection returned
+52 passes. Suppressing parameter headers failed the one header-agreement scenario
+(51 passed, one failed). Two subsequent scenarios lock down a corrected
+pre-dispatch request-limit classification: caller input stays distinct from peer
+or transport refusal, with the actual not-sent observation retained.
+Native regression coverage also distinguishes validation-worker capacity after a
+business response from caller input, retaining the complete response as evidence.
+Native tests additionally execute actual worker timeout/reaping and
+excess-output handling, offline references, exact large integers, declared header
+locations and safe-integer limits, all five content variants and both resource
+representations. An author regression caught opaque private-number-marker objects
+being reinterpreted at worker IPC decoding; raw object-preserving decoding fixes it.
+
+Thirty pinned Connectors complete-response vectors are replayed against actual
+setup, discovery and invocation. Their result/error fields and response bytes are
+preserved, with only the request id adjusted for preceding exchanges. Ten document
+input/framing vectors are explicitly excluded from this semantic replay, as detailed
+in the fixture provenance. They are not ten additional runtime passes.
+
+S1–S2 and I1–I8 distinguish generated carriers from executed schema semantics,
+process cleanup, result validation, private catalog provenance and header projection.
+The caller admits the worker executable and owns effect authority. Awaited worker
+failure proves kill/reap; dropped futures only initiate termination. No schema
+retrieval, caching, link fetching, prompt execution, grants or automatic replay is
+introduced. Logical timestamps in ESS reports belong to its deterministic runner;
+the surrounding test log records the actual execution. Full MCP server-request,
+progress and lifecycle coverage, and Connectors consumer integration, remain open.

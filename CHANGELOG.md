@@ -6,6 +6,14 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- `strict_invocation::InvocationClient` obtains private same-connection catalogs
+  and exposes typed tool, resource and prompt results. It preserves content and
+  opaque fields, validates schema semantics offline in a bounded Rust worker,
+  checks modern parameter-header annotations and header/body agreement, and
+  retains actual exchanges on peer/refusal paths. Failed discovery refreshes
+  invalidate the previous catalog. No grants, retries, link fetching or cache
+  fallback are introduced. The caller admits the schema-worker executable;
+  awaited timeout/failure kills and reaps it, while dropped futures initiate kill.
 - `strict_discovery::discover` traverses explicitly selected tool, resource and
   prompt lists on a strict HTTP connection. It preserves ordered typed descriptors,
   opaque fields and original page observations, with cumulative page/item limits,

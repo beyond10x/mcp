@@ -235,6 +235,26 @@ impl StrictConnection {
         params: Value,
         deadline: Instant,
     ) -> Result<ExchangeResult, ClientError> {
+        self.exchange_with_parameters(method, params, reqwest::header::HeaderMap::new(), deadline)
+            .await
+    }
+
+    pub(crate) async fn exchange_with_parameters(
+        &mut self,
+        method: &str,
+        params: Value,
+        parameters: reqwest::header::HeaderMap,
+        deadline: Instant,
+    ) -> Result<ExchangeResult, ClientError> {
+        if !parameters.is_empty()
+            && (!modern(&self.input)
+                || method != "tools/call"
+                || parameters
+                    .keys()
+                    .any(|k| !k.as_str().starts_with("mcp-param-")))
+        {
+            return Err(local_error());
+        }
         if !matches!(
             method,
             "tools/list"
@@ -260,7 +280,7 @@ impl StrictConnection {
         }
         let id = self.next_id;
         self.next_id = id.checked_add(1).ok_or_else(local_error)?;
-        let (wire, request) = encode(
+        let (wire, mut request) = encode(
             &self.input,
             &self.template,
             self.session.as_ref(),
@@ -268,6 +288,7 @@ impl StrictConnection {
             method,
             params,
         )?;
+        request.headers_mut().extend(parameters);
         strict_http::pooled_exchange(&self.client, request, &wire, deadline, false)
             .await
             .map(|(result, _)| result)
@@ -332,16 +353,7 @@ fn encode(
                 .get(key)
                 .and_then(Value::as_str)
                 .ok_or_else(local_error)?;
-            let value = if name
-                .bytes()
-                .all(|b| (0x20..=0x7e).contains(&b) || b == b'\t')
-                && name.trim() == name
-                && !name.starts_with("=?base64?")
-            {
-                name.to_owned()
-            } else {
-                format!("=?base64?{}?=", STANDARD.encode(name.as_bytes()))
-            };
+            let value = crate::parameter_headers::encode(name);
             request.headers_mut().insert(
                 "mcp-name",
                 reqwest::header::HeaderValue::from_str(&value).map_err(|_| local_error())?,

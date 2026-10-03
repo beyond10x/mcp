@@ -805,6 +805,475 @@
       "x-ess-name": "mcp.http_exchange.RequestId",
       "x-ess-union-tag": "kind"
     },
+    "mcp.http_invocation.BinaryContent": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "contentEncoding": "base64",
+          "pattern": "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$",
+          "type": "string"
+        },
+        "mime_type": {
+          "type": "string"
+        },
+        "raw": {}
+      },
+      "required": [
+        "data",
+        "mime_type",
+        "raw"
+      ],
+      "title": "BinaryContent",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_invocation.BinaryContent"
+    },
+    "mcp.http_invocation.Content": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "audio",
+              "type": "string"
+            },
+            "value": {
+              "$ref": "#/$defs/mcp.http_invocation.BinaryContent"
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "title": "audio",
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "image",
+              "type": "string"
+            },
+            "value": {
+              "$ref": "#/$defs/mcp.http_invocation.BinaryContent"
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "title": "image",
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "resource",
+              "type": "string"
+            },
+            "value": {
+              "$ref": "#/$defs/mcp.http_invocation.EmbeddedResource"
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "title": "resource",
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "resource_link",
+              "type": "string"
+            },
+            "value": {
+              "$ref": "#/$defs/mcp.http_invocation.ResourceLink"
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "title": "resource_link",
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "text",
+              "type": "string"
+            },
+            "value": {
+              "$ref": "#/$defs/mcp.http_invocation.TextContent"
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "title": "text",
+          "type": "object"
+        }
+      ],
+      "title": "Content",
+      "x-ess-kind": "union",
+      "x-ess-name": "mcp.http_invocation.Content",
+      "x-ess-union-tag": "kind"
+    },
+    "mcp.http_invocation.EmbeddedResource": {
+      "additionalProperties": false,
+      "properties": {
+        "raw": {},
+        "resource": {
+          "$ref": "#/$defs/mcp.http_invocation.ResourceContent"
+        }
+      },
+      "required": [
+        "resource",
+        "raw"
+      ],
+      "title": "EmbeddedResource",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_invocation.EmbeddedResource"
+    },
+    "mcp.http_invocation.HeaderPrimitive": {
+      "enum": [
+        "string",
+        "integer",
+        "boolean"
+      ],
+      "title": "HeaderPrimitive",
+      "type": "string",
+      "x-ess-kind": "enum",
+      "x-ess-name": "mcp.http_invocation.HeaderPrimitive"
+    },
+    "mcp.http_invocation.HeaderRefusalReason": {
+      "enum": [
+        "invalid_name",
+        "duplicate_name",
+        "invalid_type",
+        "invalid_location"
+      ],
+      "title": "HeaderRefusalReason",
+      "type": "string",
+      "x-ess-kind": "enum",
+      "x-ess-name": "mcp.http_invocation.HeaderRefusalReason"
+    },
+    "mcp.http_invocation.ParameterHeader": {
+      "additionalProperties": false,
+      "properties": {
+        "parameter_path": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "primitive": {
+          "$ref": "#/$defs/mcp.http_invocation.HeaderPrimitive"
+        },
+        "suffix": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "parameter_path",
+        "suffix",
+        "primitive"
+      ],
+      "title": "ParameterHeader",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_invocation.ParameterHeader"
+    },
+    "mcp.http_invocation.PromptMessage": {
+      "additionalProperties": false,
+      "properties": {
+        "content": {
+          "$ref": "#/$defs/mcp.http_invocation.Content"
+        },
+        "raw": {},
+        "role": {
+          "$ref": "#/$defs/mcp.http_invocation.Role"
+        }
+      },
+      "required": [
+        "role",
+        "content",
+        "raw"
+      ],
+      "title": "PromptMessage",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_invocation.PromptMessage"
+    },
+    "mcp.http_invocation.PromptResult": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "exchange": {
+          "$ref": "#/$defs/mcp.http_exchange.CompleteResult"
+        },
+        "messages": {
+          "items": {
+            "$ref": "#/$defs/mcp.http_invocation.PromptMessage"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "messages",
+        "exchange"
+      ],
+      "title": "PromptResult",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_invocation.PromptResult"
+    },
+    "mcp.http_invocation.Refusal": {
+      "additionalProperties": false,
+      "properties": {
+        "exchange": {
+          "$ref": "#/$defs/mcp.http_exchange.ExchangeResult"
+        },
+        "reason": {
+          "$ref": "#/$defs/mcp.http_invocation.RefusalReason"
+        }
+      },
+      "required": [
+        "reason"
+      ],
+      "title": "Refusal",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_invocation.Refusal"
+    },
+    "mcp.http_invocation.RefusalReason": {
+      "enum": [
+        "invalid_input",
+        "unknown_item",
+        "unsupported_family",
+        "unsupported_schema",
+        "schema_unavailable",
+        "deadline_exhausted",
+        "exchange_refused",
+        "invalid_result",
+        "unsupported_result",
+        "unsupported_content",
+        "output_schema_mismatch"
+      ],
+      "title": "RefusalReason",
+      "type": "string",
+      "x-ess-kind": "enum",
+      "x-ess-name": "mcp.http_invocation.RefusalReason"
+    },
+    "mcp.http_invocation.RejectedTool": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "reason": {
+          "$ref": "#/$defs/mcp.http_invocation.HeaderRefusalReason"
+        }
+      },
+      "required": [
+        "name",
+        "reason"
+      ],
+      "title": "RejectedTool",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_invocation.RejectedTool"
+    },
+    "mcp.http_invocation.ResourceContent": {
+      "additionalProperties": false,
+      "properties": {
+        "blob": {
+          "contentEncoding": "base64",
+          "pattern": "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$",
+          "type": "string"
+        },
+        "mime_type": {
+          "type": "string"
+        },
+        "raw": {},
+        "text": {
+          "type": "string"
+        },
+        "uri": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "raw"
+      ],
+      "title": "ResourceContent",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_invocation.ResourceContent"
+    },
+    "mcp.http_invocation.ResourceLink": {
+      "additionalProperties": false,
+      "properties": {
+        "raw": {},
+        "resource": {
+          "$ref": "#/$defs/mcp.http_discovery.Resource"
+        }
+      },
+      "required": [
+        "resource",
+        "raw"
+      ],
+      "title": "ResourceLink",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_invocation.ResourceLink"
+    },
+    "mcp.http_invocation.ResourceResult": {
+      "additionalProperties": false,
+      "properties": {
+        "cache_hints": {
+          "$ref": "#/$defs/mcp.http_connection.CacheHints"
+        },
+        "contents": {
+          "items": {
+            "$ref": "#/$defs/mcp.http_invocation.ResourceContent"
+          },
+          "type": "array"
+        },
+        "exchange": {
+          "$ref": "#/$defs/mcp.http_exchange.CompleteResult"
+        }
+      },
+      "required": [
+        "contents",
+        "exchange"
+      ],
+      "title": "ResourceResult",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_invocation.ResourceResult"
+    },
+    "mcp.http_invocation.Role": {
+      "enum": [
+        "user",
+        "assistant"
+      ],
+      "title": "Role",
+      "type": "string",
+      "x-ess-kind": "enum",
+      "x-ess-name": "mcp.http_invocation.Role"
+    },
+    "mcp.http_invocation.SchemaAction": {
+      "enum": [
+        "compile",
+        "validate"
+      ],
+      "title": "SchemaAction",
+      "type": "string",
+      "x-ess-kind": "enum",
+      "x-ess-name": "mcp.http_invocation.SchemaAction"
+    },
+    "mcp.http_invocation.SchemaReply": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "$ref": "#/$defs/mcp.http_invocation.SchemaStatus"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "title": "SchemaReply",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_invocation.SchemaReply"
+    },
+    "mcp.http_invocation.SchemaRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "$ref": "#/$defs/mcp.http_invocation.SchemaAction"
+        },
+        "instance": {},
+        "schema": {}
+      },
+      "required": [
+        "action",
+        "schema"
+      ],
+      "title": "SchemaRequest",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_invocation.SchemaRequest"
+    },
+    "mcp.http_invocation.SchemaStatus": {
+      "enum": [
+        "valid",
+        "invalid_schema",
+        "invalid_instance",
+        "unsupported_schema",
+        "invalid_request",
+        "validation_unavailable"
+      ],
+      "title": "SchemaStatus",
+      "type": "string",
+      "x-ess-kind": "enum",
+      "x-ess-name": "mcp.http_invocation.SchemaStatus"
+    },
+    "mcp.http_invocation.TextContent": {
+      "additionalProperties": false,
+      "properties": {
+        "raw": {},
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "text",
+        "raw"
+      ],
+      "title": "TextContent",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_invocation.TextContent"
+    },
+    "mcp.http_invocation.ToolResult": {
+      "additionalProperties": false,
+      "properties": {
+        "content": {
+          "items": {
+            "$ref": "#/$defs/mcp.http_invocation.Content"
+          },
+          "type": "array"
+        },
+        "exchange": {
+          "$ref": "#/$defs/mcp.http_exchange.CompleteResult"
+        },
+        "is_error": {
+          "type": "boolean"
+        },
+        "structured_content": {}
+      },
+      "required": [
+        "content",
+        "exchange"
+      ],
+      "title": "ToolResult",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_invocation.ToolResult"
+    },
     "mcp.http_observations.AbsentPeerData": {
       "enum": [
         "absent"
@@ -1027,8 +1496,8 @@
   },
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "x-ess-provenance": {
-    "contract_digest": "slice-sha256/2:163859cdea29ae451dd30c590faef00365d19a0e3d1b2b3d1504a73ca26c0830",
-    "source_digest": "ab3e7bca268f0487ee35356702e66d8b34a7c2448996f98f85c622f47afe0292",
+    "contract_digest": "slice-sha256/2:5e36ec9ca99dfa747d00c29173bb879ef61769a33896ff0095a16b52c8a30bb9",
+    "source_digest": "ca711843b62e4e6084550df5c3568bb197e39cadab6b4d640596ae75d5fe0a8c",
     "specification_version": "v1",
     "system": "mcp"
   }

@@ -1,0 +1,21 @@
+type: ess-scenario/4
+domain: mcp.strict_invocation_checks
+scenario: invoke-business-error-tools-2025-11-25
+summary: Actual tools invoke-business-error under configured 2025-11-25.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_invocation_checks.ObserveInvocation
+    input: {case: invoke-business-error, family: tools, revision: "2025-11-25"}
+    outcome: observed
+    response:
+      complete: true
+      reason: ""
+      calls: 1
+      blocks: 1
+      retained: true
+      structured: "absent"
+      business_error: true
+      usable: 1
+      rejected: 0
+      parameter_headers: 0
+      header_agreement: false

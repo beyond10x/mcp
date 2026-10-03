@@ -1,0 +1,21 @@
+type: ess-scenario/4
+domain: mcp.strict_invocation_checks
+scenario: invoke-parameter-header-missing-tools-2026-07-28
+summary: Actual tools invoke-parameter-header-missing under configured 2026-07-28.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_invocation_checks.ObserveInvocation
+    input: {case: invoke-parameter-header-missing, family: tools, revision: "2026-07-28"}
+    outcome: observed
+    response:
+      complete: true
+      reason: ""
+      calls: 1
+      blocks: 1
+      retained: true
+      structured: "absent"
+      business_error: false
+      usable: 1
+      rejected: 0
+      parameter_headers: 0
+      header_agreement: false

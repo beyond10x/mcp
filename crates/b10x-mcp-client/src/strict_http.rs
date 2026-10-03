@@ -410,7 +410,7 @@ impl<'de> Deserialize<'de> for UniqueJson {
         d.deserialize_any(UniqueVisitor)
     }
 }
-fn parse(bytes: &[u8]) -> Option<Value> {
+pub(crate) fn parse(bytes: &[u8]) -> Option<Value> {
     serde_json::from_slice::<UniqueJson>(bytes).ok()?;
     raw_json(serde_json::from_slice::<&serde_json::value::RawValue>(bytes).ok()?)
 }
