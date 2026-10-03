@@ -96,8 +96,8 @@ supported negotiated-revision inputs. This tests the transport envelope, not
 negotiation or a modern typed family result. The target consumes only fixture
 inputs and returns actual request counts and receiver fields after joined teardown.
 
-The receiver uses 22 ESS-generated model types. The four generated artifacts are
-regenerated and compared by the gate. Their 19 structural-codec obligations remain
+The receiver and connection use 32 ESS-generated model types. The four generated artifacts are
+regenerated and compared by the gate. Their 21 structural-codec obligations remain
 visible in `types-report.json`. Numeric input guards require nonnegative byte
 limits representable on this host and positive millisecond values representable as
 u64; a nonrepresentable input is refused before I/O. Canonical base64, exact request
@@ -139,9 +139,19 @@ http_status refusal. Native tests also cover modern header/capability/version
 errors, unknown large integer codes, duplicate IDs, auth statuses and deadlines.
 These checks do not establish session provenance or initialization.
 
-Remaining work includes revision-fixed connection setup, typed revision/family checks,
-bounded tool/resource/prompt discovery, resource and prompt operations, reusable
-strict connections, consumer admission and credential integration, and the open
+The separate strict-connection suite executes 32 scenarios (31 authored) against
+actual setup and subsequent raw exchanges. It verifies modern discovery without
+initialization or session adoption, legacy initialization and an accepted empty202
+notification, exact revision selection, capability presence, bounded private
+session headers and one deadline across setup. The fixture captures real method,
+metadata/header and session observations; no failed setup yields a usable handle.
+A revision-check mutation fails exactly both mismatch scenarios (30 passed,2failed).
+This is author mutation evidence, not an independent review. The network builder's
+absence of hidden protocol-header defaults remains a named consumer-port obligation.
+
+Remaining work includes typed revision/family checks, bounded tool/resource/prompt
+discovery, concrete resource and prompt operations, complete progress/cancellation/
+shutdown handling, consumer admission and credential integration, and the open
 caller/stdio ownership decisions. The constructor scenario bodies remain unchanged
-with regenerated model digests; their eight partial and three authored refusals
+with regenerated model digests; their nine partial and three authored refusals
 remain. Report/2 still reports inconclusive conformance and unknown coverage.

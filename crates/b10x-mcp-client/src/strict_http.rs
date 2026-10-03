@@ -39,9 +39,63 @@ use tokio::time::{Instant, timeout_at};
 /// establish a reusable connection or alter the older compatibility constructors.
 pub async fn exchange(
     builder: reqwest::ClientBuilder,
+    request: reqwest::Request,
+    input: &ExchangeInput,
+    deadline: Instant,
+) -> Result<ExchangeResult, ClientError> {
+    exchange_inner(
+        Driver::Builder(Box::new(builder)),
+        request,
+        input,
+        deadline,
+        false,
+        &mut Vec::new(),
+    )
+    .await
+}
+
+enum Driver {
+    Builder(Box<reqwest::ClientBuilder>),
+    Pooled(reqwest::Client),
+}
+
+pub(crate) fn strict_builder(builder: reqwest::ClientBuilder) -> reqwest::ClientBuilder {
+    builder
+        .redirect(reqwest::redirect::Policy::none())
+        .retry(reqwest::retry::never())
+        .no_gzip()
+        .no_brotli()
+        .no_deflate()
+        .no_zstd()
+}
+
+pub(crate) async fn pooled_exchange(
+    client: &reqwest::Client,
+    request: reqwest::Request,
+    input: &ExchangeInput,
+    deadline: Instant,
+    initialize: bool,
+) -> Result<(ExchangeResult, Vec<reqwest::header::HeaderValue>), ClientError> {
+    let mut session = Vec::new();
+    let result = exchange_inner(
+        Driver::Pooled(client.clone()),
+        request,
+        input,
+        deadline,
+        initialize,
+        &mut session,
+    )
+    .await?;
+    Ok((result, session))
+}
+
+async fn exchange_inner(
+    driver: Driver,
     mut request: reqwest::Request,
     input: &ExchangeInput,
     deadline: Instant,
+    initialize: bool,
+    session: &mut Vec<reqwest::header::HeaderValue>,
 ) -> Result<ExchangeResult, ClientError> {
     let started = Instant::now();
     let mut received = Reception::new(
@@ -53,10 +107,11 @@ pub async fn exchange(
             .and_then(|n| usize::try_from(n).ok())
             .unwrap_or(0),
     );
-    let (body, id, revision, provider, connect, execution, event_limit) = match validate(input) {
-        Ok(valid) => valid,
-        Err(reason) => return received.refuse(reason),
-    };
+    let (body, id, revision, provider, connect, execution, event_limit) =
+        match validate(input, initialize) {
+            Ok(valid) => valid,
+            Err(reason) => return received.refuse(reason),
+        };
     let Some(provider_end) = started.checked_add(provider) else {
         return received.refuse("invalid_input");
     };
@@ -84,17 +139,15 @@ pub async fn exchange(
             .copied()
             .map_or(remaining, |t| t.min(remaining)),
     );
-    let Ok(client) = builder
-        .redirect(reqwest::redirect::Policy::none())
-        .retry(reqwest::retry::never())
-        .no_gzip()
-        .no_brotli()
-        .no_deflate()
-        .no_zstd()
-        .connect_timeout(connect.min(remaining))
-        .build()
-    else {
-        return received.refuse("invalid_input");
+    let client = match driver {
+        Driver::Pooled(client) => client,
+        Driver::Builder(builder) => match strict_builder(*builder)
+            .connect_timeout(connect.min(remaining))
+            .build()
+        {
+            Ok(client) => client,
+            Err(_) => return received.refuse("invalid_input"),
+        },
     };
     if Instant::now() >= end {
         return received.refuse("deadline_exhausted");
@@ -120,6 +173,9 @@ pub async fn exchange(
         return received.refuse("invalid_response");
     }
     received.status = Some(response.status().as_u16());
+    if initialize {
+        session.extend(response.headers().get_all("mcp-session-id").iter().cloned());
+    }
     receive(response, received, &id, event_limit, end, semantics).await
 }
 
@@ -130,9 +186,84 @@ enum HttpSemantics {
     LegacySessionless,
 }
 
+pub(crate) async fn initialized_notification(
+    client: &reqwest::Client,
+    mut request: reqwest::Request,
+    budget: &b10x_mcp_types::http_exchange::McpHttpExchangeExchangeBudget,
+    end: Instant,
+) -> Result<
+    (
+        bool,
+        b10x_mcp_types::http_exchange::McpHttpExchangeExchangeObservation,
+    ),
+    ClientError,
+> {
+    let mut received = Reception::new(
+        budget
+            .response_octets
+            .0
+            .as_u64()
+            .and_then(|n| usize::try_from(n).ok())
+            .ok_or_else(internal_error)?,
+    );
+    let body = br#"{"jsonrpc":"2.0","method":"notifications/initialized"}"#.to_vec();
+    let action = async {
+        if body.len() as u64
+            > budget
+                .request_octets
+                .0
+                .as_u64()
+                .ok_or_else(internal_error)?
+            || Instant::now() >= end
+        {
+            return Ok(false);
+        }
+        prepare_request(&mut request, body, "2025-11-25").map_err(|_| internal_error())?;
+        let remaining = end.saturating_duration_since(Instant::now());
+        *request.timeout_mut() = Some(
+            request
+                .timeout()
+                .copied()
+                .map_or(remaining, |t| t.min(remaining)),
+        );
+        received.send = "unknown";
+        let Ok(Ok(mut response)) = timeout_at(end, client.execute(request)).await else {
+            return Ok(false);
+        };
+        received.send = "send_observed";
+        let status = response.status().as_u16();
+        if !(100..=599).contains(&status) {
+            return Ok(false);
+        }
+        received.status = Some(status);
+        let encoded = response
+            .headers()
+            .get_all("content-encoding")
+            .iter()
+            .any(|v| v != "identity");
+        loop {
+            match timeout_at(end, response.chunk()).await {
+                Ok(Ok(Some(chunk))) if received.append(&chunk) => {}
+                Ok(Ok(None)) => {
+                    received.whole = true;
+                    break;
+                }
+                _ => return Ok(false),
+            }
+        }
+        Ok::<bool, ClientError>(
+            status == 202 && !encoded && received.seen == 0 && Instant::now() < end,
+        )
+    }
+    .await?;
+    let observation =
+        serde_json::from_value(received.observation()).map_err(|_| internal_error())?;
+    Ok((action, observation))
+}
+
 type Validated = (Vec<u8>, Value, String, Duration, Duration, Duration, usize);
 
-fn validate(input: &ExchangeInput) -> Result<Validated, &'static str> {
+fn validate(input: &ExchangeInput, initialize: bool) -> Result<Validated, &'static str> {
     let budget = &input.budget;
     let request_limit = budget
         .request_octets
@@ -195,7 +326,7 @@ fn validate(input: &ExchangeInput) -> Result<Validated, &'static str> {
         || !object
             .get("method")
             .and_then(Value::as_str)
-            .is_some_and(|s| !s.is_empty() && s != "initialize")
+            .is_some_and(|s| !s.is_empty() && (s != "initialize" || initialize))
         || object.contains_key("result")
         || object.contains_key("error")
         || object

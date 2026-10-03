@@ -1,0 +1,19 @@
+type: ess-scenario/4
+domain: mcp.strict_connection_checks
+scenario: setup-invalid-input-2026-07-28
+summary: Actual setup-invalid-input wire observations under configured 2026-07-28.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_connection_checks.ObserveSetup
+    input: {case: setup-invalid-input, revision: "2026-07-28"}
+    outcome: observed
+    response:
+      ready: false
+      calls: 0
+      reason: "invalid_input"
+      first_method: ""
+      last_method: ""
+      session_echoed: false
+      configured_revision: ""
+      business_kind: ""
+      modern_metadata: false

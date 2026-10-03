@@ -1,0 +1,19 @@
+type: ess-scenario/4
+domain: mcp.strict_connection_checks
+scenario: setup-invalid-description-2025-11-25
+summary: Actual setup-invalid-description wire observations under configured 2025-11-25.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_connection_checks.ObserveSetup
+    input: {case: setup-invalid-description, revision: "2025-11-25"}
+    outcome: observed
+    response:
+      ready: false
+      calls: 1
+      reason: "invalid_description"
+      first_method: "initialize"
+      last_method: "initialize"
+      session_echoed: false
+      configured_revision: ""
+      business_kind: ""
+      modern_metadata: false

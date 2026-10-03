@@ -1,0 +1,19 @@
+type: ess-scenario/4
+domain: mcp.strict_connection_checks
+scenario: setup-unicode-name-2026-07-28
+summary: Actual setup-unicode-name wire observations under configured 2026-07-28.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_connection_checks.ObserveSetup
+    input: {case: setup-unicode-name, revision: "2026-07-28"}
+    outcome: observed
+    response:
+      ready: true
+      calls: 2
+      reason: ""
+      first_method: "server/discover"
+      last_method: "tools/call"
+      session_echoed: false
+      configured_revision: "2026-07-28"
+      business_kind: "result"
+      modern_metadata: true

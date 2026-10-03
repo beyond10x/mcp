@@ -2,6 +2,9 @@
 //! Tools-only MCP client over the standard transports.
 
 #[cfg(feature = "strict-http")]
+pub mod strict_connection;
+
+#[cfg(feature = "strict-http")]
 pub mod strict_http;
 
 use std::collections::HashMap;

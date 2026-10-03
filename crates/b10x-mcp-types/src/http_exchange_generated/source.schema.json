@@ -1,5 +1,216 @@
 {
   "$defs": {
+    "mcp.http_connection.CacheHints": {
+      "additionalProperties": false,
+      "properties": {
+        "scope": {
+          "$ref": "#/$defs/mcp.http_connection.CacheScope"
+        },
+        "ttl_ms": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "ttl_ms",
+        "scope"
+      ],
+      "title": "CacheHints",
+      "type": "object",
+      "x-ess-invariants": [
+        "ttl_ms >= 0"
+      ],
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_connection.CacheHints"
+    },
+    "mcp.http_connection.CacheScope": {
+      "enum": [
+        "public",
+        "private"
+      ],
+      "title": "CacheScope",
+      "type": "string",
+      "x-ess-kind": "enum",
+      "x-ess-name": "mcp.http_connection.CacheScope"
+    },
+    "mcp.http_connection.ImplementationInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "version"
+      ],
+      "title": "ImplementationInfo",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_connection.ImplementationInfo"
+    },
+    "mcp.http_connection.ListCapability": {
+      "additionalProperties": false,
+      "properties": {
+        "list_changed": {
+          "type": "boolean"
+        }
+      },
+      "title": "ListCapability",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_connection.ListCapability"
+    },
+    "mcp.http_connection.PeerDescription": {
+      "additionalProperties": false,
+      "properties": {
+        "cache_hints": {
+          "$ref": "#/$defs/mcp.http_connection.CacheHints"
+        },
+        "capabilities": {
+          "$ref": "#/$defs/mcp.http_connection.ServerCapabilities"
+        },
+        "configured_revision": {
+          "$ref": "#/$defs/mcp.http_observations.ProtocolRevision"
+        },
+        "exchange_observation": {
+          "$ref": "#/$defs/mcp.http_exchange.ExchangeObservation"
+        },
+        "instructions": {
+          "type": "string"
+        },
+        "raw_result": {},
+        "reported_versions": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "server_info": {
+          "$ref": "#/$defs/mcp.http_connection.ImplementationInfo"
+        }
+      },
+      "required": [
+        "configured_revision",
+        "reported_versions",
+        "capabilities",
+        "raw_result",
+        "exchange_observation"
+      ],
+      "title": "PeerDescription",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_connection.PeerDescription"
+    },
+    "mcp.http_connection.ResourceCapability": {
+      "additionalProperties": false,
+      "properties": {
+        "list_changed": {
+          "type": "boolean"
+        },
+        "subscribe": {
+          "type": "boolean"
+        }
+      },
+      "title": "ResourceCapability",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_connection.ResourceCapability"
+    },
+    "mcp.http_connection.ServerCapabilities": {
+      "additionalProperties": false,
+      "properties": {
+        "prompts": {
+          "$ref": "#/$defs/mcp.http_connection.ListCapability"
+        },
+        "reported_keys": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "resources": {
+          "$ref": "#/$defs/mcp.http_connection.ResourceCapability"
+        },
+        "tools": {
+          "$ref": "#/$defs/mcp.http_connection.ListCapability"
+        }
+      },
+      "required": [
+        "reported_keys"
+      ],
+      "title": "ServerCapabilities",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_connection.ServerCapabilities"
+    },
+    "mcp.http_connection.SetupInput": {
+      "additionalProperties": false,
+      "properties": {
+        "budget": {
+          "$ref": "#/$defs/mcp.http_exchange.ExchangeBudget"
+        },
+        "client_info": {
+          "$ref": "#/$defs/mcp.http_connection.ImplementationInfo"
+        },
+        "revision": {
+          "$ref": "#/$defs/mcp.http_observations.ProtocolRevision"
+        },
+        "session_id_octets": {
+          "$ref": "#/$defs/mcp.http_observations.OctetCount"
+        }
+      },
+      "required": [
+        "revision",
+        "client_info",
+        "budget",
+        "session_id_octets"
+      ],
+      "title": "SetupInput",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_connection.SetupInput"
+    },
+    "mcp.http_connection.SetupRefusal": {
+      "additionalProperties": false,
+      "properties": {
+        "exchange": {
+          "$ref": "#/$defs/mcp.http_exchange.ExchangeResult"
+        },
+        "notification": {
+          "$ref": "#/$defs/mcp.http_exchange.ExchangeObservation"
+        },
+        "reason": {
+          "$ref": "#/$defs/mcp.http_connection.SetupRefusalReason"
+        }
+      },
+      "required": [
+        "reason"
+      ],
+      "title": "SetupRefusal",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_connection.SetupRefusal"
+    },
+    "mcp.http_connection.SetupRefusalReason": {
+      "enum": [
+        "invalid_input",
+        "exchange_refused",
+        "peer_error",
+        "invalid_description",
+        "revision_mismatch",
+        "invalid_session_header",
+        "session_header_bound",
+        "notification_refused",
+        "deadline_exhausted"
+      ],
+      "title": "SetupRefusalReason",
+      "type": "string",
+      "x-ess-kind": "enum",
+      "x-ess-name": "mcp.http_connection.SetupRefusalReason"
+    },
     "mcp.http_exchange.CompleteResult": {
       "additionalProperties": false,
       "properties": {
@@ -511,8 +722,8 @@
   },
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "x-ess-provenance": {
-    "contract_digest": "slice-sha256/2:d9a517671d0959f8cfe766dd25c64b515095525935e0ab2a5128ba9db339577c",
-    "source_digest": "1d2d14f8a2b08c6a920e3d43826b4f88f64cb407966598b9d3c7b3e2bbc96731",
+    "contract_digest": "slice-sha256/2:8f490389a7d9345f3017f8ace7b4275f82e47243894d81ee87224ba49ac985fa",
+    "source_digest": "9ce1d16ddc198a1c3933985d4ae7c2a3b94fe24f56e5626ec84ab681650ef441",
     "specification_version": "v1",
     "system": "mcp"
   }

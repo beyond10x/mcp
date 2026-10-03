@@ -73,6 +73,16 @@ Hosts with their own egress and secret boundary can use `connect_http_with_clien
 client performs every HTTP exchange while the foundation retains protocol negotiation, discovery,
 snapshotting, bounds, and calls.
 
+The opt-in `strict-http` feature adds `strict_connection::connect` in
+`b10x-mcp-client`. Supply a bodyless admitted POST template, an HTTP builder and
+ESS-generated `http_exchange::McpHttpConnectionSetupInput` to establish one configured revision. Modern setup uses
+discovery; legacy setup verifies initialization and its acknowledgement, retaining
+any assigned session privately. The handle exposes the peer description and one
+raw family exchange at a time. It does not yet validate typed family results or
+drive bounded list discovery. The caller supplies authority and network policy;
+the builder must contain no hidden MCP protocol/session/routing header defaults.
+The existing tools-only constructors retain their separate compatibility behavior.
+
 ## License
 
 Apache-2.0.

@@ -1,0 +1,19 @@
+type: ess-scenario/4
+domain: mcp.strict_connection_checks
+scenario: setup-duplicate-session-2025-11-25
+summary: Actual setup-duplicate-session wire observations under configured 2025-11-25.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_connection_checks.ObserveSetup
+    input: {case: setup-duplicate-session, revision: "2025-11-25"}
+    outcome: observed
+    response:
+      ready: false
+      calls: 1
+      reason: "invalid_session_header"
+      first_method: "initialize"
+      last_method: "initialize"
+      session_echoed: false
+      configured_revision: ""
+      business_kind: ""
+      modern_metadata: false

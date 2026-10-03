@@ -1,0 +1,3549 @@
+{
+  "provenance": {
+    "suite_version": "ess-conformance/28",
+    "system": "mcp",
+    "specification_version": "v1",
+    "spec_digest": "9e1fc552274d61a6290333281b6ea994f61a3c078789acaabd2b68892e60479f",
+    "contract_digest": "33516acead88e1daef61bb3d7a91c63bc42f03f122dc756343000bf7ed11a2a0"
+  },
+  "scenarios": {
+    "mcp.strict_connection_checks.ObserveSetup/outcome/observed": {
+      "purpose": "`mcp.strict_connection_checks.ObserveSetup` answers `observed` for an input no other branch's guard claims",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-valid"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {}
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-ambiguous400-2025-11-25": {
+      "purpose": "Actual setup-ambiguous400 wire observations under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-ambiguous400"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "",
+              "calls": 1.0,
+              "configured_revision": "",
+              "first_method": "initialize",
+              "last_method": "initialize",
+              "modern_metadata": false,
+              "ready": false,
+              "reason": "exchange_refused",
+              "session_echoed": false
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-ambiguous400-2026-07-28": {
+      "purpose": "Actual setup-ambiguous400 wire observations under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-ambiguous400"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "",
+              "calls": 1.0,
+              "configured_revision": "",
+              "first_method": "server/discover",
+              "last_method": "server/discover",
+              "modern_metadata": true,
+              "ready": false,
+              "reason": "exchange_refused",
+              "session_echoed": false
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-deadline-2025-11-25": {
+      "purpose": "Actual setup-deadline wire observations under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-deadline"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "",
+              "calls": 2.0,
+              "configured_revision": "",
+              "first_method": "initialize",
+              "last_method": "notifications/initialized",
+              "modern_metadata": false,
+              "ready": false,
+              "reason": "deadline_exhausted",
+              "session_echoed": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-deadline-2026-07-28": {
+      "purpose": "Actual setup-deadline wire observations under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-deadline"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "",
+              "calls": 1.0,
+              "configured_revision": "",
+              "first_method": "server/discover",
+              "last_method": "server/discover",
+              "modern_metadata": true,
+              "ready": false,
+              "reason": "deadline_exhausted",
+              "session_echoed": false
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-duplicate-session-2025-11-25": {
+      "purpose": "Actual setup-duplicate-session wire observations under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-duplicate-session"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "",
+              "calls": 1.0,
+              "configured_revision": "",
+              "first_method": "initialize",
+              "last_method": "initialize",
+              "modern_metadata": false,
+              "ready": false,
+              "reason": "invalid_session_header",
+              "session_echoed": false
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-invalid-description-2025-11-25": {
+      "purpose": "Actual setup-invalid-description wire observations under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-invalid-description"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "",
+              "calls": 1.0,
+              "configured_revision": "",
+              "first_method": "initialize",
+              "last_method": "initialize",
+              "modern_metadata": false,
+              "ready": false,
+              "reason": "invalid_description",
+              "session_echoed": false
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-invalid-description-2026-07-28": {
+      "purpose": "Actual setup-invalid-description wire observations under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-invalid-description"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "",
+              "calls": 1.0,
+              "configured_revision": "",
+              "first_method": "server/discover",
+              "last_method": "server/discover",
+              "modern_metadata": true,
+              "ready": false,
+              "reason": "invalid_description",
+              "session_echoed": false
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-invalid-input-2025-11-25": {
+      "purpose": "Actual setup-invalid-input wire observations under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-invalid-input"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "",
+              "calls": 0.0,
+              "configured_revision": "",
+              "first_method": "",
+              "last_method": "",
+              "modern_metadata": false,
+              "ready": false,
+              "reason": "invalid_input",
+              "session_echoed": false
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-invalid-input-2026-07-28": {
+      "purpose": "Actual setup-invalid-input wire observations under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-invalid-input"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "",
+              "calls": 0.0,
+              "configured_revision": "",
+              "first_method": "",
+              "last_method": "",
+              "modern_metadata": false,
+              "ready": false,
+              "reason": "invalid_input",
+              "session_echoed": false
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-invalid-session-2025-11-25": {
+      "purpose": "Actual setup-invalid-session wire observations under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-invalid-session"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "",
+              "calls": 1.0,
+              "configured_revision": "",
+              "first_method": "initialize",
+              "last_method": "initialize",
+              "modern_metadata": false,
+              "ready": false,
+              "reason": "invalid_session_header",
+              "session_echoed": false
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-metadata-conflict-2026-07-28": {
+      "purpose": "Actual setup-metadata-conflict wire observations under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-metadata-conflict"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "",
+              "calls": 1.0,
+              "configured_revision": "2026-07-28",
+              "first_method": "server/discover",
+              "last_method": "server/discover",
+              "modern_metadata": true,
+              "ready": true,
+              "reason": "",
+              "session_echoed": false
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-missing-cache-2026-07-28": {
+      "purpose": "Actual setup-missing-cache wire observations under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-missing-cache"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "",
+              "calls": 1.0,
+              "configured_revision": "",
+              "first_method": "server/discover",
+              "last_method": "server/discover",
+              "modern_metadata": true,
+              "ready": false,
+              "reason": "invalid_description",
+              "session_echoed": false
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-missing-info-2025-11-25": {
+      "purpose": "Actual setup-missing-info wire observations under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-missing-info"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "",
+              "calls": 1.0,
+              "configured_revision": "",
+              "first_method": "initialize",
+              "last_method": "initialize",
+              "modern_metadata": false,
+              "ready": false,
+              "reason": "invalid_description",
+              "session_echoed": false
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-missing-info-2026-07-28": {
+      "purpose": "Actual setup-missing-info wire observations under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-missing-info"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "",
+              "calls": 1.0,
+              "configured_revision": "2026-07-28",
+              "first_method": "server/discover",
+              "last_method": "server/discover",
+              "modern_metadata": true,
+              "ready": true,
+              "reason": "",
+              "session_echoed": false
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-negative-ttl-2026-07-28": {
+      "purpose": "Actual setup-negative-ttl wire observations under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-negative-ttl"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "",
+              "calls": 1.0,
+              "configured_revision": "",
+              "first_method": "server/discover",
+              "last_method": "server/discover",
+              "modern_metadata": true,
+              "ready": false,
+              "reason": "invalid_description",
+              "session_echoed": false
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-notification-body-2025-11-25": {
+      "purpose": "Actual setup-notification-body wire observations under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-notification-body"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "",
+              "calls": 2.0,
+              "configured_revision": "",
+              "first_method": "initialize",
+              "last_method": "notifications/initialized",
+              "modern_metadata": false,
+              "ready": false,
+              "reason": "notification_refused",
+              "session_echoed": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-notification-refused-2025-11-25": {
+      "purpose": "Actual setup-notification-refused wire observations under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-notification-refused"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "",
+              "calls": 2.0,
+              "configured_revision": "",
+              "first_method": "initialize",
+              "last_method": "notifications/initialized",
+              "modern_metadata": false,
+              "ready": false,
+              "reason": "notification_refused",
+              "session_echoed": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-peer-error-2025-11-25": {
+      "purpose": "Actual setup-peer-error wire observations under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-peer-error"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "",
+              "calls": 1.0,
+              "configured_revision": "",
+              "first_method": "initialize",
+              "last_method": "initialize",
+              "modern_metadata": false,
+              "ready": false,
+              "reason": "peer_error",
+              "session_echoed": false
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-peer-error-2026-07-28": {
+      "purpose": "Actual setup-peer-error wire observations under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-peer-error"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "",
+              "calls": 1.0,
+              "configured_revision": "",
+              "first_method": "server/discover",
+              "last_method": "server/discover",
+              "modern_metadata": true,
+              "ready": false,
+              "reason": "peer_error",
+              "session_echoed": false
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-request-bound-2025-11-25": {
+      "purpose": "Actual setup-request-bound wire observations under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-request-bound"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "",
+              "calls": 0.0,
+              "configured_revision": "",
+              "first_method": "",
+              "last_method": "",
+              "modern_metadata": false,
+              "ready": false,
+              "reason": "exchange_refused",
+              "session_echoed": false
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-request-bound-2026-07-28": {
+      "purpose": "Actual setup-request-bound wire observations under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-request-bound"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "",
+              "calls": 0.0,
+              "configured_revision": "",
+              "first_method": "",
+              "last_method": "",
+              "modern_metadata": false,
+              "ready": false,
+              "reason": "exchange_refused",
+              "session_echoed": false
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-reuse-2025-11-25": {
+      "purpose": "Actual setup-reuse wire observations under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-reuse"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "result",
+              "calls": 3.0,
+              "configured_revision": "2025-11-25",
+              "first_method": "initialize",
+              "last_method": "tools/call",
+              "modern_metadata": false,
+              "ready": true,
+              "reason": "",
+              "session_echoed": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-reuse-2026-07-28": {
+      "purpose": "Actual setup-reuse wire observations under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-reuse"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "result",
+              "calls": 2.0,
+              "configured_revision": "2026-07-28",
+              "first_method": "server/discover",
+              "last_method": "tools/call",
+              "modern_metadata": true,
+              "ready": true,
+              "reason": "",
+              "session_echoed": false
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-revision-mismatch-2025-11-25": {
+      "purpose": "Actual setup-revision-mismatch wire observations under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-revision-mismatch"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "",
+              "calls": 1.0,
+              "configured_revision": "",
+              "first_method": "initialize",
+              "last_method": "initialize",
+              "modern_metadata": false,
+              "ready": false,
+              "reason": "revision_mismatch",
+              "session_echoed": false
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-revision-mismatch-2026-07-28": {
+      "purpose": "Actual setup-revision-mismatch wire observations under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-revision-mismatch"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "",
+              "calls": 1.0,
+              "configured_revision": "",
+              "first_method": "server/discover",
+              "last_method": "server/discover",
+              "modern_metadata": true,
+              "ready": false,
+              "reason": "revision_mismatch",
+              "session_echoed": false
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-session-bound-2025-11-25": {
+      "purpose": "Actual setup-session-bound wire observations under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-session-bound"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "",
+              "calls": 1.0,
+              "configured_revision": "",
+              "first_method": "initialize",
+              "last_method": "initialize",
+              "modern_metadata": false,
+              "ready": false,
+              "reason": "session_header_bound",
+              "session_echoed": false
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-sessionless-2025-11-25": {
+      "purpose": "Actual setup-sessionless wire observations under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-sessionless"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "",
+              "calls": 2.0,
+              "configured_revision": "2025-11-25",
+              "first_method": "initialize",
+              "last_method": "notifications/initialized",
+              "modern_metadata": false,
+              "ready": true,
+              "reason": "",
+              "session_echoed": false
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-unicode-name-2026-07-28": {
+      "purpose": "Actual setup-unicode-name wire observations under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-unicode-name"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "result",
+              "calls": 2.0,
+              "configured_revision": "2026-07-28",
+              "first_method": "server/discover",
+              "last_method": "tools/call",
+              "modern_metadata": true,
+              "ready": true,
+              "reason": "",
+              "session_echoed": false
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-unknown-result-2026-07-28": {
+      "purpose": "Actual setup-unknown-result wire observations under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-unknown-result"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "",
+              "calls": 1.0,
+              "configured_revision": "",
+              "first_method": "server/discover",
+              "last_method": "server/discover",
+              "modern_metadata": true,
+              "ready": false,
+              "reason": "invalid_description",
+              "session_echoed": false
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-valid-2025-11-25": {
+      "purpose": "Actual setup-valid wire observations under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-valid"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "",
+              "calls": 2.0,
+              "configured_revision": "2025-11-25",
+              "first_method": "initialize",
+              "last_method": "notifications/initialized",
+              "modern_metadata": false,
+              "ready": true,
+              "reason": "",
+              "session_echoed": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_connection_checks/authored/setup-valid-2026-07-28": {
+      "purpose": "Actual setup-valid wire observations under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_connection_checks.ObserveSetup",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "setup-valid"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": {
+              "command": "mcp.strict_connection_checks.ObserveSetup",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "ready",
+                "type": "Boolean"
+              },
+              {
+                "name": "calls",
+                "type": "Integer"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "first_method",
+                "type": "String"
+              },
+              {
+                "name": "last_method",
+                "type": "String"
+              },
+              {
+                "name": "session_echoed",
+                "type": "Boolean"
+              },
+              {
+                "name": "configured_revision",
+                "type": "String"
+              },
+              {
+                "name": "business_kind",
+                "type": "String"
+              },
+              {
+                "name": "modern_metadata",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_kind": "",
+              "calls": 1.0,
+              "configured_revision": "2026-07-28",
+              "first_method": "server/discover",
+              "last_method": "server/discover",
+              "modern_metadata": true,
+              "ready": true,
+              "reason": "",
+              "session_echoed": false
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_connection_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_connection_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_connection_checks.ObserveSetup"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_connection_checks.ObserveSetup",
+            "outcome": "observed"
+          }
+        }
+      ]
+    }
+  }
+}

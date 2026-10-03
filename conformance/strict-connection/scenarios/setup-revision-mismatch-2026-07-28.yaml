@@ -1,0 +1,19 @@
+type: ess-scenario/4
+domain: mcp.strict_connection_checks
+scenario: setup-revision-mismatch-2026-07-28
+summary: Actual setup-revision-mismatch wire observations under configured 2026-07-28.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_connection_checks.ObserveSetup
+    input: {case: setup-revision-mismatch, revision: "2026-07-28"}
+    outcome: observed
+    response:
+      ready: false
+      calls: 1
+      reason: "revision_mismatch"
+      first_method: "server/discover"
+      last_method: "server/discover"
+      session_echoed: false
+      configured_revision: ""
+      business_kind: ""
+      modern_metadata: true

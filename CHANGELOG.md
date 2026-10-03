@@ -6,6 +6,13 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- `strict_connection::connect` under `strict-http` establishes one explicitly
+  configured revision using modern discovery or legacy initialization and its
+  acknowledgement. It returns a reusable raw-exchange handle and an ESS-generated
+  peer description, preserves unknown reported metadata, privately retains an
+  assigned legacy session, and shares one deadline across setup. It performs no
+  fallback, cache, paging or typed family-result acceptance. Caller-supplied HTTP
+  builders must not hide MCP protocol/session/routing headers in their defaults.
 - An opt-in `strict-http` feature with a `b10x_mcp_client::strict_http::exchange` boundary for one
   revision-selected, caller-admitted HTTP POST. It retains bounded original JSON/SSE
   message bytes, correlation and completion observations, and opaque integer
