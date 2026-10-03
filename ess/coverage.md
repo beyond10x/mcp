@@ -96,8 +96,8 @@ supported negotiated-revision inputs. This tests the transport envelope, not
 negotiation or a modern typed family result. The target consumes only fixture
 inputs and returns actual request counts and receiver fields after joined teardown.
 
-The receiver, connection, discovery and invocation use 64 ESS-generated model types. The four generated artifacts are
-regenerated and compared by the gate. Their 31 structural-codec obligations remain
+The receiver, connection, discovery, invocation and lifecycle project 93 ESS model types. The four generated artifacts are
+regenerated and compared by the gate. Their 45 structural-codec obligations remain
 visible in `types-report.json`. Numeric input guards require nonnegative byte
 limits representable on this host and positive millisecond values representable as
 u64; a nonrepresentable input is refused before I/O. Canonical base64, exact request
@@ -149,10 +149,9 @@ A revision-check mutation fails exactly both mismatch scenarios (30 passed,2fail
 This is author mutation evidence, not an independent review. The network builder's
 absence of hidden protocol-header defaults remains a named consumer-port obligation.
 
-Remaining work includes typed invocation revision/family checks, JSON Schema
-semantic validation, concrete tool/resource/prompt operations, complete progress/cancellation/
-shutdown handling, consumer admission and credential integration, and the open
-caller/stdio ownership decisions. The constructor scenario bodies remain unchanged
+The later selections below cover typed invocation, schema validation and selected
+progress/cancellation/shutdown behavior. Consumer admission and credential integration
+and the open caller/stdio ownership decisions remain unfinished. The constructor scenario bodies remain unchanged
 with regenerated model digests; their nine partial and three authored refusals
 remain. Report/2 still reports inconclusive conformance and unknown coverage.
 
@@ -222,5 +221,86 @@ The caller admits the worker executable and owns effect authority. Awaited worke
 failure proves kill/reap; dropped futures only initiate termination. No schema
 retrieval, caching, link fetching, prompt execution, grants or automatic replay is
 introduced. Logical timestamps in ESS reports belong to its deterministic runner;
-the surrounding test log records the actual execution. Full MCP server-request,
-progress and lifecycle coverage, and Connectors consumer integration, remain open.
+the surrounding test log records the actual execution. Full lifecycle coverage
+and Connectors consumer integration remain open.
+
+## Partial strict HTTP lifecycle implementation
+
+The new `mcp.http_lifecycle` domain and nonrecursive `WireObservation` add thirteen
+immutable observation types; controlled worker and typed-call outcomes bring the current
+projection to 93 values with 45 structural-codec obligations. L1–L14 record runtime
+obligations separately. Progress and explicit connection cancellation now execute
+over actual streams below; type generation alone establishes neither.
+
+The first shutdown checkpoint exercised18 scenarios,
+17 authored, against actual connections. The peer parses every request and waits
+for the owned sockets to close before it joins. The selection covers modern and
+sessionless no-DELETE, legacy one-DELETE,405,503 and307, bounded retained bodies,
+expired and mid-response deadlines, abandoned streams and retained request IDs,
+completed calls, the invocation-client entry point and fresh setup with unchanged
+caller configuration. Native tests additionally check exact failure bytes and
+control headers. There is no server rollback or guaranteed remote termination
+claim. No DELETE response is promoted to a correlated business terminal.
+
+The stream-control checkpoint had41 scenarios (39 authored), including22 authored stream
+cases. They cover actual legacy ping/error POSTs, exact large/colliding server ids,
+sessionless and initialization-time replies, invalid/duplicate/over-bound session
+headers that are not echoed, modern server-request refusal, ordered notifications,
+cumulative/event/control-body bounds, bare CR delimiters, ignored legacy priming
+events and delayed control acknowledgements. A regression first failed because CR
+waited for another byte; another failed because a delayed acknowledgement hid a
+business result already on the socket. The controlled receiver now dispatches CR
+promptly and receives controls concurrently with a shared atomic retention budget.
+Seven native stream tests also verify socket closure after dropping an exchange
+with a pending control reply, before dropping the connection handle. Control
+futures belong to the exchange directly; no spawned control task outlives it.
+The one-shot raw receiver retains its original compatibility selection.
+
+The progress checkpoint had80 scenarios (77 authored), adding38 actual progress cases
+across both revisions. These exercise explicit token opt-in, absent/unknown tokens,
+string versus integer identity, arbitrary-precision tokens, exact increasing
+numbers, huge exponents, optional total/message fields, malformed fields and
+invalid request metadata. Equal numeric values with different spellings, signed
+zero and decreasing values are retained and refused. Unmatched tokens cannot
+change the owned sequence. Five native tests additionally assert exact numeric
+values, original message bytes, report order, before-send refusal and cumulative
+retention. Continuous progress must end at the fixed operation deadline; the
+peer observes actual closure. Neither progress nor a total is a business result.
+
+The selection now has105 scenarios (101 authored), adding24 explicit connection
+cancellation cases. They cover before-send cancellation, unknown send state before
+headers, caller cancellation and timeout, modern no-POST versus legacy one-POST,
+failure/nonempty/over-bound acknowledgements, expired teardown, notification timeout,
+initialize refusal, reuse after an awaited cancellation, pending control replies
+and an already observed terminal winning the race. Offered late bytes remain
+unobserved after closure. Five native tests assert actual request IDs/headers,
+unknown effects, prior terminal state and the aggregate response ceiling across
+interrupted stream history plus the cancellation acknowledgement. The peer joins
+only after observing the cancelled sockets close. No rollback or remote termination
+is inferred from a cancellation acknowledgement.
+
+The separate Linux schema-worker selection has 15 scenarios (14 authored). Actual
+Rust processes establish the PID barrier and `/proc` absence after an observed
+reap. Expired teardown retains ownership and refuses both execution APIs until
+explicit cleanup succeeds. A dropped controlled future requests termination and
+retains its child handle. A kill request alone never proves reap. Falsifying the
+retained-child report causes the three intended retention scenarios to fail.
+
+The Linux typed lifecycle selection adds 31 scenarios (30 authored), covering input
+validation, output-schema preflight, post-response validation, retained/dropped
+worker ownership, post-response IPC capacity, HTTP cancellation and deadlines,
+expired notification teardown, and interrupted/dropped discovery in both revisions.
+It invokes the public typed client against actual HTTP peers and Rust workers.
+An observed business response survives stopped validation; no cancellation POST
+is sent for that terminal. Prior discovery exchanges remain observations, and
+cancelled or dropped refreshes cannot promote a partial or stale catalog. Native
+tests also exercise controlled tools/resources/prompts, modern parameter headers,
+argument admission, exact numbers and opaque private-marker objects. A peer
+writing headers does not prove the client observed them before cancellation;
+an attempted send can truthfully remain unknown in the client observation.
+
+Both process selections require Linux and `test-schema-worker`, enabled by the
+repository gate. Other platform/feature combinations do not execute those selections;
+the existing HTTP lifecycle selection remains available with `strict-http` alone.
+These are selected lifecycle measurements, not a claim of full-system conformance.
+Connectors consumer integration and the final release remain separate unfinished work.

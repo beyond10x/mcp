@@ -1,0 +1,24 @@
+type: ess-scenario/4
+domain: mcp.schema_lifecycle_checks
+scenario: worker-spawn-failure
+summary: Actual worker spawn-failure, explicit cleanup and OS process observations.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.schema_lifecycle_checks.ObserveWorker
+    input: {case: spawn-failure}
+    outcome: observed
+    response:
+      kind: "refused"
+      status: "absent"
+      cause: "absent"
+      reason: "schema_unavailable"
+      state: "no_child"
+      kill: "not_attempted"
+      failure: "absent"
+      pid_recorded: false
+      process_gone: false
+      within_budget: true
+      reuse_refused: false
+      raw_reuse_refused: false
+      explicit_reaped: false
+      reused: false

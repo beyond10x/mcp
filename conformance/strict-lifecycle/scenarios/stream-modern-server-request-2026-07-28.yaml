@@ -1,0 +1,24 @@
+type: ess-scenario/4
+domain: mcp.strict_stream_checks
+scenario: stream-modern-server-request-2026-07-28
+summary: Actual stream-modern-server-request under configured 2026-07-28.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_stream_checks.ObserveStream
+    input: {case: stream-modern-server-request, revision: "2026-07-28"}
+    outcome: observed
+    response:
+      kind: "refused"
+      reason: "invalid_response"
+      setup_reason: "absent"
+      requests: 2
+      replies: 0
+      messages: 0
+      notifications: 0
+      disposition: "absent"
+      side_refusal: "absent"
+      id_agreement: true
+      header_agreement: true
+      retained_bound: true
+      own_payload: false
+

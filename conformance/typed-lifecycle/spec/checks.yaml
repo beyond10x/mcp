@@ -1,0 +1,46 @@
+domain: mcp.typed_lifecycle_checks
+summary: Actual typed invocation and discovery cancellation preserves phase, process and HTTP observations.
+types:
+  - name: mcp.typed_lifecycle_checks.Case
+    kind: enum
+    variants: [worker-input, worker-preflight, worker-output, worker-retained, worker-drop, worker-output-bound, tool-wire, resource-wire, prompt-wire, resource-timeout-wire, tool-expired-teardown, discovery-first, discovery-later, discovery-timeout-later, discovery-drop-refresh]
+  - name: mcp.typed_lifecycle_checks.Revision
+    kind: enum
+    variants: ["2025-11-25", "2026-07-28"]
+commands:
+  - name: mcp.typed_lifecycle_checks.ObserveTypedLifecycle
+    input:
+      - {name: case, type: mcp.typed_lifecycle_checks.Case}
+      - {name: revision, type: mcp.typed_lifecycle_checks.Revision}
+    response:
+      - {name: kind, type: String}
+      - {name: phase, type: String}
+      - {name: cause, type: String}
+      - {name: reason, type: String}
+      - {name: worker_state, type: String}
+      - {name: worker_kill, type: String}
+      - {name: attempted, type: Boolean}
+      - {name: control_reason, type: String}
+      - {name: business_calls, type: Integer}
+      - {name: list_calls, type: Integer}
+      - {name: notifications, type: Integer}
+      - {name: closed, type: Integer}
+      - {name: catalog_items, type: Integer}
+      - {name: prior_pages, type: Integer}
+      - {name: exchange_retained, type: Boolean}
+      - {name: body_preserved, type: Boolean}
+      - {name: id_agreement, type: Boolean}
+      - {name: protocol_agreement, type: Boolean}
+      - {name: worker_gone, type: Boolean}
+      - {name: reuse_refused, type: Boolean}
+      - {name: explicit_reaped, type: Boolean}
+    outcomes:
+      - {name: observed, returns: true}
+    # The target runs the public typed client over actual HTTP and Rust children.
+    # Child PID barriers select the phase; /proc and actual wait results establish
+    # cleanup. Socket reads observe closure. Dropping a future yields no runtime
+    # result; dropped names only the fixture action. Catalogs are read back from
+    # the client, and reuse attempts execute against it rather than target flags.
+    # attempted admits unknown and send_observed: a peer writing headers is not
+    # proof the client observed them before its cancellation boundary. Neither
+    # state is a not_sent observation. Request effects remain unknown.

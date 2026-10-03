@@ -1,0 +1,273 @@
+domain: mcp.http_lifecycle
+summary: Revision-specific HTTP progress, control-message and shutdown observations.
+
+# Authority: Connectors client/v1alpha1/semantics.md sections7–11 at af8aefad;
+# archived upstream2026-07-28 at5f5440bb and2025-11-25 at38c84e9f.
+# These are immutable observations, never persisted requests, capabilities,
+# credentials or a way to manufacture a runtime cancellation handle.
+types:
+  - name: mcp.http_lifecycle.InvocationPhase
+    kind: enum
+    variants: [admission, input_validation, output_preflight, dispatch, output_validation]
+  - name: mcp.http_lifecycle.InvocationInterruption
+    kind: struct
+    fields:
+      - {name: cause, type: mcp.http_lifecycle.StopCause}
+      - {name: phase, type: mcp.http_lifecycle.InvocationPhase}
+      - {name: worker, type: "Optional<mcp.http_lifecycle.WorkerCleanup>"}
+      - {name: cancellation, type: "Optional<mcp.http_lifecycle.CancellationObservation>"}
+      - {name: exchange, type: "Optional<mcp.http_exchange.ExchangeResult>"}
+    # L12: awaited interruption uses caller_cancelled/deadline_exhausted only.
+    # Before an HTTP exchange is prepared there is no request ID or fabricated
+    # HTTP exchange. An actually prepared request can truthfully remain not_sent.
+    # A worker interruption carries its actual cleanup. After a business response,
+    # output-validation interruption preserves that exchange and sends no new
+    # cancellation notification for an already-terminal request. A dispatch stop
+    # carries the connection's actual cancellation observation. It never means
+    # business failure, rollback, or completion of validation that did not finish.
+  - name: mcp.http_lifecycle.ControlledInvocationRefusal
+    kind: struct
+    fields:
+      - {name: refusal, type: mcp.http_invocation.Refusal}
+      - {name: phase, type: mcp.http_lifecycle.InvocationPhase}
+      - {name: worker, type: "Optional<mcp.http_lifecycle.WorkerCleanup>"}
+    # Worker execution/IPC refusal must not discard retained child ownership.
+    # Ordinary semantic schema mismatches carry the existing invocation reason.
+  - name: mcp.http_lifecycle.ControlledToolResult
+    kind: union
+    tag: kind
+    variants:
+      completed: mcp.http_invocation.ToolResult
+      interrupted: mcp.http_lifecycle.InvocationInterruption
+      refused: mcp.http_lifecycle.ControlledInvocationRefusal
+  - name: mcp.http_lifecycle.ControlledResourceResult
+    kind: union
+    tag: kind
+    variants:
+      completed: mcp.http_invocation.ResourceResult
+      interrupted: mcp.http_lifecycle.InvocationInterruption
+      refused: mcp.http_lifecycle.ControlledInvocationRefusal
+  - name: mcp.http_lifecycle.ControlledPromptResult
+    kind: union
+    tag: kind
+    variants:
+      completed: mcp.http_invocation.PromptResult
+      interrupted: mcp.http_lifecycle.InvocationInterruption
+      refused: mcp.http_lifecycle.ControlledInvocationRefusal
+  - name: mcp.http_lifecycle.DiscoveryInterruption
+    kind: struct
+    fields:
+      - {name: cause, type: mcp.http_lifecycle.StopCause}
+      - {name: exchanges, type: "List<mcp.http_exchange.ExchangeResult>"}
+      - {name: cancellation, type: "Optional<mcp.http_lifecycle.CancellationObservation>"}
+    # L13: exchanges are the completed attempts preceding this stop, not an admitted
+    # catalog prefix. A stop between pages has no new request identity. A stop in
+    # an attempted page carries its actual cancellation observation separately.
+    # Cancellation is checked before each page; an already observed final page
+    # is not erased by a later signal. One fixed traversal deadline and one fixed
+    # capped teardown deadline cover the whole traversal, never reset per page.
+  - name: mcp.http_lifecycle.ControlledDiscoveryResult
+    kind: union
+    tag: kind
+    variants:
+      completed: mcp.http_discovery.Catalog
+      interrupted: mcp.http_lifecycle.DiscoveryInterruption
+      refused: mcp.http_discovery.Refusal
+    # L14: InvocationClient invalidates its old selected-family catalog before
+    # any controlled refresh, including before a local stop or a dropped future.
+    # Only completed discovery can replace it. Projection of modern parameter
+    # headers and exclusion of invalid annotations are identical to raw discovery.
+    # Opaque peer values are moved directly through generated carriers, not decoded
+    # again through serde's private-number representation. No new consumer authority.
+  - name: mcp.http_lifecycle.WorkerCleanupState
+    kind: enum
+    variants: [no_child, reaped, retained]
+  - name: mcp.http_lifecycle.WorkerKillObservation
+    kind: enum
+    variants: [not_attempted, requested, failed]
+  - name: mcp.http_lifecycle.WorkerCleanupFailure
+    kind: enum
+    variants: [deadline_exhausted, wait_failed]
+  - name: mcp.http_lifecycle.WorkerCleanup
+    kind: struct
+    fields:
+      - {name: state, type: mcp.http_lifecycle.WorkerCleanupState}
+      - {name: kill, type: mcp.http_lifecycle.WorkerKillObservation}
+      - {name: failure, type: "Optional<mcp.http_lifecycle.WorkerCleanupFailure>"}
+    # L11: reaped requires an actual successful child wait; requesting kill is
+    # not proof of exit or reap. A retained child stays owned and prevents reuse
+    # until a subsequent explicit bounded reap succeeds. No_child means no child
+    # is owned by this cleanup, not a fictional completed process. Expired teardown
+    # initiates nonblocking kill but does not await beyond its absolute deadline.
+    # Dropping a controlled future initiates kill and retains the child handle;
+    # dropping the worker can only offer kill-on-drop, never an observed barrier.
+  - name: mcp.http_lifecycle.WorkerInterruption
+    kind: struct
+    fields:
+      - {name: cause, type: mcp.http_lifecycle.StopCause}
+      - {name: cleanup, type: mcp.http_lifecycle.WorkerCleanup}
+    # Only caller_cancelled/deadline_exhausted are returned by awaited execution.
+  - name: mcp.http_lifecycle.WorkerRefusal
+    kind: struct
+    fields:
+      - {name: reason, type: mcp.http_invocation.RefusalReason}
+      - {name: cleanup, type: mcp.http_lifecycle.WorkerCleanup}
+    # Invalid input/spawn failures own no child. IPC/exit failures retain actual
+    # cleanup evidence. An earlier retained child refuses reuse as unavailable.
+  - name: mcp.http_lifecycle.ControlledSchemaResult
+    kind: union
+    tag: kind
+    variants:
+      completed: mcp.http_invocation.SchemaReply
+      interrupted: mcp.http_lifecycle.WorkerInterruption
+      refused: mcp.http_lifecycle.WorkerRefusal
+    # A completed reply requires bounded complete IPC and an observed successful
+    # process exit. Cancellation/operation expiry has an independent caller-owned
+    # teardown deadline. Before dispatch, worker interruption is not a peer call;
+    # after a peer response, it cannot erase that already observed HTTP exchange.
+  - name: mcp.http_lifecycle.ControlledExchange
+    kind: union
+    tag: kind
+    variants:
+      finished: mcp.http_exchange.ExchangeResult
+      cancelled: mcp.http_lifecycle.CancellationObservation
+    # L10: an explicit runtime signal and caller-supplied teardown deadline are
+    # ports, not serializable authority. Local cancellation before send retains
+    # not_sent and sends no cancellation notification. After an attempted send,
+    # legacy attempts exactly one bounded notification; modern only closes.
+    # A terminal already observed wins over later cancellation during side I/O.
+    # If cancellation is ready at the next I/O boundary, it wins over unread
+    # bytes. No speculative reading, fabricated late reply or automatic retry.
+    # Existing raw exchange APIs retain their behavior; this result belongs to
+    # the explicit controlled entry point. A control failure never means rollback.
+    # Interrupted body/stream bytes and the cancellation acknowledgement consume
+    # one response ceiling; the notification gets only the remaining allowance.
+  - name: mcp.http_lifecycle.StreamObservation
+    kind: struct
+    fields:
+      - {name: messages, type: "List<mcp.http_lifecycle.StreamMessage>"}
+    # L8: actual message order and separate control responses are retained in
+    # the originating exchange, including its failure paths. Cumulative retained
+    # message bytes, control response bytes and final response together consume
+    # the existing response ceiling. Exhaustion refuses without silent eviction.
+    # Framing retains its independent per-event bound. No stream resumption.
+    # L9: control I/O cannot block observing the original terminal. Controls and
+    # the original receiver share an atomic retention allowance; each separate
+    # request future is owned by the exchange and shares its deadline. Unfinished
+    # control futures are dropped before return or when the exchange is dropped.
+    # A delayed control acknowledgement does not turn an already observed valid
+    # business result into an unknown outcome. A control overflow still refuses
+    # the overall bounded exchange, preserving any observed business terminal.
+  - name: mcp.http_lifecycle.StreamMessage
+    kind: union
+    tag: kind
+    variants:
+      notification: mcp.http_exchange.WireObservation
+      progress: mcp.http_lifecycle.ProgressObservation
+      server_request: mcp.http_lifecycle.ServerRequestObservation
+  - name: mcp.http_lifecycle.ServerRequestObservation
+    kind: struct
+    fields:
+      - {name: request, type: mcp.http_exchange.WireObservation}
+      - {name: reply, type: mcp.http_lifecycle.ControlObservation}
+    # Received request and the observation of its one separate reply attempt.
+    # Legacy initialization may receive ping before its final result. A session
+    # header must pass the configured header bound and syntax/uniqueness checks
+    # before a reply echoes it. Modern requests get no reply and stay refused.
+  - name: mcp.http_lifecycle.ProgressDisposition
+    kind: enum
+    variants: [accepted, unmatched_token, non_increasing]
+  - name: mcp.http_lifecycle.ProgressObservation
+    kind: struct
+    fields:
+      - {name: token, type: mcp.http_exchange.RequestId}
+      - {name: progress, type: Json}
+      - {name: total, type: "Optional<Json>"}
+      - {name: message, type: "Optional<String>"}
+      - {name: disposition, type: mcp.http_lifecycle.ProgressDisposition}
+      - {name: exchange, type: mcp.http_exchange.WireObservation}
+    # L1: progress/total must be actual JSON numbers, preserved without f64
+    # coercion. A token must match an explicitly opted-in active request. Unknown
+    # tokens are retained as unmatched observations, never related progress.
+    # Both pinned upstream revisions require strictly increasing progress;
+    # the authored non-decreasing display rule does not license equal updates.
+    # A non-increasing notification is recorded and refused, not promoted.
+    # Opt-in is params._meta.progressToken with a string/integer value. Invalid
+    # metadata/token refuses before send. Malformed progress/total/message fields
+    # refuse invalid_response with the bounded original message retained. Numeric
+    # comparison is exact even for equivalent spellings and extreme exponents.
+    # message is untrusted server text. A progress observation proves no result.
+    # L2: all retained nonterminal message bytes count against the response
+    # ceiling; overflow refuses without silent eviction or unbounded history.
+    # Event framing keeps its separate existing ceiling. Progress never extends
+    # the absolute operation deadline in this selected client profile.
+
+  - name: mcp.http_lifecycle.ControlKind
+    kind: enum
+    variants: [ping_reply, unsupported_request_reply, cancellation_notification, session_delete]
+  - name: mcp.http_lifecycle.ControlDisposition
+    kind: enum
+    variants: [accepted, delete_not_allowed, refused]
+  - name: mcp.http_lifecycle.ControlObservation
+    kind: struct
+    fields:
+      - {name: control, type: mcp.http_lifecycle.ControlKind}
+      - {name: disposition, type: mcp.http_lifecycle.ControlDisposition}
+      - {name: exchange, type: mcp.http_exchange.WireObservation}
+      - {name: refusal, type: "Optional<mcp.http_exchange.RefusalReason>"}
+    # L3: accepted requires an actual response: empty202 for a notification or
+    # JSON-RPC reply POST, 2xx for DELETE. Only DELETE permits405, represented
+    # separately. A refused observation carries the local named refusal.
+    # No control observation is a correlated business terminal. Retain bounded
+    # exact reply bytes including failure bodies; headers/credentials stay out.
+    # L4: legacy controls use the admitted endpoint, session and non-protocol
+    # credentials. Each is one separate request without redirects/retry. Modern
+    # never sends these legacy messages or DELETE. A server request on a modern
+    # SSE stream is refused without answering. Legacy answers ping with{}, and
+    # unadvertised methods with JSON-RPC method-not-found, preserving original id.
+
+  - name: mcp.http_lifecycle.StopCause
+    kind: enum
+    variants: [caller_cancelled, deadline_exhausted, shutdown, future_dropped]
+  - name: mcp.http_lifecycle.InterruptedRequest
+    kind: struct
+    fields:
+      - {name: request_id, type: mcp.http_exchange.RequestId}
+      - {name: cause, type: mcp.http_lifecycle.StopCause}
+      - {name: exchange, type: "Optional<mcp.http_exchange.ExchangeObservation>"}
+    # L5: interruption never proves rollback or business failure. Remote effects
+    # stay unknown after an attempted send; actual not_sent remains distinct.
+    # Absent exchange means an abandoned future yielded no
+    # observation to the handle; it does not mean not_sent. At most one exchange
+    # runs per exclusive mutable handle. A dropped exchange invalidates reuse
+    # until shutdown, so another request cannot overwrite its pending identity.
+
+  - name: mcp.http_lifecycle.CancellationObservation
+    kind: struct
+    fields:
+      - {name: interrupted, type: mcp.http_lifecycle.InterruptedRequest}
+      - {name: notification, type: "Optional<mcp.http_lifecycle.ControlObservation>"}
+      - {name: late_response, type: "Optional<mcp.http_exchange.ExchangeObservation>"}
+    # L6: modern closes its owned stream; legacy sends notifications/cancelled
+    # except for initialize. A failed attempt is not a sent cancellation claim.
+    # Whichever terminal/completion is actually observed first decides the race.
+    # Only an actually observed late response is recorded; it never becomes a
+    # successful request result. No additional read or redispatch is implied.
+    # An awaited teardown has its own caller-supplied absolute deadline, separate
+    # from the expired operation deadline, capped by existing provider/execution
+    # limits. This permits a bounded legacy notification after operation expiry
+    # without falsely extending the operation or claiming an instantaneous send.
+
+  - name: mcp.http_lifecycle.ShutdownObservation
+    kind: struct
+    fields:
+      - {name: interrupted, type: "Optional<mcp.http_lifecycle.InterruptedRequest>"}
+      - {name: deletion, type: "Optional<mcp.http_lifecycle.ControlObservation>"}
+    # L7: consuming the runtime handle closes its owned streams/pool. A live
+    # borrowed exchange cannot race shutdown. A previously abandoned future's
+    # identity is retained above, with unknown effects; no fictional completion.
+    # A session-bearing legacy handle attempts DELETE once within the explicit
+    # teardown deadline. Expired deadline records not_sent/deadline_exhausted.
+    # Modern/sessionless legacy emits no DELETE. No session value is returned.
+    # Caller-owned setup inputs and credentials are neither changed nor revoked;
+    # a new connection requires fresh setup, not reuse of the consumed session.

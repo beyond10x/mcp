@@ -1,0 +1,24 @@
+type: ess-scenario/4
+domain: mcp.strict_stream_checks
+scenario: stream-total-bound-2025-11-25
+summary: Actual stream-total-bound under configured 2025-11-25.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_stream_checks.ObserveStream
+    input: {case: stream-total-bound, revision: "2025-11-25"}
+    outcome: observed
+    response:
+      kind: "refused"
+      reason: "response_bound"
+      setup_reason: "absent"
+      requests: 3
+      replies: 0
+      messages: 2
+      notifications: 2
+      disposition: "absent"
+      side_refusal: "absent"
+      id_agreement: true
+      header_agreement: true
+      retained_bound: true
+      own_payload: false
+

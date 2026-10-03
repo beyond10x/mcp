@@ -1,0 +1,31 @@
+domain: mcp.schema_lifecycle_checks
+summary: Real schema-worker child ownership, bounded cancellation and observed process reap.
+types:
+  - name: mcp.schema_lifecycle_checks.Case
+    kind: enum
+    variants: [complete, real, caller, timeout, expired-teardown, drop, overflow, overflow-retained, invalid-reply, exit-failure, before-start, expired-operation, input-bound, spawn-failure]
+commands:
+  - name: mcp.schema_lifecycle_checks.ObserveWorker
+    input:
+      - {name: case, type: mcp.schema_lifecycle_checks.Case}
+    response:
+      - {name: kind, type: String}
+      - {name: status, type: String}
+      - {name: cause, type: String}
+      - {name: reason, type: String}
+      - {name: state, type: String}
+      - {name: kill, type: String}
+      - {name: failure, type: String}
+      - {name: pid_recorded, type: Boolean}
+      - {name: process_gone, type: Boolean}
+      - {name: within_budget, type: Boolean}
+      - {name: reuse_refused, type: Boolean}
+      - {name: raw_reuse_refused, type: Boolean}
+      - {name: explicit_reaped, type: Boolean}
+      - {name: reused, type: Boolean}
+    outcomes:
+      - {name: observed, returns: true}
+    # The target records the actual worker PID and checks /proc after bounded
+    # cleanup; pid_recorded is not a claim that absent PID means no spawn.
+    # Retained cases try both public APIs, explicitly reap and then retry.
+    # Future drop returns no runtime outcome; dropped names the fixture action.

@@ -1,0 +1,33 @@
+domain: mcp.strict_cancel_checks
+summary: Explicit HTTP cancellation, separate bounded teardown and observed terminal precedence.
+types:
+  - name: mcp.strict_cancel_checks.Case
+    kind: enum
+    variants: [cancel-caller, cancel-timeout, cancel-before-send, cancel-before-headers, cancel-late, cancel-reuse, cancel-initialize, cancel-completed, cancel-notification-failure, cancel-notification-body, cancel-notification-bound, cancel-notification-timeout, cancel-teardown-expired, cancel-control, cancel-control-bound, cancel-terminal-race]
+  - name: mcp.strict_cancel_checks.Revision
+    kind: enum
+    variants: ["2025-11-25", "2026-07-28"]
+commands:
+  - name: mcp.strict_cancel_checks.ObserveCancellation
+    input:
+      - {name: case, type: mcp.strict_cancel_checks.Case}
+      - {name: revision, type: mcp.strict_cancel_checks.Revision}
+    response:
+      - {name: kind, type: String}
+      - {name: cause, type: String}
+      - {name: controls, type: Integer}
+      - {name: requests, type: Integer}
+      - {name: notification, type: String}
+      - {name: control_reason, type: String}
+      - {name: late_observed, type: Boolean}
+      - {name: id_agreement, type: Boolean}
+      - {name: header_agreement, type: Boolean}
+      - {name: within_budget, type: Boolean}
+      - {name: refused_input, type: Boolean}
+      - {name: reused, type: Boolean}
+    outcomes:
+      - {name: observed, returns: true}
+    # The peer captures every request and awaits actual socket closure. No
+    # cancellation acknowledgement proves remote rollback or operation failure.
+    # Late bytes offered after cancellation are not claimed observed. A terminal
+    # actually parsed before side I/O cancellation remains the original result.

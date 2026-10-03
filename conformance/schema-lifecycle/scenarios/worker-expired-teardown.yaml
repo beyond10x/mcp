@@ -1,0 +1,24 @@
+type: ess-scenario/4
+domain: mcp.schema_lifecycle_checks
+scenario: worker-expired-teardown
+summary: Actual worker expired-teardown, explicit cleanup and OS process observations.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.schema_lifecycle_checks.ObserveWorker
+    input: {case: expired-teardown}
+    outcome: observed
+    response:
+      kind: "interrupted"
+      status: "absent"
+      cause: "caller_cancelled"
+      reason: "absent"
+      state: "retained"
+      kill: "requested"
+      failure: "deadline_exhausted"
+      pid_recorded: true
+      process_gone: true
+      within_budget: true
+      reuse_refused: true
+      raw_reuse_refused: true
+      explicit_reaped: true
+      reused: true

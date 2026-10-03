@@ -1,0 +1,24 @@
+type: ess-scenario/4
+domain: mcp.strict_stream_checks
+scenario: stream-notifications-2026-07-28
+summary: Actual stream-notifications under configured 2026-07-28.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_stream_checks.ObserveStream
+    input: {case: stream-notifications, revision: "2026-07-28"}
+    outcome: observed
+    response:
+      kind: "result"
+      reason: "absent"
+      setup_reason: "absent"
+      requests: 2
+      replies: 0
+      messages: 1
+      notifications: 1
+      disposition: "absent"
+      side_refusal: "absent"
+      id_agreement: true
+      header_agreement: true
+      retained_bound: true
+      own_payload: true
+

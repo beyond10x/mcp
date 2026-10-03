@@ -7,7 +7,7 @@ license.workspace = true
 repository.workspace = true
 
 [features]
-strict-http = ["dep:base64", "dep:serde", "dep:clap", "dep:jsonschema", "b10x-mcp-types/strict-http", "serde_json/raw_value"]
+strict-http = ["dep:base64", "dep:futures", "dep:num-bigint", "dep:serde", "dep:clap", "dep:jsonschema", "b10x-mcp-types/strict-http", "serde_json/raw_value"]
 # Explicit test-only adversarial worker, never needed by an embedding consumer.
 test-schema-worker = ["strict-http"]
 
@@ -24,9 +24,11 @@ required-features = ["test-schema-worker"]
 [dependencies]
 b10x-mcp-types.workspace = true
 base64 = { workspace = true, optional = true }
+futures = { workspace = true, optional = true }
 http.workspace = true
 clap = { workspace = true, optional = true }
 jsonschema = { workspace = true, optional = true }
+num-bigint = { workspace = true, optional = true }
 reqwest.workspace = true
 rmcp = { workspace = true, features = ["client", "transport-child-process", "transport-streamable-http-client-reqwest"] }
 serde_json.workspace = true

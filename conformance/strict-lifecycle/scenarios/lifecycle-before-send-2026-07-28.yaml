@@ -1,0 +1,22 @@
+type: ess-scenario/4
+domain: mcp.strict_cancel_checks
+scenario: lifecycle-before-send-2026-07-28
+summary: Actual before-send cancellation under configured 2026-07-28.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_cancel_checks.ObserveCancellation
+    input: {case: cancel-before-send, revision: "2026-07-28"}
+    outcome: observed
+    response:
+      kind: "cancelled"
+      cause: "caller_cancelled"
+      controls: 0
+      requests: 1
+      notification: "absent"
+      control_reason: "absent"
+      late_observed: false
+      id_agreement: true
+      header_agreement: true
+      within_budget: true
+      refused_input: false
+      reused: false

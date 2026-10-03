@@ -6,6 +6,46 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Explicit `shutdown` on strict connections and invocation clients closes the
+  owned pool and attempts one bounded DELETE for a legacy session. Modern and
+  sessionless connections send no DELETE;405 is retained as permitted. Control
+  failures preserve bounded response bytes and never trigger retries. Dropped
+  exchanges retain their request identity as an unknown outcome and require
+  shutdown before fresh setup. Caller-owned configuration remains reusable.
+- Strict connections retain bounded, ordered SSE observations in each exchange.
+  Legacy ping and unsupported server requests receive separate JSON-RPC reply
+  POSTs, including initialization-time ping with validated session headers.
+  Modern server requests are refused without answering. Control acknowledgements
+  and the original response are received concurrently under one byte budget;
+  a delayed acknowledgement cannot hide an already observed business terminal.
+  Bare CR event delimiters dispatch promptly, and empty legacy priming events
+  are ignored without opening a resumed stream. The exchange owns pending control
+  futures directly and drops them on deadline or when the exchange is dropped.
+- Strict connections observe progress when the caller explicitly supplies
+  `params._meta.progressToken`. Values and optional totals retain exact numbers,
+  including extreme exponents; accepted updates must strictly increase. Unknown
+  tokens are retained without attribution, malformed fields refuse, and progress
+  shares the response byte budget without extending the operation deadline.
+- `StrictConnection::exchange_cancellable` accepts a local cancellation signal and
+  a separate bounded teardown deadline. Modern closes its stream; legacy attempts
+  one cancellation notification after an attempted send. Interrupted observations,
+  notification failures and prior terminals are preserved without claiming rollback.
+  A new `caller_cancelled` refusal distinguishes interrupted side I/O from timeout.
+  Existing raw exchanges retain their original timeout behavior.
+- `SchemaWorker::run_cancellable` accepts explicit cancellation and independent
+  operation and teardown deadlines. Awaited cleanup reports no child, an observed
+  reap, or retained ownership. An expired teardown requests termination and retains
+  the child; both execution APIs refuse reuse until `reap_pending` observes exit.
+  Dropping a controlled future requests termination and retains that handle.
+  Dropping the worker itself offers kill-on-drop without an observed reap barrier.
+  The original `run` API retains its existing cleanup behavior.
+- Controlled tool, resource and prompt methods retain the phase and actual
+  worker/HTTP observations when cancelled. Stopped output validation preserves
+  the business response and sends no cancellation notification for that terminal.
+  Parameter headers, catalog admission and result parsing use the existing checks.
+  `InvocationClient::reap_schema_worker` exposes bounded explicit worker cleanup.
+  Controlled discovery retains completed page observations without promoting a
+  partial catalog. A cancelled or dropped refresh invalidates the previous catalog.
 - `strict_invocation::InvocationClient` obtains private same-connection catalogs
   and exposes typed tool, resource and prompt results. It preserves content and
   opaque fields, validates schema semantics offline in a bounded Rust worker,

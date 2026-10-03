@@ -98,6 +98,68 @@ dialects or external references refuse before business dispatch. Awaited failure
 kill and reap the worker; dropping the future initiates termination without an
 observed reap barrier. This internal validator does not select MCP stdio ownership.
 
+For directly controlled validation, `SchemaWorker::run_cancellable` takes a
+`Cancellation` signal plus separate absolute operation and teardown deadlines.
+The returned observation distinguishes an actual reap from a kill request.
+If teardown expires, the worker retains the child and refuses both execution APIs
+until `reap_pending(deadline)` successfully waits for exit. Dropping the controlled
+future also requests termination and retains ownership for that explicit reap.
+Dropping the worker itself supplies no observed exit barrier. The original `run`
+API retains its existing cleanup behavior.
+
+The `conformance/schema-lifecycle` suite executes actual child processes on Linux
+with `test-schema-worker` enabled, including `/proc` checks after reaping. The
+repository's Linux gate enables all features and verifies its 15-case inventory.
+Other platform/feature combinations do not execute this OS-specific selection;
+the strict HTTP lifecycle suite remains independent of that fixture feature.
+
+Await `shutdown(teardown_deadline)` on the strict connection or invocation client
+to consume the handle and close its pool. A legacy session receives one DELETE
+attempt;405 is permitted and other failures retain bounded observations. Modern
+and sessionless connections send no DELETE. The explicit teardown deadline is
+capped by the existing execution/provider limits and does not extend a business
+operation's deadline. Dropping an exchange closes its local stream but proves no
+legacy cancellation or rollback. The handle then refuses another exchange until
+shutdown, retaining the abandoned request ID with unknown effects. Reconnect from
+the caller's unchanged configuration. Strict connections retain ordered SSE
+messages and separate control observations under `exchange.observation.stream`.
+Legacy ping receives an empty result POST; unadvertised server methods receive
+method-not-found. Modern server requests are refused. Shared byte limits cover
+the original response and all retained messages/control bodies. Control I/O runs
+concurrently within the exchange future under the same deadline; pending control
+futures are dropped before return or when the exchange is dropped. An earlier business
+terminal survives a delayed control acknowledgement. To opt into progress on a
+strict connection, supply a string or integer `params._meta.progressToken`.
+Ordered progress observations retain exact numbers and untrusted server text.
+Unknown tokens remain unmatched; equal or decreasing matched values refuse.
+Progress shares the response byte budget and never extends the deadline or
+becomes a business result.
+
+`StrictConnection::exchange_cancellable` takes an explicit `Cancellation` signal
+and a separate absolute teardown deadline. Await it to observe either a finished
+exchange or cancellation. Modern closes its stream; legacy attempts one
+`notifications/cancelled` POST after an attempted business send. The notification
+uses only the remaining response-byte allowance. Its acknowledgement proves no
+remote rollback. An already observed terminal wins over later cancellation during
+side I/O. Unread late bytes are not reported as observed. Raw `exchange` retains
+its existing timeout behavior.
+
+`InvocationClient` exposes `call_tool_cancellable`, `read_resource_cancellable`,
+`get_prompt_cancellable` and `discover_cancellable` with the same explicit signal
+and separate absolute teardown deadline. Typed interruptions name the phase and
+retain actual worker or HTTP observations. Stopping output validation after a
+business response preserves that response without sending a new cancellation
+notification for it. Discovery interruption keeps prior page observations but
+returns no partial catalog. A refresh invalidates the old selected-family catalog
+before awaiting any I/O, including when the refresh future is later dropped.
+
+Use `reap_schema_worker(deadline)` to observe exit of a retained schema child
+through the owning invocation client. Await this before consuming `shutdown` when
+an observed worker-exit barrier is required; `shutdown` closes the HTTP connection,
+and dropping the worker itself only initiates termination. A dropped HTTP exchange
+still requires shutdown and fresh setup. Repeated cancellation uses one monotonic
+signal; explicitly start a fresh signal for a subsequent operation.
+
 The caller supplies authority and network policy;
 the builder must contain no hidden MCP protocol/session/routing header defaults.
 The existing tools-only constructors retain their separate compatibility behavior.

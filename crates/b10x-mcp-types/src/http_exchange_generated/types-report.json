@@ -1,12 +1,12 @@
 {
   "format": "ess-types-report/3",
-  "source_digest": "ca711843b62e4e6084550df5c3568bb197e39cadab6b4d640596ae75d5fe0a8c",
+  "source_digest": "c1f181662788bb5555f1507744507934baadf6431d0d0b49e5e11dde8a1607a8",
   "input": {
     "kind": "model",
     "system": "mcp",
     "specification_version": "v1",
-    "contract_digest": "slice-sha256/2:5e36ec9ca99dfa747d00c29173bb879ef61769a33896ff0095a16b52c8a30bb9",
-    "projection_digest": "133a915ce372c5ffa7ce8893d71e5d947c9af2d1dfa3e8fcdfeeac87da71c995"
+    "contract_digest": "slice-sha256/2:8b62180e010aef5d8d3c07c1ed0355411c7ed7c2e0b9216f454ca06f3c76ef80",
+    "projection_digest": "c60a8292bd034d1259ba20447d5b3d2f379cdf6af8106651c2c3e64ecfe5fb68"
   },
   "generator_version": "0.50.0",
   "target": "rust",
@@ -30,7 +30,16 @@
     "mcp.http_invocation.ResourceResult",
     "mcp.http_invocation.SchemaReply",
     "mcp.http_invocation.SchemaRequest",
-    "mcp.http_invocation.ToolResult"
+    "mcp.http_invocation.ToolResult",
+    "mcp.http_lifecycle.CancellationObservation",
+    "mcp.http_lifecycle.ControlledDiscoveryResult",
+    "mcp.http_lifecycle.ControlledExchange",
+    "mcp.http_lifecycle.ControlledPromptResult",
+    "mcp.http_lifecycle.ControlledResourceResult",
+    "mcp.http_lifecycle.ControlledSchemaResult",
+    "mcp.http_lifecycle.ControlledToolResult",
+    "mcp.http_lifecycle.ProgressObservation",
+    "mcp.http_lifecycle.ShutdownObservation"
   ],
   "declarations": {
     "mcp.http_connection.CacheHints": "McpHttpConnectionCacheHints",
@@ -65,6 +74,7 @@
     "mcp.http_exchange.RefusalReason": "McpHttpExchangeRefusalReason",
     "mcp.http_exchange.RefusedExchange": "McpHttpExchangeRefusedExchange",
     "mcp.http_exchange.RequestId": "McpHttpExchangeRequestId",
+    "mcp.http_exchange.WireObservation": "McpHttpExchangeWireObservation",
     "mcp.http_invocation.BinaryContent": "McpHttpInvocationBinaryContent",
     "mcp.http_invocation.Content": "McpHttpInvocationContent",
     "mcp.http_invocation.EmbeddedResource": "McpHttpInvocationEmbeddedResource",
@@ -86,6 +96,34 @@
     "mcp.http_invocation.SchemaStatus": "McpHttpInvocationSchemaStatus",
     "mcp.http_invocation.TextContent": "McpHttpInvocationTextContent",
     "mcp.http_invocation.ToolResult": "McpHttpInvocationToolResult",
+    "mcp.http_lifecycle.CancellationObservation": "McpHttpLifecycleCancellationObservation",
+    "mcp.http_lifecycle.ControlDisposition": "McpHttpLifecycleControlDisposition",
+    "mcp.http_lifecycle.ControlKind": "McpHttpLifecycleControlKind",
+    "mcp.http_lifecycle.ControlObservation": "McpHttpLifecycleControlObservation",
+    "mcp.http_lifecycle.ControlledDiscoveryResult": "McpHttpLifecycleControlledDiscoveryResult",
+    "mcp.http_lifecycle.ControlledExchange": "McpHttpLifecycleControlledExchange",
+    "mcp.http_lifecycle.ControlledInvocationRefusal": "McpHttpLifecycleControlledInvocationRefusal",
+    "mcp.http_lifecycle.ControlledPromptResult": "McpHttpLifecycleControlledPromptResult",
+    "mcp.http_lifecycle.ControlledResourceResult": "McpHttpLifecycleControlledResourceResult",
+    "mcp.http_lifecycle.ControlledSchemaResult": "McpHttpLifecycleControlledSchemaResult",
+    "mcp.http_lifecycle.ControlledToolResult": "McpHttpLifecycleControlledToolResult",
+    "mcp.http_lifecycle.DiscoveryInterruption": "McpHttpLifecycleDiscoveryInterruption",
+    "mcp.http_lifecycle.InterruptedRequest": "McpHttpLifecycleInterruptedRequest",
+    "mcp.http_lifecycle.InvocationInterruption": "McpHttpLifecycleInvocationInterruption",
+    "mcp.http_lifecycle.InvocationPhase": "McpHttpLifecycleInvocationPhase",
+    "mcp.http_lifecycle.ProgressDisposition": "McpHttpLifecycleProgressDisposition",
+    "mcp.http_lifecycle.ProgressObservation": "McpHttpLifecycleProgressObservation",
+    "mcp.http_lifecycle.ServerRequestObservation": "McpHttpLifecycleServerRequestObservation",
+    "mcp.http_lifecycle.ShutdownObservation": "McpHttpLifecycleShutdownObservation",
+    "mcp.http_lifecycle.StopCause": "McpHttpLifecycleStopCause",
+    "mcp.http_lifecycle.StreamMessage": "McpHttpLifecycleStreamMessage",
+    "mcp.http_lifecycle.StreamObservation": "McpHttpLifecycleStreamObservation",
+    "mcp.http_lifecycle.WorkerCleanup": "McpHttpLifecycleWorkerCleanup",
+    "mcp.http_lifecycle.WorkerCleanupFailure": "McpHttpLifecycleWorkerCleanupFailure",
+    "mcp.http_lifecycle.WorkerCleanupState": "McpHttpLifecycleWorkerCleanupState",
+    "mcp.http_lifecycle.WorkerInterruption": "McpHttpLifecycleWorkerInterruption",
+    "mcp.http_lifecycle.WorkerKillObservation": "McpHttpLifecycleWorkerKillObservation",
+    "mcp.http_lifecycle.WorkerRefusal": "McpHttpLifecycleWorkerRefusal",
     "mcp.http_observations.AbsentPeerData": "McpHttpObservationsAbsentPeerData",
     "mcp.http_observations.BoundedWireBytes": "McpHttpObservationsBoundedWireBytes",
     "mcp.http_observations.MessageLength": "McpHttpObservationsMessageLength",
@@ -640,6 +678,21 @@
       "detail": "model identity and wire mapping retained in source.schema.json"
     },
     {
+      "pointer": "/$defs/mcp.http_exchange.WireObservation/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_exchange.WireObservation/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_exchange.WireObservation/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
       "pointer": "/$defs/mcp.http_invocation.BinaryContent/properties/data/contentEncoding",
       "rule": "contentEncoding",
       "detail": "retained in source.schema.json; no decoder behavior inferred"
@@ -995,6 +1048,561 @@
       "detail": "model identity and wire mapping retained in source.schema.json"
     },
     {
+      "pointer": "/$defs/mcp.http_lifecycle.CancellationObservation/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.CancellationObservation/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.CancellationObservation/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlDisposition/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlDisposition/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlDisposition/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlKind/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlKind/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlKind/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlObservation/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlObservation/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlObservation/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledDiscoveryResult/oneOf/0/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledDiscoveryResult/oneOf/1/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledDiscoveryResult/oneOf/2/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledDiscoveryResult/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledDiscoveryResult/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledDiscoveryResult/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledDiscoveryResult/x-ess-union-tag",
+      "rule": "x-ess-union-tag",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledExchange/oneOf/0/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledExchange/oneOf/1/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledExchange/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledExchange/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledExchange/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledExchange/x-ess-union-tag",
+      "rule": "x-ess-union-tag",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledInvocationRefusal/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledInvocationRefusal/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledInvocationRefusal/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledPromptResult/oneOf/0/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledPromptResult/oneOf/1/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledPromptResult/oneOf/2/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledPromptResult/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledPromptResult/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledPromptResult/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledPromptResult/x-ess-union-tag",
+      "rule": "x-ess-union-tag",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledResourceResult/oneOf/0/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledResourceResult/oneOf/1/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledResourceResult/oneOf/2/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledResourceResult/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledResourceResult/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledResourceResult/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledResourceResult/x-ess-union-tag",
+      "rule": "x-ess-union-tag",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledSchemaResult/oneOf/0/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledSchemaResult/oneOf/1/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledSchemaResult/oneOf/2/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledSchemaResult/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledSchemaResult/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledSchemaResult/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledSchemaResult/x-ess-union-tag",
+      "rule": "x-ess-union-tag",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledToolResult/oneOf/0/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledToolResult/oneOf/1/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledToolResult/oneOf/2/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledToolResult/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledToolResult/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledToolResult/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledToolResult/x-ess-union-tag",
+      "rule": "x-ess-union-tag",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.DiscoveryInterruption/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.DiscoveryInterruption/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.DiscoveryInterruption/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.InterruptedRequest/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.InterruptedRequest/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.InterruptedRequest/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.InvocationInterruption/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.InvocationInterruption/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.InvocationInterruption/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.InvocationPhase/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.InvocationPhase/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.InvocationPhase/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ProgressDisposition/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ProgressDisposition/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ProgressDisposition/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ProgressObservation/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ProgressObservation/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ProgressObservation/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ServerRequestObservation/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ServerRequestObservation/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ServerRequestObservation/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ShutdownObservation/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ShutdownObservation/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ShutdownObservation/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.StopCause/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.StopCause/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.StopCause/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.StreamMessage/oneOf/0/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.StreamMessage/oneOf/1/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.StreamMessage/oneOf/2/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.StreamMessage/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.StreamMessage/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.StreamMessage/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.StreamMessage/x-ess-union-tag",
+      "rule": "x-ess-union-tag",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.StreamObservation/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.StreamObservation/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.StreamObservation/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.WorkerCleanup/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.WorkerCleanup/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.WorkerCleanup/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.WorkerCleanupFailure/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.WorkerCleanupFailure/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.WorkerCleanupFailure/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.WorkerCleanupState/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.WorkerCleanupState/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.WorkerCleanupState/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.WorkerInterruption/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.WorkerInterruption/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.WorkerInterruption/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.WorkerKillObservation/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.WorkerKillObservation/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.WorkerKillObservation/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.WorkerRefusal/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.WorkerRefusal/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.WorkerRefusal/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
       "pointer": "/$defs/mcp.http_observations.AbsentPeerData/title",
       "rule": "title",
       "detail": "retained in source.schema.json; no decoder behavior inferred"
@@ -1305,6 +1913,76 @@
       "pointer": "/$defs/mcp.http_invocation.ResourceContent/properties/blob/pattern",
       "rule": "pattern",
       "detail": "validate this constraint against the source schema at runtime"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledDiscoveryResult",
+      "rule": "oneOf",
+      "detail": "validate exclusive branch membership against the source schema"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledDiscoveryResult",
+      "rule": "untagged_selection",
+      "detail": "native union decoding chooses the first structurally decodable alternative; it does not certify source branch constraints or external dispatch"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledExchange",
+      "rule": "oneOf",
+      "detail": "validate exclusive branch membership against the source schema"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledExchange",
+      "rule": "untagged_selection",
+      "detail": "native union decoding chooses the first structurally decodable alternative; it does not certify source branch constraints or external dispatch"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledPromptResult",
+      "rule": "oneOf",
+      "detail": "validate exclusive branch membership against the source schema"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledPromptResult",
+      "rule": "untagged_selection",
+      "detail": "native union decoding chooses the first structurally decodable alternative; it does not certify source branch constraints or external dispatch"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledResourceResult",
+      "rule": "oneOf",
+      "detail": "validate exclusive branch membership against the source schema"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledResourceResult",
+      "rule": "untagged_selection",
+      "detail": "native union decoding chooses the first structurally decodable alternative; it does not certify source branch constraints or external dispatch"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledSchemaResult",
+      "rule": "oneOf",
+      "detail": "validate exclusive branch membership against the source schema"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledSchemaResult",
+      "rule": "untagged_selection",
+      "detail": "native union decoding chooses the first structurally decodable alternative; it does not certify source branch constraints or external dispatch"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledToolResult",
+      "rule": "oneOf",
+      "detail": "validate exclusive branch membership against the source schema"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledToolResult",
+      "rule": "untagged_selection",
+      "detail": "native union decoding chooses the first structurally decodable alternative; it does not certify source branch constraints or external dispatch"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.StreamMessage",
+      "rule": "oneOf",
+      "detail": "validate exclusive branch membership against the source schema"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.StreamMessage",
+      "rule": "untagged_selection",
+      "detail": "native union decoding chooses the first structurally decodable alternative; it does not certify source branch constraints or external dispatch"
     },
     {
       "pointer": "/$defs/mcp.http_observations.BoundedWireBytes/properties/bytes/pattern",

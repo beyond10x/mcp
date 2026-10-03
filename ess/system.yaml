@@ -10,3 +10,4 @@ domains:
   - mcp.http_connection
   - mcp.http_discovery
   - mcp.http_invocation
+  - mcp.http_lifecycle

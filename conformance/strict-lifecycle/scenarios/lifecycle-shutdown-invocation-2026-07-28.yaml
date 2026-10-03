@@ -1,0 +1,24 @@
+type: ess-scenario/4
+domain: mcp.strict_lifecycle_checks
+scenario: lifecycle-shutdown-invocation-2026-07-28
+summary: Actual lifecycle-shutdown-invocation under configured 2026-07-28.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_lifecycle_checks.ObserveLifecycle
+    input: {case: lifecycle-shutdown-invocation, revision: "2026-07-28"}
+    outcome: observed
+    response:
+      requests: 1
+      deletes: 0
+      disposition: "absent"
+      refusal: "absent"
+      retained_octets: 0
+      http_status: 0
+      send: "absent"
+      interrupted: false
+      interrupted_id: 0
+      pool_closed: true
+      abandoned_stream_closed: false
+      reuse_refused: false
+      header_agreement: true
+

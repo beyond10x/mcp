@@ -1,0 +1,24 @@
+type: ess-scenario/4
+domain: mcp.strict_stream_checks
+scenario: stream-ping-collision-2025-11-25
+summary: Actual stream-ping-collision under configured 2025-11-25.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_stream_checks.ObserveStream
+    input: {case: stream-ping-collision, revision: "2025-11-25"}
+    outcome: observed
+    response:
+      kind: "result"
+      reason: "absent"
+      setup_reason: "absent"
+      requests: 4
+      replies: 1
+      messages: 1
+      notifications: 0
+      disposition: "accepted"
+      side_refusal: "absent"
+      id_agreement: true
+      header_agreement: true
+      retained_bound: true
+      own_payload: true
+
