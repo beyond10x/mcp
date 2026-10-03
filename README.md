@@ -98,6 +98,21 @@ dialects or external references refuse before business dispatch. Awaited failure
 kill and reap the worker; dropping the future initiates termination without an
 observed reap barrier. This internal validator does not select MCP stdio ownership.
 
+For directly controlled validation, `SchemaWorker::run_cancellable` takes a
+`Cancellation` signal plus separate absolute operation and teardown deadlines.
+The returned observation distinguishes an actual reap from a kill request.
+If teardown expires, the worker retains the child and refuses both execution APIs
+until `reap_pending(deadline)` successfully waits for exit. Dropping the controlled
+future also requests termination and retains ownership for that explicit reap.
+Dropping the worker itself supplies no observed exit barrier. The original `run`
+API retains its existing cleanup behavior.
+
+The `conformance/schema-lifecycle` suite executes actual child processes on Linux
+with `test-schema-worker` enabled, including `/proc` checks after reaping. The
+repository's Linux gate enables all features and verifies its 15-case inventory.
+Other platform/feature combinations do not execute this OS-specific selection;
+the strict HTTP lifecycle suite remains independent of that fixture feature.
+
 Await `shutdown(teardown_deadline)` on the strict connection or invocation client
 to consume the handle and close its pool. A legacy session receives one DELETE
 attempt;405 is permitted and other failures retain bounded observations. Modern
@@ -127,8 +142,8 @@ exchange or cancellation. Modern closes its stream; legacy attempts one
 uses only the remaining response-byte allowance. Its acknowledgement proves no
 remote rollback. An already observed terminal wins over later cancellation during
 side I/O. Unread late bytes are not reported as observed. Raw `exchange` retains
-its existing timeout behavior. Typed invocation cancellation and awaited
-schema-worker teardown are still under implementation.
+its existing timeout behavior. Carrying cancellation and worker-cleanup observations
+through typed invocation is still under implementation.
 
 The caller supplies authority and network policy;
 the builder must contain no hidden MCP protocol/session/routing header defaults.

@@ -6,6 +6,52 @@ summary: Revision-specific HTTP progress, control-message and shutdown observati
 # These are immutable observations, never persisted requests, capabilities,
 # credentials or a way to manufacture a runtime cancellation handle.
 types:
+  - name: mcp.http_lifecycle.WorkerCleanupState
+    kind: enum
+    variants: [no_child, reaped, retained]
+  - name: mcp.http_lifecycle.WorkerKillObservation
+    kind: enum
+    variants: [not_attempted, requested, failed]
+  - name: mcp.http_lifecycle.WorkerCleanupFailure
+    kind: enum
+    variants: [deadline_exhausted, wait_failed]
+  - name: mcp.http_lifecycle.WorkerCleanup
+    kind: struct
+    fields:
+      - {name: state, type: mcp.http_lifecycle.WorkerCleanupState}
+      - {name: kill, type: mcp.http_lifecycle.WorkerKillObservation}
+      - {name: failure, type: "Optional<mcp.http_lifecycle.WorkerCleanupFailure>"}
+    # L11: reaped requires an actual successful child wait; requesting kill is
+    # not proof of exit or reap. A retained child stays owned and prevents reuse
+    # until a subsequent explicit bounded reap succeeds. No_child means no child
+    # is owned by this cleanup, not a fictional completed process. Expired teardown
+    # initiates nonblocking kill but does not await beyond its absolute deadline.
+    # Dropping a controlled future initiates kill and retains the child handle;
+    # dropping the worker can only offer kill-on-drop, never an observed barrier.
+  - name: mcp.http_lifecycle.WorkerInterruption
+    kind: struct
+    fields:
+      - {name: cause, type: mcp.http_lifecycle.StopCause}
+      - {name: cleanup, type: mcp.http_lifecycle.WorkerCleanup}
+    # Only caller_cancelled/deadline_exhausted are returned by awaited execution.
+  - name: mcp.http_lifecycle.WorkerRefusal
+    kind: struct
+    fields:
+      - {name: reason, type: mcp.http_invocation.RefusalReason}
+      - {name: cleanup, type: mcp.http_lifecycle.WorkerCleanup}
+    # Invalid input/spawn failures own no child. IPC/exit failures retain actual
+    # cleanup evidence. An earlier retained child refuses reuse as unavailable.
+  - name: mcp.http_lifecycle.ControlledSchemaResult
+    kind: union
+    tag: kind
+    variants:
+      completed: mcp.http_invocation.SchemaReply
+      interrupted: mcp.http_lifecycle.WorkerInterruption
+      refused: mcp.http_lifecycle.WorkerRefusal
+    # A completed reply requires bounded complete IPC and an observed successful
+    # process exit. Cancellation/operation expiry has an independent caller-owned
+    # teardown deadline. Before dispatch, worker interruption is not a peer call;
+    # after a peer response, it cannot erase that already observed HTTP exchange.
   - name: mcp.http_lifecycle.ControlledExchange
     kind: union
     tag: kind

@@ -1,4 +1,5 @@
 //! A caller-admitted one-shot executable isolates synchronous schema validation.
+mod controlled;
 use b10x_mcp_types::http_exchange::{
     McpHttpInvocationRefusalReason as Reason, McpHttpInvocationSchemaReply as Reply,
     McpHttpInvocationSchemaRequest as Request,
@@ -34,6 +35,7 @@ pub fn decode_request(bytes: &[u8]) -> Option<Request> {
 pub struct SchemaWorker {
     path: PathBuf,
     max_input_bytes: usize,
+    pending: Option<controlled::OwnedChild>,
 }
 impl SchemaWorker {
     /// Admit an absolute executable path and explicit byte ceiling; no path search.
@@ -44,7 +46,44 @@ impl SchemaWorker {
         Ok(Self {
             path,
             max_input_bytes,
+            pending: None,
         })
+    }
+    /// Run with explicit cancellation and an independent absolute reap deadline.
+    ///
+    /// Awaited interruption reports actual kill/reap observations. If reaping
+    /// cannot finish by the teardown deadline, this handle retains the child
+    /// and refuses reuse until `reap_pending` succeeds. Dropping this future
+    /// requests termination and retains ownership; it never claims a reap.
+    pub async fn run_cancellable(
+        &mut self,
+        request: &Request,
+        deadline: Instant,
+        cancellation: &crate::strict_cancellation::Cancellation,
+        teardown_deadline: Instant,
+    ) -> Result<b10x_mcp_types::http_exchange::McpHttpLifecycleControlledSchemaResult, Reason> {
+        controlled::run(self, request, deadline, cancellation, teardown_deadline).await
+    }
+    /// Retry bounded cleanup of a retained child; no schema or peer request runs.
+    /// A successful reap permits reuse. Dropping the worker itself offers only
+    /// kill-on-drop, without an observed process-exit barrier.
+    pub async fn reap_pending(
+        &mut self,
+        deadline: Instant,
+    ) -> Result<b10x_mcp_types::http_exchange::McpHttpLifecycleWorkerCleanup, Reason> {
+        controlled::cleanup(&mut self.pending, deadline).await
+    }
+    fn spawn(&self) -> Result<tokio::process::Child, Reason> {
+        Command::new(&self.path)
+            .arg("--max-input-bytes")
+            .arg(self.max_input_bytes.to_string())
+            .env_clear()
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::null())
+            .kill_on_drop(true)
+            .spawn()
+            .map_err(|_| Reason::V5)
     }
     /// Execute one schema operation with bounded IPC and an absolute deadline.
     ///
@@ -52,6 +91,9 @@ impl SchemaWorker {
     /// future initiates kill-on-drop; it does not establish an observed reap barrier.
     /// Peer schemas, instances and validator diagnostics never enter local errors.
     pub async fn run(&mut self, request: &Request, deadline: Instant) -> Result<Reply, Reason> {
+        if self.pending.is_some() {
+            return Err(Reason::V5);
+        }
         if Instant::now() >= deadline {
             return Err(Reason::V0);
         }
@@ -62,16 +104,7 @@ impl SchemaWorker {
         if Instant::now() >= deadline {
             return Err(Reason::V0);
         }
-        let mut child = Command::new(&self.path)
-            .arg("--max-input-bytes")
-            .arg(self.max_input_bytes.to_string())
-            .env_clear()
-            .stdin(Stdio::piped())
-            .stdout(Stdio::piped())
-            .stderr(Stdio::null())
-            .kill_on_drop(true)
-            .spawn()
-            .map_err(|_| Reason::V5)?;
+        let mut child = self.spawn()?;
         let transaction = async {
             let mut stdin = child.stdin.take().ok_or(Reason::V5)?;
             let mut stdout = child.stdout.take().ok_or(Reason::V5)?;

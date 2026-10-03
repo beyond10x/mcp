@@ -17,6 +17,20 @@ fn main() {
     if let Some(path) = request["instance"].as_str() {
         std::fs::write(path, std::process::id().to_string()).unwrap();
     }
+    match request["schema"]["mode"].as_str() {
+        Some("complete") => {
+            std::io::stdout()
+                .write_all(b"{\"status\":\"valid\"}")
+                .unwrap();
+            return;
+        }
+        Some("invalid-reply") => {
+            std::io::stdout().write_all(b"not-json").unwrap();
+            return;
+        }
+        Some("exit-failure") => std::process::exit(7),
+        _ => {}
+    }
     if request["schema"]["mode"] == "overflow" {
         std::io::stdout().write_all(&[b'x'; 1024]).unwrap();
         std::io::stdout().flush().unwrap();

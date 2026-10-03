@@ -1418,6 +1418,68 @@
       "x-ess-name": "mcp.http_lifecycle.ControlledExchange",
       "x-ess-union-tag": "kind"
     },
+    "mcp.http_lifecycle.ControlledSchemaResult": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "completed",
+              "type": "string"
+            },
+            "value": {
+              "$ref": "#/$defs/mcp.http_invocation.SchemaReply"
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "title": "completed",
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "interrupted",
+              "type": "string"
+            },
+            "value": {
+              "$ref": "#/$defs/mcp.http_lifecycle.WorkerInterruption"
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "title": "interrupted",
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "refused",
+              "type": "string"
+            },
+            "value": {
+              "$ref": "#/$defs/mcp.http_lifecycle.WorkerRefusal"
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "title": "refused",
+          "type": "object"
+        }
+      ],
+      "title": "ControlledSchemaResult",
+      "x-ess-kind": "union",
+      "x-ess-name": "mcp.http_lifecycle.ControlledSchemaResult",
+      "x-ess-union-tag": "kind"
+    },
     "mcp.http_lifecycle.InterruptedRequest": {
       "additionalProperties": false,
       "properties": {
@@ -1605,6 +1667,98 @@
       "type": "object",
       "x-ess-kind": "struct",
       "x-ess-name": "mcp.http_lifecycle.StreamObservation"
+    },
+    "mcp.http_lifecycle.WorkerCleanup": {
+      "additionalProperties": false,
+      "properties": {
+        "failure": {
+          "$ref": "#/$defs/mcp.http_lifecycle.WorkerCleanupFailure"
+        },
+        "kill": {
+          "$ref": "#/$defs/mcp.http_lifecycle.WorkerKillObservation"
+        },
+        "state": {
+          "$ref": "#/$defs/mcp.http_lifecycle.WorkerCleanupState"
+        }
+      },
+      "required": [
+        "state",
+        "kill"
+      ],
+      "title": "WorkerCleanup",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_lifecycle.WorkerCleanup"
+    },
+    "mcp.http_lifecycle.WorkerCleanupFailure": {
+      "enum": [
+        "deadline_exhausted",
+        "wait_failed"
+      ],
+      "title": "WorkerCleanupFailure",
+      "type": "string",
+      "x-ess-kind": "enum",
+      "x-ess-name": "mcp.http_lifecycle.WorkerCleanupFailure"
+    },
+    "mcp.http_lifecycle.WorkerCleanupState": {
+      "enum": [
+        "no_child",
+        "reaped",
+        "retained"
+      ],
+      "title": "WorkerCleanupState",
+      "type": "string",
+      "x-ess-kind": "enum",
+      "x-ess-name": "mcp.http_lifecycle.WorkerCleanupState"
+    },
+    "mcp.http_lifecycle.WorkerInterruption": {
+      "additionalProperties": false,
+      "properties": {
+        "cause": {
+          "$ref": "#/$defs/mcp.http_lifecycle.StopCause"
+        },
+        "cleanup": {
+          "$ref": "#/$defs/mcp.http_lifecycle.WorkerCleanup"
+        }
+      },
+      "required": [
+        "cause",
+        "cleanup"
+      ],
+      "title": "WorkerInterruption",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_lifecycle.WorkerInterruption"
+    },
+    "mcp.http_lifecycle.WorkerKillObservation": {
+      "enum": [
+        "not_attempted",
+        "requested",
+        "failed"
+      ],
+      "title": "WorkerKillObservation",
+      "type": "string",
+      "x-ess-kind": "enum",
+      "x-ess-name": "mcp.http_lifecycle.WorkerKillObservation"
+    },
+    "mcp.http_lifecycle.WorkerRefusal": {
+      "additionalProperties": false,
+      "properties": {
+        "cleanup": {
+          "$ref": "#/$defs/mcp.http_lifecycle.WorkerCleanup"
+        },
+        "reason": {
+          "$ref": "#/$defs/mcp.http_invocation.RefusalReason"
+        }
+      },
+      "required": [
+        "reason",
+        "cleanup"
+      ],
+      "title": "WorkerRefusal",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_lifecycle.WorkerRefusal"
     },
     "mcp.http_observations.AbsentPeerData": {
       "enum": [
@@ -1828,8 +1982,8 @@
   },
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "x-ess-provenance": {
-    "contract_digest": "slice-sha256/2:07ba22d830d7946208f80555c06c3709de51f14702599d7ec8c0379c1941d8c6",
-    "source_digest": "d863a31e27399737b96bb094e47ba6d39ccb7bbd00c6a3223e1e60b4d7614bf3",
+    "contract_digest": "slice-sha256/2:cff225e7eee97ee601177fdb969b035f7c073edc365e831e331da3e4f4008fcb",
+    "source_digest": "b0f12a901b7f85240923ded66ca57b5e96d17caf4f7bfb553c9ee253bcbc03e4",
     "specification_version": "v1",
     "system": "mcp"
   }

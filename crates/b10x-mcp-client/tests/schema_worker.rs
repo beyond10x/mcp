@@ -18,13 +18,25 @@ async fn check(schema: Value, instance: Option<Value>) -> Value {
     };
     let mut worker =
         SchemaWorker::new(env!("CARGO_BIN_EXE_b10x-mcp-schema-worker").into(), 65536).unwrap();
-    serde_json::to_value(
+    let raw = serde_json::to_value(
         worker
             .run(&request, Instant::now() + Duration::from_secs(3))
             .await
             .unwrap(),
     )
-    .unwrap()
+    .unwrap();
+    let signal = b10x_mcp_client::strict_cancellation::Cancellation::default();
+    let end = Instant::now() + Duration::from_secs(3);
+    let controlled = serde_json::to_value(
+        worker
+            .run_cancellable(&request, end, &signal, end)
+            .await
+            .unwrap(),
+    )
+    .unwrap();
+    assert_eq!(controlled["kind"], "completed");
+    assert_eq!(controlled["value"], raw);
+    raw
 }
 #[tokio::test]
 async fn schema_validation_executes_semantics_and_preserves_present_null() {

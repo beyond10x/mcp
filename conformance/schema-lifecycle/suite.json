@@ -1,0 +1,1912 @@
+{
+  "provenance": {
+    "suite_version": "ess-conformance/28",
+    "system": "mcp",
+    "specification_version": "v1",
+    "spec_digest": "9251bdd6baedf3ae63f65c1d7bf49988692a3f2697f7994287c64554ae69904c",
+    "contract_digest": "7b87c50e6edab48717ec309d03d9542f368fe5c34abb0b17e868b65b9cdf2403"
+  },
+  "scenarios": {
+    "mcp.schema_lifecycle_checks.ObserveWorker/outcome/observed": {
+      "purpose": "`mcp.schema_lifecycle_checks.ObserveWorker` answers `observed` for an input no other branch's guard claims",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "complete"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": {
+              "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "status",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "state",
+                "type": "String"
+              },
+              {
+                "name": "kill",
+                "type": "String"
+              },
+              {
+                "name": "failure",
+                "type": "String"
+              },
+              {
+                "name": "pid_recorded",
+                "type": "Boolean"
+              },
+              {
+                "name": "process_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "raw_reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {}
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "type",
+          "name": "mcp.schema_lifecycle_checks.Case"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.schema_lifecycle_checks.ObserveWorker"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.schema_lifecycle_checks/authored/worker-before-start": {
+      "purpose": "Actual worker before-start, explicit cleanup and OS process observations.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "before-start"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": {
+              "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "status",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "state",
+                "type": "String"
+              },
+              {
+                "name": "kill",
+                "type": "String"
+              },
+              {
+                "name": "failure",
+                "type": "String"
+              },
+              {
+                "name": "pid_recorded",
+                "type": "Boolean"
+              },
+              {
+                "name": "process_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "raw_reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "caller_cancelled",
+              "explicit_reaped": false,
+              "failure": "absent",
+              "kill": "not_attempted",
+              "kind": "interrupted",
+              "pid_recorded": false,
+              "process_gone": false,
+              "raw_reuse_refused": false,
+              "reason": "absent",
+              "reuse_refused": false,
+              "reused": false,
+              "state": "no_child",
+              "status": "absent",
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.schema_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.schema_lifecycle_checks.Case"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.schema_lifecycle_checks.ObserveWorker"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.schema_lifecycle_checks/authored/worker-caller": {
+      "purpose": "Actual worker caller, explicit cleanup and OS process observations.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "caller"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": {
+              "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "status",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "state",
+                "type": "String"
+              },
+              {
+                "name": "kill",
+                "type": "String"
+              },
+              {
+                "name": "failure",
+                "type": "String"
+              },
+              {
+                "name": "pid_recorded",
+                "type": "Boolean"
+              },
+              {
+                "name": "process_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "raw_reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "caller_cancelled",
+              "explicit_reaped": false,
+              "failure": "absent",
+              "kill": "requested",
+              "kind": "interrupted",
+              "pid_recorded": true,
+              "process_gone": true,
+              "raw_reuse_refused": false,
+              "reason": "absent",
+              "reuse_refused": false,
+              "reused": false,
+              "state": "reaped",
+              "status": "absent",
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.schema_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.schema_lifecycle_checks.Case"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.schema_lifecycle_checks.ObserveWorker"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.schema_lifecycle_checks/authored/worker-complete": {
+      "purpose": "Actual worker complete, explicit cleanup and OS process observations.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "complete"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": {
+              "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "status",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "state",
+                "type": "String"
+              },
+              {
+                "name": "kill",
+                "type": "String"
+              },
+              {
+                "name": "failure",
+                "type": "String"
+              },
+              {
+                "name": "pid_recorded",
+                "type": "Boolean"
+              },
+              {
+                "name": "process_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "raw_reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "absent",
+              "explicit_reaped": false,
+              "failure": "absent",
+              "kill": "absent",
+              "kind": "completed",
+              "pid_recorded": true,
+              "process_gone": true,
+              "raw_reuse_refused": false,
+              "reason": "absent",
+              "reuse_refused": false,
+              "reused": false,
+              "state": "absent",
+              "status": "valid",
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.schema_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.schema_lifecycle_checks.Case"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.schema_lifecycle_checks.ObserveWorker"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.schema_lifecycle_checks/authored/worker-drop": {
+      "purpose": "Actual worker drop, explicit cleanup and OS process observations.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "drop"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": {
+              "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "status",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "state",
+                "type": "String"
+              },
+              {
+                "name": "kill",
+                "type": "String"
+              },
+              {
+                "name": "failure",
+                "type": "String"
+              },
+              {
+                "name": "pid_recorded",
+                "type": "Boolean"
+              },
+              {
+                "name": "process_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "raw_reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "absent",
+              "explicit_reaped": true,
+              "failure": "deadline_exhausted",
+              "kill": "requested",
+              "kind": "dropped",
+              "pid_recorded": true,
+              "process_gone": true,
+              "raw_reuse_refused": true,
+              "reason": "absent",
+              "reuse_refused": true,
+              "reused": true,
+              "state": "retained",
+              "status": "absent",
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.schema_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.schema_lifecycle_checks.Case"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.schema_lifecycle_checks.ObserveWorker"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.schema_lifecycle_checks/authored/worker-exit-failure": {
+      "purpose": "Actual worker exit-failure, explicit cleanup and OS process observations.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "exit-failure"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": {
+              "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "status",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "state",
+                "type": "String"
+              },
+              {
+                "name": "kill",
+                "type": "String"
+              },
+              {
+                "name": "failure",
+                "type": "String"
+              },
+              {
+                "name": "pid_recorded",
+                "type": "Boolean"
+              },
+              {
+                "name": "process_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "raw_reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "absent",
+              "explicit_reaped": false,
+              "failure": "absent",
+              "kill": "not_attempted",
+              "kind": "refused",
+              "pid_recorded": true,
+              "process_gone": true,
+              "raw_reuse_refused": false,
+              "reason": "schema_unavailable",
+              "reuse_refused": false,
+              "reused": false,
+              "state": "reaped",
+              "status": "absent",
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.schema_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.schema_lifecycle_checks.Case"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.schema_lifecycle_checks.ObserveWorker"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.schema_lifecycle_checks/authored/worker-expired-operation": {
+      "purpose": "Actual worker expired-operation, explicit cleanup and OS process observations.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "expired-operation"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": {
+              "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "status",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "state",
+                "type": "String"
+              },
+              {
+                "name": "kill",
+                "type": "String"
+              },
+              {
+                "name": "failure",
+                "type": "String"
+              },
+              {
+                "name": "pid_recorded",
+                "type": "Boolean"
+              },
+              {
+                "name": "process_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "raw_reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "deadline_exhausted",
+              "explicit_reaped": false,
+              "failure": "absent",
+              "kill": "not_attempted",
+              "kind": "interrupted",
+              "pid_recorded": false,
+              "process_gone": false,
+              "raw_reuse_refused": false,
+              "reason": "absent",
+              "reuse_refused": false,
+              "reused": false,
+              "state": "no_child",
+              "status": "absent",
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.schema_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.schema_lifecycle_checks.Case"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.schema_lifecycle_checks.ObserveWorker"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.schema_lifecycle_checks/authored/worker-expired-teardown": {
+      "purpose": "Actual worker expired-teardown, explicit cleanup and OS process observations.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "expired-teardown"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": {
+              "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "status",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "state",
+                "type": "String"
+              },
+              {
+                "name": "kill",
+                "type": "String"
+              },
+              {
+                "name": "failure",
+                "type": "String"
+              },
+              {
+                "name": "pid_recorded",
+                "type": "Boolean"
+              },
+              {
+                "name": "process_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "raw_reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "caller_cancelled",
+              "explicit_reaped": true,
+              "failure": "deadline_exhausted",
+              "kill": "requested",
+              "kind": "interrupted",
+              "pid_recorded": true,
+              "process_gone": true,
+              "raw_reuse_refused": true,
+              "reason": "absent",
+              "reuse_refused": true,
+              "reused": true,
+              "state": "retained",
+              "status": "absent",
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.schema_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.schema_lifecycle_checks.Case"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.schema_lifecycle_checks.ObserveWorker"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.schema_lifecycle_checks/authored/worker-input-bound": {
+      "purpose": "Actual worker input-bound, explicit cleanup and OS process observations.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "input-bound"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": {
+              "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "status",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "state",
+                "type": "String"
+              },
+              {
+                "name": "kill",
+                "type": "String"
+              },
+              {
+                "name": "failure",
+                "type": "String"
+              },
+              {
+                "name": "pid_recorded",
+                "type": "Boolean"
+              },
+              {
+                "name": "process_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "raw_reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "absent",
+              "explicit_reaped": false,
+              "failure": "absent",
+              "kill": "not_attempted",
+              "kind": "refused",
+              "pid_recorded": false,
+              "process_gone": false,
+              "raw_reuse_refused": false,
+              "reason": "invalid_input",
+              "reuse_refused": false,
+              "reused": false,
+              "state": "no_child",
+              "status": "absent",
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.schema_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.schema_lifecycle_checks.Case"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.schema_lifecycle_checks.ObserveWorker"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.schema_lifecycle_checks/authored/worker-invalid-reply": {
+      "purpose": "Actual worker invalid-reply, explicit cleanup and OS process observations.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "invalid-reply"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": {
+              "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "status",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "state",
+                "type": "String"
+              },
+              {
+                "name": "kill",
+                "type": "String"
+              },
+              {
+                "name": "failure",
+                "type": "String"
+              },
+              {
+                "name": "pid_recorded",
+                "type": "Boolean"
+              },
+              {
+                "name": "process_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "raw_reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "absent",
+              "explicit_reaped": false,
+              "failure": "absent",
+              "kill": "not_attempted",
+              "kind": "refused",
+              "pid_recorded": true,
+              "process_gone": true,
+              "raw_reuse_refused": false,
+              "reason": "schema_unavailable",
+              "reuse_refused": false,
+              "reused": false,
+              "state": "reaped",
+              "status": "absent",
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.schema_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.schema_lifecycle_checks.Case"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.schema_lifecycle_checks.ObserveWorker"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.schema_lifecycle_checks/authored/worker-overflow": {
+      "purpose": "Actual worker overflow, explicit cleanup and OS process observations.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "overflow"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": {
+              "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "status",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "state",
+                "type": "String"
+              },
+              {
+                "name": "kill",
+                "type": "String"
+              },
+              {
+                "name": "failure",
+                "type": "String"
+              },
+              {
+                "name": "pid_recorded",
+                "type": "Boolean"
+              },
+              {
+                "name": "process_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "raw_reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "absent",
+              "explicit_reaped": false,
+              "failure": "absent",
+              "kill": "requested",
+              "kind": "refused",
+              "pid_recorded": true,
+              "process_gone": true,
+              "raw_reuse_refused": false,
+              "reason": "schema_unavailable",
+              "reuse_refused": false,
+              "reused": false,
+              "state": "reaped",
+              "status": "absent",
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.schema_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.schema_lifecycle_checks.Case"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.schema_lifecycle_checks.ObserveWorker"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.schema_lifecycle_checks/authored/worker-overflow-retained": {
+      "purpose": "Actual worker overflow-retained, explicit cleanup and OS process observations.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "overflow-retained"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": {
+              "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "status",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "state",
+                "type": "String"
+              },
+              {
+                "name": "kill",
+                "type": "String"
+              },
+              {
+                "name": "failure",
+                "type": "String"
+              },
+              {
+                "name": "pid_recorded",
+                "type": "Boolean"
+              },
+              {
+                "name": "process_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "raw_reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "absent",
+              "explicit_reaped": true,
+              "failure": "deadline_exhausted",
+              "kill": "requested",
+              "kind": "refused",
+              "pid_recorded": true,
+              "process_gone": true,
+              "raw_reuse_refused": true,
+              "reason": "schema_unavailable",
+              "reuse_refused": true,
+              "reused": true,
+              "state": "retained",
+              "status": "absent",
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.schema_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.schema_lifecycle_checks.Case"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.schema_lifecycle_checks.ObserveWorker"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.schema_lifecycle_checks/authored/worker-real": {
+      "purpose": "Actual worker real, explicit cleanup and OS process observations.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "real"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": {
+              "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "status",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "state",
+                "type": "String"
+              },
+              {
+                "name": "kill",
+                "type": "String"
+              },
+              {
+                "name": "failure",
+                "type": "String"
+              },
+              {
+                "name": "pid_recorded",
+                "type": "Boolean"
+              },
+              {
+                "name": "process_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "raw_reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "absent",
+              "explicit_reaped": false,
+              "failure": "absent",
+              "kill": "absent",
+              "kind": "completed",
+              "pid_recorded": false,
+              "process_gone": false,
+              "raw_reuse_refused": false,
+              "reason": "absent",
+              "reuse_refused": false,
+              "reused": false,
+              "state": "absent",
+              "status": "valid",
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.schema_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.schema_lifecycle_checks.Case"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.schema_lifecycle_checks.ObserveWorker"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.schema_lifecycle_checks/authored/worker-spawn-failure": {
+      "purpose": "Actual worker spawn-failure, explicit cleanup and OS process observations.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "spawn-failure"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": {
+              "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "status",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "state",
+                "type": "String"
+              },
+              {
+                "name": "kill",
+                "type": "String"
+              },
+              {
+                "name": "failure",
+                "type": "String"
+              },
+              {
+                "name": "pid_recorded",
+                "type": "Boolean"
+              },
+              {
+                "name": "process_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "raw_reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "absent",
+              "explicit_reaped": false,
+              "failure": "absent",
+              "kill": "not_attempted",
+              "kind": "refused",
+              "pid_recorded": false,
+              "process_gone": false,
+              "raw_reuse_refused": false,
+              "reason": "schema_unavailable",
+              "reuse_refused": false,
+              "reused": false,
+              "state": "no_child",
+              "status": "absent",
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.schema_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.schema_lifecycle_checks.Case"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.schema_lifecycle_checks.ObserveWorker"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.schema_lifecycle_checks/authored/worker-timeout": {
+      "purpose": "Actual worker timeout, explicit cleanup and OS process observations.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "timeout"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": {
+              "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "status",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "state",
+                "type": "String"
+              },
+              {
+                "name": "kill",
+                "type": "String"
+              },
+              {
+                "name": "failure",
+                "type": "String"
+              },
+              {
+                "name": "pid_recorded",
+                "type": "Boolean"
+              },
+              {
+                "name": "process_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "raw_reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "deadline_exhausted",
+              "explicit_reaped": false,
+              "failure": "absent",
+              "kill": "requested",
+              "kind": "interrupted",
+              "pid_recorded": true,
+              "process_gone": true,
+              "raw_reuse_refused": false,
+              "reason": "absent",
+              "reuse_refused": false,
+              "reused": false,
+              "state": "reaped",
+              "status": "absent",
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.schema_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.schema_lifecycle_checks.Case"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.schema_lifecycle_checks.ObserveWorker"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.schema_lifecycle_checks.ObserveWorker",
+            "outcome": "observed"
+          }
+        }
+      ]
+    }
+  }
+}

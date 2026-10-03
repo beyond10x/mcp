@@ -401,5 +401,22 @@
     "mcp.strict_stream_checks/authored/stream-total-bound-2025-11-25",
     "mcp.strict_stream_checks/authored/stream-total-bound-2026-07-28",
     "mcp.strict_stream_checks/authored/stream-unsupported-2025-11-25"
+  ],
+  "schema_lifecycle_scenarios": [
+    "mcp.schema_lifecycle_checks.ObserveWorker/outcome/observed",
+    "mcp.schema_lifecycle_checks/authored/worker-before-start",
+    "mcp.schema_lifecycle_checks/authored/worker-caller",
+    "mcp.schema_lifecycle_checks/authored/worker-complete",
+    "mcp.schema_lifecycle_checks/authored/worker-drop",
+    "mcp.schema_lifecycle_checks/authored/worker-exit-failure",
+    "mcp.schema_lifecycle_checks/authored/worker-expired-operation",
+    "mcp.schema_lifecycle_checks/authored/worker-expired-teardown",
+    "mcp.schema_lifecycle_checks/authored/worker-input-bound",
+    "mcp.schema_lifecycle_checks/authored/worker-invalid-reply",
+    "mcp.schema_lifecycle_checks/authored/worker-overflow",
+    "mcp.schema_lifecycle_checks/authored/worker-overflow-retained",
+    "mcp.schema_lifecycle_checks/authored/worker-real",
+    "mcp.schema_lifecycle_checks/authored/worker-spawn-failure",
+    "mcp.schema_lifecycle_checks/authored/worker-timeout"
   ]
 }

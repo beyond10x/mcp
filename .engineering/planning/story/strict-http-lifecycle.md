@@ -18,11 +18,15 @@ scope:
 - confidence: cited
   path: README.md
 - confidence: inferred
+  path: conformance/schema-lifecycle
+- confidence: inferred
   path: conformance/strict-lifecycle
 - confidence: cited
   path: crates/b10x-mcp-client/Cargo.toml
 - confidence: cited
   path: crates/b10x-mcp-client/src/lib.rs
+- confidence: inferred
+  path: crates/b10x-mcp-client/src/schema_worker
 - confidence: cited
   path: crates/b10x-mcp-client/src/schema_worker.rs
 - confidence: cited
@@ -51,7 +55,7 @@ scope:
   path: ess-inputs.yaml
 - confidence: inferred
   path: toolchain.json
-revision: 11
+revision: 13
 transitions:
 - {from: "draft", to: "proposed", at: "2026-10-03T06:29:28Z", actor: "human:timo", revision: 4}
 - {from: "proposed", to: "active", at: "2026-10-03T06:29:28Z", actor: "human:timo", revision: 5}
@@ -82,7 +86,9 @@ notification on the wire; initialize is never cancelled that way. A bounded
 explicit teardown deadline is distinct from the operation deadline. A failed
 notification is recorded, not claimed sent. Actual observed precedence decides
 completion; only observed late responses are retained. Awaited cancellation of
-schema validation kills and reaps the owned child while preserving this deadline.
+schema validation requests termination and attempts a reap within the separate
+teardown deadline. If it cannot complete, retain ownership and refuse worker
+reuse until explicit bounded cleanup observes exit. A kill request is not a reap.
 
 lifecycle-shutdown-modern, lifecycle-shutdown-sessionless,
 lifecycle-shutdown-delete, lifecycle-shutdown-405, lifecycle-shutdown-failure,
@@ -282,3 +288,56 @@ kill/reap remain, including before/after-business schema validation semantics.
 Then actual Connectors inbound/outbound integration and the verified final release.
 Consumer ownership questions remain unanswered. No independent review is claimed;
 existing workers remain quota-exhausted. Root remains the author/coordinator.
+
+## Bounded schema-worker checkpoint, 2026-10-03
+
+The controlled worker API now implements ESS L11. It distinguishes no owned child,
+an observed reap, and retained ownership. A kill request is never proof of reap.
+Separate absolute operation and teardown deadlines apply to run_cancellable;
+expired teardown requests nonblocking termination and retains the child handle.
+Both execution APIs refuse reuse while that handle remains. reap_pending permits
+reuse only after an actual wait succeeds. Dropping the controlled future requests
+termination and retains ownership; dropping the whole worker promises only kill
+on drop. The original run API retains its compatibility cleanup behavior.
+
+The acceptance wording above now explicitly permits retained ownership when a
+bounded reap cannot complete. The previous unconditional kill-and-reap phrase
+could not truthfully describe an already expired teardown deadline. L11 and its
+named outcomes define the stronger observable contract; no exit is fabricated.
+The generated model has85 values and37 codec obligations. Existing nine partial
+constructor and three authored refusals remain visible and unchanged.
+
+The separate Linux schema-lifecycle selection has15 scenarios,14 authored:
+worker-complete, real, caller, timeout, expired-teardown, drop, overflow,
+overflow-retained, invalid-reply, exit-failure, before-start, expired-operation,
+input-bound and spawn-failure. Actual Rust children record PIDs; the target checks
+/proc after cleanup, rejects both reuse APIs without replacing the PID, then
+observes a successful new execution after reap. Assertions run after cleanup,
+including in mutation runs. Existing real schema tests also exercise the controlled
+API: present null, offline references, dialects, exact numbers and private-marker
+objects. The HTTP lifecycle suite still runs with strict-http alone; the new
+OS-specific selection requires Linux and test-schema-worker, enabled in the gate.
+
+Three consecutive restored runs report15passed0failed/error/skipped/unsupported.
+Mutation reported a retained child as reaped without changing termination/reaping:
+12passed3failed, exactly worker-drop, worker-expired-teardown and
+worker-overflow-retained, each for its state literal. Original source was restored.
+Mutation log SHA256 e6dedc462f7cc86ac2c4540c06a5516210fc7240b83f62ec7c5006a4b252af8b.
+Suite SHA256 2645fe086c2d1e90e5ec7f0b29d5c2a46b54a7f793651729b75dda54ee2fc791.
+
+Rust1.88 full repository gate exited0:106native test functions passed,0failed,
+0ignored,39summaries. Generated types/suites, AEP, fmt, locked check/tests,
+all-target/all-feature Clippy and warnings-denied rustdoc pass. Gate SHA256
+538d37f56e0c5914abcf3c0b76ebb6b545e5f9980089f2042e74f4d48400d848.
+Initial targeted Clippy findings were unnecessary by-value helper arguments and
+similar fixture binding names; corrected without suppressions. This is local
+source evidence; hosted CI and release are not claimed. Detailed logs, extracted
+reports and worker-evidence.json remain under.cache/mcp-next-runtime/lifecycle.
+
+The story remains active. Typed invocation/discovery cancellation still needs to
+carry worker and HTTP observations through pre-dispatch and post-response phases,
+without erasing a business response or sending cancellation after its terminal.
+Actual Connectors inbound/outbound integration and the verified final release
+remain required; existing consumer ownership decisions remain unanswered.
+The three workers are still quota-exhausted; review here is the coordinator's,
+not an independent approval. No source release is claimed by this checkpoint.
