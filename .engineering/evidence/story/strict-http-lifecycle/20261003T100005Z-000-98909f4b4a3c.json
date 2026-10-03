@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-03T10:00:05Z",
+  "actor": "human:timo",
+  "artifact": "story:strict-http-lifecycle",
+  "kind": "story",
+  "revision": 16,
+  "change": {
+    "change": "evidence",
+    "kind": "test_result",
+    "source": "Rust1.88 cargo xtask gate: 116 native passed, 31 typed lifecycle scenarios passed; 42 test summaries; exit 0",
+    "reference": ".cache/mcp-next-runtime/lifecycle/typed-gate-final.log"
+  }
+}

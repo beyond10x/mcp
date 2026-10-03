@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-03T10:00:05Z",
+  "actor": "human:timo",
+  "artifact": "story:strict-http-lifecycle",
+  "kind": "story",
+  "revision": 16,
+  "change": {
+    "change": "evidence",
+    "kind": "test_result",
+    "source": "Author response-retention mutation: 27 passed 4 failed; restored suite 31 passed three times, then full gate passed",
+    "reference": ".cache/mcp-next-runtime/lifecycle/typed-response-mutation.log"
+  }
+}
