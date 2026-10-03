@@ -222,15 +222,16 @@ The caller admits the worker executable and owns effect authority. Awaited worke
 failure proves kill/reap; dropped futures only initiate termination. No schema
 retrieval, caching, link fetching, prompt execution, grants or automatic replay is
 introduced. Logical timestamps in ESS reports belong to its deterministic runner;
-the surrounding test log records the actual execution. Full MCP server-request,
-progress and lifecycle coverage, and Connectors consumer integration, remain open.
+the surrounding test log records the actual execution. Full lifecycle coverage
+and Connectors consumer integration remain open.
 
 ## Partial strict HTTP lifecycle implementation
 
 The new `mcp.http_lifecycle` domain and nonrecursive `WireObservation` add thirteen
 immutable observation types (77 total projected values). L1–L9 record runtime obligations separately from structural
-codecs. Progress and cancellation observations are modeled but have no runtime
-coverage yet. They must not be reported implemented from type generation alone.
+codecs. Progress is now exercised over actual streams below. Explicit cancellation
+observations remain modeled without runtime coverage; type generation does not
+establish their implementation.
 
 The first shutdown checkpoint exercised18 scenarios,
 17 authored, against actual connections. The peer parses every request and waits
@@ -242,7 +243,7 @@ caller configuration. Native tests additionally check exact failure bytes and
 control headers. There is no server rollback or guaranteed remote termination
 claim. No DELETE response is promoted to a correlated business terminal.
 
-The selection now has41 scenarios (39 authored), including22 authored stream
+The stream-control checkpoint had41 scenarios (39 authored), including22 authored stream
 cases. They cover actual legacy ping/error POSTs, exact large/colliding server ids,
 sessionless and initialization-time replies, invalid/duplicate/over-bound session
 headers that are not echoed, modern server-request refusal, ordered notifications,
@@ -256,6 +257,17 @@ with a pending control reply, before dropping the connection handle. Control
 futures belong to the exchange directly; no spawned control task outlives it.
 The one-shot raw receiver retains its original compatibility selection.
 
-The full lifecycle story remains active: actual progress tracking, explicit
-cancellation, completion/cancellation races, observed late replies and awaited
+The selection now has80 scenarios (77 authored), adding38 actual progress cases
+across both revisions. These exercise explicit token opt-in, absent/unknown tokens,
+string versus integer identity, arbitrary-precision tokens, exact increasing
+numbers, huge exponents, optional total/message fields, malformed fields and
+invalid request metadata. Equal numeric values with different spellings, signed
+zero and decreasing values are retained and refused. Unmatched tokens cannot
+change the owned sequence. Five native tests additionally assert exact numeric
+values, original message bytes, report order, before-send refusal and cumulative
+retention. Continuous progress must end at the fixed operation deadline; the
+peer observes actual closure. Neither progress nor a total is a business result.
+
+The full lifecycle story remains active: explicit cancellation,
+completion/cancellation races, observed late replies and awaited
 schema-worker cancellation still need implementation and their named scenarios.

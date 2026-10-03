@@ -1,0 +1,22 @@
+type: ess-scenario/4
+domain: mcp.strict_progress_checks
+scenario: lifecycle-progress-exponent-equal-2026-07-28
+summary: Actual exponent-equal progress under configured 2026-07-28.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_progress_checks.ObserveProgress
+    input: {case: stream-progress-exponent-equal, revision: "2026-07-28"}
+    outcome: observed
+    response:
+      kind: "refused"
+      reason: "invalid_response"
+      requests: 2
+      send: "send_observed"
+      progress_seen: true
+      accepted_seen: true
+      unmatched_seen: false
+      non_increasing_seen: true
+      exact_values: true
+      accepted_owns_token: true
+      within_budget: true
+      own_payload: false

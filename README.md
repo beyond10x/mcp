@@ -113,8 +113,12 @@ method-not-found. Modern server requests are refused. Shared byte limits cover
 the original response and all retained messages/control bodies. Control I/O runs
 concurrently within the exchange future under the same deadline; pending control
 futures are dropped before return or when the exchange is dropped. An earlier business
-terminal survives a delayed control acknowledgement. Progress tracking and
-explicit cancellation controls are still under implementation.
+terminal survives a delayed control acknowledgement. To opt into progress on a
+strict connection, supply a string or integer `params._meta.progressToken`.
+Ordered progress observations retain exact numbers and untrusted server text.
+Unknown tokens remain unmatched; equal or decreasing matched values refuse.
+Progress shares the response byte budget and never extends the deadline or
+becomes a business result. Explicit cancellation is still under implementation.
 
 The caller supplies authority and network policy;
 the builder must contain no hidden MCP protocol/session/routing header defaults.

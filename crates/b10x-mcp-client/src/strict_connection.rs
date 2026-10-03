@@ -275,6 +275,10 @@ impl StrictConnection {
     ///
     /// The caller still validates the family result and supplies authority. No
     /// discovery cache, list paging, MRTR or retry is driven by this method.
+    /// An explicit `params._meta.progressToken` string or integer opts into
+    /// progress. Ordered observations retain exact numbers and untrusted text;
+    /// unmatched tokens are recorded, non-increasing matched updates refuse.
+    /// Progress never extends the deadline or becomes a business result.
     pub async fn exchange(
         &mut self,
         method: &str,

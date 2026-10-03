@@ -12,9 +12,17 @@ scope:
 - confidence: cited
   path: CHANGELOG.md
 - confidence: cited
+  path: Cargo.lock
+- confidence: cited
+  path: Cargo.toml
+- confidence: cited
   path: README.md
 - confidence: inferred
   path: conformance/strict-lifecycle
+- confidence: cited
+  path: crates/b10x-mcp-client/Cargo.toml
+- confidence: cited
+  path: crates/b10x-mcp-client/src/lib.rs
 - confidence: cited
   path: crates/b10x-mcp-client/src/schema_worker.rs
 - confidence: cited
@@ -25,6 +33,8 @@ scope:
   path: crates/b10x-mcp-client/src/strict_invocation.rs
 - confidence: inferred
   path: crates/b10x-mcp-client/src/strict_lifecycle.rs
+- confidence: cited
+  path: crates/b10x-mcp-client/src/strict_progress.rs
 - confidence: cited
   path: crates/b10x-mcp-client/tests
 - confidence: cited
@@ -37,7 +47,7 @@ scope:
   path: ess-inputs.yaml
 - confidence: inferred
   path: toolchain.json
-revision: 7
+revision: 9
 transitions:
 - {from: "draft", to: "proposed", at: "2026-10-03T06:29:28Z", actor: "human:timo", revision: 4}
 - {from: "proposed", to: "active", at: "2026-10-03T06:29:28Z", actor: "human:timo", revision: 5}
@@ -172,3 +182,49 @@ The preceding gate passed tests but failed the receiver's101-line lint; response
 format parsing was extracted and the full gate rerun successfully. Builds use
 two jobs, no incremental output and dev/test debug=0. The task's old6.8GiB build
 output was safely cleaned; source, evidence, archives and other tasks are retained.
+
+## Exact progress checkpoint,2026-10-03
+
+L1/L2 now run over actual HTTP streams in both revisions. Explicit string/integer
+params._meta.progressToken opts in. Invalid metadata/tokens refuse before send.
+Unknown or absent request tokens produce unmatched observations and cannot
+change the owned sequence. Progress and optional total stay exact JSON numbers;
+message remains untrusted text. A bounded decimal representation compares sign,
+digits and arbitrary-precision exponent without f64 or expanded powers of ten.
+Equal spellings1/1.0,100/1e2 and signed zero, plus decreasing values, are retained
+and refused. Malformed progress/total/message/token fields refuse with original
+message bytes. Total does not impose an invented upper bound on progress.
+Cumulative byte limits and the original absolute deadline remain unchanged.
+
+Lifecycle selection80passed (77authored),0failed/error/skipped/unsupported:
+38 new authored progress cases cover both revisions. Five native progress tests
+assert exact numbers beyond2^53, extreme exponents, raw message agreement,
+optional presence, token types, sequence ownership, before-send refusal and
+continuous progress ending at the operation deadline. The original acceptance
+families map to lifecycle-progress-exact/tiny/large-token,
+lifecycle-progress-unmatched/unopted/token-kind, equal/exponent-equal/
+negative-zero/decreasing, bound and deadline in mcp.strict_progress_checks.
+Malformed input/message cases are additional coverage. All prior selections remain.
+
+Hardening mutation disabled the strict-increase predicate. Result72passed8failed,
+exactly equal,exponent-equal,negative-zero,decreasing in both revisions;
+0error/skipped/unsupported. Restored source before the full gate.
+Mutation SHA25619e9006dbfd1ced222b64bdc498f7eeb581022cd88227a335d7f1d2a42073cb4.
+Suite SHA256f8825c868c6a9b609e3e4ff471ab57b4fcbb4ca5a1e0d1ed57a8cb660284212f.
+
+Rust1.88 full gate passed100native functions,0failed0ignored,37summaries.
+Specification/type/suite drift, AEP validation, fmt, locked workspace check/test,
+all-target/all-feature Clippy and warnings-denied docs pass.
+Gate SHA2563146b2405c2efc410b67f06b197c4236d880dba1e3a1ae06e436711592dc6c17.
+The first native failure was an over-strict spelling assertion: JSON emits an
+explicit plus in positive exponents. It was corrected while retaining exact
+numeric and original message checks. Subsequent gate/Clippy findings were
+unnecessary by-value parameters, corrected without suppressions. Model remains
+77types31codecobligations; constructor partial refusals remain unchanged.
+
+Story remains active. Explicit cancellation, completion races, observed late
+responses and awaited schema-worker cancellation remain. Actual Connectors
+inbound/outbound integration and verified final release remain required. Existing
+consumer ownership decisions remain unanswered. No independent review claimed;
+workers remain quota-exhausted. Next owner is the continuing coordinator; details,
+logs and next-cancellation.md are in.cache/mcp-next-runtime/lifecycle.

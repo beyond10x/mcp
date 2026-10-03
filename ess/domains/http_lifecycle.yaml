@@ -56,6 +56,10 @@ types:
     # Both pinned upstream revisions require strictly increasing progress;
     # the authored non-decreasing display rule does not license equal updates.
     # A non-increasing notification is recorded and refused, not promoted.
+    # Opt-in is params._meta.progressToken with a string/integer value. Invalid
+    # metadata/token refuses before send. Malformed progress/total/message fields
+    # refuse invalid_response with the bounded original message retained. Numeric
+    # comparison is exact even for equivalent spellings and extreme exponents.
     # message is untrusted server text. A progress observation proves no result.
     # L2: all retained nonterminal message bytes count against the response
     # ceiling; overflow refuses without silent eviction or unbounded history.

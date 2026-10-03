@@ -156,6 +156,7 @@ dependencies = [
  "futures",
  "http",
  "jsonschema",
+ "num-bigint",
  "reqwest 0.13.4",
  "rmcp",
  "serde",

@@ -1,4 +1,6 @@
 //! Real HTTP peer: records control requests and observes client socket closure.
+#[path = "strict_progress.rs"]
+mod progress;
 use b10x_mcp_client::strict_connection;
 use serde_json::{Value, json};
 use std::sync::{Arc, Mutex};
@@ -371,6 +373,9 @@ pub async fn observe(case: &str, revision: &str) -> Result<Value, String> {
 
 pub async fn observations(case: &str, revision: &str) -> Result<Value, String> {
     use base64::{Engine as _, engine::general_purpose::STANDARD};
+    if case.starts_with("stream-progress-") {
+        return progress::observations(&observe_stream(case, revision).await?);
+    }
     if case.starts_with("stream-") {
         return stream_observations(case, revision).await;
     }
@@ -506,6 +511,9 @@ async fn stream_reply(mut stream: TcpStream, peer: &Peer, request: &Value) -> Re
         .write_all(head.as_bytes())
         .await
         .map_err(|e| e.to_string())?;
+    if peer.case.starts_with("stream-progress-") {
+        return progress::reply(stream, &peer.case, request, &body).await;
+    }
     if peer.case == "stream-empty-prime" {
         stream
             .write_all(b"id: ignored-cursor\r\nretry: 0\r\ndata:\r\n\r\n")
@@ -614,8 +622,13 @@ pub async fn observe_stream(case: &str, revision: &str) -> Result<Value, String>
                     client
                         .exchange(
                             "tools/call",
-                            json!({"name":"fixture","arguments":{}}),
-                            Instant::now() + Duration::from_secs(1),
+                            progress::params(case),
+                            Instant::now()
+                                + if case == "stream-progress-deadline" {
+                                    Duration::from_millis(200)
+                                } else {
+                                    Duration::from_secs(1)
+                                },
                         )
                         .await
                         .map_err(|_| "exchange failed")?,

@@ -1,0 +1,22 @@
+type: ess-scenario/4
+domain: mcp.strict_progress_checks
+scenario: lifecycle-progress-null-input-2026-07-28
+summary: Actual null-input progress under configured 2026-07-28.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_progress_checks.ObserveProgress
+    input: {case: stream-progress-null-input, revision: "2026-07-28"}
+    outcome: observed
+    response:
+      kind: "refused"
+      reason: "invalid_input"
+      requests: 1
+      send: "not_sent"
+      progress_seen: false
+      accepted_seen: false
+      unmatched_seen: false
+      non_increasing_seen: false
+      exact_values: true
+      accepted_owns_token: true
+      within_budget: true
+      own_payload: false

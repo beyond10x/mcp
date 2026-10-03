@@ -14,6 +14,8 @@ pub mod strict_discovery;
 /// Typed invocation from same-connection discovery with isolated schema validation.
 #[cfg(feature = "strict-http")]
 pub mod strict_invocation;
+#[cfg(feature = "strict-http")]
+mod strict_progress;
 
 #[cfg(feature = "strict-http")]
 pub mod strict_http;

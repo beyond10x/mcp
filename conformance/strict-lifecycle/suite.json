@@ -3,8 +3,8 @@
     "suite_version": "ess-conformance/28",
     "system": "mcp",
     "specification_version": "v1",
-    "spec_digest": "b26822c708b33a40ff0c484b6276a2565dcdc67002d8e5cc696e3c5fd275d80f",
-    "contract_digest": "6e6e72e3b6cb84037b3dc00efac036df886c12830cff2af09a4da638faa87d61"
+    "spec_digest": "0807fd66522c4ae8e2df0e4d0750db20f4fcbc4554620d597b3a2f41fd3348f8",
+    "contract_digest": "dc9ae375864730bad63c64859e8060b6c4ffd4966a6c93a86f8deb51e2eb6ce0"
   },
   "scenarios": {
     "mcp.strict_lifecycle_checks.ObserveLifecycle/outcome/observed": {
@@ -2342,6 +2342,4903 @@
           "kind": "outcome",
           "name": {
             "command": "mcp.strict_lifecycle_checks.ObserveLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks.ObserveProgress/outcome/observed": {
+      "purpose": "`mcp.strict_progress_checks.ObserveProgress` answers `observed` for an input no other branch's guard claims",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-exact"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {}
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-bad-message-2025-11-25": {
+      "purpose": "Actual bad-message progress under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-bad-message"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": false,
+              "exact_values": true,
+              "kind": "refused",
+              "non_increasing_seen": false,
+              "own_payload": false,
+              "progress_seen": false,
+              "reason": "invalid_response",
+              "requests": 3.0,
+              "send": "send_observed",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-bad-message-2026-07-28": {
+      "purpose": "Actual bad-message progress under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-bad-message"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": false,
+              "exact_values": true,
+              "kind": "refused",
+              "non_increasing_seen": false,
+              "own_payload": false,
+              "progress_seen": false,
+              "reason": "invalid_response",
+              "requests": 2.0,
+              "send": "send_observed",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-bad-token-2025-11-25": {
+      "purpose": "Actual bad-token progress under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-bad-token"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": false,
+              "exact_values": true,
+              "kind": "refused",
+              "non_increasing_seen": false,
+              "own_payload": false,
+              "progress_seen": false,
+              "reason": "invalid_response",
+              "requests": 3.0,
+              "send": "send_observed",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-bad-token-2026-07-28": {
+      "purpose": "Actual bad-token progress under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-bad-token"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": false,
+              "exact_values": true,
+              "kind": "refused",
+              "non_increasing_seen": false,
+              "own_payload": false,
+              "progress_seen": false,
+              "reason": "invalid_response",
+              "requests": 2.0,
+              "send": "send_observed",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-bad-total-2025-11-25": {
+      "purpose": "Actual bad-total progress under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-bad-total"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": false,
+              "exact_values": true,
+              "kind": "refused",
+              "non_increasing_seen": false,
+              "own_payload": false,
+              "progress_seen": false,
+              "reason": "invalid_response",
+              "requests": 3.0,
+              "send": "send_observed",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-bad-total-2026-07-28": {
+      "purpose": "Actual bad-total progress under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-bad-total"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": false,
+              "exact_values": true,
+              "kind": "refused",
+              "non_increasing_seen": false,
+              "own_payload": false,
+              "progress_seen": false,
+              "reason": "invalid_response",
+              "requests": 2.0,
+              "send": "send_observed",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-bound-2025-11-25": {
+      "purpose": "Actual bound progress under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-bound"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": true,
+              "exact_values": true,
+              "kind": "refused",
+              "non_increasing_seen": false,
+              "own_payload": false,
+              "progress_seen": true,
+              "reason": "response_bound",
+              "requests": 3.0,
+              "send": "send_observed",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-bound-2026-07-28": {
+      "purpose": "Actual bound progress under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-bound"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": true,
+              "exact_values": true,
+              "kind": "refused",
+              "non_increasing_seen": false,
+              "own_payload": false,
+              "progress_seen": true,
+              "reason": "response_bound",
+              "requests": 2.0,
+              "send": "send_observed",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-deadline-2025-11-25": {
+      "purpose": "Actual deadline progress under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-deadline"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": true,
+              "exact_values": true,
+              "kind": "refused",
+              "non_increasing_seen": false,
+              "own_payload": false,
+              "progress_seen": true,
+              "reason": "deadline_exhausted",
+              "requests": 3.0,
+              "send": "send_observed",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-deadline-2026-07-28": {
+      "purpose": "Actual deadline progress under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-deadline"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": true,
+              "exact_values": true,
+              "kind": "refused",
+              "non_increasing_seen": false,
+              "own_payload": false,
+              "progress_seen": true,
+              "reason": "deadline_exhausted",
+              "requests": 2.0,
+              "send": "send_observed",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-decreasing-2025-11-25": {
+      "purpose": "Actual decreasing progress under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-decreasing"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": true,
+              "exact_values": true,
+              "kind": "refused",
+              "non_increasing_seen": true,
+              "own_payload": false,
+              "progress_seen": true,
+              "reason": "invalid_response",
+              "requests": 3.0,
+              "send": "send_observed",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-decreasing-2026-07-28": {
+      "purpose": "Actual decreasing progress under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-decreasing"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": true,
+              "exact_values": true,
+              "kind": "refused",
+              "non_increasing_seen": true,
+              "own_payload": false,
+              "progress_seen": true,
+              "reason": "invalid_response",
+              "requests": 2.0,
+              "send": "send_observed",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-equal-2025-11-25": {
+      "purpose": "Actual equal progress under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-equal"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": true,
+              "exact_values": true,
+              "kind": "refused",
+              "non_increasing_seen": true,
+              "own_payload": false,
+              "progress_seen": true,
+              "reason": "invalid_response",
+              "requests": 3.0,
+              "send": "send_observed",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-equal-2026-07-28": {
+      "purpose": "Actual equal progress under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-equal"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": true,
+              "exact_values": true,
+              "kind": "refused",
+              "non_increasing_seen": true,
+              "own_payload": false,
+              "progress_seen": true,
+              "reason": "invalid_response",
+              "requests": 2.0,
+              "send": "send_observed",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-exact-2025-11-25": {
+      "purpose": "Actual exact progress under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-exact"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": true,
+              "exact_values": true,
+              "kind": "result",
+              "non_increasing_seen": false,
+              "own_payload": true,
+              "progress_seen": true,
+              "reason": "absent",
+              "requests": 3.0,
+              "send": "send_observed",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-exact-2026-07-28": {
+      "purpose": "Actual exact progress under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-exact"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": true,
+              "exact_values": true,
+              "kind": "result",
+              "non_increasing_seen": false,
+              "own_payload": true,
+              "progress_seen": true,
+              "reason": "absent",
+              "requests": 2.0,
+              "send": "send_observed",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-exponent-equal-2025-11-25": {
+      "purpose": "Actual exponent-equal progress under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-exponent-equal"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": true,
+              "exact_values": true,
+              "kind": "refused",
+              "non_increasing_seen": true,
+              "own_payload": false,
+              "progress_seen": true,
+              "reason": "invalid_response",
+              "requests": 3.0,
+              "send": "send_observed",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-exponent-equal-2026-07-28": {
+      "purpose": "Actual exponent-equal progress under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-exponent-equal"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": true,
+              "exact_values": true,
+              "kind": "refused",
+              "non_increasing_seen": true,
+              "own_payload": false,
+              "progress_seen": true,
+              "reason": "invalid_response",
+              "requests": 2.0,
+              "send": "send_observed",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-fractional-input-2025-11-25": {
+      "purpose": "Actual fractional-input progress under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-fractional-input"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": false,
+              "exact_values": true,
+              "kind": "refused",
+              "non_increasing_seen": false,
+              "own_payload": false,
+              "progress_seen": false,
+              "reason": "invalid_input",
+              "requests": 2.0,
+              "send": "not_sent",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-fractional-input-2026-07-28": {
+      "purpose": "Actual fractional-input progress under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-fractional-input"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": false,
+              "exact_values": true,
+              "kind": "refused",
+              "non_increasing_seen": false,
+              "own_payload": false,
+              "progress_seen": false,
+              "reason": "invalid_input",
+              "requests": 1.0,
+              "send": "not_sent",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-invalid-input-2025-11-25": {
+      "purpose": "Actual invalid-input progress under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-invalid-input"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": false,
+              "exact_values": true,
+              "kind": "refused",
+              "non_increasing_seen": false,
+              "own_payload": false,
+              "progress_seen": false,
+              "reason": "invalid_input",
+              "requests": 2.0,
+              "send": "not_sent",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-invalid-input-2026-07-28": {
+      "purpose": "Actual invalid-input progress under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-invalid-input"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": false,
+              "exact_values": true,
+              "kind": "refused",
+              "non_increasing_seen": false,
+              "own_payload": false,
+              "progress_seen": false,
+              "reason": "invalid_input",
+              "requests": 1.0,
+              "send": "not_sent",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-large-token-2025-11-25": {
+      "purpose": "Actual large-token progress under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-large-token"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": true,
+              "exact_values": true,
+              "kind": "result",
+              "non_increasing_seen": false,
+              "own_payload": true,
+              "progress_seen": true,
+              "reason": "absent",
+              "requests": 3.0,
+              "send": "send_observed",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-large-token-2026-07-28": {
+      "purpose": "Actual large-token progress under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-large-token"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": true,
+              "exact_values": true,
+              "kind": "result",
+              "non_increasing_seen": false,
+              "own_payload": true,
+              "progress_seen": true,
+              "reason": "absent",
+              "requests": 2.0,
+              "send": "send_observed",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-malformed-2025-11-25": {
+      "purpose": "Actual malformed progress under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-malformed"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": false,
+              "exact_values": true,
+              "kind": "refused",
+              "non_increasing_seen": false,
+              "own_payload": false,
+              "progress_seen": false,
+              "reason": "invalid_response",
+              "requests": 3.0,
+              "send": "send_observed",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-malformed-2026-07-28": {
+      "purpose": "Actual malformed progress under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-malformed"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": false,
+              "exact_values": true,
+              "kind": "refused",
+              "non_increasing_seen": false,
+              "own_payload": false,
+              "progress_seen": false,
+              "reason": "invalid_response",
+              "requests": 2.0,
+              "send": "send_observed",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-negative-zero-2025-11-25": {
+      "purpose": "Actual negative-zero progress under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-negative-zero"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": true,
+              "exact_values": true,
+              "kind": "refused",
+              "non_increasing_seen": true,
+              "own_payload": false,
+              "progress_seen": true,
+              "reason": "invalid_response",
+              "requests": 3.0,
+              "send": "send_observed",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-negative-zero-2026-07-28": {
+      "purpose": "Actual negative-zero progress under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-negative-zero"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": true,
+              "exact_values": true,
+              "kind": "refused",
+              "non_increasing_seen": true,
+              "own_payload": false,
+              "progress_seen": true,
+              "reason": "invalid_response",
+              "requests": 2.0,
+              "send": "send_observed",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-null-input-2025-11-25": {
+      "purpose": "Actual null-input progress under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-null-input"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": false,
+              "exact_values": true,
+              "kind": "refused",
+              "non_increasing_seen": false,
+              "own_payload": false,
+              "progress_seen": false,
+              "reason": "invalid_input",
+              "requests": 2.0,
+              "send": "not_sent",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-null-input-2026-07-28": {
+      "purpose": "Actual null-input progress under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-null-input"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": false,
+              "exact_values": true,
+              "kind": "refused",
+              "non_increasing_seen": false,
+              "own_payload": false,
+              "progress_seen": false,
+              "reason": "invalid_input",
+              "requests": 1.0,
+              "send": "not_sent",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-tiny-2025-11-25": {
+      "purpose": "Actual tiny progress under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-tiny"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": true,
+              "exact_values": true,
+              "kind": "result",
+              "non_increasing_seen": false,
+              "own_payload": true,
+              "progress_seen": true,
+              "reason": "absent",
+              "requests": 3.0,
+              "send": "send_observed",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-tiny-2026-07-28": {
+      "purpose": "Actual tiny progress under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-tiny"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": true,
+              "exact_values": true,
+              "kind": "result",
+              "non_increasing_seen": false,
+              "own_payload": true,
+              "progress_seen": true,
+              "reason": "absent",
+              "requests": 2.0,
+              "send": "send_observed",
+              "unmatched_seen": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-token-kind-2025-11-25": {
+      "purpose": "Actual token-kind progress under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-token-kind"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": true,
+              "exact_values": true,
+              "kind": "result",
+              "non_increasing_seen": false,
+              "own_payload": true,
+              "progress_seen": true,
+              "reason": "absent",
+              "requests": 3.0,
+              "send": "send_observed",
+              "unmatched_seen": true,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-token-kind-2026-07-28": {
+      "purpose": "Actual token-kind progress under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-token-kind"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": true,
+              "exact_values": true,
+              "kind": "result",
+              "non_increasing_seen": false,
+              "own_payload": true,
+              "progress_seen": true,
+              "reason": "absent",
+              "requests": 2.0,
+              "send": "send_observed",
+              "unmatched_seen": true,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-unmatched-2025-11-25": {
+      "purpose": "Actual unmatched progress under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-unmatched"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": true,
+              "exact_values": true,
+              "kind": "result",
+              "non_increasing_seen": false,
+              "own_payload": true,
+              "progress_seen": true,
+              "reason": "absent",
+              "requests": 3.0,
+              "send": "send_observed",
+              "unmatched_seen": true,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-unmatched-2026-07-28": {
+      "purpose": "Actual unmatched progress under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-unmatched"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": true,
+              "exact_values": true,
+              "kind": "result",
+              "non_increasing_seen": false,
+              "own_payload": true,
+              "progress_seen": true,
+              "reason": "absent",
+              "requests": 2.0,
+              "send": "send_observed",
+              "unmatched_seen": true,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-unopted-2025-11-25": {
+      "purpose": "Actual unopted progress under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-unopted"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": false,
+              "exact_values": true,
+              "kind": "result",
+              "non_increasing_seen": false,
+              "own_payload": true,
+              "progress_seen": true,
+              "reason": "absent",
+              "requests": 3.0,
+              "send": "send_observed",
+              "unmatched_seen": true,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_progress_checks/authored/lifecycle-progress-unopted-2026-07-28": {
+      "purpose": "Actual unopted progress under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_progress_checks.ObserveProgress",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-progress-unopted"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
+            "outcome": {
+              "command": "mcp.strict_progress_checks.ObserveProgress",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "send",
+                "type": "String"
+              },
+              {
+                "name": "progress_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "unmatched_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "non_increasing_seen",
+                "type": "Boolean"
+              },
+              {
+                "name": "exact_values",
+                "type": "Boolean"
+              },
+              {
+                "name": "accepted_owns_token",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "accepted_owns_token": true,
+              "accepted_seen": false,
+              "exact_values": true,
+              "kind": "result",
+              "non_increasing_seen": false,
+              "own_payload": true,
+              "progress_seen": true,
+              "reason": "absent",
+              "requests": 2.0,
+              "send": "send_observed",
+              "unmatched_seen": true,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_progress_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_progress_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_progress_checks.ObserveProgress"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_progress_checks.ObserveProgress",
             "outcome": "observed"
           }
         }

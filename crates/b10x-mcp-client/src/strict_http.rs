@@ -127,6 +127,9 @@ async fn exchange_inner(
             Ok(valid) => valid,
             Err(reason) => return received.refuse(reason),
         };
+    if controlled && !received.progress.configure(&body) {
+        return received.refuse("invalid_input");
+    }
     let Some(provider_end) = started.checked_add(provider) else {
         return received.refuse("invalid_input");
     };
@@ -815,6 +818,7 @@ fn raw_json(raw: &serde_json::value::RawValue) -> Option<Value> {
 // Mutable receiver state, not a second serialized model. Generated carriers are
 // constructed only from actual observations and never deserialize peer metadata.
 struct Reception {
+    progress: crate::strict_progress::Progress,
     bytes: Vec<u8>,
     seen: usize,
     limit: usize,
@@ -828,6 +832,7 @@ struct Reception {
 impl Reception {
     fn new(limit: usize) -> Self {
         Self {
+            progress: crate::strict_progress::Progress::default(),
             bytes: Vec::new(),
             seen: 0,
             limit,
@@ -1157,12 +1162,25 @@ fn dispatch_frame(
     };
     let raw = received.wire_observation();
     if message.get("id").is_none() {
-        received.stream.push(
-            serde_json::from_value(json!({"kind":"notification","value":raw}))
-                .map_err(|_| internal_error())?,
-        );
+        let (observation, non_increasing) = if message["method"] == "notifications/progress" {
+            let Some(observed) = received.progress.observe(&message["params"], &raw) else {
+                return received.refuse("invalid_response").map(Some);
+            };
+            observed
+        } else {
+            (
+                serde_json::from_value(json!({"kind":"notification","value":raw}))
+                    .map_err(|_| internal_error())?,
+                false,
+            )
+        };
+        received.stream.push(observation);
         received.consume_message();
-        return Ok(None);
+        return if non_increasing {
+            received.refuse("invalid_response").map(Some)
+        } else {
+            Ok(None)
+        };
     }
     let Some(control) = &context.control else {
         return received.refuse("invalid_response").map(Some);

@@ -57,6 +57,7 @@ impl ConformanceTarget for Lifecycle {
                 request.command.to_string().as_str(),
                 "mcp.strict_lifecycle_checks.ObserveLifecycle"
                     | "mcp.strict_stream_checks.ObserveStream"
+                    | "mcp.strict_progress_checks.ObserveProgress"
             )
         {
             return Err(unsupported("command/caller"));
@@ -111,8 +112,8 @@ fn lifecycle_scenarios_execute_actual_connection() {
         "LIFECYCLE_RUN_REPORT_BEGIN\n{}LIFECYCLE_RUN_REPORT_END",
         run.report().to_canonical_json()
     );
-    assert_eq!(report.counts().total, 41);
-    assert_eq!(report.counts().passed, 41);
+    assert_eq!(report.counts().total, 80);
+    assert_eq!(report.counts().passed, 80);
     assert_eq!(
         report.counts().failed
             + report.counts().error

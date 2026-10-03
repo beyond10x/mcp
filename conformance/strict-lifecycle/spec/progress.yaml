@@ -1,0 +1,32 @@
+domain: mcp.strict_progress_checks
+summary: Opted-in exact progress observed over actual bounded HTTP streams.
+types:
+  - name: mcp.strict_progress_checks.Case
+    kind: enum
+    variants: [stream-progress-exact, stream-progress-tiny, stream-progress-unopted, stream-progress-unmatched, stream-progress-token-kind, stream-progress-large-token, stream-progress-equal, stream-progress-exponent-equal, stream-progress-negative-zero, stream-progress-decreasing, stream-progress-malformed, stream-progress-bad-total, stream-progress-bad-message, stream-progress-bad-token, stream-progress-invalid-input, stream-progress-null-input, stream-progress-fractional-input, stream-progress-bound, stream-progress-deadline]
+  - name: mcp.strict_progress_checks.Revision
+    kind: enum
+    variants: ["2025-11-25", "2026-07-28"]
+commands:
+  - name: mcp.strict_progress_checks.ObserveProgress
+    input:
+      - {name: case, type: mcp.strict_progress_checks.Case}
+      - {name: revision, type: mcp.strict_progress_checks.Revision}
+    response:
+      - {name: kind, type: String}
+      - {name: reason, type: String}
+      - {name: requests, type: Integer}
+      - {name: send, type: String}
+      - {name: progress_seen, type: Boolean}
+      - {name: accepted_seen, type: Boolean}
+      - {name: unmatched_seen, type: Boolean}
+      - {name: non_increasing_seen, type: Boolean}
+      - {name: exact_values, type: Boolean}
+      - {name: accepted_owns_token, type: Boolean}
+      - {name: within_budget, type: Boolean}
+      - {name: own_payload, type: Boolean}
+    outcomes:
+      - {name: observed, returns: true}
+    # Facts come from actual exchanges, retained message bytes and captured POSTs.
+    # A continuously writing peer must observe closure before its own3s timeout.
+    # Original terminal payload exists only after a correlated business result.
