@@ -6,6 +6,23 @@ summary: Revision-specific HTTP progress, control-message and shutdown observati
 # These are immutable observations, never persisted requests, capabilities,
 # credentials or a way to manufacture a runtime cancellation handle.
 types:
+  - name: mcp.http_lifecycle.ControlledExchange
+    kind: union
+    tag: kind
+    variants:
+      finished: mcp.http_exchange.ExchangeResult
+      cancelled: mcp.http_lifecycle.CancellationObservation
+    # L10: an explicit runtime signal and caller-supplied teardown deadline are
+    # ports, not serializable authority. Local cancellation before send retains
+    # not_sent and sends no cancellation notification. After an attempted send,
+    # legacy attempts exactly one bounded notification; modern only closes.
+    # A terminal already observed wins over later cancellation during side I/O.
+    # If cancellation is ready at the next I/O boundary, it wins over unread
+    # bytes. No speculative reading, fabricated late reply or automatic retry.
+    # Existing raw exchange APIs retain their behavior; this result belongs to
+    # the explicit controlled entry point. A control failure never means rollback.
+    # Interrupted body/stream bytes and the cancellation acknowledgement consume
+    # one response ceiling; the notification gets only the remaining allowance.
   - name: mcp.http_lifecycle.StreamObservation
     kind: struct
     fields:
@@ -99,8 +116,9 @@ types:
       - {name: request_id, type: mcp.http_exchange.RequestId}
       - {name: cause, type: mcp.http_lifecycle.StopCause}
       - {name: exchange, type: "Optional<mcp.http_exchange.ExchangeObservation>"}
-    # L5: interrupted means the remote effect is unknown, never rollback or
-    # business failure. Absent exchange means an abandoned future yielded no
+    # L5: interruption never proves rollback or business failure. Remote effects
+    # stay unknown after an attempted send; actual not_sent remains distinct.
+    # Absent exchange means an abandoned future yielded no
     # observation to the handle; it does not mean not_sent. At most one exchange
     # runs per exclusive mutable handle. A dropped exchange invalidates reuse
     # until shutdown, so another request cannot overwrite its pending identity.

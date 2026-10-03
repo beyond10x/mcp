@@ -15,6 +15,7 @@ use std::sync::{
 };
 use std::time::Duration;
 
+use crate::strict_cancellation::{self, Cancellation};
 use b10x_mcp_types::ClientError;
 use b10x_mcp_types::http_exchange::{
     EssPresence, McpHttpExchangeExchangeInput as ExchangeInput,
@@ -64,7 +65,7 @@ pub async fn exchange(
 
 enum Driver {
     Builder(Box<reqwest::ClientBuilder>),
-    Pooled(reqwest::Client, Option<usize>),
+    Pooled(reqwest::Client, Option<usize>, Option<Cancellation>),
 }
 
 pub(crate) fn strict_builder(builder: reqwest::ClientBuilder) -> reqwest::ClientBuilder {
@@ -86,7 +87,7 @@ pub(crate) async fn pooled_exchange(
 ) -> Result<(ExchangeResult, Vec<reqwest::header::HeaderValue>), ClientError> {
     let mut session = Vec::new();
     let result = exchange_inner(
-        Driver::Pooled(client.clone(), initialize_session_limit),
+        Driver::Pooled(client.clone(), initialize_session_limit, None),
         request,
         input,
         deadline,
@@ -94,6 +95,23 @@ pub(crate) async fn pooled_exchange(
     )
     .await?;
     Ok((result, session))
+}
+
+pub(crate) async fn cancellable_exchange(
+    client: &reqwest::Client,
+    request: reqwest::Request,
+    input: &ExchangeInput,
+    deadline: Instant,
+    cancellation: &Cancellation,
+) -> Result<ExchangeResult, ClientError> {
+    exchange_inner(
+        Driver::Pooled(client.clone(), None, Some(cancellation.clone())),
+        request,
+        input,
+        deadline,
+        &mut Vec::new(),
+    )
+    .await
 }
 
 async fn exchange_inner(
@@ -104,9 +122,9 @@ async fn exchange_inner(
     session: &mut Vec<reqwest::header::HeaderValue>,
 ) -> Result<ExchangeResult, ClientError> {
     let controlled = matches!(&driver, Driver::Pooled(..));
-    let session_limit = match &driver {
-        Driver::Pooled(_, limit) => *limit,
-        Driver::Builder(_) => None,
+    let (session_limit, cancellation) = match &driver {
+        Driver::Pooled(_, limit, signal) => (*limit, signal.clone()),
+        Driver::Builder(_) => (None, None),
     };
     let initialize = session_limit.is_some();
     let started = Instant::now();
@@ -158,7 +176,7 @@ async fn exchange_inner(
             .map_or(remaining, |t| t.min(remaining)),
     );
     let client = match driver {
-        Driver::Pooled(client, _) => client,
+        Driver::Pooled(client, _, _) => client,
         Driver::Builder(builder) => match strict_builder(*builder)
             .connect_timeout(connect.min(remaining))
             .build()
@@ -175,10 +193,11 @@ async fn exchange_inner(
     } else {
         None
     };
-    let response = match send_request(&client, request, &mut received, end).await {
-        Ok(response) => response,
-        Err(reason) => return received.refuse(reason),
-    };
+    let response =
+        match send_request(&client, request, &mut received, end, cancellation.as_ref()).await {
+            Ok(response) => response,
+            Err(reason) => return received.refuse(reason),
+        };
     if initialize {
         session.extend(response.headers().get_all("mcp-session-id").iter().cloned());
         if let Some(control) = &mut control {
@@ -195,6 +214,7 @@ async fn exchange_inner(
             semantics,
             controlled,
             control,
+            cancellation,
         },
     )
     .await
@@ -205,20 +225,27 @@ async fn send_request(
     request: reqwest::Request,
     received: &mut Reception,
     end: Instant,
+    cancellation: Option<&Cancellation>,
 ) -> Result<reqwest::Response, &'static str> {
+    if cancellation.is_some_and(Cancellation::requested) {
+        return Err("caller_cancelled");
+    }
     // Entering execute is not evidence that request bytes left.
     received.send = "unknown";
-    let response = match timeout_at(end, client.execute(request)).await {
-        Ok(Ok(response)) => response,
-        Ok(Err(error)) => {
-            return Err(if error.is_timeout() {
-                "deadline_exhausted"
-            } else {
-                "transport_failure"
-            });
-        }
-        Err(_) => return Err("deadline_exhausted"),
-    };
+    let response =
+        match strict_cancellation::until(cancellation, timeout_at(end, client.execute(request)))
+            .await?
+        {
+            Ok(Ok(response)) => response,
+            Ok(Err(error)) => {
+                return Err(if error.is_timeout() {
+                    "deadline_exhausted"
+                } else {
+                    "transport_failure"
+                });
+            }
+            Err(_) => return Err("deadline_exhausted"),
+        };
     received.send = "send_observed";
     if !(100..=599).contains(&response.status().as_u16()) {
         return Err("invalid_response");
@@ -234,6 +261,7 @@ struct ResponseContext {
     semantics: HttpSemantics,
     controlled: bool,
     control: Option<ControlPort>,
+    cancellation: Option<Cancellation>,
 }
 
 struct ControlPort {
@@ -315,6 +343,26 @@ impl ControlPort {
             json!({"jsonrpc":"2.0","id":message["id"],"error":{"code":-32601,"message":"Client method not supported"}})
         };
         let body = serde_json::to_vec(&body).map_err(|_| internal_error())?;
+        self.post(
+            body,
+            received,
+            end,
+            if ping {
+                "ping_reply"
+            } else {
+                "unsupported_request_reply"
+            },
+        )
+        .await
+    }
+
+    async fn post(
+        &self,
+        body: Vec<u8>,
+        received: &Mutex<Reception>,
+        end: Instant,
+        kind: &str,
+    ) -> Result<ControlObservation, ClientError> {
         let mut request = self.template.try_clone().ok_or_else(internal_error)?;
         let outcome = async {
             if !self.session_valid {
@@ -359,16 +407,32 @@ impl ControlPort {
             }
         }
         .await;
-        control_observation(
-            received,
-            if ping {
-                "ping_reply"
-            } else {
-                "unsupported_request_reply"
-            },
-            outcome,
-        )
+        control_observation(received, kind, outcome)
     }
+}
+
+pub(crate) async fn cancellation_notification(
+    client: &reqwest::Client,
+    request: &reqwest::Request,
+    input: &ExchangeInput,
+    end: Instant,
+    reason: &str,
+) -> Result<ControlObservation, ClientError> {
+    let port = ControlPort::new(client, request, input)?;
+    let id = serde_json::to_value(&input.request_id).map_err(|_| internal_error())?;
+    let body = serde_json::to_vec(&json!({"jsonrpc":"2.0","method":"notifications/cancelled",
+        "params":{"requestId":id["value"],"reason":reason}}))
+    .map_err(|_| internal_error())?;
+    let limit = input
+        .budget
+        .response_octets
+        .0
+        .as_u64()
+        .and_then(|n| usize::try_from(n).ok())
+        .ok_or_else(internal_error)?;
+    let received = Mutex::new(Reception::new(limit));
+    port.post(body, &received, end, "cancellation_notification")
+        .await
 }
 
 fn control_observation(
@@ -995,7 +1059,9 @@ async fn receive(
 ) -> Result<ExchangeResult, ClientError> {
     let mut controls = Controls::default();
     let result = receive_inner(response, &mut received, context, &mut controls).await;
-    let overflow = controls.finish(&mut received, context.end).await?;
+    let overflow = controls
+        .finish(&mut received, context.end, context.cancellation.as_ref())
+        .await?;
     let mut result = if overflow {
         received.refuse("response_bound")?
     } else {
@@ -1046,19 +1112,21 @@ async fn receive_inner(
     };
     let mut sse = Events::new(*event_limit, mode);
     loop {
-        let chunk = match controls
-            .drive(received, timeout_at(end, response.chunk()))
-            .await?
-        {
-            Ok(Ok(chunk)) => chunk,
-            Ok(Err(error)) => {
+        let next = strict_cancellation::until(
+            context.cancellation.as_ref(),
+            timeout_at(end, response.chunk()),
+        );
+        let chunk = match controls.drive(received, next).await? {
+            Ok(Ok(Ok(chunk))) => chunk,
+            Ok(Ok(Err(error))) => {
                 return received.refuse(if error.is_timeout() {
                     "deadline_exhausted"
                 } else {
                     "transport_failure"
                 });
             }
-            Err(_) => return received.refuse("deadline_exhausted"),
+            Ok(Err(_)) => return received.refuse("deadline_exhausted"),
+            Err(reason) => return received.refuse(reason),
         };
         let Some(chunk) = chunk else {
             break;
@@ -1263,6 +1331,7 @@ impl Controls {
         tokio::pin!(read);
         loop {
             tokio::select! {
+                biased;
                 result = &mut read => return Ok(result),
                 Some((index, reply)) = self.jobs.next(), if !self.jobs.is_empty() => {
                     self.complete(index, reply?, received)?;
@@ -1274,11 +1343,18 @@ impl Controls {
         &mut self,
         received: &mut Reception,
         end: Instant,
+        cancellation: Option<&Cancellation>,
     ) -> Result<bool, ClientError> {
+        let mut stop = "deadline_exhausted";
         while !self.jobs.is_empty() {
-            match timeout_at(end, self.jobs.next()).await {
-                Ok(Some((index, reply))) => self.complete(index, reply?, received)?,
-                Ok(None) | Err(_) => break,
+            match strict_cancellation::until(cancellation, timeout_at(end, self.jobs.next())).await
+            {
+                Ok(Ok(Some((index, reply)))) => self.complete(index, reply?, received)?,
+                Ok(Ok(None) | Err(_)) => break,
+                Err(reason) => {
+                    stop = reason;
+                    break;
+                }
             }
         }
         // The exchange owns these futures directly. Dropping it or reaching its
@@ -1287,8 +1363,7 @@ impl Controls {
         let unresolved: Vec<_> = self.pending.keys().copied().collect();
         for index in unresolved {
             let pending = &self.pending[&index];
-            let reply =
-                control_observation(&pending.state, pending.kind, Err("deadline_exhausted"))?;
+            let reply = control_observation(&pending.state, pending.kind, Err(stop))?;
             self.complete(index, reply, received)?;
         }
         Ok(self.overflow)

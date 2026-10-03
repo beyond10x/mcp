@@ -1,7 +1,10 @@
 //! Real HTTP peer: records control requests and observes client socket closure.
+#[path = "strict_cancellation.rs"]
+mod cancellation;
 #[path = "strict_progress.rs"]
 mod progress;
 use b10x_mcp_client::strict_connection;
+pub use cancellation::observe as observe_cancel;
 use serde_json::{Value, json};
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
@@ -13,6 +16,7 @@ use tokio::time::{Instant, timeout};
 
 #[derive(Clone)]
 struct Peer {
+    cancellation: b10x_mcp_client::strict_cancellation::Cancellation,
     case: String,
     requests: Arc<Mutex<Vec<Value>>>,
     started: Arc<Notify>,
@@ -134,6 +138,16 @@ async fn connection(mut stream: TcpStream, peer: Peer) -> Result<(), String> {
             .lock()
             .map_err(|_| "fixture lock")?
             .push(request.clone());
+        if peer.case.starts_with("cancel-") {
+            if request["body"]["method"] == "tools/call" {
+                return cancellation::business(stream, &peer, &request).await;
+            }
+            if request["body"]["method"] == "notifications/cancelled"
+                || request["body"].get("method").is_none()
+            {
+                return cancellation::control(stream, &peer, &request).await;
+            }
+        }
         if matches!(
             peer.case.as_str(),
             "stream-control-delayed" | "stream-control-abandoned"
@@ -280,6 +294,7 @@ pub async fn observe(case: &str, revision: &str) -> Result<Value, String> {
         listener.local_addr().map_err(|e| e.to_string())?
     );
     let peer = Peer {
+        cancellation: b10x_mcp_client::strict_cancellation::Cancellation::new(),
         case: case.into(),
         requests: Arc::default(),
         started: Arc::default(),
@@ -373,6 +388,9 @@ pub async fn observe(case: &str, revision: &str) -> Result<Value, String> {
 
 pub async fn observations(case: &str, revision: &str) -> Result<Value, String> {
     use base64::{Engine as _, engine::general_purpose::STANDARD};
+    if case.starts_with("cancel-") {
+        return cancellation::observations(&observe_cancel(case, revision).await?);
+    }
     if case.starts_with("stream-progress-") {
         return progress::observations(&observe_stream(case, revision).await?);
     }
@@ -585,6 +603,7 @@ pub async fn observe_stream(case: &str, revision: &str) -> Result<Value, String>
         listener.local_addr().map_err(|e| e.to_string())?
     );
     let peer = Peer {
+        cancellation: b10x_mcp_client::strict_cancellation::Cancellation::new(),
         case: case.into(),
         requests: Arc::default(),
         started: Arc::default(),

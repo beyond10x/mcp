@@ -3,10 +3,3143 @@
     "suite_version": "ess-conformance/28",
     "system": "mcp",
     "specification_version": "v1",
-    "spec_digest": "0807fd66522c4ae8e2df0e4d0750db20f4fcbc4554620d597b3a2f41fd3348f8",
-    "contract_digest": "dc9ae375864730bad63c64859e8060b6c4ffd4966a6c93a86f8deb51e2eb6ce0"
+    "spec_digest": "308faf74d0e942ea739ac6ac16b2898898df77d01617e43864d0ee4c527a103e",
+    "contract_digest": "9b3f9babf9cebe6eb4eff572074e6cf209b22a02bcf205f1e4fc7061c3a068f1"
   },
   "scenarios": {
+    "mcp.strict_cancel_checks.ObserveCancellation/outcome/observed": {
+      "purpose": "`mcp.strict_cancel_checks.ObserveCancellation` answers `observed` for an input no other branch's guard claims",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_cancel_checks.ObserveCancellation",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "cancel-caller"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": {
+              "command": "mcp.strict_cancel_checks.ObserveCancellation",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "controls",
+                "type": "Integer"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "notification",
+                "type": "String"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "late_observed",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "refused_input",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {}
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_cancel_checks.ObserveCancellation"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_cancel_checks/authored/lifecycle-before-headers-2025-11-25": {
+      "purpose": "Actual before-headers cancellation under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_cancel_checks.ObserveCancellation",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "cancel-before-headers"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": {
+              "command": "mcp.strict_cancel_checks.ObserveCancellation",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "controls",
+                "type": "Integer"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "notification",
+                "type": "String"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "late_observed",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "refused_input",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "caller_cancelled",
+              "control_reason": "absent",
+              "controls": 1.0,
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "cancelled",
+              "late_observed": false,
+              "notification": "accepted",
+              "refused_input": false,
+              "requests": 4.0,
+              "reused": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_cancel_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_cancel_checks.ObserveCancellation"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_cancel_checks/authored/lifecycle-before-headers-2026-07-28": {
+      "purpose": "Actual before-headers cancellation under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_cancel_checks.ObserveCancellation",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "cancel-before-headers"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": {
+              "command": "mcp.strict_cancel_checks.ObserveCancellation",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "controls",
+                "type": "Integer"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "notification",
+                "type": "String"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "late_observed",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "refused_input",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "caller_cancelled",
+              "control_reason": "absent",
+              "controls": 0.0,
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "cancelled",
+              "late_observed": false,
+              "notification": "absent",
+              "refused_input": false,
+              "requests": 2.0,
+              "reused": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_cancel_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_cancel_checks.ObserveCancellation"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_cancel_checks/authored/lifecycle-before-send-2025-11-25": {
+      "purpose": "Actual before-send cancellation under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_cancel_checks.ObserveCancellation",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "cancel-before-send"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": {
+              "command": "mcp.strict_cancel_checks.ObserveCancellation",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "controls",
+                "type": "Integer"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "notification",
+                "type": "String"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "late_observed",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "refused_input",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "caller_cancelled",
+              "control_reason": "absent",
+              "controls": 0.0,
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "cancelled",
+              "late_observed": false,
+              "notification": "absent",
+              "refused_input": false,
+              "requests": 2.0,
+              "reused": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_cancel_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_cancel_checks.ObserveCancellation"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_cancel_checks/authored/lifecycle-before-send-2026-07-28": {
+      "purpose": "Actual before-send cancellation under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_cancel_checks.ObserveCancellation",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "cancel-before-send"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": {
+              "command": "mcp.strict_cancel_checks.ObserveCancellation",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "controls",
+                "type": "Integer"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "notification",
+                "type": "String"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "late_observed",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "refused_input",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "caller_cancelled",
+              "control_reason": "absent",
+              "controls": 0.0,
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "cancelled",
+              "late_observed": false,
+              "notification": "absent",
+              "refused_input": false,
+              "requests": 1.0,
+              "reused": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_cancel_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_cancel_checks.ObserveCancellation"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_cancel_checks/authored/lifecycle-caller-2025-11-25": {
+      "purpose": "Actual caller cancellation under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_cancel_checks.ObserveCancellation",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "cancel-caller"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": {
+              "command": "mcp.strict_cancel_checks.ObserveCancellation",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "controls",
+                "type": "Integer"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "notification",
+                "type": "String"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "late_observed",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "refused_input",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "caller_cancelled",
+              "control_reason": "absent",
+              "controls": 1.0,
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "cancelled",
+              "late_observed": false,
+              "notification": "accepted",
+              "refused_input": false,
+              "requests": 4.0,
+              "reused": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_cancel_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_cancel_checks.ObserveCancellation"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_cancel_checks/authored/lifecycle-caller-2026-07-28": {
+      "purpose": "Actual caller cancellation under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_cancel_checks.ObserveCancellation",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "cancel-caller"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": {
+              "command": "mcp.strict_cancel_checks.ObserveCancellation",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "controls",
+                "type": "Integer"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "notification",
+                "type": "String"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "late_observed",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "refused_input",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "caller_cancelled",
+              "control_reason": "absent",
+              "controls": 0.0,
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "cancelled",
+              "late_observed": false,
+              "notification": "absent",
+              "refused_input": false,
+              "requests": 2.0,
+              "reused": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_cancel_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_cancel_checks.ObserveCancellation"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_cancel_checks/authored/lifecycle-completed-2025-11-25": {
+      "purpose": "Actual completed cancellation under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_cancel_checks.ObserveCancellation",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "cancel-completed"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": {
+              "command": "mcp.strict_cancel_checks.ObserveCancellation",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "controls",
+                "type": "Integer"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "notification",
+                "type": "String"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "late_observed",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "refused_input",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "absent",
+              "control_reason": "absent",
+              "controls": 0.0,
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "finished",
+              "late_observed": false,
+              "notification": "absent",
+              "refused_input": false,
+              "requests": 3.0,
+              "reused": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_cancel_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_cancel_checks.ObserveCancellation"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_cancel_checks/authored/lifecycle-completed-2026-07-28": {
+      "purpose": "Actual completed cancellation under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_cancel_checks.ObserveCancellation",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "cancel-completed"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": {
+              "command": "mcp.strict_cancel_checks.ObserveCancellation",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "controls",
+                "type": "Integer"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "notification",
+                "type": "String"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "late_observed",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "refused_input",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "absent",
+              "control_reason": "absent",
+              "controls": 0.0,
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "finished",
+              "late_observed": false,
+              "notification": "absent",
+              "refused_input": false,
+              "requests": 2.0,
+              "reused": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_cancel_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_cancel_checks.ObserveCancellation"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_cancel_checks/authored/lifecycle-control-2025-11-25": {
+      "purpose": "Actual control cancellation under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_cancel_checks.ObserveCancellation",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "cancel-control"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": {
+              "command": "mcp.strict_cancel_checks.ObserveCancellation",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "controls",
+                "type": "Integer"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "notification",
+                "type": "String"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "late_observed",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "refused_input",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "caller_cancelled",
+              "control_reason": "absent",
+              "controls": 1.0,
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "cancelled",
+              "late_observed": false,
+              "notification": "accepted",
+              "refused_input": false,
+              "requests": 5.0,
+              "reused": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_cancel_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_cancel_checks.ObserveCancellation"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_cancel_checks/authored/lifecycle-control-bound-2025-11-25": {
+      "purpose": "Actual control-bound cancellation under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_cancel_checks.ObserveCancellation",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "cancel-control-bound"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": {
+              "command": "mcp.strict_cancel_checks.ObserveCancellation",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "controls",
+                "type": "Integer"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "notification",
+                "type": "String"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "late_observed",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "refused_input",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "caller_cancelled",
+              "control_reason": "response_bound",
+              "controls": 1.0,
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "cancelled",
+              "late_observed": false,
+              "notification": "refused",
+              "refused_input": false,
+              "requests": 5.0,
+              "reused": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_cancel_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_cancel_checks.ObserveCancellation"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_cancel_checks/authored/lifecycle-initialize-2025-11-25": {
+      "purpose": "Actual initialize cancellation under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_cancel_checks.ObserveCancellation",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "cancel-initialize"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": {
+              "command": "mcp.strict_cancel_checks.ObserveCancellation",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "controls",
+                "type": "Integer"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "notification",
+                "type": "String"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "late_observed",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "refused_input",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "absent",
+              "control_reason": "absent",
+              "controls": 0.0,
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "absent",
+              "late_observed": false,
+              "notification": "absent",
+              "refused_input": true,
+              "requests": 2.0,
+              "reused": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_cancel_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_cancel_checks.ObserveCancellation"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_cancel_checks/authored/lifecycle-initialize-2026-07-28": {
+      "purpose": "Actual initialize cancellation under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_cancel_checks.ObserveCancellation",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "cancel-initialize"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": {
+              "command": "mcp.strict_cancel_checks.ObserveCancellation",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "controls",
+                "type": "Integer"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "notification",
+                "type": "String"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "late_observed",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "refused_input",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "absent",
+              "control_reason": "absent",
+              "controls": 0.0,
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "absent",
+              "late_observed": false,
+              "notification": "absent",
+              "refused_input": true,
+              "requests": 1.0,
+              "reused": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_cancel_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_cancel_checks.ObserveCancellation"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_cancel_checks/authored/lifecycle-late-2025-11-25": {
+      "purpose": "Actual late cancellation under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_cancel_checks.ObserveCancellation",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "cancel-late"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": {
+              "command": "mcp.strict_cancel_checks.ObserveCancellation",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "controls",
+                "type": "Integer"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "notification",
+                "type": "String"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "late_observed",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "refused_input",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "caller_cancelled",
+              "control_reason": "absent",
+              "controls": 1.0,
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "cancelled",
+              "late_observed": false,
+              "notification": "accepted",
+              "refused_input": false,
+              "requests": 4.0,
+              "reused": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_cancel_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_cancel_checks.ObserveCancellation"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_cancel_checks/authored/lifecycle-late-2026-07-28": {
+      "purpose": "Actual late cancellation under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_cancel_checks.ObserveCancellation",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "cancel-late"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": {
+              "command": "mcp.strict_cancel_checks.ObserveCancellation",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "controls",
+                "type": "Integer"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "notification",
+                "type": "String"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "late_observed",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "refused_input",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "caller_cancelled",
+              "control_reason": "absent",
+              "controls": 0.0,
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "cancelled",
+              "late_observed": false,
+              "notification": "absent",
+              "refused_input": false,
+              "requests": 2.0,
+              "reused": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_cancel_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_cancel_checks.ObserveCancellation"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_cancel_checks/authored/lifecycle-notification-body-2025-11-25": {
+      "purpose": "Actual notification-body cancellation under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_cancel_checks.ObserveCancellation",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "cancel-notification-body"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": {
+              "command": "mcp.strict_cancel_checks.ObserveCancellation",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "controls",
+                "type": "Integer"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "notification",
+                "type": "String"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "late_observed",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "refused_input",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "caller_cancelled",
+              "control_reason": "invalid_response",
+              "controls": 1.0,
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "cancelled",
+              "late_observed": false,
+              "notification": "refused",
+              "refused_input": false,
+              "requests": 4.0,
+              "reused": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_cancel_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_cancel_checks.ObserveCancellation"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_cancel_checks/authored/lifecycle-notification-bound-2025-11-25": {
+      "purpose": "Actual notification-bound cancellation under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_cancel_checks.ObserveCancellation",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "cancel-notification-bound"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": {
+              "command": "mcp.strict_cancel_checks.ObserveCancellation",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "controls",
+                "type": "Integer"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "notification",
+                "type": "String"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "late_observed",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "refused_input",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "caller_cancelled",
+              "control_reason": "response_bound",
+              "controls": 1.0,
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "cancelled",
+              "late_observed": false,
+              "notification": "refused",
+              "refused_input": false,
+              "requests": 4.0,
+              "reused": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_cancel_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_cancel_checks.ObserveCancellation"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_cancel_checks/authored/lifecycle-notification-failure-2025-11-25": {
+      "purpose": "Actual notification-failure cancellation under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_cancel_checks.ObserveCancellation",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "cancel-notification-failure"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": {
+              "command": "mcp.strict_cancel_checks.ObserveCancellation",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "controls",
+                "type": "Integer"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "notification",
+                "type": "String"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "late_observed",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "refused_input",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "caller_cancelled",
+              "control_reason": "http_status",
+              "controls": 1.0,
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "cancelled",
+              "late_observed": false,
+              "notification": "refused",
+              "refused_input": false,
+              "requests": 4.0,
+              "reused": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_cancel_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_cancel_checks.ObserveCancellation"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_cancel_checks/authored/lifecycle-notification-timeout-2025-11-25": {
+      "purpose": "Actual notification-timeout cancellation under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_cancel_checks.ObserveCancellation",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "cancel-notification-timeout"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": {
+              "command": "mcp.strict_cancel_checks.ObserveCancellation",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "controls",
+                "type": "Integer"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "notification",
+                "type": "String"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "late_observed",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "refused_input",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "caller_cancelled",
+              "control_reason": "deadline_exhausted",
+              "controls": 1.0,
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "cancelled",
+              "late_observed": false,
+              "notification": "refused",
+              "refused_input": false,
+              "requests": 4.0,
+              "reused": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_cancel_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_cancel_checks.ObserveCancellation"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_cancel_checks/authored/lifecycle-reuse-2025-11-25": {
+      "purpose": "Actual reuse cancellation under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_cancel_checks.ObserveCancellation",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "cancel-reuse"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": {
+              "command": "mcp.strict_cancel_checks.ObserveCancellation",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "controls",
+                "type": "Integer"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "notification",
+                "type": "String"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "late_observed",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "refused_input",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "caller_cancelled",
+              "control_reason": "absent",
+              "controls": 1.0,
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "cancelled",
+              "late_observed": false,
+              "notification": "accepted",
+              "refused_input": false,
+              "requests": 5.0,
+              "reused": true,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_cancel_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_cancel_checks.ObserveCancellation"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_cancel_checks/authored/lifecycle-reuse-2026-07-28": {
+      "purpose": "Actual reuse cancellation under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_cancel_checks.ObserveCancellation",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "cancel-reuse"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": {
+              "command": "mcp.strict_cancel_checks.ObserveCancellation",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "controls",
+                "type": "Integer"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "notification",
+                "type": "String"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "late_observed",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "refused_input",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "caller_cancelled",
+              "control_reason": "absent",
+              "controls": 0.0,
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "cancelled",
+              "late_observed": false,
+              "notification": "absent",
+              "refused_input": false,
+              "requests": 3.0,
+              "reused": true,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_cancel_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_cancel_checks.ObserveCancellation"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_cancel_checks/authored/lifecycle-teardown-expired-2025-11-25": {
+      "purpose": "Actual teardown-expired cancellation under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_cancel_checks.ObserveCancellation",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "cancel-teardown-expired"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": {
+              "command": "mcp.strict_cancel_checks.ObserveCancellation",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "controls",
+                "type": "Integer"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "notification",
+                "type": "String"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "late_observed",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "refused_input",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "caller_cancelled",
+              "control_reason": "deadline_exhausted",
+              "controls": 0.0,
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "cancelled",
+              "late_observed": false,
+              "notification": "refused",
+              "refused_input": false,
+              "requests": 3.0,
+              "reused": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_cancel_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_cancel_checks.ObserveCancellation"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_cancel_checks/authored/lifecycle-terminal-race-2025-11-25": {
+      "purpose": "Actual terminal-race cancellation under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_cancel_checks.ObserveCancellation",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "cancel-terminal-race"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": {
+              "command": "mcp.strict_cancel_checks.ObserveCancellation",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "controls",
+                "type": "Integer"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "notification",
+                "type": "String"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "late_observed",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "refused_input",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "absent",
+              "control_reason": "absent",
+              "controls": 0.0,
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "finished",
+              "late_observed": false,
+              "notification": "absent",
+              "refused_input": false,
+              "requests": 4.0,
+              "reused": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_cancel_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_cancel_checks.ObserveCancellation"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_cancel_checks/authored/lifecycle-timeout-2025-11-25": {
+      "purpose": "Actual timeout cancellation under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_cancel_checks.ObserveCancellation",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "cancel-timeout"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": {
+              "command": "mcp.strict_cancel_checks.ObserveCancellation",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "controls",
+                "type": "Integer"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "notification",
+                "type": "String"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "late_observed",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "refused_input",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "deadline_exhausted",
+              "control_reason": "absent",
+              "controls": 1.0,
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "cancelled",
+              "late_observed": false,
+              "notification": "accepted",
+              "refused_input": false,
+              "requests": 4.0,
+              "reused": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_cancel_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_cancel_checks.ObserveCancellation"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_cancel_checks/authored/lifecycle-timeout-2026-07-28": {
+      "purpose": "Actual timeout cancellation under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_cancel_checks.ObserveCancellation",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "cancel-timeout"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": {
+              "command": "mcp.strict_cancel_checks.ObserveCancellation",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "controls",
+                "type": "Integer"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "notification",
+                "type": "String"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "late_observed",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "within_budget",
+                "type": "Boolean"
+              },
+              {
+                "name": "refused_input",
+                "type": "Boolean"
+              },
+              {
+                "name": "reused",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "cause": "deadline_exhausted",
+              "control_reason": "absent",
+              "controls": 0.0,
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "cancelled",
+              "late_observed": false,
+              "notification": "absent",
+              "refused_input": false,
+              "requests": 2.0,
+              "reused": false,
+              "within_budget": true
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_cancel_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_cancel_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_cancel_checks.ObserveCancellation"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_cancel_checks.ObserveCancellation",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
     "mcp.strict_lifecycle_checks.ObserveLifecycle/outcome/observed": {
       "purpose": "`mcp.strict_lifecycle_checks.ObserveLifecycle` answers `observed` for an input no other branch's guard claims",
       "steps": [

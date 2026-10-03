@@ -733,6 +733,7 @@
         "response_bound",
         "sse_event_bound",
         "deadline_exhausted",
+        "caller_cancelled",
         "transport_failure",
         "invalid_response",
         "unsupported_response",
@@ -1373,6 +1374,50 @@
       "x-ess-kind": "struct",
       "x-ess-name": "mcp.http_lifecycle.ControlObservation"
     },
+    "mcp.http_lifecycle.ControlledExchange": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "cancelled",
+              "type": "string"
+            },
+            "value": {
+              "$ref": "#/$defs/mcp.http_lifecycle.CancellationObservation"
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "title": "cancelled",
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "finished",
+              "type": "string"
+            },
+            "value": {
+              "$ref": "#/$defs/mcp.http_exchange.ExchangeResult"
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "title": "finished",
+          "type": "object"
+        }
+      ],
+      "title": "ControlledExchange",
+      "x-ess-kind": "union",
+      "x-ess-name": "mcp.http_lifecycle.ControlledExchange",
+      "x-ess-union-tag": "kind"
+    },
     "mcp.http_lifecycle.InterruptedRequest": {
       "additionalProperties": false,
       "properties": {
@@ -1783,8 +1828,8 @@
   },
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "x-ess-provenance": {
-    "contract_digest": "slice-sha256/2:67ceac19e85cc4eba30cec537c30b7642f503500d0b5bc6ed66361b1a0f2dbc3",
-    "source_digest": "f1e18bcc65986f0e48418470faa178425c198da32b7fdef09537fb89d2ff5a21",
+    "contract_digest": "slice-sha256/2:07ba22d830d7946208f80555c06c3709de51f14702599d7ec8c0379c1941d8c6",
+    "source_digest": "d863a31e27399737b96bb094e47ba6d39ccb7bbd00c6a3223e1e60b4d7614bf3",
     "specification_version": "v1",
     "system": "mcp"
   }

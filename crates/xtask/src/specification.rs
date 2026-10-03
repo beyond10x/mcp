@@ -525,6 +525,8 @@ fn check_generated_types(root: &Path, ess: &Path, temporary: &Path) -> Result<()
                 "mcp.http_lifecycle.CancellationObservation",
                 "--root",
                 "mcp.http_lifecycle.ShutdownObservation",
+                "--root",
+                "mcp.http_lifecycle.ControlledExchange",
                 "--out",
             ])
             .arg(&generated)

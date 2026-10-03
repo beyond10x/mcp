@@ -324,8 +324,8 @@ fn complete(exchange: &Exchange, modern: bool) -> Result<&Complete, Reason> {
         Exchange::V1(v) => {
             use b10x_mcp_types::http_exchange::McpHttpExchangeRefusalReason as ExchangeReason;
             return Err(match v.value.reason.as_ref() {
-                ExchangeReason::V1 => Reason::V0,
-                ExchangeReason::V3 | ExchangeReason::V5 => Reason::V2,
+                ExchangeReason::V2 => Reason::V0,
+                ExchangeReason::V4 | ExchangeReason::V6 => Reason::V2,
                 _ => Reason::V1,
             });
         }

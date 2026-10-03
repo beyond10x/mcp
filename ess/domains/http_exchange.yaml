@@ -97,6 +97,7 @@ types:
       - response_bound
       - sse_event_bound
       - deadline_exhausted
+      - caller_cancelled
       - transport_failure
       - invalid_response
       - unsupported_response

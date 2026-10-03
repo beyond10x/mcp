@@ -160,7 +160,7 @@ pub async fn connect(
         ExchangeResult::V1(result) => Err(
             if matches!(
                 result.value.reason.as_ref(),
-                b10x_mcp_types::http_exchange::McpHttpExchangeRefusalReason::V1
+                b10x_mcp_types::http_exchange::McpHttpExchangeRefusalReason::V2
             ) {
                 Reason::V0
             } else {
@@ -296,6 +296,100 @@ impl StrictConnection {
         parameters: reqwest::header::HeaderMap,
         deadline: Instant,
     ) -> Result<ExchangeResult, ClientError> {
+        let (wire, request) = self.prepare_exchange(method, params, parameters)?;
+        let result =
+            strict_http::pooled_exchange(&self.client, request, &wire, deadline, None).await;
+        self.pending = None;
+        result.map(|(result, _)| result)
+    }
+
+    /// One exchange with an explicit cancellation signal and teardown deadline.
+    ///
+    /// The operation deadline bounds waiting for its result. The independent
+    /// teardown deadline permits a bounded legacy cancellation POST after that
+    /// wait expires; both are capped by the existing execution/provider limits.
+    /// Modern cancellation closes the stream. Legacy sends one notification only
+    /// after an attempted business send. Neither signal proves remote rollback.
+    /// A terminal already observed wins over cancellation during side replies.
+    /// Await this future for teardown observations; dropping it retains an
+    /// abandoned identity and requires shutdown, just like the raw entry point.
+    pub async fn exchange_cancellable(
+        &mut self,
+        method: &str,
+        params: Value,
+        deadline: Instant,
+        cancellation: &crate::strict_cancellation::Cancellation,
+        teardown_deadline: Instant,
+    ) -> Result<b10x_mcp_types::http_exchange::McpHttpLifecycleControlledExchange, ClientError>
+    {
+        use crate::strict_cancellation;
+        use b10x_mcp_types::http_exchange::McpHttpObservationsSendObservation as Send;
+        let teardown = self
+            .traversal_deadline(teardown_deadline)
+            .ok_or_else(local_error)?;
+        let (mut wire, request) =
+            self.prepare_exchange(method, params, reqwest::header::HeaderMap::new())?;
+        let control_request = request.try_clone().ok_or_else(local_error)?;
+        let result = async {
+            let exchange = strict_http::cancellable_exchange(
+                &self.client,
+                request,
+                &wire,
+                deadline,
+                cancellation,
+            )
+            .await?;
+            let Some((cause, observation)) = strict_cancellation::interrupted(&exchange) else {
+                return Ok(strict_cancellation::finished(exchange));
+            };
+            let notification =
+                if !modern(&self.input) && !matches!(observation.send.as_ref(), Send::V0) {
+                    let remaining = wire
+                        .budget
+                        .response_octets
+                        .0
+                        .as_u64()
+                        .ok_or_else(local_error)?
+                        .saturating_sub(strict_cancellation::retained(observation));
+                    wire.budget.response_octets.0 = remaining.into();
+                    let reason = if matches!(cause, StopCause::V0) {
+                        "caller cancelled"
+                    } else {
+                        "operation deadline exhausted"
+                    };
+                    EssPresence::Present(Box::new(
+                        strict_http::cancellation_notification(
+                            &self.client,
+                            &control_request,
+                            &wire,
+                            teardown,
+                            reason,
+                        )
+                        .await?,
+                    ))
+                } else {
+                    EssPresence::Absent
+                };
+            Ok(strict_cancellation::cancelled(
+                InterruptedRequest {
+                    request_id: wire.request_id.clone(),
+                    cause: Box::new(cause),
+                    exchange: EssPresence::Present(Box::new(observation.clone())),
+                },
+                notification,
+            ))
+        }
+        .await;
+        self.pending = None;
+        result
+    }
+
+    fn prepare_exchange(
+        &mut self,
+        method: &str,
+        params: Value,
+        parameters: reqwest::header::HeaderMap,
+    ) -> Result<(ExchangeInput, reqwest::Request), ClientError> {
         if self.pending.is_some() {
             return Err(ClientError::Protocol(
                 "strict connection has an abandoned exchange; shutdown required".into(),
@@ -345,10 +439,7 @@ impl StrictConnection {
         )?;
         request.headers_mut().extend(parameters);
         self.pending = Some(*wire.request_id.clone());
-        let result =
-            strict_http::pooled_exchange(&self.client, request, &wire, deadline, None).await;
-        self.pending = None;
-        result.map(|(result, _)| result)
+        Ok((wire, request))
     }
 }
 

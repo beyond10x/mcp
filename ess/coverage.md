@@ -96,8 +96,8 @@ supported negotiated-revision inputs. This tests the transport envelope, not
 negotiation or a modern typed family result. The target consumes only fixture
 inputs and returns actual request counts and receiver fields after joined teardown.
 
-The receiver, connection, discovery and invocation use 64 ESS-generated model types. The four generated artifacts are
-regenerated and compared by the gate. Their 31 structural-codec obligations remain
+The receiver, connection, discovery, invocation and lifecycle project78 ESS model types. The four generated artifacts are
+regenerated and compared by the gate. Their35 structural-codec obligations remain
 visible in `types-report.json`. Numeric input guards require nonnegative byte
 limits representable on this host and positive millisecond values representable as
 u64; a nonrepresentable input is refused before I/O. Canonical base64, exact request
@@ -228,10 +228,10 @@ and Connectors consumer integration remain open.
 ## Partial strict HTTP lifecycle implementation
 
 The new `mcp.http_lifecycle` domain and nonrecursive `WireObservation` add thirteen
-immutable observation types (77 total projected values). L1–L9 record runtime obligations separately from structural
-codecs. Progress is now exercised over actual streams below. Explicit cancellation
-observations remain modeled without runtime coverage; type generation does not
-establish their implementation.
+immutable observation types; the new controlled-exchange union brings the current
+projection to78 values with35 structural-codec obligations. L1–L10 record runtime
+obligations separately. Progress and explicit connection cancellation now execute
+over actual streams below; type generation alone establishes neither.
 
 The first shutdown checkpoint exercised18 scenarios,
 17 authored, against actual connections. The peer parses every request and waits
@@ -257,7 +257,7 @@ with a pending control reply, before dropping the connection handle. Control
 futures belong to the exchange directly; no spawned control task outlives it.
 The one-shot raw receiver retains its original compatibility selection.
 
-The selection now has80 scenarios (77 authored), adding38 actual progress cases
+The progress checkpoint had80 scenarios (77 authored), adding38 actual progress cases
 across both revisions. These exercise explicit token opt-in, absent/unknown tokens,
 string versus integer identity, arbitrary-precision tokens, exact increasing
 numbers, huge exponents, optional total/message fields, malformed fields and
@@ -268,6 +268,17 @@ values, original message bytes, report order, before-send refusal and cumulative
 retention. Continuous progress must end at the fixed operation deadline; the
 peer observes actual closure. Neither progress nor a total is a business result.
 
-The full lifecycle story remains active: explicit cancellation,
-completion/cancellation races, observed late replies and awaited
-schema-worker cancellation still need implementation and their named scenarios.
+The selection now has105 scenarios (101 authored), adding24 explicit connection
+cancellation cases. They cover before-send cancellation, unknown send state before
+headers, caller cancellation and timeout, modern no-POST versus legacy one-POST,
+failure/nonempty/over-bound acknowledgements, expired teardown, notification timeout,
+initialize refusal, reuse after an awaited cancellation, pending control replies
+and an already observed terminal winning the race. Offered late bytes remain
+unobserved after closure. Five native tests assert actual request IDs/headers,
+unknown effects, prior terminal state and the aggregate response ceiling across
+interrupted stream history plus the cancellation acknowledgement. The peer joins
+only after observing the cancelled sockets close. No rollback or remote termination
+is inferred from a cancellation acknowledgement.
+
+The full lifecycle story remains active: typed invocation cancellation and awaited
+schema-worker kill/reap still need implementation and their named scenarios.

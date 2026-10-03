@@ -1,0 +1,22 @@
+type: ess-scenario/4
+domain: mcp.strict_cancel_checks
+scenario: lifecycle-late-2025-11-25
+summary: Actual late cancellation under configured 2025-11-25.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_cancel_checks.ObserveCancellation
+    input: {case: cancel-late, revision: "2025-11-25"}
+    outcome: observed
+    response:
+      kind: "cancelled"
+      cause: "caller_cancelled"
+      controls: 1
+      requests: 4
+      notification: "accepted"
+      control_reason: "absent"
+      late_observed: false
+      id_agreement: true
+      header_agreement: true
+      within_budget: true
+      refused_input: false
+      reused: false

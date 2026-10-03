@@ -6,6 +6,9 @@ mod parameter_headers;
 /// Isolated, offline schema validation for strict invocation.
 #[cfg(feature = "strict-http")]
 pub mod schema_worker;
+/// Explicit runtime cancellation signals and observed controlled exchanges.
+#[cfg(feature = "strict-http")]
+pub mod strict_cancellation;
 #[cfg(feature = "strict-http")]
 pub mod strict_connection;
 /// Bounded complete descriptor observations on a strict HTTP connection.

@@ -1,12 +1,12 @@
 {
   "format": "ess-types-report/3",
-  "source_digest": "f1e18bcc65986f0e48418470faa178425c198da32b7fdef09537fb89d2ff5a21",
+  "source_digest": "d863a31e27399737b96bb094e47ba6d39ccb7bbd00c6a3223e1e60b4d7614bf3",
   "input": {
     "kind": "model",
     "system": "mcp",
     "specification_version": "v1",
-    "contract_digest": "slice-sha256/2:67ceac19e85cc4eba30cec537c30b7642f503500d0b5bc6ed66361b1a0f2dbc3",
-    "projection_digest": "d641a6571af09cc246f24f8449d06ef4e8575c03cc3d5f7412d2166732bcfe88"
+    "contract_digest": "slice-sha256/2:07ba22d830d7946208f80555c06c3709de51f14702599d7ec8c0379c1941d8c6",
+    "projection_digest": "5c1a8479a23fa4fa7fbfb45493f22977b023eae6b7ba4568da80e3af02d9b612"
   },
   "generator_version": "0.50.0",
   "target": "rust",
@@ -32,6 +32,7 @@
     "mcp.http_invocation.SchemaRequest",
     "mcp.http_invocation.ToolResult",
     "mcp.http_lifecycle.CancellationObservation",
+    "mcp.http_lifecycle.ControlledExchange",
     "mcp.http_lifecycle.ProgressObservation",
     "mcp.http_lifecycle.ShutdownObservation"
   ],
@@ -94,6 +95,7 @@
     "mcp.http_lifecycle.ControlDisposition": "McpHttpLifecycleControlDisposition",
     "mcp.http_lifecycle.ControlKind": "McpHttpLifecycleControlKind",
     "mcp.http_lifecycle.ControlObservation": "McpHttpLifecycleControlObservation",
+    "mcp.http_lifecycle.ControlledExchange": "McpHttpLifecycleControlledExchange",
     "mcp.http_lifecycle.InterruptedRequest": "McpHttpLifecycleInterruptedRequest",
     "mcp.http_lifecycle.ProgressDisposition": "McpHttpLifecycleProgressDisposition",
     "mcp.http_lifecycle.ProgressObservation": "McpHttpLifecycleProgressObservation",
@@ -1086,6 +1088,36 @@
       "detail": "model identity and wire mapping retained in source.schema.json"
     },
     {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledExchange/oneOf/0/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledExchange/oneOf/1/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledExchange/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledExchange/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledExchange/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledExchange/x-ess-union-tag",
+      "rule": "x-ess-union-tag",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
       "pointer": "/$defs/mcp.http_lifecycle.InterruptedRequest/title",
       "rule": "title",
       "detail": "retained in source.schema.json; no decoder behavior inferred"
@@ -1536,6 +1568,16 @@
       "pointer": "/$defs/mcp.http_invocation.ResourceContent/properties/blob/pattern",
       "rule": "pattern",
       "detail": "validate this constraint against the source schema at runtime"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledExchange",
+      "rule": "oneOf",
+      "detail": "validate exclusive branch membership against the source schema"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlledExchange",
+      "rule": "untagged_selection",
+      "detail": "native union decoding chooses the first structurally decodable alternative; it does not certify source branch constraints or external dispatch"
     },
     {
       "pointer": "/$defs/mcp.http_lifecycle.StreamMessage",

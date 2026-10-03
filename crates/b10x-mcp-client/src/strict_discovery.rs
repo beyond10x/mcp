@@ -151,7 +151,7 @@ fn complete(exchange: ExchangeResult) -> Result<CompleteResult, Reason> {
         ExchangeResult::V1(result)
             if matches!(
                 result.value.reason.as_ref(),
-                b10x_mcp_types::http_exchange::McpHttpExchangeRefusalReason::V1
+                b10x_mcp_types::http_exchange::McpHttpExchangeRefusalReason::V2
             ) =>
         {
             Err(Reason::V0)

@@ -118,7 +118,17 @@ strict connection, supply a string or integer `params._meta.progressToken`.
 Ordered progress observations retain exact numbers and untrusted server text.
 Unknown tokens remain unmatched; equal or decreasing matched values refuse.
 Progress shares the response byte budget and never extends the deadline or
-becomes a business result. Explicit cancellation is still under implementation.
+becomes a business result.
+
+`StrictConnection::exchange_cancellable` takes an explicit `Cancellation` signal
+and a separate absolute teardown deadline. Await it to observe either a finished
+exchange or cancellation. Modern closes its stream; legacy attempts one
+`notifications/cancelled` POST after an attempted business send. The notification
+uses only the remaining response-byte allowance. Its acknowledgement proves no
+remote rollback. An already observed terminal wins over later cancellation during
+side I/O. Unread late bytes are not reported as observed. Raw `exchange` retains
+its existing timeout behavior. Typed invocation cancellation and awaited
+schema-worker teardown are still under implementation.
 
 The caller supplies authority and network policy;
 the builder must contain no hidden MCP protocol/session/routing header defaults.

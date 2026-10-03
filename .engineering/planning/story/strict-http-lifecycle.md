@@ -26,7 +26,11 @@ scope:
 - confidence: cited
   path: crates/b10x-mcp-client/src/schema_worker.rs
 - confidence: cited
+  path: crates/b10x-mcp-client/src/strict_cancellation.rs
+- confidence: cited
   path: crates/b10x-mcp-client/src/strict_connection.rs
+- confidence: cited
+  path: crates/b10x-mcp-client/src/strict_discovery.rs
 - confidence: cited
   path: crates/b10x-mcp-client/src/strict_http.rs
 - confidence: cited
@@ -47,7 +51,7 @@ scope:
   path: ess-inputs.yaml
 - confidence: inferred
   path: toolchain.json
-revision: 9
+revision: 11
 transitions:
 - {from: "draft", to: "proposed", at: "2026-10-03T06:29:28Z", actor: "human:timo", revision: 4}
 - {from: "proposed", to: "active", at: "2026-10-03T06:29:28Z", actor: "human:timo", revision: 5}
@@ -228,3 +232,53 @@ inbound/outbound integration and verified final release remain required. Existin
 consumer ownership decisions remain unanswered. No independent review claimed;
 workers remain quota-exhausted. Next owner is the continuing coordinator; details,
 logs and next-cancellation.md are in.cache/mcp-next-runtime/lifecycle.
+
+## Explicit HTTP cancellation checkpoint,2026-10-03
+
+The ESS-controlled outcome and caller_cancelled refusal were modeled and validated
+before runtime edits. The domain now projects78 values with35 codec obligations.
+Generated enum ordinal changes were reconciled in connection, discovery and
+invocation deadline/input classifiers; existing suites pass. Finished outcomes are
+constructed directly, preserving opaque peer objects without a decoding roundtrip.
+
+StrictConnection::exchange_cancellable takes an explicit cloneable monotonic
+Cancellation signal plus separate operation and teardown absolute deadlines.
+Both use existing execution/provider caps. No signal is serializable authority.
+Raw exchange behavior remains unchanged. Local pre-send cancellation retains
+not_sent and sends nothing. After an attempted send, modern closes its stream;
+legacy attempts one notifications/cancelled POST with the actual request ID.
+Notification acknowledgement requires empty202 and never proves remote rollback.
+The original stream/control history and cancellation response share one byte
+ceiling; the notification gets only the remaining allowance. Expired teardown,
+nonempty202, failure, bound and acknowledgement timeout are observed refusals.
+Initialize is rejected by this business entry point without a cancellation POST.
+Awaited cancellation clears pending state; future drop still requires shutdown.
+
+Cancellation is selected at I/O boundaries before unread bytes. A terminal already
+parsed before side-reply cancellation remains the original finished exchange.
+Pending side I/O is dropped and records caller_cancelled with its actual send
+state. Late bytes offered by the peer after cancellation are not fabricated as
+observed replies. Explicit reuse is tested separately and uses a fresh request ID.
+
+Lifecycle105passed(101authored),0failed/error/skipped/unsupported, including24new
+actual cancellation scenarios and5newnative functions. Cases cover caller/timeout,
+pre-send/pre-header states, no initialize notification, modern no-POST, legacy
+single POST, offered late replies, reuse, expired teardown, side failures,
+terminal precedence and aggregate retained-byte accounting.
+
+Mutation disabled the legacy notification branch:93passed12failed, exactly the
+12authored legacy cancellation-control cases,0error/skipped/unsupported. Restored
+before final gate. Mutation SHA256
+643c8f22ef103be461306397f8b1ac4e5cb5a4b1ea6926541f2f04c2768ad895.
+Suite SHA2562f99b63cb6bcc83393b9ac15ed7759342c9beaee15b40bb77b63cbddcfc8bbf6.
+Rust1.88fullgate105nativepassed0failed0ignored38summaries, including spec/type/suite
+drift, AEP, fmt, locked check/tests, all-target/all-feature Clippy and rustdoc.
+Gate SHA256b905851dd25f071adf6fc5713317f6a50c09a26b7ad199e862b5b229cb24ffaf.
+Pre-gate Clippy found receiver length and explicit-default style issues; corrected
+without suppressions. Constructor partial refusal inventory remains unchanged.
+
+Story stays active: typed invocation cancellation and bounded awaited worker
+kill/reap remain, including before/after-business schema validation semantics.
+Then actual Connectors inbound/outbound integration and the verified final release.
+Consumer ownership questions remain unanswered. No independent review is claimed;
+existing workers remain quota-exhausted. Root remains the author/coordinator.

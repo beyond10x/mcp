@@ -12,7 +12,7 @@ All notable changes to this project will be documented in this file.
   failures preserve bounded response bytes and never trigger retries. Dropped
   exchanges retain their request identity as an unknown outcome and require
   shutdown before fresh setup. Caller-owned configuration remains reusable.
-  Explicit cancellation remains unfinished.
+  Typed invocation cancellation and awaited schema-worker teardown remain unfinished.
 - Strict connections retain bounded, ordered SSE observations in each exchange.
   Legacy ping and unsupported server requests receive separate JSON-RPC reply
   POSTs, including initialization-time ping with validated session headers.
@@ -27,6 +27,12 @@ All notable changes to this project will be documented in this file.
   including extreme exponents; accepted updates must strictly increase. Unknown
   tokens are retained without attribution, malformed fields refuse, and progress
   shares the response byte budget without extending the operation deadline.
+- `StrictConnection::exchange_cancellable` accepts a local cancellation signal and
+  a separate bounded teardown deadline. Modern closes its stream; legacy attempts
+  one cancellation notification after an attempted send. Interrupted observations,
+  notification failures and prior terminals are preserved without claiming rollback.
+  A new `caller_cancelled` refusal distinguishes interrupted side I/O from timeout.
+  Existing raw exchanges retain their original timeout behavior.
 - `strict_invocation::InvocationClient` obtains private same-connection catalogs
   and exposes typed tool, resource and prompt results. It preserves content and
   opaque fields, validates schema semantics offline in a bounded Rust worker,
