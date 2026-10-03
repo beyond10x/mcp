@@ -75,3 +75,10 @@ obligations) and a separate111-scenario suite (110authored,0synthesis refusals).
 The owned HTTP target executes selected tool/resource/prompt traversal for both
 revisions; the gate regenerates it and pins the exact inventory. Nine partial
 product-model refusals and three full authored refusals remain unchanged.
+
+Typed invocation adds twenty-one immutable values (64 total, 31 codec obligations)
+and a separate 54-scenario suite (53 authored, zero synthesis refusals). Its target
+executes actual HTTP discovery/invocation and the isolated offline schema worker.
+Private runtime catalogs, schema semantics, parameter-header validity and actual
+transport completion remain runtime obligations; deserializing a carrier does not
+establish them. The full product-model conformance claim remains incomplete.

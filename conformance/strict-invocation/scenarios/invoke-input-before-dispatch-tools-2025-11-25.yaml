@@ -1,0 +1,21 @@
+type: ess-scenario/4
+domain: mcp.strict_invocation_checks
+scenario: invoke-input-before-dispatch-tools-2025-11-25
+summary: Actual tools invoke-input-before-dispatch under configured 2025-11-25.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_invocation_checks.ObserveInvocation
+    input: {case: invoke-input-before-dispatch, family: tools, revision: "2025-11-25"}
+    outcome: observed
+    response:
+      complete: false
+      reason: "invalid_input"
+      calls: 0
+      blocks: 0
+      retained: false
+      structured: "absent"
+      business_error: false
+      usable: 1
+      rejected: 0
+      parameter_headers: 0
+      header_agreement: false

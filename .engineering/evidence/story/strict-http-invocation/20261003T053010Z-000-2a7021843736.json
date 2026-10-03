@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-03T05:30:10Z",
+  "actor": "human:timo",
+  "artifact": "story:strict-http-invocation",
+  "kind": "story",
+  "revision": 6,
+  "change": {
+    "change": "evidence",
+    "kind": "test_result",
+    "source": "cargo test --locked -p b10x-mcp-client --all-features --test schema_worker: 4 passed, opaque marker test failed",
+    "reference": ".cache/mcp-next-runtime/invocation/schema-matrix.log"
+  }
+}

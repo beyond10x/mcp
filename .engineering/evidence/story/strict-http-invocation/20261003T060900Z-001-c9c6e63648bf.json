@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-03T06:09:00Z",
+  "actor": "human:timo",
+  "artifact": "story:strict-http-invocation",
+  "kind": "story",
+  "revision": 7,
+  "change": {
+    "change": "evidence",
+    "kind": "test_result",
+    "source": "Rust1.88 cargo xtask gate:81 native passed;54 invocation scenarios;SHA256 5fbea7a3180c5e7099c5f5622a0b4b0468aa620b67862baf36652372c5b7f1b6",
+    "reference": ".cache/mcp-next-runtime/invocation/gate-third.log"
+  }
+}

@@ -2,10 +2,18 @@
 //! Tools-only MCP client over the standard transports.
 
 #[cfg(feature = "strict-http")]
+mod parameter_headers;
+/// Isolated, offline schema validation for strict invocation.
+#[cfg(feature = "strict-http")]
+pub mod schema_worker;
+#[cfg(feature = "strict-http")]
 pub mod strict_connection;
 /// Bounded complete descriptor observations on a strict HTTP connection.
 #[cfg(feature = "strict-http")]
 pub mod strict_discovery;
+/// Typed invocation from same-connection discovery with isolated schema validation.
+#[cfg(feature = "strict-http")]
+pub mod strict_invocation;
 
 #[cfg(feature = "strict-http")]
 pub mod strict_http;

@@ -1,12 +1,12 @@
 {
   "format": "ess-types-report/3",
-  "source_digest": "ab3e7bca268f0487ee35356702e66d8b34a7c2448996f98f85c622f47afe0292",
+  "source_digest": "ca711843b62e4e6084550df5c3568bb197e39cadab6b4d640596ae75d5fe0a8c",
   "input": {
     "kind": "model",
     "system": "mcp",
     "specification_version": "v1",
-    "contract_digest": "slice-sha256/2:163859cdea29ae451dd30c590faef00365d19a0e3d1b2b3d1504a73ca26c0830",
-    "projection_digest": "692b0cdfb26142b2f2bf7336ab399762bdde6d4cb8bbce74c61346b823c5d216"
+    "contract_digest": "slice-sha256/2:5e36ec9ca99dfa747d00c29173bb879ef61769a33896ff0095a16b52c8a30bb9",
+    "projection_digest": "133a915ce372c5ffa7ce8893d71e5d947c9af2d1dfa3e8fcdfeeac87da71c995"
   },
   "generator_version": "0.50.0",
   "target": "rust",
@@ -22,7 +22,15 @@
     "mcp.http_discovery.ListLimits",
     "mcp.http_discovery.Refusal",
     "mcp.http_exchange.ExchangeInput",
-    "mcp.http_exchange.ExchangeResult"
+    "mcp.http_exchange.ExchangeResult",
+    "mcp.http_invocation.ParameterHeader",
+    "mcp.http_invocation.PromptResult",
+    "mcp.http_invocation.Refusal",
+    "mcp.http_invocation.RejectedTool",
+    "mcp.http_invocation.ResourceResult",
+    "mcp.http_invocation.SchemaReply",
+    "mcp.http_invocation.SchemaRequest",
+    "mcp.http_invocation.ToolResult"
   ],
   "declarations": {
     "mcp.http_connection.CacheHints": "McpHttpConnectionCacheHints",
@@ -57,6 +65,27 @@
     "mcp.http_exchange.RefusalReason": "McpHttpExchangeRefusalReason",
     "mcp.http_exchange.RefusedExchange": "McpHttpExchangeRefusedExchange",
     "mcp.http_exchange.RequestId": "McpHttpExchangeRequestId",
+    "mcp.http_invocation.BinaryContent": "McpHttpInvocationBinaryContent",
+    "mcp.http_invocation.Content": "McpHttpInvocationContent",
+    "mcp.http_invocation.EmbeddedResource": "McpHttpInvocationEmbeddedResource",
+    "mcp.http_invocation.HeaderPrimitive": "McpHttpInvocationHeaderPrimitive",
+    "mcp.http_invocation.HeaderRefusalReason": "McpHttpInvocationHeaderRefusalReason",
+    "mcp.http_invocation.ParameterHeader": "McpHttpInvocationParameterHeader",
+    "mcp.http_invocation.PromptMessage": "McpHttpInvocationPromptMessage",
+    "mcp.http_invocation.PromptResult": "McpHttpInvocationPromptResult",
+    "mcp.http_invocation.Refusal": "McpHttpInvocationRefusal",
+    "mcp.http_invocation.RefusalReason": "McpHttpInvocationRefusalReason",
+    "mcp.http_invocation.RejectedTool": "McpHttpInvocationRejectedTool",
+    "mcp.http_invocation.ResourceContent": "McpHttpInvocationResourceContent",
+    "mcp.http_invocation.ResourceLink": "McpHttpInvocationResourceLink",
+    "mcp.http_invocation.ResourceResult": "McpHttpInvocationResourceResult",
+    "mcp.http_invocation.Role": "McpHttpInvocationRole",
+    "mcp.http_invocation.SchemaAction": "McpHttpInvocationSchemaAction",
+    "mcp.http_invocation.SchemaReply": "McpHttpInvocationSchemaReply",
+    "mcp.http_invocation.SchemaRequest": "McpHttpInvocationSchemaRequest",
+    "mcp.http_invocation.SchemaStatus": "McpHttpInvocationSchemaStatus",
+    "mcp.http_invocation.TextContent": "McpHttpInvocationTextContent",
+    "mcp.http_invocation.ToolResult": "McpHttpInvocationToolResult",
     "mcp.http_observations.AbsentPeerData": "McpHttpObservationsAbsentPeerData",
     "mcp.http_observations.BoundedWireBytes": "McpHttpObservationsBoundedWireBytes",
     "mcp.http_observations.MessageLength": "McpHttpObservationsMessageLength",
@@ -611,6 +640,361 @@
       "detail": "model identity and wire mapping retained in source.schema.json"
     },
     {
+      "pointer": "/$defs/mcp.http_invocation.BinaryContent/properties/data/contentEncoding",
+      "rule": "contentEncoding",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.BinaryContent/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.BinaryContent/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.BinaryContent/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.Content/oneOf/0/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.Content/oneOf/1/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.Content/oneOf/2/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.Content/oneOf/3/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.Content/oneOf/4/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.Content/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.Content/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.Content/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.Content/x-ess-union-tag",
+      "rule": "x-ess-union-tag",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.EmbeddedResource/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.EmbeddedResource/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.EmbeddedResource/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.HeaderPrimitive/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.HeaderPrimitive/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.HeaderPrimitive/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.HeaderRefusalReason/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.HeaderRefusalReason/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.HeaderRefusalReason/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.ParameterHeader/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.ParameterHeader/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.ParameterHeader/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.PromptMessage/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.PromptMessage/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.PromptMessage/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.PromptResult/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.PromptResult/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.PromptResult/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.Refusal/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.Refusal/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.Refusal/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.RefusalReason/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.RefusalReason/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.RefusalReason/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.RejectedTool/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.RejectedTool/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.RejectedTool/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.ResourceContent/properties/blob/contentEncoding",
+      "rule": "contentEncoding",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.ResourceContent/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.ResourceContent/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.ResourceContent/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.ResourceLink/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.ResourceLink/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.ResourceLink/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.ResourceResult/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.ResourceResult/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.ResourceResult/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.Role/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.Role/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.Role/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.SchemaAction/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.SchemaAction/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.SchemaAction/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.SchemaReply/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.SchemaReply/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.SchemaReply/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.SchemaRequest/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.SchemaRequest/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.SchemaRequest/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.SchemaStatus/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.SchemaStatus/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.SchemaStatus/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.TextContent/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.TextContent/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.TextContent/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.ToolResult/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.ToolResult/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.ToolResult/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
       "pointer": "/$defs/mcp.http_observations.AbsentPeerData/title",
       "rule": "title",
       "detail": "retained in source.schema.json; no decoder behavior inferred"
@@ -901,6 +1285,26 @@
       "pointer": "/$defs/mcp.http_exchange.RequestId/oneOf/0/properties/value",
       "rule": "integer",
       "detail": "serde_json::Number retains exact JSON numbers but does not enforce integrality; validate the source constraint"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.BinaryContent/properties/data/pattern",
+      "rule": "pattern",
+      "detail": "validate this constraint against the source schema at runtime"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.Content",
+      "rule": "oneOf",
+      "detail": "validate exclusive branch membership against the source schema"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.Content",
+      "rule": "untagged_selection",
+      "detail": "native union decoding chooses the first structurally decodable alternative; it does not certify source branch constraints or external dispatch"
+    },
+    {
+      "pointer": "/$defs/mcp.http_invocation.ResourceContent/properties/blob/pattern",
+      "rule": "pattern",
+      "detail": "validate this constraint against the source schema at runtime"
     },
     {
       "pointer": "/$defs/mcp.http_observations.BoundedWireBytes/properties/bytes/pattern",

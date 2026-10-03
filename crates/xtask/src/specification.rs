@@ -28,6 +28,7 @@ struct Pins {
     strict_http_scenarios: Vec<String>,
     strict_connection_scenarios: Vec<String>,
     strict_discovery_scenarios: Vec<String>,
+    strict_invocation_scenarios: Vec<String>,
     partial_refusals: Vec<String>,
     authored_refusals: Vec<String>,
 }
@@ -274,7 +275,7 @@ pub(super) fn check(root: &Path) -> Result<(), String> {
         0,
     )?;
     println!(
-        "specification: constructor, HTTP replay, strict HTTP, connection and discovery suites plus generated types verified; explicit partial refusal inventory retained; execution follows in workspace tests; full conformance remains inconclusive"
+        "specification: constructor, HTTP replay, strict HTTP, connection, discovery and invocation suites plus generated types verified; explicit partial refusal inventory retained; execution follows in workspace tests; full conformance remains inconclusive"
     );
     Ok(())
 }
@@ -287,7 +288,53 @@ fn check_strict_profiles(
 ) -> Result<(), String> {
     check_strict_http(root, ess, temporary, &pins.strict_http_scenarios)?;
     check_strict_connection(root, ess, temporary, &pins.strict_connection_scenarios)?;
-    check_strict_discovery(root, ess, temporary, &pins.strict_discovery_scenarios)
+    check_strict_discovery(root, ess, temporary, &pins.strict_discovery_scenarios)?;
+    check_strict_invocation(root, ess, temporary, &pins.strict_invocation_scenarios)
+}
+
+fn check_strict_invocation(
+    root: &Path,
+    ess: &Path,
+    temporary: &Path,
+    ids: &[String],
+) -> Result<(), String> {
+    run(
+        Command::new(ess)
+            .args([
+                "specify",
+                "validate",
+                "--path",
+                "conformance/strict-invocation/spec",
+            ])
+            .current_dir(root),
+        0,
+    )?;
+    let suite = temporary.join("strict-invocation.json");
+    let text = run(
+        Command::new(ess)
+            .args([
+                "verify",
+                "conform",
+                "synthesize",
+                "--path",
+                "conformance/strict-invocation/spec",
+                "--scenarios",
+                "conformance/strict-invocation/scenarios",
+                "--out",
+            ])
+            .arg(&suite)
+            .current_dir(root),
+        0,
+    )?;
+    if !refusals(&text).is_empty() {
+        return Err("strict invocation selection has synthesis refusals".into());
+    }
+    check_suite(
+        &fs::read(suite).map_err(|e| e.to_string())?,
+        &fs::read(root.join("conformance/strict-invocation/suite.json"))
+            .map_err(|e| e.to_string())?,
+        ids,
+    )
 }
 
 fn check_strict_discovery(
@@ -377,6 +424,10 @@ fn check_strict_http(
         &fs::read(root.join("conformance/strict-http/suite.json")).map_err(|e| e.to_string())?,
         ids,
     )?;
+    check_generated_types(root, ess, temporary)
+}
+
+fn check_generated_types(root: &Path, ess: &Path, temporary: &Path) -> Result<(), String> {
     let generated = temporary.join("http-values");
     run(
         Command::new(ess)
@@ -405,6 +456,22 @@ fn check_strict_http(
                 "mcp.http_discovery.Catalog",
                 "--root",
                 "mcp.http_discovery.Refusal",
+                "--root",
+                "mcp.http_invocation.SchemaRequest",
+                "--root",
+                "mcp.http_invocation.SchemaReply",
+                "--root",
+                "mcp.http_invocation.ToolResult",
+                "--root",
+                "mcp.http_invocation.ResourceResult",
+                "--root",
+                "mcp.http_invocation.PromptResult",
+                "--root",
+                "mcp.http_invocation.Refusal",
+                "--root",
+                "mcp.http_invocation.ParameterHeader",
+                "--root",
+                "mcp.http_invocation.RejectedTool",
                 "--out",
             ])
             .arg(&generated)

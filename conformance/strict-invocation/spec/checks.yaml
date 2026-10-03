@@ -1,0 +1,35 @@
+domain: mcp.strict_invocation_checks
+summary: Actual typed HTTP invocation with offline schema workers and captured requests.
+types:
+  - name: mcp.strict_invocation_checks.Case
+    kind: enum
+    variants: ["invoke-business-error","invoke-deadline","invoke-incomplete","invoke-input-before-dispatch","invoke-no-followup","invoke-no-stale-success","invoke-output-schema","invoke-parameter-header-missing","invoke-parameter-header-refusal","invoke-parameter-headers","invoke-peer-error","invoke-prompt-content","invoke-prompt-input","invoke-resource-cache-fields","invoke-request-bound","invoke-resource-content","invoke-tool-content","invoke-tool-structured-presence","invoke-unknown-content","invoke-unselected-result"]
+  - name: mcp.strict_invocation_checks.Family
+    kind: enum
+    variants: [tools, resources, prompts]
+  - name: mcp.strict_invocation_checks.Revision
+    kind: enum
+    variants: ["2025-11-25", "2026-07-28"]
+commands:
+  - name: mcp.strict_invocation_checks.ObserveInvocation
+    input:
+      - {name: case, type: mcp.strict_invocation_checks.Case}
+      - {name: family, type: mcp.strict_invocation_checks.Family}
+      - {name: revision, type: mcp.strict_invocation_checks.Revision}
+    response:
+      - {name: complete, type: Boolean}
+      - {name: reason, type: String}
+      - {name: calls, type: Integer}
+      - {name: blocks, type: Integer}
+      - {name: retained, type: Boolean}
+      - {name: structured, type: String}
+      - {name: business_error, type: Boolean}
+      - {name: usable, type: Integer}
+      - {name: rejected, type: Integer}
+      - {name: parameter_headers, type: Integer}
+      - {name: header_agreement, type: Boolean}
+    outcomes:
+      - {name: observed, returns: true}
+    # Target executes actual discovery, invocation and schema-worker processes.
+    # Response fields come from returned values and captured wire requests, never
+    # from scenario expectations. No authority, cache or retry is established.

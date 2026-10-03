@@ -1,0 +1,158 @@
+domain: mcp.http_invocation
+summary: Selected invocation results and isolated offline JSON Schema validation values.
+
+# Pinned Connectors client/v1alpha1/invocation.md and archived schemas at
+# 5f5440bb(2026-07-28) and38c84e9f(2025-11-25). Immutable observations only.
+types:
+  - name: mcp.http_invocation.SchemaAction
+    kind: enum
+    variants: [compile, validate]
+  - name: mcp.http_invocation.SchemaRequest
+    kind: struct
+    fields:
+      - {name: action, type: mcp.http_invocation.SchemaAction}
+      - {name: schema, type: Json}
+      - {name: instance, type: "Optional<Json>"}
+    # S1: validate requires instance presence, including present null. Compile
+    # carries no instance. Supported dialect is2020-12, implicit when absent;
+    # unsupported explicit dialects are never silently reinterpreted. No remote
+    # or file reference retrieval. Meta-schema/instance semantics are executed,
+    # not proved by this structural JSON carrier.
+  - name: mcp.http_invocation.SchemaStatus
+    kind: enum
+    variants: [valid, invalid_schema, invalid_instance, unsupported_schema, invalid_request, validation_unavailable]
+  - name: mcp.http_invocation.SchemaReply
+    kind: struct
+    fields:
+      - {name: status, type: mcp.http_invocation.SchemaStatus}
+    # No schema, instance, diagnostic or credential is printed by the worker.
+    # S2: the caller-admitted absolute executable is an internal one-shot schema
+    # worker, not an MCP stdio server or a new consumer custody relation. The
+    # parent uses an empty environment/no shell, bounded stdin/stdout and one
+    # deadline. It kills and joins the child on timeout or protocol failure.
+    # Dropping its future initiates child termination; awaited calls prove reap.
+    # A synchronous validator behind a Tokio timeout alone cannot prove this.
+  - name: mcp.http_invocation.ResourceContent
+    kind: struct
+    fields:
+      - {name: uri, type: String}
+      - {name: mime_type, type: "Optional<String>"}
+      - {name: text, type: "Optional<String>"}
+      - {name: blob, type: "Optional<Bytes>"}
+      - {name: raw, type: Json}
+    # I1: require at least one actual text/blob representation, validate every
+    # present representation and preserve both when both exist: upstream's union
+    # does not declare exclusive fields. Preserve every raw field and URI.
+    # Binary is never decoded as text or fetched.
+  - name: mcp.http_invocation.TextContent
+    kind: struct
+    fields:
+      - {name: text, type: String}
+      - {name: raw, type: Json}
+  - name: mcp.http_invocation.BinaryContent
+    kind: struct
+    fields:
+      - {name: data, type: Bytes}
+      - {name: mime_type, type: String}
+      - {name: raw, type: Json}
+  - name: mcp.http_invocation.EmbeddedResource
+    kind: struct
+    fields:
+      - {name: resource, type: mcp.http_invocation.ResourceContent}
+      - {name: raw, type: Json}
+  - name: mcp.http_invocation.ResourceLink
+    kind: struct
+    fields:
+      - {name: resource, type: mcp.http_discovery.Resource}
+      - {name: raw, type: Json}
+  - name: mcp.http_invocation.Content
+    kind: union
+    tag: kind
+    variants:
+      text: mcp.http_invocation.TextContent
+      image: mcp.http_invocation.BinaryContent
+      audio: mcp.http_invocation.BinaryContent
+      resource: mcp.http_invocation.EmbeddedResource
+      resource_link: mcp.http_invocation.ResourceLink
+    # I2: selected discriminator/fields and common annotations/meta are checked
+    # at runtime. Unknown discriminator is an unsupported observation retaining
+    # the bounded raw exchange, not a dropped block in a successful result.
+  - name: mcp.http_invocation.ToolResult
+    kind: struct
+    fields:
+      - {name: content, type: "List<mcp.http_invocation.Content>"}
+      - {name: structured_content, type: "Optional<Json>"}
+      - {name: is_error, type: "Optional<Boolean>"}
+      - {name: exchange, type: mcp.http_exchange.CompleteResult}
+    # I3: modern structuredContent permits any JSON including null; legacy
+    # requires an object if present. Absence stays absent. Missing isError has
+    # protocol default false but does not become a present fabricated field.
+    # The declared supported output schema is checked against structured output;
+    # malformed/mismatching output is not successful business data. isError is
+    # a peer business result, not a protocol error, rollback or retry permission.
+  - name: mcp.http_invocation.ResourceResult
+    kind: struct
+    fields:
+      - {name: contents, type: "List<mcp.http_invocation.ResourceContent>"}
+      - {name: cache_hints, type: "Optional<mcp.http_connection.CacheHints>"}
+      - {name: exchange, type: mcp.http_exchange.CompleteResult}
+    # Modern requires valid cache hints; no response cache or stale success.
+  - name: mcp.http_invocation.Role
+    kind: enum
+    variants: [user, assistant]
+  - name: mcp.http_invocation.PromptMessage
+    kind: struct
+    fields:
+      - {name: role, type: mcp.http_invocation.Role}
+      - {name: content, type: mcp.http_invocation.Content}
+      - {name: raw, type: Json}
+  - name: mcp.http_invocation.PromptResult
+    kind: struct
+    fields:
+      - {name: description, type: "Optional<String>"}
+      - {name: messages, type: "List<mcp.http_invocation.PromptMessage>"}
+      - {name: exchange, type: mcp.http_exchange.CompleteResult}
+    # I4: message order/role/content/unknown fields are preserved as data. No
+    # instruction is executed and no embedded link drives another request.
+  - name: mcp.http_invocation.RefusalReason
+    kind: enum
+    variants: [invalid_input, unknown_item, unsupported_family, unsupported_schema, schema_unavailable, deadline_exhausted, exchange_refused, invalid_result, unsupported_result, unsupported_content, output_schema_mismatch]
+  - name: mcp.http_invocation.Refusal
+    kind: struct
+    fields:
+      - {name: reason, type: mcp.http_invocation.RefusalReason}
+      - {name: exchange, type: "Optional<mcp.http_exchange.ExchangeResult>"}
+    # I5: local input/schema/admission refusal dispatches no business request;
+    # peer errors, incomplete transport and malformed results preserve actual
+    # bounded observations. Modern requires resultType complete; input_required
+    # and future variants are unsupported without MRTR or redispatch.
+    # I6: private runtime catalogs come from actual same-connection discovery,
+    # not arbitrary deserialized public carriers. Authority remains consumer-owned.
+    # One invocation deadline includes schema-worker time and actual transport.
+  - name: mcp.http_invocation.HeaderPrimitive
+    kind: enum
+    variants: [string, integer, boolean]
+  - name: mcp.http_invocation.ParameterHeader
+    kind: struct
+    fields:
+      - {name: parameter_path, type: "List<String>"}
+      - {name: suffix, type: String}
+      - {name: primitive, type: mcp.http_invocation.HeaderPrimitive}
+    # I7: modern x-mcp-header annotations are reachable only through properties,
+    # use unique case-insensitive nonempty HTTP-token suffixes, and declare one
+    # of these primitive types. Extract the exact argument path; omit missing
+    # values, decimalize integers only within ±(2^53−1), lowercase booleans, and
+    # encode unsafe/sentinel strings as =?base64?<UTF8 base64>?=. Only the owned
+    # Mcp-Param- prefix is produced; no arbitrary credential or routing header.
+  - name: mcp.http_invocation.HeaderRefusalReason
+    kind: enum
+    variants: [invalid_name, duplicate_name, invalid_type, invalid_location]
+  - name: mcp.http_invocation.RejectedTool
+    kind: struct
+    fields:
+      - {name: name, type: String}
+      - {name: reason, type: mcp.http_invocation.HeaderRefusalReason}
+    # I8: modern invalid header annotations exclude only that tool from the
+    # usable tools projection; valid siblings remain available. The original raw
+    # discovery observation is retained. Untrusted names are not safe diagnostics.
+    # These are local selection observations, never grants or persistent records.

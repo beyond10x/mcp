@@ -7,12 +7,26 @@ license.workspace = true
 repository.workspace = true
 
 [features]
-strict-http = ["dep:base64", "dep:serde", "b10x-mcp-types/strict-http", "serde_json/raw_value"]
+strict-http = ["dep:base64", "dep:serde", "dep:clap", "dep:jsonschema", "b10x-mcp-types/strict-http", "serde_json/raw_value"]
+# Explicit test-only adversarial worker, never needed by an embedding consumer.
+test-schema-worker = ["strict-http"]
+
+[[bin]]
+name = "b10x-mcp-schema-worker"
+path = "src/bin/schema_worker.rs"
+required-features = ["strict-http"]
+
+[[bin]]
+name = "b10x-mcp-schema-fixture"
+path = "tests/fixtures/schema_worker.rs"
+required-features = ["test-schema-worker"]
 
 [dependencies]
 b10x-mcp-types.workspace = true
 base64 = { workspace = true, optional = true }
 http.workspace = true
+clap = { workspace = true, optional = true }
+jsonschema = { workspace = true, optional = true }
 reqwest.workspace = true
 rmcp = { workspace = true, features = ["client", "transport-child-process", "transport-streamable-http-client-reqwest"] }
 serde_json.workspace = true
@@ -20,6 +34,7 @@ serde = { workspace = true, optional = true }
 tokio.workspace = true
 
 [dev-dependencies]
+tempfile.workspace = true
 ess-conformance = { git = "https://github.com/beyond10x/ess", rev = "8700d0808e8f3b19711629d8a17afc5281680f58" }
 ess-primitives = { git = "https://github.com/beyond10x/ess", rev = "8700d0808e8f3b19711629d8a17afc5281680f58" }
 
