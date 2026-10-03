@@ -1,4 +1,4 @@
-//! One bounded, already-negotiated HTTP exchange before typed SDK decoding.
+//! One bounded, revision-selected HTTP exchange before typed SDK decoding.
 //!
 //! The caller owns endpoint admission, request headers and the HTTP builder's
 //! DNS, proxy and TLS policy. This layer supplies no credentials or fallback
@@ -32,7 +32,8 @@ use tokio::time::{Instant, timeout_at};
 /// The request supplies endpoint and headers; its body must be absent or exactly
 /// match `input.encoded_request`. This operation neither negotiates nor repairs a
 /// session. Both JSON and SSE return the protocol envelope only; a family API
-/// must still validate its negotiated revision's result shape.
+/// must still validate its configured revision's result shape. Legacy callers
+/// must have completed initialization; modern requests have no handshake.
 ///
 /// This invocation builds its own client from the supplied builder. It does not
 /// establish a reusable connection or alter the older compatibility constructors.
@@ -66,6 +67,13 @@ pub async fn exchange(
     if Instant::now() >= end {
         return received.refuse("deadline_exhausted");
     }
+    let semantics = if revision == "2026-07-28" {
+        HttpSemantics::Modern
+    } else if request.headers().contains_key("mcp-session-id") {
+        HttpSemantics::LegacySession
+    } else {
+        HttpSemantics::LegacySessionless
+    };
     if let Err(reason) = prepare_request(&mut request, body, &revision) {
         return received.refuse(reason);
     }
@@ -112,7 +120,14 @@ pub async fn exchange(
         return received.refuse("invalid_response");
     }
     received.status = Some(response.status().as_u16());
-    receive(response, received, &id, event_limit, end).await
+    receive(response, received, &id, event_limit, end, semantics).await
+}
+
+#[derive(Clone, Copy)]
+enum HttpSemantics {
+    Modern,
+    LegacySession,
+    LegacySessionless,
 }
 
 type Validated = (Vec<u8>, Value, String, Duration, Duration, Duration, usize);
@@ -443,6 +458,7 @@ async fn receive(
     id: &Value,
     event_limit: usize,
     end: Instant,
+    semantics: HttpSemantics,
 ) -> Result<ExchangeResult, ClientError> {
     let media = response
         .headers()
@@ -461,7 +477,7 @@ async fn receive(
     let status_reason = match status {
         200..=299 => None,
         401 | 403 => Some("authorization_required"),
-        404 => Some("session_expired"),
+        404 if matches!(semantics, HttpSemantics::LegacySession) => Some("session_expired"),
         _ => Some("http_status"),
     };
     let is_sse = media == "text/event-stream" && status_reason.is_none() && !encoded;
@@ -512,6 +528,23 @@ async fn receive(
     }
     received.whole = true;
     if let Some(reason) = status_reason {
+        // Modern protocol errors use 400 and method-not-found uses 404. HTTP
+        // failure is not enough to erase a complete correlated peer error, nor
+        // can a success-shaped body promote an error status into success.
+        if matches!(semantics, HttpSemantics::Modern)
+            && matches!(status, 400 | 404)
+            && !encoded
+            && media == "application/json"
+        {
+            let result = received.envelope(id, false)?.ok_or_else(internal_error)?;
+            if Instant::now() >= end {
+                return received.refuse("deadline_exhausted");
+            }
+            if matches!(result, ExchangeResult::V0(_)) {
+                return Ok(result);
+            }
+            received.terminal = false;
+        }
         return received.refuse(reason);
     }
     if encoded || media != "application/json" {

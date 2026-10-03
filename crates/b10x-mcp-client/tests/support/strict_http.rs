@@ -59,12 +59,35 @@ impl Reply {
             "request-bound-before-send" => reply.request_limit = REQUEST.len() - 1,
             "body-loss" => reply.missing_tail = true,
             "deadline" => reply.delay = true,
-            "session-expired-once" => reply.status = 404,
+            "session-expired-once" | "not-found-sessionless" => reply.status = 404,
+            case if case.starts_with("status-") => reply.status_error(case)?,
             "redirect" => reply.status = 307,
             case if case.starts_with("sse-") => reply.sse(case)?,
             _ => return Err("unknown owned fixture case".into()),
         }
         Ok(reply)
+    }
+    fn status_error(&mut self, case: &str) -> Result<(), String> {
+        self.status = 400;
+        self.body = br#"{"jsonrpc":"2.0","id":17,"error":{"code":-32022,"message":"opaque","data":{"supported":["2025-11-25"],"requested":"2026-07-28"}}}"#.to_vec();
+        match case {
+            "status-peer-error" => {}
+            "status-header-mismatch" => self.body = br#"{"jsonrpc":"2.0","id":17,"error":{"code":-32020,"message":"opaque"}}"#.to_vec(),
+            "status-capability" => self.body = br#"{"jsonrpc":"2.0","id":17,"error":{"code":-32021,"message":"opaque","data":null}}"#.to_vec(),
+            "status-unknown-code" => self.body = br#"{"jsonrpc":"2.0","id":17,"error":{"code":123456789012345678901234567890,"message":"opaque"}}"#.to_vec(),
+            "status-method-not-found" => { self.status = 404; self.body = br#"{"jsonrpc":"2.0","id":17,"error":{"code":-32601,"message":"opaque"}}"#.to_vec(); }
+            "status-invalid-envelope" => self.body = br#"{"jsonrpc":"2.0","id":18,"error":{"code":-32022,"message":"opaque"}}"#.to_vec(),
+            "status-success" => self.body = SUCCESS.to_vec(),
+            "status-ambiguous" => self.body = br#"{"jsonrpc":"2.0","id":17,"result":{},"error":{"code":-32022,"message":"opaque"}}"#.to_vec(),
+            "status-duplicate-id" => self.body = br#"{"jsonrpc":"2.0","id":18,"id":17,"error":{"code":-32022,"message":"opaque"}}"#.to_vec(),
+            "status-bound" => self.response_limit = self.body.len() - 1,
+            "status-loss" => self.missing_tail = true,
+            "status-deadline" => self.delay = true,
+            "status-unauthorized" => self.status = 401,
+            "status-forbidden" => self.status = 403,
+            _ => return Err("unknown status fixture".into()),
+        }
+        Ok(())
     }
     fn sse(&mut self, case: &str) -> Result<(), String> {
         self.content_type = "text/event-stream";
@@ -93,7 +116,7 @@ impl Reply {
     }
 }
 
-async fn request(stream: &mut TcpStream, revision: &str) -> Result<(), String> {
+async fn request(stream: &mut TcpStream, revision: &str, session: bool) -> Result<(), String> {
     let mut header = Vec::new();
     while !header.ends_with(b"\r\n\r\n") {
         if header.len() == 65_536 {
@@ -106,6 +129,15 @@ async fn request(stream: &mut TcpStream, revision: &str) -> Result<(), String> {
         return Err("unexpected HTTP request".into());
     }
     let headers: Vec<_> = header.lines().filter_map(|l| l.split_once(':')).collect();
+    let sessions: Vec<_> = headers
+        .iter()
+        .filter(|(k, _)| k.eq_ignore_ascii_case("mcp-session-id"))
+        .collect();
+    if (session && (sessions.len() != 1 || sessions[0].1.trim() != "fixture-session"))
+        || (!session && !sessions.is_empty())
+    {
+        return Err("unexpected session header on actual wire".into());
+    }
     if !headers
         .iter()
         .any(|(k, v)| k.eq_ignore_ascii_case("mcp-protocol-version") && v.trim() == revision)
@@ -172,11 +204,12 @@ pub async fn observe_input(
     let (stop_tx, mut stop_rx) = oneshot::channel::<()>();
     let expected_revision = revision.to_owned();
     let delayed = reply.delay;
+    let session = case == "session-expired-once";
     let server = tokio::spawn(async move {
         let service = async {
             loop {
                 let (mut stream, _) = listener.accept().await.map_err(|e| e.to_string())?;
-                request(&mut stream, &expected_revision).await?;
+                request(&mut stream, &expected_revision, session).await?;
                 counted.fetch_add(1, Ordering::SeqCst);
                 let length = reply.body.len() + usize::from(reply.missing_tail);
                 stream.write_all(format!("HTTP/1.1 {} Fixture\r\nContent-Type: {}\r\nContent-Length: {length}\r\nLocation: /mcp\r\nConnection: close\r\n\r\n", reply.status, reply.content_type).as_bytes()).await.map_err(|e| e.to_string())?;
@@ -197,12 +230,18 @@ pub async fn observe_input(
         }
     });
     let action = async {
-        let request = reqwest::Request::new(
+        let mut request = reqwest::Request::new(
             reqwest::Method::POST,
             endpoint
                 .parse::<reqwest::Url>()
                 .map_err(|e| e.to_string())?,
         );
+        if case == "session-expired-once" {
+            request.headers_mut().insert(
+                "mcp-session-id",
+                reqwest::header::HeaderValue::from_static("fixture-session"),
+            );
+        }
         let deadline = Instant::now() + Duration::from_millis(if delayed { 500 } else { 3000 });
         let result = b10x_mcp_client::strict_http::exchange(
             reqwest::Client::builder().no_proxy(),

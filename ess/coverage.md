@@ -90,8 +90,8 @@ are not discharged by this narrow HTTP suite.
 
 `conformance/strict-http/spec` binds the actual additive
 `b10x_mcp_client::strict_http::exchange` receiver to an independently framed owned
-HTTP endpoint with the explicit `strict-http` Cargo feature enabled. Its suite contains 27 scenarios (26 authored), with zero synthesis
-refusals; all 27 executed successfully. Each authored condition runs with both
+HTTP endpoint with the explicit `strict-http` Cargo feature enabled. Its suite contains 43 scenarios (42 authored), with zero synthesis
+refusals; all 43 executed successfully. Each authored condition runs with both
 supported negotiated-revision inputs. This tests the transport envelope, not
 negotiation or a modern typed family result. The target consumes only fixture
 inputs and returns actual request counts and receiver fields after joined teardown.
@@ -131,7 +131,15 @@ binary does not inherit the strict receiver's opaque-object preservation. The ga
 checks the default workspace and tests, lints and documents all features. The strict
 test target without its feature executes zero cases and is not acceptance evidence.
 
-Remaining work includes successful real negotiation, typed revision/family checks,
+The strict suite now has 43 scenarios (42 authored). Its additional error-status
+cases exercise modern correlated HTTP 400/404 peer errors, legacy status refusals,
+actual session-header presence, wrong identifiers, bounds and body loss. The old
+modern session-expired expectation was incorrect and is retained as an explicit
+http_status refusal. Native tests also cover modern header/capability/version
+errors, unknown large integer codes, duplicate IDs, auth statuses and deadlines.
+These checks do not establish session provenance or initialization.
+
+Remaining work includes revision-fixed connection setup, typed revision/family checks,
 bounded tool/resource/prompt discovery, resource and prompt operations, reusable
 strict connections, consumer admission and credential integration, and the open
 caller/stdio ownership decisions. The constructor scenario bodies remain unchanged

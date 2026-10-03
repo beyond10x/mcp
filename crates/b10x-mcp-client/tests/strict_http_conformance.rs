@@ -71,6 +71,24 @@ impl ConformanceTarget for StrictHttp {
         result.response = Some(BTreeMap::from([
             ("business_calls".into(), Node::Number(Number::from(calls))),
             ("result_kind".into(), text(&actual["kind"])),
+            (
+                "peer_code".into(),
+                Node::Text(
+                    actual["value"]["error"]["code"]
+                        .as_number()
+                        .map(ToString::to_string)
+                        .unwrap_or_default(),
+                ),
+            ),
+            (
+                "http_status".into(),
+                Node::Text(
+                    actual["value"]["observation"]["http_status"]
+                        .as_number()
+                        .map(ToString::to_string)
+                        .unwrap_or_default(),
+                ),
+            ),
             ("refusal_reason".into(), text(&actual["value"]["reason"])),
             (
                 "terminal".into(),
@@ -117,10 +135,10 @@ fn strict_http_scenarios_execute_against_owned_wire() {
         "HTTP_RUN_REPORT_BEGIN\n{}HTTP_RUN_REPORT_END",
         run.report().to_canonical_json()
     );
-    assert_eq!(report.counts().total, 27);
+    assert_eq!(report.counts().total, 43);
     assert_eq!(
         report.counts().passed,
-        27,
+        43,
         "all authored and generated HTTP cases execute"
     );
     assert_eq!(

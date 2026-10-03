@@ -6,8 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- An opt-in `strict-http` feature with a `b10x_mcp_client::strict_http::exchange` boundary for one already
-  negotiated, caller-admitted HTTP POST. It retains bounded original JSON/SSE
+- An opt-in `strict-http` feature with a `b10x_mcp_client::strict_http::exchange` boundary for one
+  revision-selected, caller-admitted HTTP POST. It retains bounded original JSON/SSE
   message bytes, correlation and completion observations, and opaque integer
   peer errors with absent versus present-null data. It disables redirects,
   retries and transparent decompression on the caller-supplied HTTP builder,
@@ -27,6 +27,10 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Strict HTTP preserves complete correlated modern JSON-RPC errors returned with
+  HTTP 400 or 404, including opaque peer data, without fallback or redispatch.
+  A 404 is classified as session expiry only for a legacy request carrying a
+  session header. Modern and sessionless legacy 404s prove no session expiry.
 - With `strict-http` enabled, JSON numbers retain arbitrary precision for peer-error observations.
   Strict decoding preserves legal codec-private-looking object keys as objects;
   it rejects duplicate members instead of silently choosing their last value.

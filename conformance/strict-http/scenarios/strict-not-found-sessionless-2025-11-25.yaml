@@ -1,11 +1,11 @@
 type: ess-scenario/4
 domain: mcp.strict_http_checks
-scenario: strict-session-expired-once-2026-07-28
-summary: Modern 404 proves no session expiry even if the caller supplies a session header.
+scenario: strict-not-found-sessionless-2025-11-25
+summary: Actual not-found-sessionless response under configured 2025-11-25 without redispatch.
 timeline:
   - at: 2026-10-03T00:00:00Z
     command: mcp.strict_http_checks.ObserveExchange
-    input: {case: session-expired-once, revision: "2026-07-28"}
+    input: {case: not-found-sessionless, revision: "2025-11-25"}
     outcome: observed
     response:
       business_calls: 1
@@ -13,3 +13,5 @@ timeline:
       refusal_reason: "http_status"
       terminal: "incomplete"
       peer_data_presence: ""
+      peer_code: ""
+      http_status: "404"
