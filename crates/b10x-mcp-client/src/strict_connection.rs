@@ -207,6 +207,19 @@ async fn finish_legacy_setup(
 }
 
 impl StrictConnection {
+    pub(crate) fn traversal_deadline(&self, deadline: Instant) -> Option<Instant> {
+        let start = Instant::now();
+        Some(
+            deadline
+                .min(start.checked_add(Duration::from_millis(
+                    self.input.budget.remaining_execution_ms.0.as_u64()?,
+                ))?)
+                .min(start.checked_add(Duration::from_millis(
+                    self.input.budget.provider_ms.0.as_u64()?,
+                ))?),
+        )
+    }
+
     /// Peer-reported facts; never a grant or selected endpoint/version.
     pub fn description(&self) -> &PeerDescription {
         &self.description

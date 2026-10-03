@@ -8,3 +8,4 @@ domains:
   - mcp.http_observations
   - mcp.http_exchange
   - mcp.http_connection
+  - mcp.http_discovery

@@ -8,6 +8,7 @@ specification:
   - ess/domains/http_observations.yaml
   - ess/domains/http_exchange.yaml
   - ess/domains/http_connection.yaml
+  - ess/domains/http_discovery.yaml
 scenarios:
   - conformance/scenarios/id-empty.yaml
   - conformance/scenarios/id-overlength.yaml

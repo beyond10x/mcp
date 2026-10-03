@@ -1,0 +1,18 @@
+type: ess-scenario/4
+domain: mcp.strict_discovery_checks
+scenario: list-unsupported-family-tools-2025-11-25
+summary: Actual tools traversal for list-unsupported-family under configured 2025-11-25.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_discovery_checks.ObserveList
+    input: {case: list-unsupported-family, family: tools, revision: "2025-11-25"}
+    outcome: observed
+    response:
+      complete: false
+      calls: 0
+      items: 0
+      pages: 0
+      reason: "unsupported_family"
+      empty_cursor_sent: false
+      metadata_match: false
+      retained_exchanges: 0

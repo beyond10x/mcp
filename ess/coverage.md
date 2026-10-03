@@ -96,8 +96,8 @@ supported negotiated-revision inputs. This tests the transport envelope, not
 negotiation or a modern typed family result. The target consumes only fixture
 inputs and returns actual request counts and receiver fields after joined teardown.
 
-The receiver and connection use 32 ESS-generated model types. The four generated artifacts are
-regenerated and compared by the gate. Their 21 structural-codec obligations remain
+The receiver, connection and discovery use 43 ESS-generated model types. The four generated artifacts are
+regenerated and compared by the gate. Their 27 structural-codec obligations remain
 visible in `types-report.json`. Numeric input guards require nonnegative byte
 limits representable on this host and positive millisecond values representable as
 u64; a nonrepresentable input is refused before I/O. Canonical base64, exact request
@@ -149,9 +149,37 @@ A revision-check mutation fails exactly both mismatch scenarios (30 passed,2fail
 This is author mutation evidence, not an independent review. The network builder's
 absence of hidden protocol-header defaults remains a named consumer-port obligation.
 
-Remaining work includes typed revision/family checks, bounded tool/resource/prompt
-discovery, concrete resource and prompt operations, complete progress/cancellation/
+Remaining work includes typed invocation revision/family checks, JSON Schema
+semantic validation, concrete tool/resource/prompt operations, complete progress/cancellation/
 shutdown handling, consumer admission and credential integration, and the open
 caller/stdio ownership decisions. The constructor scenario bodies remain unchanged
 with regenerated model digests; their nine partial and three authored refusals
 remain. Report/2 still reports inconclusive conformance and unknown coverage.
+
+## Bounded selected-family discovery
+
+The separate `strict-discovery` selection binds the public discovery function to
+an independently framed HTTP fixture. Its111 scenarios (110authored) cover both
+revisions and all three list families: complete two-page lists, exact descriptor
+bounds, cumulative item/page limits, zero-page and empty zero-item behavior,
+empty/repeated opaque cursors, duplicate identities, invalid fields, later peer
+errors, absent capability and a provider deadline shared across pages. Modern-only
+cases check cache hints and selected resultType. No failed list exposes accumulated
+rows as a complete catalog. Native cases also inspect actual IDs, metadata, unknown
+JSON private-marker fields, fractional resource size and prompt argument fields.
+
+An author regression caught prompt annotations being validated as another family's
+known field. Prompt has no declared annotations field in either pinned schema;
+the corrected boundary preserves it as an opaque extension. Both revision cases
+retain the literal value. This is author red/green evidence, not independent review.
+The111-case target and the mutation control are recorded with their actual run
+results in AEP; a suite's existence alone establishes no execution result.
+
+D1–D5 retain runtime limits, schema selection, homogeneous ordered descriptors,
+unique keys, faithful raw fields and shared-deadline obligations. A catalog is an
+observation, never authorization to invoke. Arbitrary JSON Schema semantics and
+supported dialect admission are unfinished, even when descriptor root shapes are
+valid. Resource URI strings are validated but preserved without normalization or
+fetching. Descriptor-byte bounds count compact JSON encoding; page observations
+retain exact wire bytes under the separate transport budget. A page-limit refusal's
+actual count is the next required page ordinal, not an unseen remote page total.

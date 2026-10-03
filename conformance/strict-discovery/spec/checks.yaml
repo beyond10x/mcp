@@ -1,0 +1,34 @@
+domain: mcp.strict_discovery_checks
+summary: Actual selected-family complete bounded HTTP list traversal.
+types:
+  - name: mcp.strict_discovery_checks.Case
+    kind: enum
+    variants: [list-complete, list-empty-cursor, list-repeated-cursor, list-page-limit, list-item-limit, list-descriptor-limit, list-zero-pages, list-empty-zero-items, list-duplicate, list-invalid-descriptor, list-invalid-page, list-null-cursor, list-missing-cache, list-unselected-result, list-late-error, list-deadline, list-unsupported-family, list-invalid-limits, list-exact-descriptor, list-prompt-extension]
+  - name: mcp.strict_discovery_checks.Family
+    kind: enum
+    variants: [tools, resources, prompts]
+  - name: mcp.strict_discovery_checks.Revision
+    kind: enum
+    variants: ["2025-11-25", "2026-07-28"]
+commands:
+  - name: mcp.strict_discovery_checks.ObserveList
+    input:
+      - {name: case, type: mcp.strict_discovery_checks.Case}
+      - {name: family, type: mcp.strict_discovery_checks.Family}
+      - {name: revision, type: mcp.strict_discovery_checks.Revision}
+    response:
+      - {name: complete, type: Boolean}
+      - {name: calls, type: Integer}
+      - {name: items, type: Integer}
+      - {name: pages, type: Integer}
+      - {name: reason, type: String}
+      - {name: empty_cursor_sent, type: Boolean}
+      - {name: metadata_match, type: Boolean}
+      - {name: retained_exchanges, type: Integer}
+    outcomes:
+      - {name: observed, returns: true}
+    # The target calls the public discovery function against an independently
+    # framed owned HTTP server, returns actual catalog/refusal and captured wire
+    # observations, and joins teardown. It reads no scenario expectations.
+    # metadata_match is true only with actual list requests whose protocol
+    # headers match; modern additionally requires agreeing method and metadata.

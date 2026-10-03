@@ -7,7 +7,7 @@ title: Source-grounded scope for strict HTTP observations before resource and pr
 relations:
 - serves: vision:consumer-owned-mcp-mechanics
 - informed_by: specification:governed-compatibility-baseline
-revision: 8
+revision: 9
 ---
 ## Current implementation direction — revision-fixed connection, 2026-10-03
 
@@ -243,3 +243,28 @@ The raw exchange result is not a usable admitted operation or a validated family
 result. Subsequent consumer work must prove inbound/outbound policy and error
 mapping, and preserve pending process-supervision and caller-to-Connection choices.
 Progress/cancellation/shutdown and final integrated acceptance/release remain open.
+
+## Implemented selected-family discovery — 2026-10-03
+
+story:strict-http-discovery adds complete bounded tool/resource/prompt catalog
+observations on StrictConnection. Eleven immutable ESS values precede the story;
+43total generated types retain27codec obligations. Its111scenario realHTTP suite
+covers both configured revisions, all three families and named failure/bound paths.
+All111 pass; an empty-cursor terminal mutation fails exactly six cases and restores
+green. Full Rust1.88 gate57nativepassed. Nine partial and three authored model
+synthesis refusals remain explicit. A separate coordinator review is disclosed;
+quota-exhausted workers mean no independent review is claimed.
+
+This source-grounded implementation supersedes the earlier proposed repeated-cursor
+refusal. The pinned modern pagination chapter requires opaque tokens and expressly
+permits empty strings; repeated values continue unchanged within the page ceiling.
+Present null is malformed under both optional-string schemas. Limits apply before
+any excess list POST, incrementally to items/descriptor compact bytes, and through
+one execution/provider/absolute deadline. Failed traversal never produces a complete
+catalog. Raw page exchanges and unknown descriptors remain preserved observations.
+
+Next required unit: typed tool calls, concrete resource reads and prompt retrieval,
+with supported JSON Schema dialect/validation, local input admission and selected
+result/content semantics. Catalog shape validation is not schema semantic validity
+or authority. Lifecycleprogress/cancellation/shutdown, consumer integration and
+final source release remain open; no pending operator relation has been inferred.
