@@ -3,7 +3,7 @@ summary: Actual bounded HTTP exchange against an independently framed owned endp
 types:
   - name: mcp.strict_http_checks.Case
     kind: enum
-    variants: ["json-complete","peer-data-absent","peer-data-null","wrong-id","exclusive-result-error","response-bound","request-bound-before-send","body-loss","deadline","session-expired-once","sse-terminal","sse-prefix-incomplete","sse-event-bound"]
+    variants: ["json-complete","peer-data-absent","peer-data-null","wrong-id","exclusive-result-error","response-bound","request-bound-before-send","body-loss","deadline","session-expired-once","sse-terminal","sse-prefix-incomplete","sse-event-bound","status-peer-error","status-invalid-envelope","status-bound","status-loss","status-method-not-found","not-found-sessionless","status-header-mismatch","status-capability"]
   - name: mcp.strict_http_checks.Revision
     kind: enum
     variants: ["2025-11-25", "2026-07-28"]
@@ -19,6 +19,8 @@ commands:
       - {name: terminal, type: String}
       - {name: peer_data_presence, type: String}
       - {name: retained_octets, type: Integer}
+      - {name: peer_code, type: String}
+      - {name: http_status, type: String}
     outcomes:
       - name: observed
         returns: true
@@ -28,4 +30,3 @@ commands:
     # outcomes. Setup, parsing and teardown failures are target errors.
     # Revision is already negotiated input; this target does not prove negotiation
     # or revision-specific tool/resource/prompt result validation.
-

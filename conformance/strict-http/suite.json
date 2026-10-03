@@ -3,8 +3,8 @@
     "suite_version": "ess-conformance/28",
     "system": "mcp",
     "specification_version": "v1",
-    "spec_digest": "c29617edb96c574ea90eea510aa6219556eb11f79058ad22d4a148707ad3b954",
-    "contract_digest": "9113721249ee461f176980418970b3297558fcb8c0bae5a54d7036dad7172d74"
+    "spec_digest": "d6092e113117f47bb312297ce2165903655e34ad983399a48ea6eb1581eb3a5d",
+    "contract_digest": "1c0fe69aebc576fe79113183a95acf773fc1d13090f620f5b447ee3ae441928f"
   },
   "scenarios": {
     "mcp.strict_http_checks.ObserveExchange/outcome/observed": {
@@ -63,6 +63,14 @@
               {
                 "name": "retained_octets",
                 "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
               }
             ],
             "declarations": {},
@@ -148,6 +156,14 @@
               {
                 "name": "retained_octets",
                 "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
               }
             ],
             "declarations": {},
@@ -243,6 +259,14 @@
               {
                 "name": "retained_octets",
                 "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
               }
             ],
             "declarations": {},
@@ -338,6 +362,14 @@
               {
                 "name": "retained_octets",
                 "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
               }
             ],
             "declarations": {},
@@ -433,6 +465,14 @@
               {
                 "name": "retained_octets",
                 "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
               }
             ],
             "declarations": {},
@@ -528,6 +568,14 @@
               {
                 "name": "retained_octets",
                 "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
               }
             ],
             "declarations": {},
@@ -623,6 +671,14 @@
               {
                 "name": "retained_octets",
                 "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
               }
             ],
             "declarations": {},
@@ -718,6 +774,14 @@
               {
                 "name": "retained_octets",
                 "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
               }
             ],
             "declarations": {},
@@ -813,6 +877,14 @@
               {
                 "name": "retained_octets",
                 "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
               }
             ],
             "declarations": {},
@@ -822,6 +894,216 @@
               "refusal_reason": "",
               "result_kind": "result",
               "terminal": "correlated_terminal"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-not-found-sessionless-2025-11-25": {
+      "purpose": "Actual not-found-sessionless response under configured 2025-11-25 without redispatch.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "not-found-sessionless"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "http_status": "404",
+              "peer_code": "",
+              "peer_data_presence": "",
+              "refusal_reason": "http_status",
+              "result_kind": "refused",
+              "terminal": "incomplete"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-not-found-sessionless-2026-07-28": {
+      "purpose": "Actual not-found-sessionless response under configured 2026-07-28 without redispatch.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "not-found-sessionless"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "http_status": "404",
+              "peer_code": "",
+              "peer_data_presence": "",
+              "refusal_reason": "http_status",
+              "result_kind": "refused",
+              "terminal": "incomplete"
             }
           }
         }
@@ -908,6 +1190,14 @@
               {
                 "name": "retained_octets",
                 "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
               }
             ],
             "declarations": {},
@@ -1003,6 +1293,14 @@
               {
                 "name": "retained_octets",
                 "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
               }
             ],
             "declarations": {},
@@ -1098,6 +1396,14 @@
               {
                 "name": "retained_octets",
                 "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
               }
             ],
             "declarations": {},
@@ -1193,6 +1499,14 @@
               {
                 "name": "retained_octets",
                 "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
               }
             ],
             "declarations": {},
@@ -1288,6 +1602,14 @@
               {
                 "name": "retained_octets",
                 "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
               }
             ],
             "declarations": {},
@@ -1383,6 +1705,14 @@
               {
                 "name": "retained_octets",
                 "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
               }
             ],
             "declarations": {},
@@ -1478,6 +1808,14 @@
               {
                 "name": "retained_octets",
                 "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
               }
             ],
             "declarations": {},
@@ -1573,6 +1911,14 @@
               {
                 "name": "retained_octets",
                 "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
               }
             ],
             "declarations": {},
@@ -1668,6 +2014,14 @@
               {
                 "name": "retained_octets",
                 "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
               }
             ],
             "declarations": {},
@@ -1708,7 +2062,7 @@
       ]
     },
     "mcp.strict_http_checks/authored/strict-session-expired-once-2026-07-28": {
-      "purpose": "Real strict HTTP session-expired-once under negotiated 2026-07-28.",
+      "purpose": "Modern 404 proves no session expiry even if the caller supplies a session header.",
       "steps": [
         {
           "step": "execute_command",
@@ -1763,13 +2117,21 @@
               {
                 "name": "retained_octets",
                 "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
               }
             ],
             "declarations": {},
             "expected": {
               "business_calls": 1.0,
               "peer_data_presence": "",
-              "refusal_reason": "session_expired",
+              "refusal_reason": "http_status",
               "result_kind": "refused",
               "terminal": "incomplete"
             }
@@ -1858,6 +2220,14 @@
               {
                 "name": "retained_octets",
                 "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
               }
             ],
             "declarations": {},
@@ -1953,6 +2323,14 @@
               {
                 "name": "retained_octets",
                 "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
               }
             ],
             "declarations": {},
@@ -2048,6 +2426,14 @@
               {
                 "name": "retained_octets",
                 "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
               }
             ],
             "declarations": {},
@@ -2143,6 +2529,14 @@
               {
                 "name": "retained_octets",
                 "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
               }
             ],
             "declarations": {},
@@ -2238,6 +2632,14 @@
               {
                 "name": "retained_octets",
                 "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
               }
             ],
             "declarations": {},
@@ -2333,6 +2735,14 @@
               {
                 "name": "retained_octets",
                 "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
               }
             ],
             "declarations": {},
@@ -2341,6 +2751,1476 @@
               "peer_data_presence": "",
               "refusal_reason": "",
               "result_kind": "result",
+              "terminal": "correlated_terminal"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-status-bound-2025-11-25": {
+      "purpose": "Actual status-bound response under configured 2025-11-25 without redispatch.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "status-bound"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "http_status": "400",
+              "peer_code": "",
+              "peer_data_presence": "",
+              "refusal_reason": "response_bound",
+              "result_kind": "refused",
+              "terminal": "incomplete"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-status-bound-2026-07-28": {
+      "purpose": "Actual status-bound response under configured 2026-07-28 without redispatch.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "status-bound"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "http_status": "400",
+              "peer_code": "",
+              "peer_data_presence": "",
+              "refusal_reason": "response_bound",
+              "result_kind": "refused",
+              "terminal": "incomplete"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-status-capability-2025-11-25": {
+      "purpose": "Actual status-capability response under configured 2025-11-25 without redispatch.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "status-capability"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "http_status": "400",
+              "peer_code": "",
+              "peer_data_presence": "",
+              "refusal_reason": "http_status",
+              "result_kind": "refused",
+              "terminal": "incomplete"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-status-capability-2026-07-28": {
+      "purpose": "Actual status-capability response under configured 2026-07-28 without redispatch.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "status-capability"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "http_status": "400",
+              "peer_code": "-32021",
+              "peer_data_presence": "present",
+              "refusal_reason": "",
+              "result_kind": "peer_error",
+              "terminal": "correlated_terminal"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-status-header-mismatch-2025-11-25": {
+      "purpose": "Actual status-header-mismatch response under configured 2025-11-25 without redispatch.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "status-header-mismatch"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "http_status": "400",
+              "peer_code": "",
+              "peer_data_presence": "",
+              "refusal_reason": "http_status",
+              "result_kind": "refused",
+              "terminal": "incomplete"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-status-header-mismatch-2026-07-28": {
+      "purpose": "Actual status-header-mismatch response under configured 2026-07-28 without redispatch.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "status-header-mismatch"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "http_status": "400",
+              "peer_code": "-32020",
+              "peer_data_presence": "absent",
+              "refusal_reason": "",
+              "result_kind": "peer_error",
+              "terminal": "correlated_terminal"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-status-invalid-envelope-2025-11-25": {
+      "purpose": "Actual status-invalid-envelope response under configured 2025-11-25 without redispatch.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "status-invalid-envelope"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "http_status": "400",
+              "peer_code": "",
+              "peer_data_presence": "",
+              "refusal_reason": "http_status",
+              "result_kind": "refused",
+              "terminal": "incomplete"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-status-invalid-envelope-2026-07-28": {
+      "purpose": "Actual status-invalid-envelope response under configured 2026-07-28 without redispatch.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "status-invalid-envelope"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "http_status": "400",
+              "peer_code": "",
+              "peer_data_presence": "",
+              "refusal_reason": "http_status",
+              "result_kind": "refused",
+              "terminal": "incomplete"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-status-loss-2025-11-25": {
+      "purpose": "Actual status-loss response under configured 2025-11-25 without redispatch.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "status-loss"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "http_status": "400",
+              "peer_code": "",
+              "peer_data_presence": "",
+              "refusal_reason": "transport_failure",
+              "result_kind": "refused",
+              "terminal": "incomplete"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-status-loss-2026-07-28": {
+      "purpose": "Actual status-loss response under configured 2026-07-28 without redispatch.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "status-loss"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "http_status": "400",
+              "peer_code": "",
+              "peer_data_presence": "",
+              "refusal_reason": "transport_failure",
+              "result_kind": "refused",
+              "terminal": "incomplete"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-status-method-not-found-2025-11-25": {
+      "purpose": "Actual status-method-not-found response under configured 2025-11-25 without redispatch.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "status-method-not-found"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "http_status": "404",
+              "peer_code": "",
+              "peer_data_presence": "",
+              "refusal_reason": "http_status",
+              "result_kind": "refused",
+              "terminal": "incomplete"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-status-method-not-found-2026-07-28": {
+      "purpose": "Actual status-method-not-found response under configured 2026-07-28 without redispatch.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "status-method-not-found"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "http_status": "404",
+              "peer_code": "-32601",
+              "peer_data_presence": "absent",
+              "refusal_reason": "",
+              "result_kind": "peer_error",
+              "terminal": "correlated_terminal"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-status-peer-error-2025-11-25": {
+      "purpose": "Actual status-peer-error response under configured 2025-11-25 without redispatch.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "status-peer-error"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "http_status": "400",
+              "peer_code": "",
+              "peer_data_presence": "",
+              "refusal_reason": "http_status",
+              "result_kind": "refused",
+              "terminal": "incomplete"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-status-peer-error-2026-07-28": {
+      "purpose": "Actual status-peer-error response under configured 2026-07-28 without redispatch.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "status-peer-error"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "http_status": "400",
+              "peer_code": "-32022",
+              "peer_data_presence": "present",
+              "refusal_reason": "",
+              "result_kind": "peer_error",
               "terminal": "correlated_terminal"
             }
           }
@@ -2428,6 +4308,14 @@
               {
                 "name": "retained_octets",
                 "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
               }
             ],
             "declarations": {},
@@ -2523,6 +4411,14 @@
               {
                 "name": "retained_octets",
                 "type": "Integer"
+              },
+              {
+                "name": "peer_code",
+                "type": "String"
+              },
+              {
+                "name": "http_status",
+                "type": "String"
               }
             ],
             "declarations": {},

@@ -7,8 +7,44 @@ title: Source-grounded scope for strict HTTP observations before resource and pr
 relations:
 - serves: vision:consumer-owned-mcp-mechanics
 - informed_by: specification:governed-compatibility-baseline
-revision: 6
+revision: 7
 ---
+## Current implementation direction — revision-fixed connection, 2026-10-03
+
+This section supersedes any earlier suggestion below to inherit SDK Auto lifecycle,
+negotiate a preferred revision, or capture a session for both revisions. The landed
+Connectors contract at af8aefad3c83195068e68e606d174f9b125d091c,
+adapters/mcp/contracts/client/v1alpha1/semantics.md sections 1–4, explicitly selects
+one configured revision and forbids switching after discovery or a protocol error.
+Modern 2026-07-28 has no initialize handshake or protocol session. Legacy 2025-11-25
+requires initialize and notifications/initialized, checks the returned revision
+against the configured one and echoes an actually assigned private session header.
+No preference list, automatic era fallback, repeated handshake or automatic session
+repair belongs in the new Connectors-facing strict connection.
+
+Modern server/discover records reported versions (including unknown strings),
+capability presence, optional self-reported identity and cache fields without
+changing the configured endpoint, revision, credential or authority. Selection is
+not negotiation evidence. The reusable connection must supply agreeing modern
+metadata/headers on every request; use the pinned upstream files in Connectors,
+not SDK defaults, as the deciding wire oracle. Client capabilities for this consumer
+are empty; unsupported or deferred roots/sampling/elicitation remain undeclared.
+The standalone MCP API may preserve broader old compatibility entry points.
+
+The next strict connection scope therefore starts with a typed immutable configured
+profile and revision-specific peer description/legacy initialization observations,
+then bounded cumulative tool/resource/prompt discovery and concrete family calls.
+Session material remains private runtime data, redacted and zeroized, outside the
+pure generated value crate. No new durable ownership relation is inferred.
+
+Before that unit, story:strict-http-status-observations corrects two confirmed
+foundation defects: complete correlated modern 400/404 peer errors were erased,
+and every 404 was incorrectly called session expiry. The old modern session-expired
+scenario was an incorrect oracle and is retained with its corrected expectation.
+The low-level exchange can observe a caller-supplied session header; proving its
+origin in initialization remains the connection's duty. Modern/header agreement,
+legacy server requests, cancellation/shutdown and family completeness remain open.
+
 # Next MCP runtime slice: source-grounded scope
 
 Read-only scope, 2026-10-03. MCP tree observed at `1fcb09186aafdec1e6a6acd6655f0d4f29b361f0`; root is concurrently publishing its foundation. No build, test, model validation, network request or source mutation was performed for this report. Existing partial constructor evidence remains nine executions, four partial-synthesis refusals, three full-authored refusals, conformance inconclusive. Candidate Connectors documents were read from `cb26g-out/adapters/mcp/contracts/client/v1alpha1/invocation.md` and `cb26g-in/adapters/mcp/contracts/server/v1alpha1/projection.md`; they are review candidates, not published/runtime authority.

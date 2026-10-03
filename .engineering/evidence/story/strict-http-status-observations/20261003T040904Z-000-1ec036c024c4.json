@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-03T04:09:04Z",
+  "actor": "human:timo",
+  "artifact": "story:strict-http-status-observations",
+  "kind": "story",
+  "revision": 4,
+  "change": {
+    "change": "evidence",
+    "kind": "test_result",
+    "source": "Rust1.88 cargo xtask gate EXIT0:41 native passed; strict43 passed. gate SHA256 2bca1e729f203fdad52632a623e84b52ae9d828b414f8c82b403bbd20bf729ca; author red11passed2failed SHA25605e2c56ebcaa30931293deba4f13346a6dd0a79d7c957bfff227bb39ab137c84",
+    "reference": ".cache/mcp-next-runtime/http-status/gate.log"
+  }
+}

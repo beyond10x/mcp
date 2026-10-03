@@ -6,6 +6,85 @@ mod fixture;
 use base64::{Engine as _, engine::general_purpose::STANDARD};
 
 #[tokio::test]
+async fn modern_http_errors_preserve_peer_envelopes_without_redispatch() {
+    for (case, code, status, presence) in [
+        ("status-peer-error", "-32022", 400, "present"),
+        ("status-header-mismatch", "-32020", 400, "absent"),
+        ("status-capability", "-32021", 400, "present"),
+        ("status-method-not-found", "-32601", 404, "absent"),
+        (
+            "status-unknown-code",
+            "123456789012345678901234567890",
+            400,
+            "absent",
+        ),
+    ] {
+        let (actual, calls) = fixture::observe(case, "2026-07-28").await.unwrap();
+        assert_eq!(calls, 1, "{case}");
+        assert_eq!(actual["kind"], "peer_error", "{case}");
+        assert_eq!(actual["value"]["error"]["code"].to_string(), code);
+        assert_eq!(actual["value"]["error"]["data"]["presence"], presence);
+        assert_eq!(actual["value"]["observation"]["http_status"], status);
+        assert_eq!(
+            actual["value"]["observation"]["terminal"],
+            "correlated_terminal"
+        );
+        if case == "status-peer-error" {
+            assert_eq!(
+                actual["value"]["error"]["data"]["value"]["supported"][0],
+                "2025-11-25"
+            );
+        }
+        if case == "status-capability" {
+            assert!(actual["value"]["error"]["data"]["value"].is_null());
+        }
+    }
+}
+
+#[tokio::test]
+async fn session_expiry_requires_legacy_revision_and_a_sent_session_header() {
+    for (case, revision, reason) in [
+        ("session-expired-once", "2025-11-25", "session_expired"),
+        ("session-expired-once", "2026-07-28", "http_status"),
+        ("not-found-sessionless", "2025-11-25", "http_status"),
+        ("not-found-sessionless", "2026-07-28", "http_status"),
+    ] {
+        let (actual, calls) = fixture::observe(case, revision).await.unwrap();
+        assert_eq!(calls, 1);
+        assert_eq!(actual["value"]["reason"], reason, "{case} {revision}");
+        assert_eq!(actual["value"]["observation"]["http_status"], 404);
+    }
+}
+
+#[tokio::test]
+async fn error_statuses_keep_bounds_and_do_not_promote_invalid_or_success_bodies() {
+    for revision in ["2025-11-25", "2026-07-28"] {
+        for (case, reason) in [
+            ("status-success", "http_status"),
+            ("status-invalid-envelope", "http_status"),
+            ("status-ambiguous", "http_status"),
+            ("status-duplicate-id", "http_status"),
+            ("status-bound", "response_bound"),
+            ("status-loss", "transport_failure"),
+            ("status-deadline", "deadline_exhausted"),
+            ("status-unauthorized", "authorization_required"),
+            ("status-forbidden", "authorization_required"),
+        ] {
+            let (actual, calls) = fixture::observe(case, revision).await.unwrap();
+            assert_eq!(calls, 1);
+            assert_eq!(actual["kind"], "refused");
+            assert_eq!(actual["value"]["reason"], reason, "{case} {revision}");
+            assert_eq!(actual["value"]["observation"]["terminal"], "incomplete");
+        }
+    }
+    let (actual, calls) = fixture::observe("status-peer-error", "2025-11-25")
+        .await
+        .unwrap();
+    assert_eq!(calls, 1);
+    assert_eq!(actual["value"]["reason"], "http_status");
+}
+
+#[tokio::test]
 async fn exact_json_and_peer_data_survive_real_http() {
     for revision in ["2025-11-25", "2026-07-28"] {
         let (actual, calls) = fixture::observe("json-complete", revision).await.unwrap();

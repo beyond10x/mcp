@@ -1,5 +1,5 @@
 domain: mcp.http_exchange
-summary: Immutable inputs and observations for one already-negotiated bounded business exchange.
+summary: Immutable inputs and observations for one revision-selected bounded business exchange.
 
 # Additive strict exchange; not a change to existing Limits.
 # These values have no durable identity, ownership or credential material.
@@ -46,8 +46,9 @@ types:
       - {name: request_id, type: mcp.http_exchange.RequestId}
       - {name: encoded_request, type: Bytes}
       - {name: budget, type: mcp.http_exchange.ExchangeBudget}
-    # This input follows successful version negotiation; it does not model the
-    # initialization exchange, notifications, or permit per-call fallback.
+    # This input follows explicit revision selection and, for legacy only,
+    # successful initialization. Modern requests have no negotiation handshake.
+    # It does not model initialization, notifications or per-call fallback.
     # Endpoint, credentials and HTTP client remain the consumer-owned ports;
     # this input cannot redirect or authorize the selected peer.
     # UNMAPPED H6: encoded_request is one valid JSON-RPC request, whose exact
@@ -95,6 +96,8 @@ types:
     # enumeration of upstream JSON-RPC integers. Any safe diagnostic is derived
     # from this kind, not from opaque response content. Reason does not imply
     # send status, rollback, remote cancellation or safe retry.
+    # session_expired requires revision 2025-11-25, an actual session header on
+    # the sent request and HTTP 404. Modern or sessionless 404 proves no session.
 
   - name: mcp.http_exchange.CompleteResult
     kind: struct
@@ -113,6 +116,9 @@ types:
       - {name: error, type: mcp.http_observations.PeerError}
     # A complete correlated JSON-RPC error, preserving integer code, untrusted
     # message and absent versus present-null data. It is not caller input error.
+    # Modern HTTP 400/404 can carry correlated JSON-RPC errors; their actual
+    # status remains in observation. Never accept a result branch on such a
+    # status, reinterpret auth statuses, or retry after observing a peer error.
 
   - name: mcp.http_exchange.RefusedExchange
     kind: struct
