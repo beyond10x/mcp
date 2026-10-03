@@ -1,0 +1,33 @@
+domain: mcp.strict_lifecycle_checks
+summary: Real HTTP shutdown and interrupted-request observations; remaining lifecycle scenarios are pending.
+types:
+  - name: mcp.strict_lifecycle_checks.Case
+    kind: enum
+    variants: ["lifecycle-shutdown-405","lifecycle-shutdown-abandoned","lifecycle-shutdown-body-timeout","lifecycle-shutdown-bound","lifecycle-shutdown-completed","lifecycle-shutdown-deadline","lifecycle-shutdown-delete","lifecycle-shutdown-failure","lifecycle-shutdown-invocation","lifecycle-shutdown-modern","lifecycle-shutdown-reconnect","lifecycle-shutdown-redirect","lifecycle-shutdown-sessionless"]
+  - name: mcp.strict_lifecycle_checks.Revision
+    kind: enum
+    variants: ["2025-11-25", "2026-07-28"]
+commands:
+  - name: mcp.strict_lifecycle_checks.ObserveLifecycle
+    input:
+      - {name: case, type: mcp.strict_lifecycle_checks.Case}
+      - {name: revision, type: mcp.strict_lifecycle_checks.Revision}
+    response:
+      - {name: requests, type: Integer}
+      - {name: deletes, type: Integer}
+      - {name: disposition, type: String}
+      - {name: refusal, type: String}
+      - {name: retained_octets, type: Integer}
+      - {name: http_status, type: Integer}
+      - {name: send, type: String}
+      - {name: interrupted, type: Boolean}
+      - {name: interrupted_id, type: Integer}
+      - {name: pool_closed, type: Boolean}
+      - {name: abandoned_stream_closed, type: Boolean}
+      - {name: reuse_refused, type: Boolean}
+      - {name: header_agreement, type: Boolean}
+    outcomes:
+      - {name: observed, returns: true}
+    # The target parses real requests and observes actual socket closure before
+    # stopping and joining its owned peer. No field is taken from expectations.
+

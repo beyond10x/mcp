@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-03T06:45:49Z",
+  "actor": "human:timo",
+  "artifact": "story:strict-http-lifecycle",
+  "kind": "story",
+  "revision": 6,
+  "change": {
+    "change": "evidence",
+    "kind": "test_result",
+    "source": "Deliberate405 classification mutation:17passed1failed; restored before full green gate",
+    "reference": ".cache/mcp-next-runtime/lifecycle/delete-405-mutation.log"
+  }
+}

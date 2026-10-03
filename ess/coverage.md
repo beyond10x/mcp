@@ -224,3 +224,24 @@ retrieval, caching, link fetching, prompt execution, grants or automatic replay 
 introduced. Logical timestamps in ESS reports belong to its deterministic runner;
 the surrounding test log records the actual execution. Full MCP server-request,
 progress and lifecycle coverage, and Connectors consumer integration, remain open.
+
+## Partial strict HTTP lifecycle implementation
+
+The new `mcp.http_lifecycle` domain adds nine immutable observation types (73 total
+projected values). L1–L7 record runtime obligations separately from structural
+codecs. Progress and cancellation observations are modeled but have no runtime
+coverage yet. They must not be reported implemented from type generation alone.
+
+`conformance/strict-lifecycle` currently exercises shutdown only:18 scenarios,
+17 authored, against actual connections. The peer parses every request and waits
+for the owned sockets to close before it joins. The selection covers modern and
+sessionless no-DELETE, legacy one-DELETE,405,503 and307, bounded retained bodies,
+expired and mid-response deadlines, abandoned streams and retained request IDs,
+completed calls, the invocation-client entry point and fresh setup with unchanged
+caller configuration. Native tests additionally check exact failure bytes and
+control headers. There is no server rollback or guaranteed remote termination
+claim. No DELETE response is promoted to a correlated business terminal.
+
+The full lifecycle story remains active: actual progress, ping/error POST replies,
+explicit cancellation, completion races, observed late replies and awaited schema
+worker cancellation still require implementation and their named scenarios.

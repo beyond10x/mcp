@@ -1,12 +1,12 @@
 {
   "format": "ess-types-report/3",
-  "source_digest": "ca711843b62e4e6084550df5c3568bb197e39cadab6b4d640596ae75d5fe0a8c",
+  "source_digest": "f54520d53ae1a7ecd00e326fda0c6e4e6b27d3ed9349d575522e90127c8f23fd",
   "input": {
     "kind": "model",
     "system": "mcp",
     "specification_version": "v1",
-    "contract_digest": "slice-sha256/2:5e36ec9ca99dfa747d00c29173bb879ef61769a33896ff0095a16b52c8a30bb9",
-    "projection_digest": "133a915ce372c5ffa7ce8893d71e5d947c9af2d1dfa3e8fcdfeeac87da71c995"
+    "contract_digest": "slice-sha256/2:a9e8b944b6339604f493eedda479cf83b12bb2ba08911dfcdb085f02197f8062",
+    "projection_digest": "cf75b147da1ed792428c3dd651bcbb88e138ce5002ceb63fdaf54eae20bb790d"
   },
   "generator_version": "0.50.0",
   "target": "rust",
@@ -30,7 +30,10 @@
     "mcp.http_invocation.ResourceResult",
     "mcp.http_invocation.SchemaReply",
     "mcp.http_invocation.SchemaRequest",
-    "mcp.http_invocation.ToolResult"
+    "mcp.http_invocation.ToolResult",
+    "mcp.http_lifecycle.CancellationObservation",
+    "mcp.http_lifecycle.ProgressObservation",
+    "mcp.http_lifecycle.ShutdownObservation"
   ],
   "declarations": {
     "mcp.http_connection.CacheHints": "McpHttpConnectionCacheHints",
@@ -86,6 +89,15 @@
     "mcp.http_invocation.SchemaStatus": "McpHttpInvocationSchemaStatus",
     "mcp.http_invocation.TextContent": "McpHttpInvocationTextContent",
     "mcp.http_invocation.ToolResult": "McpHttpInvocationToolResult",
+    "mcp.http_lifecycle.CancellationObservation": "McpHttpLifecycleCancellationObservation",
+    "mcp.http_lifecycle.ControlDisposition": "McpHttpLifecycleControlDisposition",
+    "mcp.http_lifecycle.ControlKind": "McpHttpLifecycleControlKind",
+    "mcp.http_lifecycle.ControlObservation": "McpHttpLifecycleControlObservation",
+    "mcp.http_lifecycle.InterruptedRequest": "McpHttpLifecycleInterruptedRequest",
+    "mcp.http_lifecycle.ProgressDisposition": "McpHttpLifecycleProgressDisposition",
+    "mcp.http_lifecycle.ProgressObservation": "McpHttpLifecycleProgressObservation",
+    "mcp.http_lifecycle.ShutdownObservation": "McpHttpLifecycleShutdownObservation",
+    "mcp.http_lifecycle.StopCause": "McpHttpLifecycleStopCause",
     "mcp.http_observations.AbsentPeerData": "McpHttpObservationsAbsentPeerData",
     "mcp.http_observations.BoundedWireBytes": "McpHttpObservationsBoundedWireBytes",
     "mcp.http_observations.MessageLength": "McpHttpObservationsMessageLength",
@@ -991,6 +1003,141 @@
     },
     {
       "pointer": "/$defs/mcp.http_invocation.ToolResult/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.CancellationObservation/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.CancellationObservation/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.CancellationObservation/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlDisposition/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlDisposition/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlDisposition/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlKind/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlKind/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlKind/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlObservation/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlObservation/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ControlObservation/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.InterruptedRequest/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.InterruptedRequest/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.InterruptedRequest/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ProgressDisposition/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ProgressDisposition/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ProgressDisposition/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ProgressObservation/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ProgressObservation/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ProgressObservation/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ShutdownObservation/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ShutdownObservation/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.ShutdownObservation/x-ess-name",
+      "rule": "x-ess-name",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.StopCause/title",
+      "rule": "title",
+      "detail": "retained in source.schema.json; no decoder behavior inferred"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.StopCause/x-ess-kind",
+      "rule": "x-ess-kind",
+      "detail": "model identity and wire mapping retained in source.schema.json"
+    },
+    {
+      "pointer": "/$defs/mcp.http_lifecycle.StopCause/x-ess-name",
       "rule": "x-ess-name",
       "detail": "model identity and wire mapping retained in source.schema.json"
     },

@@ -7,7 +7,10 @@ use b10x_mcp_types::http_exchange::{
     EssPresence, McpHttpConnectionPeerDescription as PeerDescription,
     McpHttpConnectionSetupInput as SetupInput, McpHttpConnectionSetupRefusal as SetupRefusal,
     McpHttpConnectionSetupRefusalReason as Reason, McpHttpExchangeExchangeInput as ExchangeInput,
-    McpHttpExchangeExchangeResult as ExchangeResult,
+    McpHttpExchangeExchangeResult as ExchangeResult, McpHttpExchangeRequestId as RequestId,
+    McpHttpLifecycleInterruptedRequest as InterruptedRequest,
+    McpHttpLifecycleShutdownObservation as ShutdownObservation,
+    McpHttpLifecycleStopCause as StopCause,
 };
 use b10x_mcp_types::{ClientError, SecretString};
 use base64::{Engine as _, engine::general_purpose::STANDARD};
@@ -27,6 +30,7 @@ pub struct StrictConnection {
     description: PeerDescription,
     session: Option<SecretString>,
     next_id: u64,
+    pending: Option<RequestId>,
 }
 impl fmt::Debug for StrictConnection {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -178,6 +182,7 @@ pub async fn connect(
         description,
         session,
         next_id: 2,
+        pending: None,
     })
 }
 
@@ -207,6 +212,38 @@ async fn finish_legacy_setup(
 }
 
 impl StrictConnection {
+    /// Consume the handle, closing its pool and attempting one legacy session
+    /// DELETE. Modern and sessionless handles send no DELETE. A405 is permitted.
+    ///
+    /// This is an explicit teardown deadline, capped by the existing execution
+    /// and provider limits. No business deadline or result is extended. Await
+    /// the returned future for observation of the attempt; dropping it can only
+    /// close local resources and cannot prove the server terminated a session.
+    /// Caller-owned setup configuration remains reusable for a fresh connection.
+    pub async fn shutdown(self, deadline: Instant) -> Result<ShutdownObservation, ClientError> {
+        let end = self.traversal_deadline(deadline).ok_or_else(local_error)?;
+        let deletion = if !modern(&self.input) && self.session.is_some() {
+            let mut request = self.template.try_clone().ok_or_else(local_error)?;
+            attach_session(&mut request, self.session.as_ref())?;
+            EssPresence::Present(Box::new(
+                strict_http::session_delete(&self.client, request, &self.input.budget, end).await?,
+            ))
+        } else {
+            EssPresence::Absent
+        };
+        let interrupted = self.pending.map_or(EssPresence::Absent, |id| {
+            EssPresence::Present(Box::new(InterruptedRequest {
+                request_id: Box::new(id),
+                cause: Box::new(StopCause::V2),
+                exchange: EssPresence::Absent,
+            }))
+        });
+        Ok(ShutdownObservation {
+            interrupted,
+            deletion,
+        })
+    }
+
     pub(crate) fn traversal_deadline(&self, deadline: Instant) -> Option<Instant> {
         let start = Instant::now();
         Some(
@@ -246,6 +283,11 @@ impl StrictConnection {
         parameters: reqwest::header::HeaderMap,
         deadline: Instant,
     ) -> Result<ExchangeResult, ClientError> {
+        if self.pending.is_some() {
+            return Err(ClientError::Protocol(
+                "strict connection has an abandoned exchange; shutdown required".into(),
+            ));
+        }
         if !parameters.is_empty()
             && (!modern(&self.input)
                 || method != "tools/call"
@@ -289,9 +331,11 @@ impl StrictConnection {
             params,
         )?;
         request.headers_mut().extend(parameters);
-        strict_http::pooled_exchange(&self.client, request, &wire, deadline, false)
-            .await
-            .map(|(result, _)| result)
+        self.pending = Some(*wire.request_id.clone());
+        let result =
+            strict_http::pooled_exchange(&self.client, request, &wire, deadline, false).await;
+        self.pending = None;
+        result.map(|(result, _)| result)
     }
 }
 

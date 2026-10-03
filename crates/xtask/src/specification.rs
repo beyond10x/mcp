@@ -29,6 +29,7 @@ struct Pins {
     strict_connection_scenarios: Vec<String>,
     strict_discovery_scenarios: Vec<String>,
     strict_invocation_scenarios: Vec<String>,
+    strict_lifecycle_scenarios: Vec<String>,
     partial_refusals: Vec<String>,
     authored_refusals: Vec<String>,
 }
@@ -275,7 +276,7 @@ pub(super) fn check(root: &Path) -> Result<(), String> {
         0,
     )?;
     println!(
-        "specification: constructor, HTTP replay, strict HTTP, connection, discovery and invocation suites plus generated types verified; explicit partial refusal inventory retained; execution follows in workspace tests; full conformance remains inconclusive"
+        "specification: constructor, HTTP replay, strict HTTP, connection, discovery, invocation and partial lifecycle suites plus generated types verified; explicit partial refusal inventory retained; execution follows in workspace tests; full conformance remains inconclusive"
     );
     Ok(())
 }
@@ -289,7 +290,53 @@ fn check_strict_profiles(
     check_strict_http(root, ess, temporary, &pins.strict_http_scenarios)?;
     check_strict_connection(root, ess, temporary, &pins.strict_connection_scenarios)?;
     check_strict_discovery(root, ess, temporary, &pins.strict_discovery_scenarios)?;
-    check_strict_invocation(root, ess, temporary, &pins.strict_invocation_scenarios)
+    check_strict_invocation(root, ess, temporary, &pins.strict_invocation_scenarios)?;
+    check_strict_lifecycle(root, ess, temporary, &pins.strict_lifecycle_scenarios)
+}
+
+fn check_strict_lifecycle(
+    root: &Path,
+    ess: &Path,
+    temporary: &Path,
+    ids: &[String],
+) -> Result<(), String> {
+    run(
+        Command::new(ess)
+            .args([
+                "specify",
+                "validate",
+                "--path",
+                "conformance/strict-lifecycle/spec",
+            ])
+            .current_dir(root),
+        0,
+    )?;
+    let suite = temporary.join("strict-lifecycle.json");
+    let text = run(
+        Command::new(ess)
+            .args([
+                "verify",
+                "conform",
+                "synthesize",
+                "--path",
+                "conformance/strict-lifecycle/spec",
+                "--scenarios",
+                "conformance/strict-lifecycle/scenarios",
+                "--out",
+            ])
+            .arg(&suite)
+            .current_dir(root),
+        0,
+    )?;
+    if !refusals(&text).is_empty() {
+        return Err("strict lifecycle selection has synthesis refusals".into());
+    }
+    check_suite(
+        &fs::read(suite).map_err(|e| e.to_string())?,
+        &fs::read(root.join("conformance/strict-lifecycle/suite.json"))
+            .map_err(|e| e.to_string())?,
+        ids,
+    )
 }
 
 fn check_strict_invocation(
@@ -472,6 +519,12 @@ fn check_generated_types(root: &Path, ess: &Path, temporary: &Path) -> Result<()
                 "mcp.http_invocation.ParameterHeader",
                 "--root",
                 "mcp.http_invocation.RejectedTool",
+                "--root",
+                "mcp.http_lifecycle.ProgressObservation",
+                "--root",
+                "mcp.http_lifecycle.CancellationObservation",
+                "--root",
+                "mcp.http_lifecycle.ShutdownObservation",
                 "--out",
             ])
             .arg(&generated)

@@ -98,6 +98,17 @@ dialects or external references refuse before business dispatch. Awaited failure
 kill and reap the worker; dropping the future initiates termination without an
 observed reap barrier. This internal validator does not select MCP stdio ownership.
 
+Await `shutdown(teardown_deadline)` on the strict connection or invocation client
+to consume the handle and close its pool. A legacy session receives one DELETE
+attempt;405 is permitted and other failures retain bounded observations. Modern
+and sessionless connections send no DELETE. The explicit teardown deadline is
+capped by the existing execution/provider limits and does not extend a business
+operation's deadline. Dropping an exchange closes its local stream but proves no
+legacy cancellation or rollback. The handle then refuses another exchange until
+shutdown, retaining the abandoned request ID with unknown effects. Reconnect from
+the caller's unchanged configuration. Progress, server-request replies and explicit
+cancellation controls are still under implementation.
+
 The caller supplies authority and network policy;
 the builder must contain no hidden MCP protocol/session/routing header defaults.
 The existing tools-only constructors retain their separate compatibility behavior.

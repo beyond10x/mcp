@@ -10,6 +10,7 @@ specification:
   - ess/domains/http_connection.yaml
   - ess/domains/http_discovery.yaml
   - ess/domains/http_invocation.yaml
+  - ess/domains/http_lifecycle.yaml
 scenarios:
   - conformance/scenarios/id-empty.yaml
   - conformance/scenarios/id-overlength.yaml

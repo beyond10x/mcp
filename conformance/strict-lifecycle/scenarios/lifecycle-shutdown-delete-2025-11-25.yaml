@@ -1,0 +1,24 @@
+type: ess-scenario/4
+domain: mcp.strict_lifecycle_checks
+scenario: lifecycle-shutdown-delete-2025-11-25
+summary: Actual lifecycle-shutdown-delete under configured 2025-11-25.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_lifecycle_checks.ObserveLifecycle
+    input: {case: lifecycle-shutdown-delete, revision: "2025-11-25"}
+    outcome: observed
+    response:
+      requests: 3
+      deletes: 1
+      disposition: "accepted"
+      refusal: "absent"
+      retained_octets: 0
+      http_status: 204
+      send: "send_observed"
+      interrupted: false
+      interrupted_id: 0
+      pool_closed: true
+      abandoned_stream_closed: false
+      reuse_refused: false
+      header_agreement: true
+

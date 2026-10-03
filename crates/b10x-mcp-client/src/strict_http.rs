@@ -263,6 +263,125 @@ pub(crate) async fn initialized_notification(
 
 type Validated = (Vec<u8>, Value, String, Duration, Duration, Duration, usize);
 
+// No JSON-RPC terminal is inferred from this HTTP control exchange. The same
+// admitted client supplies retry/redirect/decompression policy as business I/O.
+pub(crate) async fn session_delete(
+    client: &reqwest::Client,
+    mut request: reqwest::Request,
+    budget: &b10x_mcp_types::http_exchange::McpHttpExchangeExchangeBudget,
+    end: Instant,
+) -> Result<b10x_mcp_types::http_exchange::McpHttpLifecycleControlObservation, ClientError> {
+    let mut received = Reception::new(
+        budget
+            .response_octets
+            .0
+            .as_u64()
+            .and_then(|n| usize::try_from(n).ok())
+            .ok_or_else(internal_error)?,
+    );
+    let outcome = async {
+        if Instant::now() >= end {
+            return Err("deadline_exhausted");
+        }
+        *request.method_mut() = reqwest::Method::DELETE;
+        *request.body_mut() = None;
+        request.headers_mut().remove("content-type");
+        request.headers_mut().insert(
+            "mcp-protocol-version",
+            "2025-11-25".parse().expect("static header"),
+        );
+        request.headers_mut().insert(
+            "accept",
+            "application/json, text/event-stream"
+                .parse()
+                .expect("static header"),
+        );
+        let remaining = end.saturating_duration_since(Instant::now());
+        *request.timeout_mut() = Some(
+            request
+                .timeout()
+                .copied()
+                .map_or(remaining, |t| t.min(remaining)),
+        );
+        received.send = "unknown";
+        let response = match timeout_at(end, client.execute(request)).await {
+            Ok(Ok(response)) => response,
+            Ok(Err(error)) => {
+                return Err(if error.is_timeout() {
+                    "deadline_exhausted"
+                } else {
+                    "transport_failure"
+                });
+            }
+            Err(_) => return Err("deadline_exhausted"),
+        };
+        receive_control(response, &mut received, end).await?;
+        match received.status {
+            Some(200..=299) => Ok("accepted"),
+            Some(405) => Ok("delete_not_allowed"),
+            Some(401 | 403) => Err("authorization_required"),
+            Some(404) => Err("session_expired"),
+            _ => Err("http_status"),
+        }
+    }
+    .await;
+    let mut observation = json!({"control":"session_delete", "exchange":received.observation(),
+        "disposition":outcome.as_ref().copied().unwrap_or("refused")});
+    if let Err(reason) = outcome {
+        observation["refusal"] = json!(reason);
+    }
+    serde_json::from_value(observation).map_err(|_| internal_error())
+}
+
+async fn receive_control(
+    mut response: reqwest::Response,
+    received: &mut Reception,
+    end: Instant,
+) -> Result<(), &'static str> {
+    received.send = "send_observed";
+    let status = response.status().as_u16();
+    if !(100..=599).contains(&status) {
+        return Err("invalid_response");
+    }
+    received.status = Some(status);
+    let encoded = response
+        .headers()
+        .get_all("content-encoding")
+        .iter()
+        .any(|v| v != "identity");
+    loop {
+        match timeout_at(end, response.chunk()).await {
+            Ok(Ok(Some(chunk))) => {
+                if !received.append(&chunk) {
+                    return Err("response_bound");
+                }
+            }
+            Ok(Ok(None)) => {
+                received.whole = true;
+                break;
+            }
+            Ok(Err(error)) => {
+                return Err(if error.is_timeout() {
+                    "deadline_exhausted"
+                } else {
+                    "transport_failure"
+                });
+            }
+            Err(_) => return Err("deadline_exhausted"),
+        }
+        if Instant::now() >= end {
+            return Err("deadline_exhausted");
+        }
+    }
+    if Instant::now() >= end {
+        Err("deadline_exhausted")
+    } else if encoded {
+        Err("unsupported_response")
+    } else {
+        Ok(())
+    }
+}
+
 fn validate(input: &ExchangeInput, initialize: bool) -> Result<Validated, &'static str> {
     let budget = &input.budget;
     let request_limit = budget

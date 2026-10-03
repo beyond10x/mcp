@@ -6,6 +6,13 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Explicit `shutdown` on strict connections and invocation clients closes the
+  owned pool and attempts one bounded DELETE for a legacy session. Modern and
+  sessionless connections send no DELETE;405 is retained as permitted. Control
+  failures preserve bounded response bytes and never trigger retries. Dropped
+  exchanges retain their request identity as an unknown outcome and require
+  shutdown before fresh setup. Caller-owned configuration remains reusable.
+  Progress, server-request handling and explicit cancellation remain unfinished.
 - `strict_invocation::InvocationClient` obtains private same-connection catalogs
   and exposes typed tool, resource and prompt results. It preserves content and
   opaque fields, validates schema semantics offline in a bounded Rust worker,

@@ -294,5 +294,25 @@
     "mcp.strict_invocation_checks/authored/invoke-unselected-result-prompts-2026-07-28",
     "mcp.strict_invocation_checks/authored/invoke-unselected-result-resources-2026-07-28",
     "mcp.strict_invocation_checks/authored/invoke-unselected-result-tools-2026-07-28"
+  ],
+  "strict_lifecycle_scenarios": [
+    "mcp.strict_lifecycle_checks.ObserveLifecycle/outcome/observed",
+    "mcp.strict_lifecycle_checks/authored/lifecycle-shutdown-405-2025-11-25",
+    "mcp.strict_lifecycle_checks/authored/lifecycle-shutdown-abandoned-2025-11-25",
+    "mcp.strict_lifecycle_checks/authored/lifecycle-shutdown-abandoned-2026-07-28",
+    "mcp.strict_lifecycle_checks/authored/lifecycle-shutdown-body-timeout-2025-11-25",
+    "mcp.strict_lifecycle_checks/authored/lifecycle-shutdown-bound-2025-11-25",
+    "mcp.strict_lifecycle_checks/authored/lifecycle-shutdown-completed-2025-11-25",
+    "mcp.strict_lifecycle_checks/authored/lifecycle-shutdown-completed-2026-07-28",
+    "mcp.strict_lifecycle_checks/authored/lifecycle-shutdown-deadline-2025-11-25",
+    "mcp.strict_lifecycle_checks/authored/lifecycle-shutdown-delete-2025-11-25",
+    "mcp.strict_lifecycle_checks/authored/lifecycle-shutdown-failure-2025-11-25",
+    "mcp.strict_lifecycle_checks/authored/lifecycle-shutdown-invocation-2025-11-25",
+    "mcp.strict_lifecycle_checks/authored/lifecycle-shutdown-invocation-2026-07-28",
+    "mcp.strict_lifecycle_checks/authored/lifecycle-shutdown-modern-2026-07-28",
+    "mcp.strict_lifecycle_checks/authored/lifecycle-shutdown-reconnect-2025-11-25",
+    "mcp.strict_lifecycle_checks/authored/lifecycle-shutdown-reconnect-2026-07-28",
+    "mcp.strict_lifecycle_checks/authored/lifecycle-shutdown-redirect-2025-11-25",
+    "mcp.strict_lifecycle_checks/authored/lifecycle-shutdown-sessionless-2025-11-25"
   ]
 }

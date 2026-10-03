@@ -1274,6 +1274,165 @@
       "x-ess-kind": "struct",
       "x-ess-name": "mcp.http_invocation.ToolResult"
     },
+    "mcp.http_lifecycle.CancellationObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "interrupted": {
+          "$ref": "#/$defs/mcp.http_lifecycle.InterruptedRequest"
+        },
+        "late_response": {
+          "$ref": "#/$defs/mcp.http_exchange.ExchangeObservation"
+        },
+        "notification": {
+          "$ref": "#/$defs/mcp.http_lifecycle.ControlObservation"
+        }
+      },
+      "required": [
+        "interrupted"
+      ],
+      "title": "CancellationObservation",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_lifecycle.CancellationObservation"
+    },
+    "mcp.http_lifecycle.ControlDisposition": {
+      "enum": [
+        "accepted",
+        "delete_not_allowed",
+        "refused"
+      ],
+      "title": "ControlDisposition",
+      "type": "string",
+      "x-ess-kind": "enum",
+      "x-ess-name": "mcp.http_lifecycle.ControlDisposition"
+    },
+    "mcp.http_lifecycle.ControlKind": {
+      "enum": [
+        "ping_reply",
+        "unsupported_request_reply",
+        "cancellation_notification",
+        "session_delete"
+      ],
+      "title": "ControlKind",
+      "type": "string",
+      "x-ess-kind": "enum",
+      "x-ess-name": "mcp.http_lifecycle.ControlKind"
+    },
+    "mcp.http_lifecycle.ControlObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "control": {
+          "$ref": "#/$defs/mcp.http_lifecycle.ControlKind"
+        },
+        "disposition": {
+          "$ref": "#/$defs/mcp.http_lifecycle.ControlDisposition"
+        },
+        "exchange": {
+          "$ref": "#/$defs/mcp.http_exchange.ExchangeObservation"
+        },
+        "refusal": {
+          "$ref": "#/$defs/mcp.http_exchange.RefusalReason"
+        }
+      },
+      "required": [
+        "control",
+        "disposition",
+        "exchange"
+      ],
+      "title": "ControlObservation",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_lifecycle.ControlObservation"
+    },
+    "mcp.http_lifecycle.InterruptedRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "cause": {
+          "$ref": "#/$defs/mcp.http_lifecycle.StopCause"
+        },
+        "exchange": {
+          "$ref": "#/$defs/mcp.http_exchange.ExchangeObservation"
+        },
+        "request_id": {
+          "$ref": "#/$defs/mcp.http_exchange.RequestId"
+        }
+      },
+      "required": [
+        "request_id",
+        "cause"
+      ],
+      "title": "InterruptedRequest",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_lifecycle.InterruptedRequest"
+    },
+    "mcp.http_lifecycle.ProgressDisposition": {
+      "enum": [
+        "accepted",
+        "unmatched_token",
+        "non_increasing"
+      ],
+      "title": "ProgressDisposition",
+      "type": "string",
+      "x-ess-kind": "enum",
+      "x-ess-name": "mcp.http_lifecycle.ProgressDisposition"
+    },
+    "mcp.http_lifecycle.ProgressObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "disposition": {
+          "$ref": "#/$defs/mcp.http_lifecycle.ProgressDisposition"
+        },
+        "exchange": {
+          "$ref": "#/$defs/mcp.http_exchange.ExchangeObservation"
+        },
+        "message": {
+          "type": "string"
+        },
+        "progress": {},
+        "token": {
+          "$ref": "#/$defs/mcp.http_exchange.RequestId"
+        },
+        "total": {}
+      },
+      "required": [
+        "token",
+        "progress",
+        "disposition",
+        "exchange"
+      ],
+      "title": "ProgressObservation",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_lifecycle.ProgressObservation"
+    },
+    "mcp.http_lifecycle.ShutdownObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "deletion": {
+          "$ref": "#/$defs/mcp.http_lifecycle.ControlObservation"
+        },
+        "interrupted": {
+          "$ref": "#/$defs/mcp.http_lifecycle.InterruptedRequest"
+        }
+      },
+      "title": "ShutdownObservation",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_lifecycle.ShutdownObservation"
+    },
+    "mcp.http_lifecycle.StopCause": {
+      "enum": [
+        "caller_cancelled",
+        "deadline_exhausted",
+        "shutdown",
+        "future_dropped"
+      ],
+      "title": "StopCause",
+      "type": "string",
+      "x-ess-kind": "enum",
+      "x-ess-name": "mcp.http_lifecycle.StopCause"
+    },
     "mcp.http_observations.AbsentPeerData": {
       "enum": [
         "absent"
@@ -1496,8 +1655,8 @@
   },
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "x-ess-provenance": {
-    "contract_digest": "slice-sha256/2:5e36ec9ca99dfa747d00c29173bb879ef61769a33896ff0095a16b52c8a30bb9",
-    "source_digest": "ca711843b62e4e6084550df5c3568bb197e39cadab6b4d640596ae75d5fe0a8c",
+    "contract_digest": "slice-sha256/2:a9e8b944b6339604f493eedda479cf83b12bb2ba08911dfcdb085f02197f8062",
+    "source_digest": "f54520d53ae1a7ecd00e326fda0c6e4e6b27d3ed9349d575522e90127c8f23fd",
     "specification_version": "v1",
     "system": "mcp"
   }

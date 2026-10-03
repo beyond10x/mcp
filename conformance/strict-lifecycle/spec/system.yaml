@@ -1,0 +1,4 @@
+format: ess/17
+system: mcp
+version: v1
+domains: [mcp.strict_lifecycle_checks]

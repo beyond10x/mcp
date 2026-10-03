@@ -52,6 +52,18 @@ fn in_time(end: Instant) -> Result<(), Reason> {
     }
 }
 impl InvocationClient {
+    /// Close the owned connection through its bounded revision-specific teardown.
+    /// No tool result, grant or rollback follows from a session DELETE.
+    pub async fn shutdown(
+        self,
+        deadline: Instant,
+    ) -> Result<
+        b10x_mcp_types::http_exchange::McpHttpLifecycleShutdownObservation,
+        b10x_mcp_types::ClientError,
+    > {
+        self.connection.shutdown(deadline).await
+    }
+
     /// Take ownership; each desired family must then be explicitly discovered.
     pub fn new(connection: StrictConnection, worker: SchemaWorker) -> Self {
         Self {
