@@ -1,6 +1,9 @@
 #![forbid(unsafe_code)]
 //! Tools-only MCP client over the standard transports.
 
+#[cfg(feature = "strict-http")]
+pub mod strict_http;
+
 use std::collections::HashMap;
 use std::process::Stdio;
 use std::time::Duration;

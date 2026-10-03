@@ -30,12 +30,15 @@
 ## Gate
 
 `cargo xtask gate` (also `task check`) checks the exact ESS/AEP versions and source
-revisions in `toolchain.json`, validates ESS, compares the generated constructor
-suite and remaining refusal identities, and validates AEP. It then runs
-`cargo fmt --all --check`, `cargo test --workspace --locked`,
-`cargo clippy --workspace --all-targets --locked -- -D warnings` and
-`cargo doc --workspace --no-deps --locked` under `RUSTDOCFLAGS=-Dwarnings`.
-Workspace tests execute the actual partial constructor target; passing the gate
+revisions in `toolchain.json`, validates ESS, compares the generated constructor,
+HTTP replay and strict HTTP suites, generated exchange types and remaining refusal
+identities, and validates AEP. It then runs `cargo fmt --all --check`,
+`cargo check --workspace --locked`, `cargo test --workspace --all-features --locked`,
+`cargo clippy --workspace --all-targets --all-features --locked -- -D warnings` and
+`cargo doc --workspace --all-features --no-deps --locked` under `RUSTDOCFLAGS=-Dwarnings`.
+The strict HTTP target requires the `strict-http` feature; a default-feature run
+that executes zero strict cases is not acceptance evidence. Workspace tests execute
+the actual partial constructor and owned HTTP targets; passing the gate
 does not establish full MCP conformance. See `ess/coverage.md` for remaining gaps.
 
 Set `ESS_BIN` and `AEP_BIN` to matching tools, use repository-local `.cache/tools`,

@@ -1,0 +1,2566 @@
+{
+  "provenance": {
+    "suite_version": "ess-conformance/28",
+    "system": "mcp",
+    "specification_version": "v1",
+    "spec_digest": "c29617edb96c574ea90eea510aa6219556eb11f79058ad22d4a148707ad3b954",
+    "contract_digest": "9113721249ee461f176980418970b3297558fcb8c0bae5a54d7036dad7172d74"
+  },
+  "scenarios": {
+    "mcp.strict_http_checks.ObserveExchange/outcome/observed": {
+      "purpose": "`mcp.strict_http_checks.ObserveExchange` answers `observed` for an input no other branch's guard claims",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "json-complete"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              }
+            ],
+            "declarations": {},
+            "expected": {}
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-body-loss-2025-11-25": {
+      "purpose": "Real strict HTTP body-loss under negotiated 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "body-loss"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "peer_data_presence": "",
+              "refusal_reason": "transport_failure",
+              "result_kind": "refused",
+              "terminal": "incomplete"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-body-loss-2026-07-28": {
+      "purpose": "Real strict HTTP body-loss under negotiated 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "body-loss"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "peer_data_presence": "",
+              "refusal_reason": "transport_failure",
+              "result_kind": "refused",
+              "terminal": "incomplete"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-deadline-2025-11-25": {
+      "purpose": "Real strict HTTP deadline under negotiated 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "deadline"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "peer_data_presence": "",
+              "refusal_reason": "deadline_exhausted",
+              "result_kind": "refused",
+              "terminal": "incomplete"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-deadline-2026-07-28": {
+      "purpose": "Real strict HTTP deadline under negotiated 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "deadline"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "peer_data_presence": "",
+              "refusal_reason": "deadline_exhausted",
+              "result_kind": "refused",
+              "terminal": "incomplete"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-exclusive-result-error-2025-11-25": {
+      "purpose": "Real strict HTTP exclusive-result-error under negotiated 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "exclusive-result-error"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "peer_data_presence": "",
+              "refusal_reason": "invalid_response",
+              "result_kind": "refused",
+              "terminal": "incomplete"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-exclusive-result-error-2026-07-28": {
+      "purpose": "Real strict HTTP exclusive-result-error under negotiated 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "exclusive-result-error"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "peer_data_presence": "",
+              "refusal_reason": "invalid_response",
+              "result_kind": "refused",
+              "terminal": "incomplete"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-json-complete-2025-11-25": {
+      "purpose": "Real strict HTTP json-complete under negotiated 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "json-complete"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "peer_data_presence": "",
+              "refusal_reason": "",
+              "result_kind": "result",
+              "terminal": "correlated_terminal"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-json-complete-2026-07-28": {
+      "purpose": "Real strict HTTP json-complete under negotiated 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "json-complete"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "peer_data_presence": "",
+              "refusal_reason": "",
+              "result_kind": "result",
+              "terminal": "correlated_terminal"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-peer-data-absent-2025-11-25": {
+      "purpose": "Real strict HTTP peer-data-absent under negotiated 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "peer-data-absent"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "peer_data_presence": "absent",
+              "refusal_reason": "",
+              "result_kind": "peer_error",
+              "terminal": "correlated_terminal"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-peer-data-absent-2026-07-28": {
+      "purpose": "Real strict HTTP peer-data-absent under negotiated 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "peer-data-absent"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "peer_data_presence": "absent",
+              "refusal_reason": "",
+              "result_kind": "peer_error",
+              "terminal": "correlated_terminal"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-peer-data-null-2025-11-25": {
+      "purpose": "Real strict HTTP peer-data-null under negotiated 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "peer-data-null"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "peer_data_presence": "present",
+              "refusal_reason": "",
+              "result_kind": "peer_error",
+              "terminal": "correlated_terminal"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-peer-data-null-2026-07-28": {
+      "purpose": "Real strict HTTP peer-data-null under negotiated 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "peer-data-null"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "peer_data_presence": "present",
+              "refusal_reason": "",
+              "result_kind": "peer_error",
+              "terminal": "correlated_terminal"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-request-bound-before-send-2025-11-25": {
+      "purpose": "Real strict HTTP request-bound-before-send under negotiated 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "request-bound-before-send"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 0.0,
+              "peer_data_presence": "",
+              "refusal_reason": "request_bound",
+              "result_kind": "refused",
+              "terminal": "incomplete"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-request-bound-before-send-2026-07-28": {
+      "purpose": "Real strict HTTP request-bound-before-send under negotiated 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "request-bound-before-send"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 0.0,
+              "peer_data_presence": "",
+              "refusal_reason": "request_bound",
+              "result_kind": "refused",
+              "terminal": "incomplete"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-response-bound-2025-11-25": {
+      "purpose": "Real strict HTTP response-bound under negotiated 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "response-bound"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "peer_data_presence": "",
+              "refusal_reason": "response_bound",
+              "result_kind": "refused",
+              "terminal": "incomplete"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-response-bound-2026-07-28": {
+      "purpose": "Real strict HTTP response-bound under negotiated 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "response-bound"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "peer_data_presence": "",
+              "refusal_reason": "response_bound",
+              "result_kind": "refused",
+              "terminal": "incomplete"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-session-expired-once-2025-11-25": {
+      "purpose": "Real strict HTTP session-expired-once under negotiated 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "session-expired-once"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "peer_data_presence": "",
+              "refusal_reason": "session_expired",
+              "result_kind": "refused",
+              "terminal": "incomplete"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-session-expired-once-2026-07-28": {
+      "purpose": "Real strict HTTP session-expired-once under negotiated 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "session-expired-once"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "peer_data_presence": "",
+              "refusal_reason": "session_expired",
+              "result_kind": "refused",
+              "terminal": "incomplete"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-sse-event-bound-2025-11-25": {
+      "purpose": "Real strict HTTP sse-event-bound under negotiated 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "sse-event-bound"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "peer_data_presence": "",
+              "refusal_reason": "sse_event_bound",
+              "result_kind": "refused",
+              "terminal": "incomplete"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-sse-event-bound-2026-07-28": {
+      "purpose": "Real strict HTTP sse-event-bound under negotiated 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "sse-event-bound"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "peer_data_presence": "",
+              "refusal_reason": "sse_event_bound",
+              "result_kind": "refused",
+              "terminal": "incomplete"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-sse-prefix-incomplete-2025-11-25": {
+      "purpose": "Real strict HTTP sse-prefix-incomplete under negotiated 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "sse-prefix-incomplete"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "peer_data_presence": "",
+              "refusal_reason": "invalid_response",
+              "result_kind": "refused",
+              "terminal": "incomplete"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-sse-prefix-incomplete-2026-07-28": {
+      "purpose": "Real strict HTTP sse-prefix-incomplete under negotiated 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "sse-prefix-incomplete"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "peer_data_presence": "",
+              "refusal_reason": "invalid_response",
+              "result_kind": "refused",
+              "terminal": "incomplete"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-sse-terminal-2025-11-25": {
+      "purpose": "Real strict HTTP sse-terminal under negotiated 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "sse-terminal"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "peer_data_presence": "",
+              "refusal_reason": "",
+              "result_kind": "result",
+              "terminal": "correlated_terminal"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-sse-terminal-2026-07-28": {
+      "purpose": "Real strict HTTP sse-terminal under negotiated 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "sse-terminal"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "peer_data_presence": "",
+              "refusal_reason": "",
+              "result_kind": "result",
+              "terminal": "correlated_terminal"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-wrong-id-2025-11-25": {
+      "purpose": "Real strict HTTP wrong-id under negotiated 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "wrong-id"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "peer_data_presence": "",
+              "refusal_reason": "invalid_response",
+              "result_kind": "refused",
+              "terminal": "incomplete"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_http_checks/authored/strict-wrong-id-2026-07-28": {
+      "purpose": "Real strict HTTP wrong-id under negotiated 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_http_checks.ObserveExchange",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "wrong-id"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": {
+              "command": "mcp.strict_http_checks.ObserveExchange",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "result_kind",
+                "type": "String"
+              },
+              {
+                "name": "refusal_reason",
+                "type": "String"
+              },
+              {
+                "name": "terminal",
+                "type": "String"
+              },
+              {
+                "name": "peer_data_presence",
+                "type": "String"
+              },
+              {
+                "name": "retained_octets",
+                "type": "Integer"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "business_calls": 1.0,
+              "peer_data_presence": "",
+              "refusal_reason": "invalid_response",
+              "result_kind": "refused",
+              "terminal": "incomplete"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_http_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_http_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_http_checks.ObserveExchange"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_http_checks.ObserveExchange",
+            "outcome": "observed"
+          }
+        }
+      ]
+    }
+  }
+}

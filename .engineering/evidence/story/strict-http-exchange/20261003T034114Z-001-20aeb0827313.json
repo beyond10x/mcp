@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-03T03:41:14Z",
+  "actor": "human:timo",
+  "artifact": "story:strict-http-exchange",
+  "kind": "story",
+  "revision": 7,
+  "change": {
+    "change": "evidence",
+    "kind": "test_result",
+    "source": "Author correlation mutation: actual strict HTTP target25passed/2failed; exactly both wrong-id revision cases failed; original source restored; logical runner timestamp is not wall time; logSHA256c11b6e8a90b92cde9a768f10e0af5309487d750f6cb23965d7fdbf567b2ce978",
+    "reference": ".cache/mcp-next-runtime/strict-exchange/correlation-mutation.log"
+  }
+}

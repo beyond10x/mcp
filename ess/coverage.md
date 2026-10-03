@@ -7,8 +7,9 @@ The supported selection now executes against actual `ConnectionId::new`,
 five authored), zero failed/error/unsupported/skipped. This increases actual
 execution from zero to nine; it does not resolve any synthesis refusal. Full
 authored selection still refuses `id-valid`, `id-max-length` and `snapshot-literal`;
-partial synthesis emits the original four refusals plus two for the new HTTP
-observation type invariants. The snapshot command has no execution
+partial synthesis emits the original four refusals plus two for the HTTP
+observation type invariants and two for HttpStatus and PositiveMilliseconds.
+The snapshot command has no execution
 credit. Report/2 says execution `passed`, conformance `inconclusive`, coverage
 `unknown`. The wrong-return control fails exactly `result-success` and
 `result-tool-error` by flipping the actual return field, without reading expectations.
@@ -47,7 +48,7 @@ UNMAPPED U1–U9 from the earlier draft remain in values.yaml: credential source
 
 New C1–C6: profile-excluded ID alphabet cases; general descriptor JSON/byte validation; nonempty snapshot/count/duplicates; arbitrary result JSON/aliases/byte limits; actual HTTP handle/effect observation; measured ESS constrained-response and .count observer refusals. Scope expansion must retain genuine SUT inputs, source-grounded branches and independently authored observations. Never turn an excluded case into a passing count.
 
-The proposed HTTP observation domain has **zero executed conformance scenarios**.
+The initial HTTP observation-only domain had **zero executed conformance scenarios**.
 Its eleven values validate and project structurally. Partial synthesis now also
 reports `ESS-SYNTH-013` for `mcp.http_observations.BoundedWireBytes` and
 `mcp.http_observations.OctetCount`; no view observes their invariants. The constructor
@@ -84,3 +85,55 @@ consumer custody/ownership decision. Report/2 says execution `passed`, conforman
 logical test clock, not the wall-clock time of execution; dated execution evidence
 comes from the enclosing gate/run record. The strict HTTP observation obligations
 are not discharged by this narrow HTTP suite.
+
+## Strict raw HTTP exchange selection
+
+`conformance/strict-http/spec` binds the actual additive
+`b10x_mcp_client::strict_http::exchange` receiver to an independently framed owned
+HTTP endpoint with the explicit `strict-http` Cargo feature enabled. Its suite contains 27 scenarios (26 authored), with zero synthesis
+refusals; all 27 executed successfully. Each authored condition runs with both
+supported negotiated-revision inputs. This tests the transport envelope, not
+negotiation or a modern typed family result. The target consumes only fixture
+inputs and returns actual request counts and receiver fields after joined teardown.
+
+The receiver uses 22 ESS-generated model types. The four generated artifacts are
+regenerated and compared by the gate. Their 19 structural-codec obligations remain
+visible in `types-report.json`. Numeric input guards require nonnegative byte
+limits representable on this host and positive millisecond values representable as
+u64; a nonrepresentable input is refused before I/O. Canonical base64, exact request
+identity/byte bounds and duplicate-free JSON are checked before dispatch. Retained
+bytes, observed lengths, whole/prefix and terminal knowledge come from the receiver.
+Only a whole correlated exclusive JSON-RPC result or integer-code peer error can
+produce a completed envelope. Opaque JSON is not decoded through codec-private
+object markers. Structurally decoding a forged carrier establishes none of these
+facts, and generated `Debug` is not safe logging.
+
+Native boundary tests additionally exercise exact/zero limits, mid-UTF-8 prefixes,
+integer peer codes beyond u64, duplicate/null identifiers, malformed input carriers,
+disabled redirects, LF/CRLF/CR framing, multiline data, notifications, a leading
+UTF-8 BOM and independent SSE-event/message bounds. Author tests first caught and
+then verified corrections for lost incomplete SSE data, a missed BOM-prefixed data
+field and an opaque object reinterpreted as a codec-private number. These are
+author regression controls, not an independent adversary review.
+
+The caller supplies the admitted request and a builder carrying its network policy.
+The explicit strict profile replaces redirect/retry/decompression policies and
+connect timing; request/input/absolute-deadline timing is selected explicitly.
+It builds one client per exchange. It cannot retroactively inspect an arbitrary
+already-built client's policy. Before response headers, send knowledge is unknown
+once execution has begun; a local pre-dispatch refusal is not_sent. Neither a
+timeout nor an incomplete observation claims rollback, cancellation at the peer,
+or permission to retry. HTTP error bodies are bounded too.
+
+The feature leaves the default dependency selection unchanged. Enabling it unifies
+arbitrary-precision JSON in a consumer binary; an older SDK decoding path in that
+binary does not inherit the strict receiver's opaque-object preservation. The gate
+checks the default workspace and tests, lints and documents all features. The strict
+test target without its feature executes zero cases and is not acceptance evidence.
+
+Remaining work includes successful real negotiation, typed revision/family checks,
+bounded tool/resource/prompt discovery, resource and prompt operations, reusable
+strict connections, consumer admission and credential integration, and the open
+caller/stdio ownership decisions. The constructor scenario bodies remain unchanged
+with regenerated model digests; their eight partial and three authored refusals
+remain. Report/2 still reports inconclusive conformance and unknown coverage.

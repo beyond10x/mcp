@@ -1,0 +1,519 @@
+{
+  "$defs": {
+    "mcp.http_exchange.CompleteResult": {
+      "additionalProperties": false,
+      "properties": {
+        "observation": {
+          "$ref": "#/$defs/mcp.http_exchange.ExchangeObservation"
+        },
+        "result": {}
+      },
+      "required": [
+        "observation",
+        "result"
+      ],
+      "title": "CompleteResult",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_exchange.CompleteResult"
+    },
+    "mcp.http_exchange.ExchangeBudget": {
+      "additionalProperties": false,
+      "properties": {
+        "connect_ms": {
+          "$ref": "#/$defs/mcp.http_exchange.PositiveMilliseconds"
+        },
+        "provider_ms": {
+          "$ref": "#/$defs/mcp.http_exchange.PositiveMilliseconds"
+        },
+        "remaining_execution_ms": {
+          "$ref": "#/$defs/mcp.http_exchange.PositiveMilliseconds"
+        },
+        "request_octets": {
+          "$ref": "#/$defs/mcp.http_observations.OctetCount"
+        },
+        "response_octets": {
+          "$ref": "#/$defs/mcp.http_observations.OctetCount"
+        },
+        "sse_event_octets": {
+          "$ref": "#/$defs/mcp.http_observations.OctetCount"
+        }
+      },
+      "required": [
+        "request_octets",
+        "response_octets",
+        "sse_event_octets",
+        "remaining_execution_ms",
+        "provider_ms",
+        "connect_ms"
+      ],
+      "title": "ExchangeBudget",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_exchange.ExchangeBudget"
+    },
+    "mcp.http_exchange.ExchangeInput": {
+      "additionalProperties": false,
+      "properties": {
+        "budget": {
+          "$ref": "#/$defs/mcp.http_exchange.ExchangeBudget"
+        },
+        "encoded_request": {
+          "contentEncoding": "base64",
+          "pattern": "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$",
+          "type": "string"
+        },
+        "request_id": {
+          "$ref": "#/$defs/mcp.http_exchange.RequestId"
+        },
+        "revision": {
+          "$ref": "#/$defs/mcp.http_observations.ProtocolRevision"
+        }
+      },
+      "required": [
+        "revision",
+        "request_id",
+        "encoded_request",
+        "budget"
+      ],
+      "title": "ExchangeInput",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_exchange.ExchangeInput"
+    },
+    "mcp.http_exchange.ExchangeObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "http_status": {
+          "$ref": "#/$defs/mcp.http_exchange.HttpStatus"
+        },
+        "response": {
+          "$ref": "#/$defs/mcp.http_observations.BoundedWireBytes"
+        },
+        "send": {
+          "$ref": "#/$defs/mcp.http_observations.SendObservation"
+        },
+        "terminal": {
+          "$ref": "#/$defs/mcp.http_observations.TerminalObservation"
+        }
+      },
+      "required": [
+        "send",
+        "terminal",
+        "response"
+      ],
+      "title": "ExchangeObservation",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_exchange.ExchangeObservation"
+    },
+    "mcp.http_exchange.ExchangeResult": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "peer_error",
+              "type": "string"
+            },
+            "value": {
+              "$ref": "#/$defs/mcp.http_exchange.PeerErrorResult"
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "title": "peer_error",
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "refused",
+              "type": "string"
+            },
+            "value": {
+              "$ref": "#/$defs/mcp.http_exchange.RefusedExchange"
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "title": "refused",
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "result",
+              "type": "string"
+            },
+            "value": {
+              "$ref": "#/$defs/mcp.http_exchange.CompleteResult"
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "title": "result",
+          "type": "object"
+        }
+      ],
+      "title": "ExchangeResult",
+      "x-ess-kind": "union",
+      "x-ess-name": "mcp.http_exchange.ExchangeResult",
+      "x-ess-union-tag": "kind"
+    },
+    "mcp.http_exchange.HttpStatus": {
+      "title": "HttpStatus",
+      "type": "integer",
+      "x-ess-invariants": [
+        "value >= 100",
+        "value <= 599"
+      ],
+      "x-ess-kind": "newtype",
+      "x-ess-name": "mcp.http_exchange.HttpStatus"
+    },
+    "mcp.http_exchange.PeerErrorResult": {
+      "additionalProperties": false,
+      "properties": {
+        "error": {
+          "$ref": "#/$defs/mcp.http_observations.PeerError"
+        },
+        "observation": {
+          "$ref": "#/$defs/mcp.http_exchange.ExchangeObservation"
+        }
+      },
+      "required": [
+        "observation",
+        "error"
+      ],
+      "title": "PeerErrorResult",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_exchange.PeerErrorResult"
+    },
+    "mcp.http_exchange.PositiveMilliseconds": {
+      "title": "PositiveMilliseconds",
+      "type": "integer",
+      "x-ess-invariants": [
+        "value > 0"
+      ],
+      "x-ess-kind": "newtype",
+      "x-ess-name": "mcp.http_exchange.PositiveMilliseconds"
+    },
+    "mcp.http_exchange.RefusalReason": {
+      "enum": [
+        "invalid_input",
+        "request_bound",
+        "response_bound",
+        "sse_event_bound",
+        "deadline_exhausted",
+        "transport_failure",
+        "invalid_response",
+        "unsupported_response",
+        "session_expired",
+        "authorization_required",
+        "http_status"
+      ],
+      "title": "RefusalReason",
+      "type": "string",
+      "x-ess-kind": "enum",
+      "x-ess-name": "mcp.http_exchange.RefusalReason"
+    },
+    "mcp.http_exchange.RefusedExchange": {
+      "additionalProperties": false,
+      "properties": {
+        "observation": {
+          "$ref": "#/$defs/mcp.http_exchange.ExchangeObservation"
+        },
+        "reason": {
+          "$ref": "#/$defs/mcp.http_exchange.RefusalReason"
+        }
+      },
+      "required": [
+        "observation",
+        "reason"
+      ],
+      "title": "RefusedExchange",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_exchange.RefusedExchange"
+    },
+    "mcp.http_exchange.RequestId": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "integer",
+              "type": "string"
+            },
+            "value": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "title": "integer",
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "string",
+              "type": "string"
+            },
+            "value": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "title": "string",
+          "type": "object"
+        }
+      ],
+      "title": "RequestId",
+      "x-ess-kind": "union",
+      "x-ess-name": "mcp.http_exchange.RequestId",
+      "x-ess-union-tag": "kind"
+    },
+    "mcp.http_observations.AbsentPeerData": {
+      "enum": [
+        "absent"
+      ],
+      "title": "AbsentPeerData",
+      "type": "string",
+      "x-ess-kind": "enum",
+      "x-ess-name": "mcp.http_observations.AbsentPeerData"
+    },
+    "mcp.http_observations.BoundedWireBytes": {
+      "additionalProperties": false,
+      "properties": {
+        "bytes": {
+          "contentEncoding": "base64",
+          "pattern": "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$",
+          "type": "string"
+        },
+        "counts": {
+          "$ref": "#/$defs/mcp.http_observations.RetentionCounts"
+        },
+        "message_length": {
+          "$ref": "#/$defs/mcp.http_observations.MessageLength"
+        },
+        "retention": {
+          "$ref": "#/$defs/mcp.http_observations.RetentionKind"
+        }
+      },
+      "required": [
+        "bytes",
+        "counts",
+        "message_length",
+        "retention"
+      ],
+      "title": "BoundedWireBytes",
+      "type": "object",
+      "x-ess-invariants": [
+        "counts.retained_octets <= counts.limit_octets"
+      ],
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_observations.BoundedWireBytes"
+    },
+    "mcp.http_observations.MessageLength": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "at_least",
+              "type": "string"
+            },
+            "value": {
+              "$ref": "#/$defs/mcp.http_observations.OctetCount"
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "title": "at_least",
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "exact",
+              "type": "string"
+            },
+            "value": {
+              "$ref": "#/$defs/mcp.http_observations.OctetCount"
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "title": "exact",
+          "type": "object"
+        }
+      ],
+      "title": "MessageLength",
+      "x-ess-kind": "union",
+      "x-ess-name": "mcp.http_observations.MessageLength",
+      "x-ess-union-tag": "kind"
+    },
+    "mcp.http_observations.OctetCount": {
+      "title": "OctetCount",
+      "type": "integer",
+      "x-ess-invariants": [
+        "value >= 0"
+      ],
+      "x-ess-kind": "newtype",
+      "x-ess-name": "mcp.http_observations.OctetCount"
+    },
+    "mcp.http_observations.PeerData": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "presence": {
+              "const": "absent",
+              "type": "string"
+            },
+            "value": {
+              "$ref": "#/$defs/mcp.http_observations.AbsentPeerData"
+            }
+          },
+          "required": [
+            "presence",
+            "value"
+          ],
+          "title": "absent",
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "presence": {
+              "const": "present",
+              "type": "string"
+            },
+            "value": {}
+          },
+          "required": [
+            "presence",
+            "value"
+          ],
+          "title": "present",
+          "type": "object"
+        }
+      ],
+      "title": "PeerData",
+      "x-ess-kind": "union",
+      "x-ess-name": "mcp.http_observations.PeerData",
+      "x-ess-union-tag": "presence"
+    },
+    "mcp.http_observations.PeerError": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "integer"
+        },
+        "data": {
+          "$ref": "#/$defs/mcp.http_observations.PeerData"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "message",
+        "data"
+      ],
+      "title": "PeerError",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_observations.PeerError"
+    },
+    "mcp.http_observations.ProtocolRevision": {
+      "enum": [
+        "2026-07-28",
+        "2025-11-25"
+      ],
+      "title": "ProtocolRevision",
+      "type": "string",
+      "x-ess-kind": "enum",
+      "x-ess-name": "mcp.http_observations.ProtocolRevision"
+    },
+    "mcp.http_observations.RetentionCounts": {
+      "additionalProperties": false,
+      "properties": {
+        "limit_octets": {
+          "$ref": "#/$defs/mcp.http_observations.OctetCount"
+        },
+        "retained_octets": {
+          "$ref": "#/$defs/mcp.http_observations.OctetCount"
+        }
+      },
+      "required": [
+        "retained_octets",
+        "limit_octets"
+      ],
+      "title": "RetentionCounts",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_observations.RetentionCounts"
+    },
+    "mcp.http_observations.RetentionKind": {
+      "enum": [
+        "whole_message",
+        "prefix"
+      ],
+      "title": "RetentionKind",
+      "type": "string",
+      "x-ess-kind": "enum",
+      "x-ess-name": "mcp.http_observations.RetentionKind"
+    },
+    "mcp.http_observations.SendObservation": {
+      "enum": [
+        "not_sent",
+        "send_observed",
+        "unknown"
+      ],
+      "title": "SendObservation",
+      "type": "string",
+      "x-ess-kind": "enum",
+      "x-ess-name": "mcp.http_observations.SendObservation"
+    },
+    "mcp.http_observations.TerminalObservation": {
+      "enum": [
+        "correlated_terminal",
+        "incomplete"
+      ],
+      "title": "TerminalObservation",
+      "type": "string",
+      "x-ess-kind": "enum",
+      "x-ess-name": "mcp.http_observations.TerminalObservation"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "x-ess-provenance": {
+    "contract_digest": "slice-sha256/2:52883e2464d87c3d15e09714b893a71cfb10ca355f28800b7e19a9cb75a3a5ac",
+    "source_digest": "524d6e58521a16ee03c2c88b2abc64e1f2c016a809a847c07f31193326c05471",
+    "specification_version": "v1",
+    "system": "mcp"
+  }
+}

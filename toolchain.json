@@ -35,6 +35,8 @@
     "refusal[ESS-SYNTH-001]: outcome mcp.constructor_checks.MakeConnectionId/returned has no scenario `mcp.constructor_checks.MakeConnectionId/outcome/returned`",
     "refusal[ESS-SYNTH-001]: outcome mcp.constructor_checks.MakeToolSnapshot/returned has no scenario `mcp.constructor_checks.MakeToolSnapshot/outcome/returned`",
     "refusal[ESS-SYNTH-013]: type mcp.constructor_checks.ShortAsciiText has no scenario",
+    "refusal[ESS-SYNTH-013]: type mcp.http_exchange.HttpStatus has no scenario",
+    "refusal[ESS-SYNTH-013]: type mcp.http_exchange.PositiveMilliseconds has no scenario",
     "refusal[ESS-SYNTH-013]: type mcp.http_observations.BoundedWireBytes has no scenario",
     "refusal[ESS-SYNTH-013]: type mcp.http_observations.OctetCount has no scenario",
     "refusal[ESS-SYNTH-013]: type mcp.tools.ConnectionId has no scenario"
@@ -43,5 +45,34 @@
     "refusal[ESS-AUTHOR-001]: `mcp.constructor_checks/authored/id-max-length` in conformance/scenarios/id-max-length.yaml",
     "refusal[ESS-AUTHOR-001]: `mcp.constructor_checks/authored/id-valid` in conformance/scenarios/id-valid.yaml",
     "refusal[ESS-AUTHOR-001]: `mcp.constructor_checks/authored/snapshot-literal` in conformance/scenarios/snapshot-literal.yaml"
+  ],
+  "strict_http_scenarios": [
+    "mcp.strict_http_checks.ObserveExchange/outcome/observed",
+    "mcp.strict_http_checks/authored/strict-body-loss-2025-11-25",
+    "mcp.strict_http_checks/authored/strict-body-loss-2026-07-28",
+    "mcp.strict_http_checks/authored/strict-deadline-2025-11-25",
+    "mcp.strict_http_checks/authored/strict-deadline-2026-07-28",
+    "mcp.strict_http_checks/authored/strict-exclusive-result-error-2025-11-25",
+    "mcp.strict_http_checks/authored/strict-exclusive-result-error-2026-07-28",
+    "mcp.strict_http_checks/authored/strict-json-complete-2025-11-25",
+    "mcp.strict_http_checks/authored/strict-json-complete-2026-07-28",
+    "mcp.strict_http_checks/authored/strict-peer-data-absent-2025-11-25",
+    "mcp.strict_http_checks/authored/strict-peer-data-absent-2026-07-28",
+    "mcp.strict_http_checks/authored/strict-peer-data-null-2025-11-25",
+    "mcp.strict_http_checks/authored/strict-peer-data-null-2026-07-28",
+    "mcp.strict_http_checks/authored/strict-request-bound-before-send-2025-11-25",
+    "mcp.strict_http_checks/authored/strict-request-bound-before-send-2026-07-28",
+    "mcp.strict_http_checks/authored/strict-response-bound-2025-11-25",
+    "mcp.strict_http_checks/authored/strict-response-bound-2026-07-28",
+    "mcp.strict_http_checks/authored/strict-session-expired-once-2025-11-25",
+    "mcp.strict_http_checks/authored/strict-session-expired-once-2026-07-28",
+    "mcp.strict_http_checks/authored/strict-sse-event-bound-2025-11-25",
+    "mcp.strict_http_checks/authored/strict-sse-event-bound-2026-07-28",
+    "mcp.strict_http_checks/authored/strict-sse-prefix-incomplete-2025-11-25",
+    "mcp.strict_http_checks/authored/strict-sse-prefix-incomplete-2026-07-28",
+    "mcp.strict_http_checks/authored/strict-sse-terminal-2025-11-25",
+    "mcp.strict_http_checks/authored/strict-sse-terminal-2026-07-28",
+    "mcp.strict_http_checks/authored/strict-wrong-id-2025-11-25",
+    "mcp.strict_http_checks/authored/strict-wrong-id-2026-07-28"
   ]
 }
