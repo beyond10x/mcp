@@ -1,0 +1,18 @@
+type: ess-scenario/4
+domain: mcp.strict_discovery_checks
+scenario: list-exact-descriptor-resources-2025-11-25
+summary: Actual resources traversal for list-exact-descriptor under configured 2025-11-25.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_discovery_checks.ObserveList
+    input: {case: list-exact-descriptor, family: resources, revision: "2025-11-25"}
+    outcome: observed
+    response:
+      complete: true
+      calls: 1
+      items: 1
+      pages: 1
+      reason: ""
+      empty_cursor_sent: false
+      metadata_match: true
+      retained_exchanges: 1

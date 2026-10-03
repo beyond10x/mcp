@@ -211,6 +211,311 @@
       "x-ess-kind": "enum",
       "x-ess-name": "mcp.http_connection.SetupRefusalReason"
     },
+    "mcp.http_discovery.Catalog": {
+      "additionalProperties": false,
+      "properties": {
+        "descriptors": {
+          "items": {
+            "$ref": "#/$defs/mcp.http_discovery.Descriptor"
+          },
+          "type": "array"
+        },
+        "family": {
+          "$ref": "#/$defs/mcp.http_discovery.Family"
+        },
+        "pages": {
+          "items": {
+            "$ref": "#/$defs/mcp.http_discovery.Page"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "family",
+        "descriptors",
+        "pages"
+      ],
+      "title": "Catalog",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_discovery.Catalog"
+    },
+    "mcp.http_discovery.Descriptor": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "prompt",
+              "type": "string"
+            },
+            "value": {
+              "$ref": "#/$defs/mcp.http_discovery.Prompt"
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "title": "prompt",
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "resource",
+              "type": "string"
+            },
+            "value": {
+              "$ref": "#/$defs/mcp.http_discovery.Resource"
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "title": "resource",
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "tool",
+              "type": "string"
+            },
+            "value": {
+              "$ref": "#/$defs/mcp.http_discovery.Tool"
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "title": "tool",
+          "type": "object"
+        }
+      ],
+      "title": "Descriptor",
+      "x-ess-kind": "union",
+      "x-ess-name": "mcp.http_discovery.Descriptor",
+      "x-ess-union-tag": "kind"
+    },
+    "mcp.http_discovery.Family": {
+      "enum": [
+        "tools",
+        "resources",
+        "prompts"
+      ],
+      "title": "Family",
+      "type": "string",
+      "x-ess-kind": "enum",
+      "x-ess-name": "mcp.http_discovery.Family"
+    },
+    "mcp.http_discovery.ListLimits": {
+      "additionalProperties": false,
+      "properties": {
+        "descriptor_octets": {
+          "$ref": "#/$defs/mcp.http_observations.OctetCount"
+        },
+        "max_items": {
+          "type": "integer"
+        },
+        "max_pages": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "max_pages",
+        "max_items",
+        "descriptor_octets"
+      ],
+      "title": "ListLimits",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_discovery.ListLimits"
+    },
+    "mcp.http_discovery.Page": {
+      "additionalProperties": false,
+      "properties": {
+        "cache_hints": {
+          "$ref": "#/$defs/mcp.http_connection.CacheHints"
+        },
+        "exchange": {
+          "$ref": "#/$defs/mcp.http_exchange.CompleteResult"
+        },
+        "next_cursor": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "exchange"
+      ],
+      "title": "Page",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_discovery.Page"
+    },
+    "mcp.http_discovery.Prompt": {
+      "additionalProperties": false,
+      "properties": {
+        "arguments": {
+          "items": {
+            "$ref": "#/$defs/mcp.http_discovery.PromptArgument"
+          },
+          "type": "array"
+        },
+        "description": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "raw": {},
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "raw"
+      ],
+      "title": "Prompt",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_discovery.Prompt"
+    },
+    "mcp.http_discovery.PromptArgument": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "raw": {},
+        "required": {
+          "type": "boolean"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "raw"
+      ],
+      "title": "PromptArgument",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_discovery.PromptArgument"
+    },
+    "mcp.http_discovery.Refusal": {
+      "additionalProperties": false,
+      "properties": {
+        "actual": {
+          "type": "integer"
+        },
+        "exchanges": {
+          "items": {
+            "$ref": "#/$defs/mcp.http_exchange.ExchangeResult"
+          },
+          "type": "array"
+        },
+        "limit": {
+          "type": "integer"
+        },
+        "reason": {
+          "$ref": "#/$defs/mcp.http_discovery.RefusalReason"
+        }
+      },
+      "required": [
+        "reason",
+        "exchanges"
+      ],
+      "title": "Refusal",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_discovery.Refusal"
+    },
+    "mcp.http_discovery.RefusalReason": {
+      "enum": [
+        "invalid_limits",
+        "unsupported_family",
+        "page_limit",
+        "item_limit",
+        "descriptor_limit",
+        "duplicate_identity",
+        "invalid_page",
+        "invalid_descriptor",
+        "unsupported_result",
+        "exchange_refused",
+        "deadline_exhausted"
+      ],
+      "title": "RefusalReason",
+      "type": "string",
+      "x-ess-kind": "enum",
+      "x-ess-name": "mcp.http_discovery.RefusalReason"
+    },
+    "mcp.http_discovery.Resource": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "mime_type": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "raw": {},
+        "size": {},
+        "title": {
+          "type": "string"
+        },
+        "uri": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "name",
+        "raw"
+      ],
+      "title": "Resource",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_discovery.Resource"
+    },
+    "mcp.http_discovery.Tool": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "input_schema": {},
+        "name": {
+          "type": "string"
+        },
+        "output_schema": {},
+        "raw": {},
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "input_schema",
+        "raw"
+      ],
+      "title": "Tool",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_discovery.Tool"
+    },
     "mcp.http_exchange.CompleteResult": {
       "additionalProperties": false,
       "properties": {
@@ -722,8 +1027,8 @@
   },
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "x-ess-provenance": {
-    "contract_digest": "slice-sha256/2:8f490389a7d9345f3017f8ace7b4275f82e47243894d81ee87224ba49ac985fa",
-    "source_digest": "9ce1d16ddc198a1c3933985d4ae7c2a3b94fe24f56e5626ec84ab681650ef441",
+    "contract_digest": "slice-sha256/2:163859cdea29ae451dd30c590faef00365d19a0e3d1b2b3d1504a73ca26c0830",
+    "source_digest": "ab3e7bca268f0487ee35356702e66d8b34a7c2448996f98f85c622f47afe0292",
     "specification_version": "v1",
     "system": "mcp"
   }

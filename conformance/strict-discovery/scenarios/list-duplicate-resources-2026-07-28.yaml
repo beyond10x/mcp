@@ -1,0 +1,18 @@
+type: ess-scenario/4
+domain: mcp.strict_discovery_checks
+scenario: list-duplicate-resources-2026-07-28
+summary: Actual resources traversal for list-duplicate under configured 2026-07-28.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_discovery_checks.ObserveList
+    input: {case: list-duplicate, family: resources, revision: "2026-07-28"}
+    outcome: observed
+    response:
+      complete: false
+      calls: 2
+      items: 0
+      pages: 0
+      reason: "duplicate_identity"
+      empty_cursor_sent: false
+      metadata_match: true
+      retained_exchanges: 2

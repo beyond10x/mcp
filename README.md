@@ -78,8 +78,12 @@ The opt-in `strict-http` feature adds `strict_connection::connect` in
 ESS-generated `http_exchange::McpHttpConnectionSetupInput` to establish one configured revision. Modern setup uses
 discovery; legacy setup verifies initialization and its acknowledgement, retaining
 any assigned session privately. The handle exposes the peer description and one
-raw family exchange at a time. It does not yet validate typed family results or
-drive bounded list discovery. The caller supplies authority and network policy;
+raw family exchange at a time. `strict_discovery::discover` adds bounded complete
+tool, resource or prompt catalogs using generated `McpHttpDiscoveryFamily` and
+`McpHttpDiscoveryListLimits`. Pages share one deadline; empty cursors remain valid
+continuations. Catalogs preserve raw metadata and do not grant invocation authority
+or validate arbitrary JSON Schema semantics. Typed call/read/get results remain
+unfinished. The caller supplies authority and network policy;
 the builder must contain no hidden MCP protocol/session/routing header defaults.
 The existing tools-only constructors retain their separate compatibility behavior.
 

@@ -6,6 +6,13 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- `strict_discovery::discover` traverses explicitly selected tool, resource and
+  prompt lists on a strict HTTP connection. It preserves ordered typed descriptors,
+  opaque fields and original page observations, with cumulative page/item limits,
+  compact descriptor-byte limits and one overall deadline. Empty and repeated
+  cursors continue unchanged within the page ceiling. Invalid pages, duplicate
+  identities and later failures return refusals, never a successful partial list.
+  Catalogs confer no invocation authority or JSON Schema semantic validation.
 - `strict_connection::connect` under `strict-http` establishes one explicitly
   configured revision using modern discovery or legacy initialization and its
   acknowledgement. It returns a reusable raw-exchange handle and an ESS-generated

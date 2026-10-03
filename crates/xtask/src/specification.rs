@@ -27,6 +27,7 @@ struct Pins {
     http_replay_scenarios: Vec<String>,
     strict_http_scenarios: Vec<String>,
     strict_connection_scenarios: Vec<String>,
+    strict_discovery_scenarios: Vec<String>,
     partial_refusals: Vec<String>,
     authored_refusals: Vec<String>,
 }
@@ -273,7 +274,7 @@ pub(super) fn check(root: &Path) -> Result<(), String> {
         0,
     )?;
     println!(
-        "specification: constructor, HTTP replay, strict HTTP and connection suites plus generated types verified; explicit partial refusal inventory retained; execution follows in workspace tests; full conformance remains inconclusive"
+        "specification: constructor, HTTP replay, strict HTTP, connection and discovery suites plus generated types verified; explicit partial refusal inventory retained; execution follows in workspace tests; full conformance remains inconclusive"
     );
     Ok(())
 }
@@ -285,7 +286,53 @@ fn check_strict_profiles(
     pins: &Pins,
 ) -> Result<(), String> {
     check_strict_http(root, ess, temporary, &pins.strict_http_scenarios)?;
-    check_strict_connection(root, ess, temporary, &pins.strict_connection_scenarios)
+    check_strict_connection(root, ess, temporary, &pins.strict_connection_scenarios)?;
+    check_strict_discovery(root, ess, temporary, &pins.strict_discovery_scenarios)
+}
+
+fn check_strict_discovery(
+    root: &Path,
+    ess: &Path,
+    temporary: &Path,
+    ids: &[String],
+) -> Result<(), String> {
+    run(
+        Command::new(ess)
+            .args([
+                "specify",
+                "validate",
+                "--path",
+                "conformance/strict-discovery/spec",
+            ])
+            .current_dir(root),
+        0,
+    )?;
+    let suite_path = temporary.join("strict-discovery.json");
+    let output = run(
+        Command::new(ess)
+            .args([
+                "verify",
+                "conform",
+                "synthesize",
+                "--path",
+                "conformance/strict-discovery/spec",
+                "--scenarios",
+                "conformance/strict-discovery/scenarios",
+                "--out",
+            ])
+            .arg(&suite_path)
+            .current_dir(root),
+        0,
+    )?;
+    if !refusals(&output).is_empty() {
+        return Err("strict discovery selection has synthesis refusals".into());
+    }
+    check_suite(
+        &fs::read(&suite_path).map_err(|e| e.to_string())?,
+        &fs::read(root.join("conformance/strict-discovery/suite.json"))
+            .map_err(|e| e.to_string())?,
+        ids,
+    )
 }
 
 fn check_strict_http(
@@ -352,6 +399,12 @@ fn check_strict_http(
                 "mcp.http_connection.PeerDescription",
                 "--root",
                 "mcp.http_connection.SetupRefusal",
+                "--root",
+                "mcp.http_discovery.ListLimits",
+                "--root",
+                "mcp.http_discovery.Catalog",
+                "--root",
+                "mcp.http_discovery.Refusal",
                 "--out",
             ])
             .arg(&generated)

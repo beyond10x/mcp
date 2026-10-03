@@ -10,7 +10,7 @@ The source baseline is `0fdfbafa7c130caa76d74825680d72af3280e21b`; runtime is
 identical to the cited `51b9c7969def3dc0fbee9026cd26f4ce5837d62c` inventory.
 No product entities, lifecycle state, events or persistent views are invented.
 
-ESS 0.50.0 validates the five specification files. The same installed release
+ESS 0.50.0 validates the seven specification files. The same installed release
 reproduced ESS 0.45.0's refusals during preparation; inspected 0.51.0 source retains
 the constrained direct-return and count-invariant boundaries. `toolchain.json`
 pins ESS 0.50.0 and AEP 0.68.0, their source revisions, tool archives and the exact
@@ -29,7 +29,7 @@ reports nine passed, zero failed/error/unsupported/skipped. A wrapper that flips
 the actual returned `is_error` field fails the two named authored result cases;
 the other seven cases still pass. The runner's report/2 execution status is
 `passed`, but its conformance status remains `inconclusive`: coverage is undeclared,
-the selection is partial, and the eight synthesis refusals remain unresolved.
+the selection is partial, and the nine synthesis refusals remain unresolved.
 
 [Original obligations](obligations.md) retain eighteen constructor/HTTP names.
 [Coverage](coverage.md) records the restricted input profiles, omissions and
@@ -69,3 +69,9 @@ library artifacts, the separate 43-scenario strict HTTP binding suite and the
 22 exchange values; 21 runtime codec obligations remain. The new CacheHints
 invariant adds one explicit synthesis refusal to the previous eight.
 See [coverage](coverage.md) for what this execution does and does not establish.
+
+Bounded discovery adds eleven generated immutable values (43 total,27 codec
+obligations) and a separate111-scenario suite (110authored,0synthesis refusals).
+The owned HTTP target executes selected tool/resource/prompt traversal for both
+revisions; the gate regenerates it and pins the exact inventory. Nine partial
+product-model refusals and three full authored refusals remain unchanged.

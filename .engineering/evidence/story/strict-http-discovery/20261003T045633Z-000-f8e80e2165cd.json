@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-03T04:56:33Z",
+  "actor": "human:timo",
+  "artifact": "story:strict-http-discovery",
+  "kind": "story",
+  "revision": 5,
+  "change": {
+    "change": "evidence",
+    "kind": "test_result",
+    "source": "Rust1.88 cargo xtask gate;57 native passed;111 discovery scenarios;SHA256 9adf7b60b912e4c13c4f689de5e9e867b4252611b8f9610a25684bde29daa9a7",
+    "reference": ".cache/mcp-next-runtime/discovery/gate-first.log"
+  }
+}

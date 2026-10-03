@@ -1,0 +1,104 @@
+domain: mcp.http_discovery
+summary: Immutable bounded list observations for an explicitly selected HTTP family.
+
+# Pinned upstream2026-07-28(schema1054,1133,1441,1578,1659,1779,1973)
+# and2025-11-25(schema625,662,800,934,982,1093,1247), archived by Connectors.
+# These values confer no consumer authority and create no persisted snapshot.
+types:
+  - name: mcp.http_discovery.Family
+    kind: enum
+    variants: [tools, resources, prompts]
+  - name: mcp.http_discovery.ListLimits
+    kind: struct
+    fields:
+      - {name: max_pages, type: Integer}
+      - {name: max_items, type: Integer}
+      - {name: descriptor_octets, type: mcp.http_observations.OctetCount}
+    # D1: Runtime checks nonnegative host-representable limits before dispatch.
+    # Zero pages sends no list request; zero items permits a valid empty result.
+    # Descriptor octets count compact serde_json encoding of that raw descriptor;
+    # exact JSON-RPC wire-message bytes remain the connection ExchangeBudget axis.
+  - name: mcp.http_discovery.Tool
+    kind: struct
+    fields:
+      - {name: name, type: String}
+      - {name: title, type: "Optional<String>"}
+      - {name: description, type: "Optional<String>"}
+      - {name: input_schema, type: Json}
+      - {name: output_schema, type: "Optional<Json>"}
+      - {name: raw, type: Json}
+  - name: mcp.http_discovery.Resource
+    kind: struct
+    fields:
+      - {name: uri, type: String}
+      - {name: name, type: String}
+      - {name: title, type: "Optional<String>"}
+      - {name: description, type: "Optional<String>"}
+      - {name: mime_type, type: "Optional<String>"}
+      - {name: size, type: "Optional<Json>"}
+      - {name: raw, type: Json}
+    # Upstream size is a JSON number, not an ESS Integer restriction. Runtime
+    # checks that optional raw number without rounding or narrowing its value.
+  - name: mcp.http_discovery.PromptArgument
+    kind: struct
+    fields:
+      - {name: name, type: String}
+      - {name: title, type: "Optional<String>"}
+      - {name: description, type: "Optional<String>"}
+      - {name: required, type: "Optional<Boolean>"}
+      - {name: raw, type: Json}
+  - name: mcp.http_discovery.Prompt
+    kind: struct
+    fields:
+      - {name: name, type: String}
+      - {name: title, type: "Optional<String>"}
+      - {name: description, type: "Optional<String>"}
+      - {name: arguments, type: "Optional<List<mcp.http_discovery.PromptArgument>>"}
+      - {name: raw, type: Json}
+  - name: mcp.http_discovery.Descriptor
+    kind: union
+    tag: kind
+    variants:
+      tool: mcp.http_discovery.Tool
+      resource: mcp.http_discovery.Resource
+      prompt: mcp.http_discovery.Prompt
+  - name: mcp.http_discovery.Page
+    kind: struct
+    fields:
+      - {name: exchange, type: mcp.http_exchange.CompleteResult}
+      - {name: next_cursor, type: "Optional<String>"}
+      - {name: cache_hints, type: "Optional<mcp.http_connection.CacheHints>"}
+    # D2: Modern requires complete resultType and valid cache hints; legacy does
+    # not gain modern fields. Missing cursor ends, empty string continues exactly.
+    # Present null/non-string cursor is malformed under both selected schemas.
+    # A repeated opaque cursor is sent unchanged, with max_pages bounding work;
+    # no interpretation of token contents creates an invented terminal condition.
+  - name: mcp.http_discovery.Catalog
+    kind: struct
+    fields:
+      - {name: family, type: mcp.http_discovery.Family}
+      - {name: descriptors, type: "List<mcp.http_discovery.Descriptor>"}
+      - {name: pages, type: "List<mcp.http_discovery.Page>"}
+    # D3: Runtime returns only a complete homogeneous ordered list; names (tools,
+    # prompts) or concrete URIs(resources) are unique across all pages. Prompt
+    # argument names are unique. Capability absence is unsupported, not empty.
+    # Schema shapes and standard descriptor fields are checked; arbitrary JSON
+    # Schema semantic validity/dialect support remains invocation admission work.
+    # Unknown fields and opaque JSON objects retain their parsed values. Numeric
+    # formatting is not promised; original wire bytes remain in page.exchange.
+  - name: mcp.http_discovery.RefusalReason
+    kind: enum
+    variants: [invalid_limits, unsupported_family, page_limit, item_limit, descriptor_limit, duplicate_identity, invalid_page, invalid_descriptor, unsupported_result, exchange_refused, deadline_exhausted]
+  - name: mcp.http_discovery.Refusal
+    kind: struct
+    fields:
+      - {name: reason, type: mcp.http_discovery.RefusalReason}
+      - {name: exchanges, type: "List<mcp.http_exchange.ExchangeResult>"}
+      - {name: actual, type: "Optional<Integer>"}
+      - {name: limit, type: "Optional<Integer>"}
+    # D4: Retain bounded actual exchange observations, including the failed page;
+    # never expose accumulated rows as a complete catalog after refusal. Actual/
+    # limit accompany local bound observations, not an unseen remote total.
+    # D5: One monotonic deadline caps the complete traversal; the connection's
+    # execution/provider caps also apply once across pages, not afresh per page.
+    # No cache, automatic retry, repair, capability expansion or endpoint change.

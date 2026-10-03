@@ -3,6 +3,9 @@
 
 #[cfg(feature = "strict-http")]
 pub mod strict_connection;
+/// Bounded complete descriptor observations on a strict HTTP connection.
+#[cfg(feature = "strict-http")]
+pub mod strict_discovery;
 
 #[cfg(feature = "strict-http")]
 pub mod strict_http;
