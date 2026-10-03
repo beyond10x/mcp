@@ -70,6 +70,7 @@ types:
       - {name: terminal, type: mcp.http_observations.TerminalObservation}
       - {name: http_status, type: "Optional<mcp.http_exchange.HttpStatus>"}
       - {name: response, type: mcp.http_observations.BoundedWireBytes}
+      - {name: stream, type: "Optional<mcp.http_lifecycle.StreamObservation>"}
     # response contains exactly retained response-message octets, not headers or
     # SSE framing. Before any response bytes, use an empty prefix with an
     # observed lower bound of zero, never a fictional complete empty message.
@@ -77,6 +78,16 @@ types:
     # a fully received malformed or wrong-id body is retained but refused.
     # A raw SSE event is not an observed JSON-RPC result; incomplete event data
     # must never become a successful result merely because it parses as JSON.
+
+  - name: mcp.http_exchange.WireObservation
+    kind: struct
+    fields:
+      - {name: send, type: mcp.http_observations.SendObservation}
+      - {name: terminal, type: mcp.http_observations.TerminalObservation}
+      - {name: http_status, type: "Optional<mcp.http_exchange.HttpStatus>"}
+      - {name: response, type: mcp.http_observations.BoundedWireBytes}
+    # One nonterminal stream message or control response, without recursive
+    # stream history. A control response never proves a business terminal.
 
   - name: mcp.http_exchange.RefusalReason
     kind: enum

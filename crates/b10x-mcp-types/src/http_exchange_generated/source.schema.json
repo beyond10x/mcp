@@ -609,6 +609,9 @@
         "send": {
           "$ref": "#/$defs/mcp.http_observations.SendObservation"
         },
+        "stream": {
+          "$ref": "#/$defs/mcp.http_lifecycle.StreamObservation"
+        },
         "terminal": {
           "$ref": "#/$defs/mcp.http_observations.TerminalObservation"
         }
@@ -804,6 +807,32 @@
       "x-ess-kind": "union",
       "x-ess-name": "mcp.http_exchange.RequestId",
       "x-ess-union-tag": "kind"
+    },
+    "mcp.http_exchange.WireObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "http_status": {
+          "$ref": "#/$defs/mcp.http_exchange.HttpStatus"
+        },
+        "response": {
+          "$ref": "#/$defs/mcp.http_observations.BoundedWireBytes"
+        },
+        "send": {
+          "$ref": "#/$defs/mcp.http_observations.SendObservation"
+        },
+        "terminal": {
+          "$ref": "#/$defs/mcp.http_observations.TerminalObservation"
+        }
+      },
+      "required": [
+        "send",
+        "terminal",
+        "response"
+      ],
+      "title": "WireObservation",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_exchange.WireObservation"
     },
     "mcp.http_invocation.BinaryContent": {
       "additionalProperties": false,
@@ -1328,7 +1357,7 @@
           "$ref": "#/$defs/mcp.http_lifecycle.ControlDisposition"
         },
         "exchange": {
-          "$ref": "#/$defs/mcp.http_exchange.ExchangeObservation"
+          "$ref": "#/$defs/mcp.http_exchange.WireObservation"
         },
         "refusal": {
           "$ref": "#/$defs/mcp.http_exchange.RefusalReason"
@@ -1384,7 +1413,7 @@
           "$ref": "#/$defs/mcp.http_lifecycle.ProgressDisposition"
         },
         "exchange": {
-          "$ref": "#/$defs/mcp.http_exchange.ExchangeObservation"
+          "$ref": "#/$defs/mcp.http_exchange.WireObservation"
         },
         "message": {
           "type": "string"
@@ -1405,6 +1434,25 @@
       "type": "object",
       "x-ess-kind": "struct",
       "x-ess-name": "mcp.http_lifecycle.ProgressObservation"
+    },
+    "mcp.http_lifecycle.ServerRequestObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "reply": {
+          "$ref": "#/$defs/mcp.http_lifecycle.ControlObservation"
+        },
+        "request": {
+          "$ref": "#/$defs/mcp.http_exchange.WireObservation"
+        }
+      },
+      "required": [
+        "request",
+        "reply"
+      ],
+      "title": "ServerRequestObservation",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_lifecycle.ServerRequestObservation"
     },
     "mcp.http_lifecycle.ShutdownObservation": {
       "additionalProperties": false,
@@ -1432,6 +1480,86 @@
       "type": "string",
       "x-ess-kind": "enum",
       "x-ess-name": "mcp.http_lifecycle.StopCause"
+    },
+    "mcp.http_lifecycle.StreamMessage": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "notification",
+              "type": "string"
+            },
+            "value": {
+              "$ref": "#/$defs/mcp.http_exchange.WireObservation"
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "title": "notification",
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "progress",
+              "type": "string"
+            },
+            "value": {
+              "$ref": "#/$defs/mcp.http_lifecycle.ProgressObservation"
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "title": "progress",
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "server_request",
+              "type": "string"
+            },
+            "value": {
+              "$ref": "#/$defs/mcp.http_lifecycle.ServerRequestObservation"
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "title": "server_request",
+          "type": "object"
+        }
+      ],
+      "title": "StreamMessage",
+      "x-ess-kind": "union",
+      "x-ess-name": "mcp.http_lifecycle.StreamMessage",
+      "x-ess-union-tag": "kind"
+    },
+    "mcp.http_lifecycle.StreamObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "messages": {
+          "items": {
+            "$ref": "#/$defs/mcp.http_lifecycle.StreamMessage"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "messages"
+      ],
+      "title": "StreamObservation",
+      "type": "object",
+      "x-ess-kind": "struct",
+      "x-ess-name": "mcp.http_lifecycle.StreamObservation"
     },
     "mcp.http_observations.AbsentPeerData": {
       "enum": [
@@ -1655,8 +1783,8 @@
   },
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "x-ess-provenance": {
-    "contract_digest": "slice-sha256/2:a9e8b944b6339604f493eedda479cf83b12bb2ba08911dfcdb085f02197f8062",
-    "source_digest": "f54520d53ae1a7ecd00e326fda0c6e4e6b27d3ed9349d575522e90127c8f23fd",
+    "contract_digest": "slice-sha256/2:67ceac19e85cc4eba30cec537c30b7642f503500d0b5bc6ed66361b1a0f2dbc3",
+    "source_digest": "f1e18bcc65986f0e48418470faa178425c198da32b7fdef09537fb89d2ff5a21",
     "specification_version": "v1",
     "system": "mcp"
   }

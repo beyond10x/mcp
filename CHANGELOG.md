@@ -12,7 +12,16 @@ All notable changes to this project will be documented in this file.
   failures preserve bounded response bytes and never trigger retries. Dropped
   exchanges retain their request identity as an unknown outcome and require
   shutdown before fresh setup. Caller-owned configuration remains reusable.
-  Progress, server-request handling and explicit cancellation remain unfinished.
+  Progress tracking and explicit cancellation remain unfinished.
+- Strict connections retain bounded, ordered SSE observations in each exchange.
+  Legacy ping and unsupported server requests receive separate JSON-RPC reply
+  POSTs, including initialization-time ping with validated session headers.
+  Modern server requests are refused without answering. Control acknowledgements
+  and the original response are received concurrently under one byte budget;
+  a delayed acknowledgement cannot hide an already observed business terminal.
+  Bare CR event delimiters dispatch promptly, and empty legacy priming events
+  are ignored without opening a resumed stream. The exchange owns pending control
+  futures directly and drops them on deadline or when the exchange is dropped.
 - `strict_invocation::InvocationClient` obtains private same-connection catalogs
   and exposes typed tool, resource and prompt results. It preserves content and
   opaque fields, validates schema semantics offline in a bounded Rust worker,

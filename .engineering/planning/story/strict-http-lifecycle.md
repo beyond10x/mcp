@@ -37,7 +37,7 @@ scope:
   path: ess-inputs.yaml
 - confidence: inferred
   path: toolchain.json
-revision: 6
+revision: 7
 transitions:
 - {from: "draft", to: "proposed", at: "2026-10-03T06:29:28Z", actor: "human:timo", revision: 4}
 - {from: "proposed", to: "active", at: "2026-10-03T06:29:28Z", actor: "human:timo", revision: 5}
@@ -125,3 +125,50 @@ this checkpoint. This story remains active. Next implement the internal bounded
 SSE event/control seam, real legacy ping/error POSTs, opted-in exact progress,
 and cancellation/race/schema-worker teardown. Model L1–L6 coverage is explicitly
 partial; no source release or consumer adoption is established by this checkpoint.
+
+## Stream-control checkpoint, 2026-10-03
+
+The lifecycle selection now executes41 scenarios (39 authored), including22
+actual HTTP stream/control scenarios, with no failures/errors/skips/unsupported.
+Seven native stream tests additionally cover exact server IDs and reply headers,
+original terminal retention, shared byte bounds, invalid initialization session
+headers and closing a pending control reply when its exchange future is dropped.
+That closure is observed before the connection handle is dropped, while the
+operation deadline remains in the future. The model projects77 values with31
+structural-codec obligations; constructor partial refusals remain unchanged.
+
+Legacy ping and unadvertised requests receive separate result/error POSTs.
+Modern server requests are refused. Ordered notification and request/reply
+observations share the existing response byte ceiling with the original body.
+Control I/O is driven concurrently inside the exchange-owned futures; it creates
+no background control task. Deadline or dropped exchange drops pending replies.
+An observed business terminal survives a delayed side acknowledgement.
+Bare CR dispatches promptly; empty legacy priming events carry no authority.
+
+Red/green evidence includes the bare-CR deadlock and delayed-acknowledgement
+regressions. Disabling the shared control-body retention budget produced40passed
+and1failed, exactly mcp.strict_stream_checks/authored/stream-control-bound-2025-11-25,
+with no error/skip/unsupported. Source was restored before the final gate.
+Shared-budget mutation log SHA256:
+80a40d62dd610dfd0cc8d7c87be1d3744368a130b00e844d004efa0f41a35982.
+Current lifecycle suite SHA256:
+49e7c3df63b05ad45b3a9d72fe3ff0a3a63e41c459b5ab69ce50619bb1b5113c.
+
+This remains a partial checkpoint and the story remains active. Next: exact
+opted-in progress, explicit revision-specific cancellation, completion races,
+observed late replies and awaited schema-worker cancellation. Then actual
+Connectors inbound/outbound integration and the verified release. Existing
+consumer ownership decision blockers remain unanswered. No independent review
+is claimed: workers are quota-exhausted and the coordinator authored/reviewed.
+Detailed evidence and continuation notes are retained under
+.cache/mcp-next-runtime/lifecycle; next-progress.md records the next implementation.
+
+Rust1.88 full gate exited0:95 native test functions passed,0failed0ignored,
+36 summaries. Specification regeneration, AEP validation, fmt, locked workspace
+check/test, all-target/all-feature Clippy and warnings-denied rustdoc passed.
+Final gate SHA256:
+bee46c9a8420d05a7418242b2e7cc5ef85581b00007fe95b14e2ed59be609c62.
+The preceding gate passed tests but failed the receiver's101-line lint; response
+format parsing was extracted and the full gate rerun successfully. Builds use
+two jobs, no incremental output and dev/test debug=0. The task's old6.8GiB build
+output was safely cleaned; source, evidence, archives and other tasks are retained.

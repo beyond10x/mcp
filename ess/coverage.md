@@ -227,12 +227,12 @@ progress and lifecycle coverage, and Connectors consumer integration, remain ope
 
 ## Partial strict HTTP lifecycle implementation
 
-The new `mcp.http_lifecycle` domain adds nine immutable observation types (73 total
-projected values). L1–L7 record runtime obligations separately from structural
+The new `mcp.http_lifecycle` domain and nonrecursive `WireObservation` add thirteen
+immutable observation types (77 total projected values). L1–L9 record runtime obligations separately from structural
 codecs. Progress and cancellation observations are modeled but have no runtime
 coverage yet. They must not be reported implemented from type generation alone.
 
-`conformance/strict-lifecycle` currently exercises shutdown only:18 scenarios,
+The first shutdown checkpoint exercised18 scenarios,
 17 authored, against actual connections. The peer parses every request and waits
 for the owned sockets to close before it joins. The selection covers modern and
 sessionless no-DELETE, legacy one-DELETE,405,503 and307, bounded retained bodies,
@@ -242,6 +242,20 @@ caller configuration. Native tests additionally check exact failure bytes and
 control headers. There is no server rollback or guaranteed remote termination
 claim. No DELETE response is promoted to a correlated business terminal.
 
-The full lifecycle story remains active: actual progress, ping/error POST replies,
-explicit cancellation, completion races, observed late replies and awaited schema
-worker cancellation still require implementation and their named scenarios.
+The selection now has41 scenarios (39 authored), including22 authored stream
+cases. They cover actual legacy ping/error POSTs, exact large/colliding server ids,
+sessionless and initialization-time replies, invalid/duplicate/over-bound session
+headers that are not echoed, modern server-request refusal, ordered notifications,
+cumulative/event/control-body bounds, bare CR delimiters, ignored legacy priming
+events and delayed control acknowledgements. A regression first failed because CR
+waited for another byte; another failed because a delayed acknowledgement hid a
+business result already on the socket. The controlled receiver now dispatches CR
+promptly and receives controls concurrently with a shared atomic retention budget.
+Seven native stream tests also verify socket closure after dropping an exchange
+with a pending control reply, before dropping the connection handle. Control
+futures belong to the exchange directly; no spawned control task outlives it.
+The one-shot raw receiver retains its original compatibility selection.
+
+The full lifecycle story remains active: actual progress tracking, explicit
+cancellation, completion/cancellation races, observed late replies and awaited
+schema-worker cancellation still need implementation and their named scenarios.

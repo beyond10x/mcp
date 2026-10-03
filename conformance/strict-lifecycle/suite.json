@@ -3,8 +3,8 @@
     "suite_version": "ess-conformance/28",
     "system": "mcp",
     "specification_version": "v1",
-    "spec_digest": "c4c4bd8e763530012e022e11259770384c9f5bc9848cba18191fee6fb65ef63d",
-    "contract_digest": "70243ec95036a6cf5d8c4ed30010b39095535de822e0315e68f514e2351921a5"
+    "spec_digest": "b26822c708b33a40ff0c484b6276a2565dcdc67002d8e5cc696e3c5fd275d80f",
+    "contract_digest": "6e6e72e3b6cb84037b3dc00efac036df886c12830cff2af09a4da638faa87d61"
   },
   "scenarios": {
     "mcp.strict_lifecycle_checks.ObserveLifecycle/outcome/observed": {
@@ -2342,6 +2342,3001 @@
           "kind": "outcome",
           "name": {
             "command": "mcp.strict_lifecycle_checks.ObserveLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_stream_checks.ObserveStream/outcome/observed": {
+      "purpose": "`mcp.strict_stream_checks.ObserveStream` answers `observed` for an input no other branch's guard claims",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_stream_checks.ObserveStream",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-empty-prime"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": {
+              "command": "mcp.strict_stream_checks.ObserveStream",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "setup_reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "replies",
+                "type": "Integer"
+              },
+              {
+                "name": "messages",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "disposition",
+                "type": "String"
+              },
+              {
+                "name": "side_refusal",
+                "type": "String"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "retained_bound",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {}
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_stream_checks.ObserveStream"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_stream_checks/authored/stream-control-body-2025-11-25": {
+      "purpose": "Actual stream-control-body under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_stream_checks.ObserveStream",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-control-body"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": {
+              "command": "mcp.strict_stream_checks.ObserveStream",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "setup_reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "replies",
+                "type": "Integer"
+              },
+              {
+                "name": "messages",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "disposition",
+                "type": "String"
+              },
+              {
+                "name": "side_refusal",
+                "type": "String"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "retained_bound",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "disposition": "refused",
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "result",
+              "messages": 1.0,
+              "notifications": 0.0,
+              "own_payload": true,
+              "reason": "absent",
+              "replies": 1.0,
+              "requests": 4.0,
+              "retained_bound": true,
+              "setup_reason": "absent",
+              "side_refusal": "invalid_response"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_stream_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_stream_checks.ObserveStream"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_stream_checks/authored/stream-control-bound-2025-11-25": {
+      "purpose": "Actual stream-control-bound under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_stream_checks.ObserveStream",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-control-bound"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": {
+              "command": "mcp.strict_stream_checks.ObserveStream",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "setup_reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "replies",
+                "type": "Integer"
+              },
+              {
+                "name": "messages",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "disposition",
+                "type": "String"
+              },
+              {
+                "name": "side_refusal",
+                "type": "String"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "retained_bound",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "disposition": "refused",
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "refused",
+              "messages": 1.0,
+              "notifications": 0.0,
+              "own_payload": false,
+              "reason": "response_bound",
+              "replies": 1.0,
+              "requests": 4.0,
+              "retained_bound": true,
+              "setup_reason": "absent",
+              "side_refusal": "response_bound"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_stream_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_stream_checks.ObserveStream"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_stream_checks/authored/stream-control-delayed-2025-11-25": {
+      "purpose": "Actual stream-control-delayed under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_stream_checks.ObserveStream",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-control-delayed"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": {
+              "command": "mcp.strict_stream_checks.ObserveStream",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "setup_reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "replies",
+                "type": "Integer"
+              },
+              {
+                "name": "messages",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "disposition",
+                "type": "String"
+              },
+              {
+                "name": "side_refusal",
+                "type": "String"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "retained_bound",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "disposition": "refused",
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "result",
+              "messages": 1.0,
+              "notifications": 0.0,
+              "own_payload": true,
+              "reason": "absent",
+              "replies": 1.0,
+              "requests": 4.0,
+              "retained_bound": true,
+              "setup_reason": "absent",
+              "side_refusal": "deadline_exhausted"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_stream_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_stream_checks.ObserveStream"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_stream_checks/authored/stream-control-failure-2025-11-25": {
+      "purpose": "Actual stream-control-failure under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_stream_checks.ObserveStream",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-control-failure"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": {
+              "command": "mcp.strict_stream_checks.ObserveStream",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "setup_reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "replies",
+                "type": "Integer"
+              },
+              {
+                "name": "messages",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "disposition",
+                "type": "String"
+              },
+              {
+                "name": "side_refusal",
+                "type": "String"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "retained_bound",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "disposition": "refused",
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "result",
+              "messages": 1.0,
+              "notifications": 0.0,
+              "own_payload": true,
+              "reason": "absent",
+              "replies": 1.0,
+              "requests": 4.0,
+              "retained_bound": true,
+              "setup_reason": "absent",
+              "side_refusal": "http_status"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_stream_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_stream_checks.ObserveStream"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_stream_checks/authored/stream-empty-prime-2025-11-25": {
+      "purpose": "Actual stream-empty-prime under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_stream_checks.ObserveStream",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-empty-prime"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": {
+              "command": "mcp.strict_stream_checks.ObserveStream",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "setup_reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "replies",
+                "type": "Integer"
+              },
+              {
+                "name": "messages",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "disposition",
+                "type": "String"
+              },
+              {
+                "name": "side_refusal",
+                "type": "String"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "retained_bound",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "disposition": "accepted",
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "result",
+              "messages": 1.0,
+              "notifications": 0.0,
+              "own_payload": true,
+              "reason": "absent",
+              "replies": 1.0,
+              "requests": 4.0,
+              "retained_bound": true,
+              "setup_reason": "absent",
+              "side_refusal": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_stream_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_stream_checks.ObserveStream"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_stream_checks/authored/stream-event-bound-2025-11-25": {
+      "purpose": "Actual stream-event-bound under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_stream_checks.ObserveStream",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-event-bound"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": {
+              "command": "mcp.strict_stream_checks.ObserveStream",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "setup_reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "replies",
+                "type": "Integer"
+              },
+              {
+                "name": "messages",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "disposition",
+                "type": "String"
+              },
+              {
+                "name": "side_refusal",
+                "type": "String"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "retained_bound",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "disposition": "absent",
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "refused",
+              "messages": 0.0,
+              "notifications": 0.0,
+              "own_payload": false,
+              "reason": "sse_event_bound",
+              "replies": 0.0,
+              "requests": 3.0,
+              "retained_bound": true,
+              "setup_reason": "absent",
+              "side_refusal": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_stream_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_stream_checks.ObserveStream"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_stream_checks/authored/stream-event-bound-2026-07-28": {
+      "purpose": "Actual stream-event-bound under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_stream_checks.ObserveStream",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-event-bound"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": {
+              "command": "mcp.strict_stream_checks.ObserveStream",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "setup_reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "replies",
+                "type": "Integer"
+              },
+              {
+                "name": "messages",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "disposition",
+                "type": "String"
+              },
+              {
+                "name": "side_refusal",
+                "type": "String"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "retained_bound",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "disposition": "absent",
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "refused",
+              "messages": 0.0,
+              "notifications": 0.0,
+              "own_payload": false,
+              "reason": "sse_event_bound",
+              "replies": 0.0,
+              "requests": 2.0,
+              "retained_bound": true,
+              "setup_reason": "absent",
+              "side_refusal": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_stream_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_stream_checks.ObserveStream"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_stream_checks/authored/stream-modern-server-request-2026-07-28": {
+      "purpose": "Actual stream-modern-server-request under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_stream_checks.ObserveStream",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-modern-server-request"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": {
+              "command": "mcp.strict_stream_checks.ObserveStream",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "setup_reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "replies",
+                "type": "Integer"
+              },
+              {
+                "name": "messages",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "disposition",
+                "type": "String"
+              },
+              {
+                "name": "side_refusal",
+                "type": "String"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "retained_bound",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "disposition": "absent",
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "refused",
+              "messages": 0.0,
+              "notifications": 0.0,
+              "own_payload": false,
+              "reason": "invalid_response",
+              "replies": 0.0,
+              "requests": 2.0,
+              "retained_bound": true,
+              "setup_reason": "absent",
+              "side_refusal": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_stream_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_stream_checks.ObserveStream"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_stream_checks/authored/stream-notifications-2025-11-25": {
+      "purpose": "Actual stream-notifications under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_stream_checks.ObserveStream",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-notifications"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": {
+              "command": "mcp.strict_stream_checks.ObserveStream",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "setup_reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "replies",
+                "type": "Integer"
+              },
+              {
+                "name": "messages",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "disposition",
+                "type": "String"
+              },
+              {
+                "name": "side_refusal",
+                "type": "String"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "retained_bound",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "disposition": "absent",
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "result",
+              "messages": 1.0,
+              "notifications": 1.0,
+              "own_payload": true,
+              "reason": "absent",
+              "replies": 0.0,
+              "requests": 3.0,
+              "retained_bound": true,
+              "setup_reason": "absent",
+              "side_refusal": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_stream_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_stream_checks.ObserveStream"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_stream_checks/authored/stream-notifications-2026-07-28": {
+      "purpose": "Actual stream-notifications under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_stream_checks.ObserveStream",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-notifications"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": {
+              "command": "mcp.strict_stream_checks.ObserveStream",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "setup_reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "replies",
+                "type": "Integer"
+              },
+              {
+                "name": "messages",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "disposition",
+                "type": "String"
+              },
+              {
+                "name": "side_refusal",
+                "type": "String"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "retained_bound",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "disposition": "absent",
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "result",
+              "messages": 1.0,
+              "notifications": 1.0,
+              "own_payload": true,
+              "reason": "absent",
+              "replies": 0.0,
+              "requests": 2.0,
+              "retained_bound": true,
+              "setup_reason": "absent",
+              "side_refusal": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_stream_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_stream_checks.ObserveStream"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_stream_checks/authored/stream-ping-2025-11-25": {
+      "purpose": "Actual stream-ping under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_stream_checks.ObserveStream",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-ping"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": {
+              "command": "mcp.strict_stream_checks.ObserveStream",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "setup_reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "replies",
+                "type": "Integer"
+              },
+              {
+                "name": "messages",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "disposition",
+                "type": "String"
+              },
+              {
+                "name": "side_refusal",
+                "type": "String"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "retained_bound",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "disposition": "accepted",
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "result",
+              "messages": 1.0,
+              "notifications": 0.0,
+              "own_payload": true,
+              "reason": "absent",
+              "replies": 1.0,
+              "requests": 4.0,
+              "retained_bound": true,
+              "setup_reason": "absent",
+              "side_refusal": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_stream_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_stream_checks.ObserveStream"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_stream_checks/authored/stream-ping-collision-2025-11-25": {
+      "purpose": "Actual stream-ping-collision under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_stream_checks.ObserveStream",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-ping-collision"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": {
+              "command": "mcp.strict_stream_checks.ObserveStream",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "setup_reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "replies",
+                "type": "Integer"
+              },
+              {
+                "name": "messages",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "disposition",
+                "type": "String"
+              },
+              {
+                "name": "side_refusal",
+                "type": "String"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "retained_bound",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "disposition": "accepted",
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "result",
+              "messages": 1.0,
+              "notifications": 0.0,
+              "own_payload": true,
+              "reason": "absent",
+              "replies": 1.0,
+              "requests": 4.0,
+              "retained_bound": true,
+              "setup_reason": "absent",
+              "side_refusal": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_stream_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_stream_checks.ObserveStream"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_stream_checks/authored/stream-ping-cr-2025-11-25": {
+      "purpose": "Actual stream-ping-cr under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_stream_checks.ObserveStream",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-ping-cr"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": {
+              "command": "mcp.strict_stream_checks.ObserveStream",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "setup_reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "replies",
+                "type": "Integer"
+              },
+              {
+                "name": "messages",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "disposition",
+                "type": "String"
+              },
+              {
+                "name": "side_refusal",
+                "type": "String"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "retained_bound",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "disposition": "accepted",
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "result",
+              "messages": 1.0,
+              "notifications": 0.0,
+              "own_payload": true,
+              "reason": "absent",
+              "replies": 1.0,
+              "requests": 4.0,
+              "retained_bound": true,
+              "setup_reason": "absent",
+              "side_refusal": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_stream_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_stream_checks.ObserveStream"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_stream_checks/authored/stream-ping-large-id-2025-11-25": {
+      "purpose": "Actual stream-ping-large-id under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_stream_checks.ObserveStream",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-ping-large-id"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": {
+              "command": "mcp.strict_stream_checks.ObserveStream",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "setup_reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "replies",
+                "type": "Integer"
+              },
+              {
+                "name": "messages",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "disposition",
+                "type": "String"
+              },
+              {
+                "name": "side_refusal",
+                "type": "String"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "retained_bound",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "disposition": "accepted",
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "result",
+              "messages": 1.0,
+              "notifications": 0.0,
+              "own_payload": true,
+              "reason": "absent",
+              "replies": 1.0,
+              "requests": 4.0,
+              "retained_bound": true,
+              "setup_reason": "absent",
+              "side_refusal": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_stream_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_stream_checks.ObserveStream"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_stream_checks/authored/stream-ping-sessionless-2025-11-25": {
+      "purpose": "Actual stream-ping-sessionless under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_stream_checks.ObserveStream",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-ping-sessionless"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": {
+              "command": "mcp.strict_stream_checks.ObserveStream",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "setup_reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "replies",
+                "type": "Integer"
+              },
+              {
+                "name": "messages",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "disposition",
+                "type": "String"
+              },
+              {
+                "name": "side_refusal",
+                "type": "String"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "retained_bound",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "disposition": "accepted",
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "result",
+              "messages": 1.0,
+              "notifications": 0.0,
+              "own_payload": true,
+              "reason": "absent",
+              "replies": 1.0,
+              "requests": 4.0,
+              "retained_bound": true,
+              "setup_reason": "absent",
+              "side_refusal": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_stream_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_stream_checks.ObserveStream"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_stream_checks/authored/stream-setup-ping-2025-11-25": {
+      "purpose": "Actual stream-setup-ping under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_stream_checks.ObserveStream",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-setup-ping"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": {
+              "command": "mcp.strict_stream_checks.ObserveStream",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "setup_reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "replies",
+                "type": "Integer"
+              },
+              {
+                "name": "messages",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "disposition",
+                "type": "String"
+              },
+              {
+                "name": "side_refusal",
+                "type": "String"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "retained_bound",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "disposition": "accepted",
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "result",
+              "messages": 1.0,
+              "notifications": 0.0,
+              "own_payload": true,
+              "reason": "absent",
+              "replies": 1.0,
+              "requests": 3.0,
+              "retained_bound": true,
+              "setup_reason": "absent",
+              "side_refusal": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_stream_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_stream_checks.ObserveStream"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_stream_checks/authored/stream-setup-session-bound-2025-11-25": {
+      "purpose": "Actual stream-setup-session-bound under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_stream_checks.ObserveStream",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-setup-session-bound"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": {
+              "command": "mcp.strict_stream_checks.ObserveStream",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "setup_reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "replies",
+                "type": "Integer"
+              },
+              {
+                "name": "messages",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "disposition",
+                "type": "String"
+              },
+              {
+                "name": "side_refusal",
+                "type": "String"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "retained_bound",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "disposition": "refused",
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "result",
+              "messages": 1.0,
+              "notifications": 0.0,
+              "own_payload": true,
+              "reason": "absent",
+              "replies": 0.0,
+              "requests": 1.0,
+              "retained_bound": true,
+              "setup_reason": "session_header_bound",
+              "side_refusal": "invalid_response"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_stream_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_stream_checks.ObserveStream"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_stream_checks/authored/stream-setup-session-duplicate-2025-11-25": {
+      "purpose": "Actual stream-setup-session-duplicate under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_stream_checks.ObserveStream",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-setup-session-duplicate"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": {
+              "command": "mcp.strict_stream_checks.ObserveStream",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "setup_reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "replies",
+                "type": "Integer"
+              },
+              {
+                "name": "messages",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "disposition",
+                "type": "String"
+              },
+              {
+                "name": "side_refusal",
+                "type": "String"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "retained_bound",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "disposition": "refused",
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "result",
+              "messages": 1.0,
+              "notifications": 0.0,
+              "own_payload": true,
+              "reason": "absent",
+              "replies": 0.0,
+              "requests": 1.0,
+              "retained_bound": true,
+              "setup_reason": "invalid_session_header",
+              "side_refusal": "invalid_response"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_stream_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_stream_checks.ObserveStream"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_stream_checks/authored/stream-setup-session-invalid-2025-11-25": {
+      "purpose": "Actual stream-setup-session-invalid under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_stream_checks.ObserveStream",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-setup-session-invalid"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": {
+              "command": "mcp.strict_stream_checks.ObserveStream",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "setup_reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "replies",
+                "type": "Integer"
+              },
+              {
+                "name": "messages",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "disposition",
+                "type": "String"
+              },
+              {
+                "name": "side_refusal",
+                "type": "String"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "retained_bound",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "disposition": "refused",
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "result",
+              "messages": 1.0,
+              "notifications": 0.0,
+              "own_payload": true,
+              "reason": "absent",
+              "replies": 0.0,
+              "requests": 1.0,
+              "retained_bound": true,
+              "setup_reason": "invalid_session_header",
+              "side_refusal": "invalid_response"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_stream_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_stream_checks.ObserveStream"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_stream_checks/authored/stream-total-bound-2025-11-25": {
+      "purpose": "Actual stream-total-bound under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_stream_checks.ObserveStream",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-total-bound"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": {
+              "command": "mcp.strict_stream_checks.ObserveStream",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "setup_reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "replies",
+                "type": "Integer"
+              },
+              {
+                "name": "messages",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "disposition",
+                "type": "String"
+              },
+              {
+                "name": "side_refusal",
+                "type": "String"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "retained_bound",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "disposition": "absent",
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "refused",
+              "messages": 2.0,
+              "notifications": 2.0,
+              "own_payload": false,
+              "reason": "response_bound",
+              "replies": 0.0,
+              "requests": 3.0,
+              "retained_bound": true,
+              "setup_reason": "absent",
+              "side_refusal": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_stream_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_stream_checks.ObserveStream"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_stream_checks/authored/stream-total-bound-2026-07-28": {
+      "purpose": "Actual stream-total-bound under configured 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_stream_checks.ObserveStream",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-total-bound"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": {
+              "command": "mcp.strict_stream_checks.ObserveStream",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "setup_reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "replies",
+                "type": "Integer"
+              },
+              {
+                "name": "messages",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "disposition",
+                "type": "String"
+              },
+              {
+                "name": "side_refusal",
+                "type": "String"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "retained_bound",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "disposition": "absent",
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "refused",
+              "messages": 2.0,
+              "notifications": 2.0,
+              "own_payload": false,
+              "reason": "response_bound",
+              "replies": 0.0,
+              "requests": 2.0,
+              "retained_bound": true,
+              "setup_reason": "absent",
+              "side_refusal": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_stream_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_stream_checks.ObserveStream"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.strict_stream_checks/authored/stream-unsupported-2025-11-25": {
+      "purpose": "Actual stream-unsupported under configured 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.strict_stream_checks.ObserveStream",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "stream-unsupported"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
+            "outcome": {
+              "command": "mcp.strict_stream_checks.ObserveStream",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "setup_reason",
+                "type": "String"
+              },
+              {
+                "name": "requests",
+                "type": "Integer"
+              },
+              {
+                "name": "replies",
+                "type": "Integer"
+              },
+              {
+                "name": "messages",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "disposition",
+                "type": "String"
+              },
+              {
+                "name": "side_refusal",
+                "type": "String"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "header_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "retained_bound",
+                "type": "Boolean"
+              },
+              {
+                "name": "own_payload",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "disposition": "accepted",
+              "header_agreement": true,
+              "id_agreement": true,
+              "kind": "result",
+              "messages": 1.0,
+              "notifications": 0.0,
+              "own_payload": true,
+              "reason": "absent",
+              "replies": 1.0,
+              "requests": 4.0,
+              "retained_bound": true,
+              "setup_reason": "absent",
+              "side_refusal": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.strict_stream_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.strict_stream_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.strict_stream_checks.ObserveStream"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.strict_stream_checks.ObserveStream",
             "outcome": "observed"
           }
         }

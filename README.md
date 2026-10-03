@@ -106,8 +106,15 @@ capped by the existing execution/provider limits and does not extend a business
 operation's deadline. Dropping an exchange closes its local stream but proves no
 legacy cancellation or rollback. The handle then refuses another exchange until
 shutdown, retaining the abandoned request ID with unknown effects. Reconnect from
-the caller's unchanged configuration. Progress, server-request replies and explicit
-cancellation controls are still under implementation.
+the caller's unchanged configuration. Strict connections retain ordered SSE
+messages and separate control observations under `exchange.observation.stream`.
+Legacy ping receives an empty result POST; unadvertised server methods receive
+method-not-found. Modern server requests are refused. Shared byte limits cover
+the original response and all retained messages/control bodies. Control I/O runs
+concurrently within the exchange future under the same deadline; pending control
+futures are dropped before return or when the exchange is dropped. An earlier business
+terminal survives a delayed control acknowledgement. Progress tracking and
+explicit cancellation controls are still under implementation.
 
 The caller supplies authority and network policy;
 the builder must contain no hidden MCP protocol/session/routing header defaults.

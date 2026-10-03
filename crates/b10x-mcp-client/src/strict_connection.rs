@@ -61,6 +61,13 @@ fn revision(input: &SetupInput) -> &'static str {
         "2025-11-25"
     }
 }
+fn session_limit(input: &SetupInput) -> Option<usize> {
+    input
+        .session_id_octets
+        .0
+        .as_u64()
+        .and_then(|n| usize::try_from(n).ok())
+}
 fn template(request: &reqwest::Request) -> bool {
     request.method() == reqwest::Method::POST
         && matches!(request.url().scheme(), "http" | "https")
@@ -92,14 +99,7 @@ pub async fn connect(
     input: &SetupInput,
     deadline: Instant,
 ) -> Result<StrictConnection, SetupRefusal> {
-    if !template(&request)
-        || input
-            .session_id_octets
-            .0
-            .as_u64()
-            .and_then(|n| usize::try_from(n).ok())
-            .is_none()
-    {
+    if !template(&request) || session_limit(input).is_none() {
         return Err(refusal(Reason::V3));
     }
     let millis = |n: &serde_json::Number| {
@@ -139,10 +139,19 @@ pub async fn connect(
         encode(input, &request, None, 1, method, params).map_err(|_| refusal(Reason::V3))?;
     // No stale caller body or session header may enter the initialization request.
     *initial.body_mut() = None;
-    let (exchange, headers) =
-        strict_http::pooled_exchange(&client, initial, &wire, end, !modern(input))
-            .await
-            .map_err(|_| refusal(Reason::V1))?;
+    let (exchange, headers) = strict_http::pooled_exchange(
+        &client,
+        initial,
+        &wire,
+        end,
+        if modern(input) {
+            None
+        } else {
+            session_limit(input)
+        },
+    )
+    .await
+    .map_err(|_| refusal(Reason::V1))?;
     let description = match &exchange {
         ExchangeResult::V2(result) => {
             describe(input, &result.value.result, &result.value.observation)
@@ -333,7 +342,7 @@ impl StrictConnection {
         request.headers_mut().extend(parameters);
         self.pending = Some(*wire.request_id.clone());
         let result =
-            strict_http::pooled_exchange(&self.client, request, &wire, deadline, false).await;
+            strict_http::pooled_exchange(&self.client, request, &wire, deadline, None).await;
         self.pending = None;
         result.map(|(result, _)| result)
     }

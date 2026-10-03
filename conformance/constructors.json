@@ -3,8 +3,8 @@
     "suite_version": "ess-conformance/28",
     "system": "mcp",
     "specification_version": "v1",
-    "spec_digest": "f54520d53ae1a7ecd00e326fda0c6e4e6b27d3ed9349d575522e90127c8f23fd",
-    "contract_digest": "92fa1f44821162d2b292fca88c2c9c64b4c39b89b8db3b54f52086b6c0edac70"
+    "spec_digest": "f1e18bcc65986f0e48418470faa178425c198da32b7fdef09537fb89d2ff5a21",
+    "contract_digest": "84f025b0ccb5bbbf8684f22a2caec1012573343fc0faa52b8389ad92551e0814"
   },
   "scenarios": {
     "mcp.constructor_checks.MakeConnectionId/outcome/empty": {

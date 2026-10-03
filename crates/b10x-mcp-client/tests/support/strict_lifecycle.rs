@@ -16,6 +16,7 @@ struct Peer {
     started: Arc<Notify>,
     stream_closed: Arc<Notify>,
     pool_closed: Arc<Notify>,
+    answered: Arc<Notify>,
 }
 async fn read_request(stream: &mut TcpStream) -> Result<Option<Value>, String> {
     let mut head = Vec::new();
@@ -75,6 +76,14 @@ async fn read_request(stream: &mut TcpStream) -> Result<Option<Value>, String> {
     Ok(Some(json!({"method":method,"headers":headers,"body":body})))
 }
 fn response(peer: &Peer, request: &Value) -> Result<(u16, Vec<u8>, String), String> {
+    if request["body"].get("method").is_none() && request["method"] == "POST" {
+        return Ok(match peer.case.as_str() {
+            "stream-control-failure" => (503, b"side failure".to_vec(), String::new()),
+            "stream-control-body" => (202, b"x".to_vec(), String::new()),
+            "stream-control-bound" => (202, vec![b'x'; 8192], String::new()),
+            _ => (202, Vec::new(), String::new()),
+        });
+    }
     if request["method"] == "DELETE" {
         return Ok(match peer.case.as_str() {
             "lifecycle-shutdown-405" => (405, b"delete unavailable".to_vec(), String::new()),
@@ -101,8 +110,12 @@ fn response(peer: &Peer, request: &Value) -> Result<(u16, Vec<u8>, String), Stri
         _ => return Err("unexpected RPC method".into()),
     };
     // A modern session header must never be adopted even when the peer sends it.
-    let extra = if peer.case == "lifecycle-shutdown-sessionless" {
+    let extra = if peer.case.ends_with("sessionless") {
         ""
+    } else if peer.case == "stream-setup-session-invalid" {
+        "Mcp-Session-Id: invalid session\r\n"
+    } else if peer.case == "stream-setup-session-duplicate" {
+        "Mcp-Session-Id: one\r\nMcp-Session-Id: two\r\n"
     } else {
         "Mcp-Session-Id: lifecycle-fixture-session\r\n"
     };
@@ -119,6 +132,30 @@ async fn connection(mut stream: TcpStream, peer: Peer) -> Result<(), String> {
             .lock()
             .map_err(|_| "fixture lock")?
             .push(request.clone());
+        if matches!(
+            peer.case.as_str(),
+            "stream-control-delayed" | "stream-control-abandoned"
+        ) && request["body"].get("method").is_none()
+        {
+            peer.answered.notify_one();
+            peer.started.notify_one();
+            let mut byte = [0];
+            let closed = timeout(Duration::from_secs(3), stream.read(&mut byte))
+                .await
+                .map_err(|_| "delayed control stayed open")?;
+            if !matches!(closed, Ok(0)) {
+                return Err("delayed control did not close".into());
+            }
+            peer.pool_closed.notify_one();
+            return Ok(());
+        }
+        if peer.case.starts_with("stream-")
+            && (request["body"]["method"] == "tools/call"
+                || (peer.case.starts_with("stream-setup-")
+                    && request["body"]["method"] == "initialize"))
+        {
+            return stream_reply(stream, &peer, &request).await;
+        }
         if peer.case == "lifecycle-shutdown-abandoned" && request["body"]["method"] == "tools/call"
         {
             stream.write_all(b"HTTP/1.1 200 OK\r\nContent-Type: text/event-stream\r\nConnection: close\r\n\r\n: ready\n\n").await.map_err(|e| e.to_string())?;
@@ -159,6 +196,9 @@ async fn connection(mut stream: TcpStream, peer: Peer) -> Result<(), String> {
         }
         stream.write_all(&body).await.map_err(|e| e.to_string())?;
         stream.flush().await.map_err(|e| e.to_string())?;
+        if request["method"] == "POST" && request["body"].get("method").is_none() {
+            peer.answered.notify_one();
+        }
     }
     peer.pool_closed.notify_one();
     Ok(())
@@ -243,6 +283,7 @@ pub async fn observe(case: &str, revision: &str) -> Result<Value, String> {
         started: Arc::default(),
         stream_closed: Arc::default(),
         pool_closed: Arc::default(),
+        answered: Arc::default(),
     };
     let (stop, stopped) = oneshot::channel();
     let task = tokio::spawn(serve(listener, peer.clone(), stopped));
@@ -330,6 +371,9 @@ pub async fn observe(case: &str, revision: &str) -> Result<Value, String> {
 
 pub async fn observations(case: &str, revision: &str) -> Result<Value, String> {
     use base64::{Engine as _, engine::general_purpose::STANDARD};
+    if case.starts_with("stream-") {
+        return stream_observations(case, revision).await;
+    }
     let actual = observe(case, revision).await?;
     let shutdown = &actual["shutdown"];
     let deletion = &shutdown["deletion"];
@@ -363,4 +407,237 @@ pub async fn observations(case: &str, revision: &str) -> Result<Value, String> {
         "reuse_refused":actual["reuse_refused"],
         "header_agreement":agreement,
     }))
+}
+
+async fn stream_observations(case: &str, revision: &str) -> Result<Value, String> {
+    use base64::{Engine as _, engine::general_purpose::STANDARD};
+    let actual = observe_stream(case, revision).await?;
+    let exchange = &actual["exchange"];
+    let observation = &exchange["value"]["observation"];
+    let messages = observation["stream"]["messages"]
+        .as_array()
+        .cloned()
+        .unwrap_or_default();
+    let requests = actual["requests"].as_array().ok_or("recorded requests")?;
+    let replies: Vec<_> = requests
+        .iter()
+        .filter(|r| r["method"] == "POST" && r["body"].get("method").is_none())
+        .collect();
+    let mut retained = observation["response"]["counts"]["retained_octets"]
+        .as_u64()
+        .unwrap_or(0);
+    let mut id_agreement = true;
+    let mut disposition = "absent";
+    let mut side_refusal = "absent";
+    let mut notifications = 0;
+    for message in &messages {
+        let wire = if message["kind"] == "server_request" {
+            let reply = &message["value"]["reply"];
+            disposition = reply["disposition"].as_str().ok_or("control disposition")?;
+            side_refusal = reply["refusal"].as_str().unwrap_or("absent");
+            retained += reply["exchange"]["response"]["counts"]["retained_octets"]
+                .as_u64()
+                .ok_or("control retained")?;
+            &message["value"]["request"]
+        } else {
+            notifications += 1;
+            &message["value"]
+        };
+        retained += wire["response"]["counts"]["retained_octets"]
+            .as_u64()
+            .ok_or("message retained")?;
+        if message["kind"] == "server_request" && !replies.is_empty() {
+            let bytes = STANDARD
+                .decode(wire["response"]["bytes"].as_str().ok_or("message bytes")?)
+                .map_err(|e| e.to_string())?;
+            let raw: Value = serde_json::from_slice(&bytes).map_err(|e| e.to_string())?;
+            id_agreement &= replies.iter().any(|r| r["body"]["id"] == raw["id"]);
+        }
+    }
+    let header_agreement = replies.iter().all(|r| {
+        r["headers"]["authorization"] == "Bearer fixture-only-credential"
+            && r["headers"]["mcp-protocol-version"] == "2025-11-25"
+            && r["headers"].get("mcp-method").is_none()
+            && r["headers"].get("last-event-id").is_none()
+            && if case.ends_with("sessionless") {
+                r["headers"].get("mcp-session-id").is_none()
+            } else {
+                r["headers"]["mcp-session-id"] == "lifecycle-fixture-session"
+            }
+    });
+    let payload = &exchange["value"]["result"];
+    Ok(
+        json!({"kind":exchange["kind"].as_str().unwrap_or("absent"),"reason":exchange["value"]["reason"].as_str().unwrap_or("absent"),
+        "setup_reason":actual["setup_reason"],"requests":requests.len(),"replies":replies.len(),"messages":messages.len(),
+        "notifications":notifications,"disposition":disposition,"side_refusal":side_refusal,
+        "id_agreement":id_agreement,"header_agreement":header_agreement,"retained_bound":retained<=4096,
+        "own_payload":payload.get("content").is_some() || payload.get("capabilities").is_some()}),
+    )
+}
+
+fn stream_event(peer: &Peer, request: &Value) -> Value {
+    let id = match peer.case.as_str() {
+        "stream-ping-large-id" => {
+            serde_json::from_str("123456789012345678901234567890").expect("fixture integer")
+        }
+        "stream-ping-collision" => request["body"]["id"].clone(),
+        _ => json!("peer-ping"),
+    };
+    if matches!(
+        peer.case.as_str(),
+        "stream-notifications" | "stream-total-bound"
+    ) {
+        let message = if peer.case == "stream-total-bound" {
+            "x".repeat(1500)
+        } else {
+            "server text".into()
+        };
+        json!({"jsonrpc":"2.0","method":"notifications/message","params":{"message":message,"opaque":{"$serde_json::private::Number":"7"}}})
+    } else {
+        json!({"jsonrpc":"2.0","id":id,"method":if peer.case == "stream-unsupported" {"sampling/createMessage"} else {"ping"}})
+    }
+}
+async fn stream_reply(mut stream: TcpStream, peer: &Peer, request: &Value) -> Result<(), String> {
+    let (_, body, extra) = response(peer, request)?;
+    let head = format!(
+        "HTTP/1.1 200 OK\r\nContent-Type: text/event-stream\r\nConnection: close\r\n{extra}\r\n"
+    );
+    stream
+        .write_all(head.as_bytes())
+        .await
+        .map_err(|e| e.to_string())?;
+    if peer.case == "stream-empty-prime" {
+        stream
+            .write_all(b"id: ignored-cursor\r\nretry: 0\r\ndata:\r\n\r\n")
+            .await
+            .map_err(|e| e.to_string())?;
+    }
+    let event = stream_event(peer, request);
+    let ending = if peer.case == "stream-ping-cr" {
+        "\r\r"
+    } else {
+        "\r\n\r\n"
+    };
+    let frame = format!("data: {event}{ending}");
+    let count = if peer.case == "stream-total-bound" {
+        3
+    } else {
+        1
+    };
+    for _ in 0..count {
+        stream
+            .write_all(frame.as_bytes())
+            .await
+            .map_err(|e| e.to_string())?;
+    }
+    stream.flush().await.map_err(|e| e.to_string())?;
+    let no_reply = matches!(
+        peer.case.as_str(),
+        "stream-modern-server-request"
+            | "stream-event-bound"
+            | "stream-total-bound"
+            | "stream-control-abandoned"
+    );
+    if no_reply {
+        let mut byte = [0];
+        match timeout(Duration::from_secs(3), stream.read(&mut byte))
+            .await
+            .map_err(|_| "stream not closed")?
+        {
+            Ok(0) => {}
+            Err(e) if e.kind() == std::io::ErrorKind::ConnectionReset => {}
+            _ => return Err("stream did not close".into()),
+        }
+        peer.stream_closed.notify_one();
+        return Ok(());
+    }
+    if event.get("id").is_some() && !peer.case.starts_with("stream-setup-session-") {
+        timeout(Duration::from_secs(3), peer.answered.notified())
+            .await
+            .map_err(|_| "control reply not received")?;
+    }
+    let terminal = format!(
+        "data: {}\n\n",
+        std::str::from_utf8(&body).map_err(|e| e.to_string())?
+    );
+    // An over-bound control response may have already closed the original stream.
+    let sent = stream.write_all(terminal.as_bytes()).await;
+    if peer.case != "stream-control-bound" {
+        sent.map_err(|e| e.to_string())?;
+    }
+    Ok(())
+}
+
+pub async fn observe_stream(case: &str, revision: &str) -> Result<Value, String> {
+    let listener = TcpListener::bind("127.0.0.1:0")
+        .await
+        .map_err(|e| e.to_string())?;
+    let endpoint = format!(
+        "http://{}/mcp",
+        listener.local_addr().map_err(|e| e.to_string())?
+    );
+    let peer = Peer {
+        case: case.into(),
+        requests: Arc::default(),
+        started: Arc::default(),
+        stream_closed: Arc::default(),
+        pool_closed: Arc::default(),
+        answered: Arc::default(),
+    };
+    let (stop, stopped) = oneshot::channel();
+    let task = tokio::spawn(serve(listener, peer.clone(), stopped));
+    let input = serde_json::from_value(json!({"revision":revision,"client_info":{"name":"fixture","version":"1"},
+        "session_id_octets":if case == "stream-setup-session-bound" {4} else {256},
+        "budget":{"request_octets":4096,"response_octets":4096,"sse_event_octets":if case == "stream-event-bound" {40} else {4096},
+        "remaining_execution_ms":5000,"provider_ms":5000,"connect_ms":1000}})).map_err(|e| e.to_string())?;
+    let setup = strict_connection::connect(
+        reqwest::Client::builder().no_proxy(),
+        request_template(&endpoint)?,
+        &input,
+        Instant::now() + Duration::from_secs(1),
+    )
+    .await;
+    let (exchange, setup_reason) = match setup {
+        Ok(mut client) => {
+            let value = if case == "stream-control-abandoned" {
+                let reuse_refused = abandon(&mut client, &peer).await?;
+                // The five-second exchange deadline has not elapsed and the
+                // client still exists: dropping the exchange must close its reply.
+                timeout(Duration::from_millis(250), peer.pool_closed.notified())
+                    .await
+                    .map_err(|_| "abandoned control not closed before client drop")?;
+                json!({"abandoned_stream_closed":true,"abandoned_control_closed":true,"reuse_refused":reuse_refused})
+            } else if case.starts_with("stream-setup-") {
+                json!({"kind":"result","value":{"result":client.description().raw_result,"observation":client.description().exchange_observation}})
+            } else {
+                serde_json::to_value(
+                    client
+                        .exchange(
+                            "tools/call",
+                            json!({"name":"fixture","arguments":{}}),
+                            Instant::now() + Duration::from_secs(1),
+                        )
+                        .await
+                        .map_err(|_| "exchange failed")?,
+                )
+                .map_err(|e| e.to_string())?
+            };
+            drop(client);
+            (value, "absent".to_owned())
+        }
+        Err(refusal) => {
+            let refusal = serde_json::to_value(refusal).map_err(|e| e.to_string())?;
+            (
+                refusal["exchange"].clone(),
+                refusal["reason"].as_str().unwrap_or("absent").to_owned(),
+            )
+        }
+    };
+    stop.send(()).map_err(|()| "fixture exited")?;
+    timeout(Duration::from_secs(4), task)
+        .await
+        .map_err(|_| "fixture join timeout")?
+        .map_err(|e| e.to_string())??;
+    let requests = peer.requests.lock().map_err(|_| "fixture lock")?.clone();
+    Ok(json!({"exchange":exchange,"setup_reason":setup_reason,"requests":requests}))
 }

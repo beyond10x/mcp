@@ -1,0 +1,34 @@
+domain: mcp.strict_stream_checks
+summary: Actual bounded SSE messages and separate legacy control POSTs.
+types:
+  - name: mcp.strict_stream_checks.Case
+    kind: enum
+    variants: ["stream-empty-prime","stream-control-body","stream-control-bound","stream-control-delayed","stream-control-failure","stream-event-bound","stream-modern-server-request","stream-notifications","stream-ping","stream-ping-collision","stream-ping-cr","stream-ping-large-id","stream-ping-sessionless","stream-setup-ping","stream-setup-session-bound","stream-setup-session-duplicate","stream-setup-session-invalid","stream-total-bound","stream-unsupported"]
+  - name: mcp.strict_stream_checks.Revision
+    kind: enum
+    variants: ["2025-11-25", "2026-07-28"]
+commands:
+  - name: mcp.strict_stream_checks.ObserveStream
+    input:
+      - {name: case, type: mcp.strict_stream_checks.Case}
+      - {name: revision, type: mcp.strict_stream_checks.Revision}
+    response:
+      - {name: kind, type: String}
+      - {name: reason, type: String}
+      - {name: setup_reason, type: String}
+      - {name: requests, type: Integer}
+      - {name: replies, type: Integer}
+      - {name: messages, type: Integer}
+      - {name: notifications, type: Integer}
+      - {name: disposition, type: String}
+      - {name: side_refusal, type: String}
+      - {name: id_agreement, type: Boolean}
+      - {name: header_agreement, type: Boolean}
+      - {name: retained_bound, type: Boolean}
+      - {name: own_payload, type: Boolean}
+    outcomes:
+      - {name: observed, returns: true}
+    # The target parses original peer messages and separate captured reply POSTs,
+    # preserves original terminals, and joins the owned peer and control tasks.
+    # Delayed acknowledgements must not hide an earlier business response.
+

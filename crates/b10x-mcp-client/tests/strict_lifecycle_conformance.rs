@@ -53,7 +53,11 @@ impl ConformanceTarget for Lifecycle {
     ) -> Result<SemanticCommandResult, TargetError> {
         if request.actor.is_some()
             || request.caller.is_some()
-            || request.command.to_string() != "mcp.strict_lifecycle_checks.ObserveLifecycle"
+            || !matches!(
+                request.command.to_string().as_str(),
+                "mcp.strict_lifecycle_checks.ObserveLifecycle"
+                    | "mcp.strict_stream_checks.ObserveStream"
+            )
         {
             return Err(unsupported("command/caller"));
         }
@@ -107,8 +111,8 @@ fn lifecycle_scenarios_execute_actual_connection() {
         "LIFECYCLE_RUN_REPORT_BEGIN\n{}LIFECYCLE_RUN_REPORT_END",
         run.report().to_canonical_json()
     );
-    assert_eq!(report.counts().total, 18);
-    assert_eq!(report.counts().passed, 18);
+    assert_eq!(report.counts().total, 41);
+    assert_eq!(report.counts().passed, 41);
     assert_eq!(
         report.counts().failed
             + report.counts().error

@@ -8,14 +8,23 @@
 
 use std::collections::{BTreeMap, BTreeSet};
 use std::fmt;
+use std::future::Future;
+use std::sync::{
+    Arc, Mutex,
+    atomic::{AtomicUsize, Ordering},
+};
 use std::time::Duration;
 
 use b10x_mcp_types::ClientError;
 use b10x_mcp_types::http_exchange::{
-    McpHttpExchangeExchangeInput as ExchangeInput, McpHttpExchangeExchangeResult as ExchangeResult,
-    McpHttpObservationsPeerData,
+    EssPresence, McpHttpExchangeExchangeInput as ExchangeInput,
+    McpHttpExchangeExchangeResult as ExchangeResult,
+    McpHttpLifecycleControlObservation as ControlObservation,
+    McpHttpLifecycleStreamMessage as StreamMessage,
+    McpHttpLifecycleStreamObservation as StreamObservation, McpHttpObservationsPeerData,
 };
 use base64::{Engine as _, engine::general_purpose::STANDARD};
+use futures::{StreamExt, future::BoxFuture, stream::FuturesUnordered};
 use serde::de::{self, MapAccess, SeqAccess, Visitor};
 use serde::{Deserialize, Deserializer};
 use serde_json::{Value, json};
@@ -48,7 +57,6 @@ pub async fn exchange(
         request,
         input,
         deadline,
-        false,
         &mut Vec::new(),
     )
     .await
@@ -56,7 +64,7 @@ pub async fn exchange(
 
 enum Driver {
     Builder(Box<reqwest::ClientBuilder>),
-    Pooled(reqwest::Client),
+    Pooled(reqwest::Client, Option<usize>),
 }
 
 pub(crate) fn strict_builder(builder: reqwest::ClientBuilder) -> reqwest::ClientBuilder {
@@ -74,15 +82,14 @@ pub(crate) async fn pooled_exchange(
     request: reqwest::Request,
     input: &ExchangeInput,
     deadline: Instant,
-    initialize: bool,
+    initialize_session_limit: Option<usize>,
 ) -> Result<(ExchangeResult, Vec<reqwest::header::HeaderValue>), ClientError> {
     let mut session = Vec::new();
     let result = exchange_inner(
-        Driver::Pooled(client.clone()),
+        Driver::Pooled(client.clone(), initialize_session_limit),
         request,
         input,
         deadline,
-        initialize,
         &mut session,
     )
     .await?;
@@ -94,9 +101,14 @@ async fn exchange_inner(
     mut request: reqwest::Request,
     input: &ExchangeInput,
     deadline: Instant,
-    initialize: bool,
     session: &mut Vec<reqwest::header::HeaderValue>,
 ) -> Result<ExchangeResult, ClientError> {
+    let controlled = matches!(&driver, Driver::Pooled(..));
+    let session_limit = match &driver {
+        Driver::Pooled(_, limit) => *limit,
+        Driver::Builder(_) => None,
+    };
+    let initialize = session_limit.is_some();
     let started = Instant::now();
     let mut received = Reception::new(
         input
@@ -107,6 +119,9 @@ async fn exchange_inner(
             .and_then(|n| usize::try_from(n).ok())
             .unwrap_or(0),
     );
+    if controlled {
+        received.shared = Some(Arc::new(AtomicUsize::new(received.limit)));
+    }
     let (body, id, revision, provider, connect, execution, event_limit) =
         match validate(input, initialize) {
             Ok(valid) => valid,
@@ -140,7 +155,7 @@ async fn exchange_inner(
             .map_or(remaining, |t| t.min(remaining)),
     );
     let client = match driver {
-        Driver::Pooled(client) => client,
+        Driver::Pooled(client, _) => client,
         Driver::Builder(builder) => match strict_builder(*builder)
             .connect_timeout(connect.min(remaining))
             .build()
@@ -152,31 +167,269 @@ async fn exchange_inner(
     if Instant::now() >= end {
         return received.refuse("deadline_exhausted");
     }
-    // reqwest exposes no per-byte send callback. Until headers arrive, retain
-    // uncertainty; entering execute is not evidence that request bytes left.
+    let mut control = if controlled && !matches!(semantics, HttpSemantics::Modern) {
+        Some(ControlPort::new(&client, &request, input)?)
+    } else {
+        None
+    };
+    let response = match send_request(&client, request, &mut received, end).await {
+        Ok(response) => response,
+        Err(reason) => return received.refuse(reason),
+    };
+    if initialize {
+        session.extend(response.headers().get_all("mcp-session-id").iter().cloned());
+        if let Some(control) = &mut control {
+            control.install_session(session, session_limit.unwrap_or(0));
+        }
+    }
+    receive(
+        response,
+        received,
+        &ResponseContext {
+            id,
+            event_limit,
+            end,
+            semantics,
+            controlled,
+            control,
+        },
+    )
+    .await
+}
+
+async fn send_request(
+    client: &reqwest::Client,
+    request: reqwest::Request,
+    received: &mut Reception,
+    end: Instant,
+) -> Result<reqwest::Response, &'static str> {
+    // Entering execute is not evidence that request bytes left.
     received.send = "unknown";
     let response = match timeout_at(end, client.execute(request)).await {
         Ok(Ok(response)) => response,
         Ok(Err(error)) => {
-            return received.refuse(if error.is_timeout() {
+            return Err(if error.is_timeout() {
                 "deadline_exhausted"
             } else {
                 "transport_failure"
             });
         }
-        Err(_) => return received.refuse("deadline_exhausted"),
+        Err(_) => return Err("deadline_exhausted"),
     };
     received.send = "send_observed";
-    // Some HTTP stacks carry extension statuses up to 999. The strict model
-    // admits only 100..599; an invalid status is not an admitted HttpStatus.
     if !(100..=599).contains(&response.status().as_u16()) {
-        return received.refuse("invalid_response");
+        return Err("invalid_response");
     }
     received.status = Some(response.status().as_u16());
-    if initialize {
-        session.extend(response.headers().get_all("mcp-session-id").iter().cloned());
+    Ok(response)
+}
+
+struct ResponseContext {
+    id: Value,
+    event_limit: usize,
+    end: Instant,
+    semantics: HttpSemantics,
+    controlled: bool,
+    control: Option<ControlPort>,
+}
+
+struct ControlPort {
+    client: reqwest::Client,
+    template: reqwest::Request,
+    request_limit: usize,
+    session_valid: bool,
+}
+impl ControlPort {
+    fn fork(&self) -> Result<Self, ClientError> {
+        Ok(Self {
+            client: self.client.clone(),
+            template: self.template.try_clone().ok_or_else(internal_error)?,
+            request_limit: self.request_limit,
+            session_valid: self.session_valid,
+        })
     }
-    receive(response, received, &id, event_limit, end, semantics).await
+    fn new(
+        client: &reqwest::Client,
+        request: &reqwest::Request,
+        input: &ExchangeInput,
+    ) -> Result<Self, ClientError> {
+        let mut template = request.try_clone().ok_or_else(internal_error)?;
+        *template.body_mut() = None;
+        for name in ["content-length", "mcp-method", "mcp-name"] {
+            template.headers_mut().remove(name);
+        }
+        let parameters: Vec<_> = template
+            .headers()
+            .keys()
+            .filter(|k| k.as_str().starts_with("mcp-param-"))
+            .cloned()
+            .collect();
+        for name in parameters {
+            template.headers_mut().remove(name);
+        }
+        Ok(Self {
+            client: client.clone(),
+            template,
+            request_limit: input
+                .budget
+                .request_octets
+                .0
+                .as_u64()
+                .and_then(|n| usize::try_from(n).ok())
+                .ok_or_else(internal_error)?,
+            session_valid: true,
+        })
+    }
+
+    fn install_session(&mut self, values: &[reqwest::header::HeaderValue], limit: usize) {
+        if values.is_empty() {
+            return;
+        }
+        self.session_valid = values.len() == 1
+            && !values[0].is_empty()
+            && values[0].as_bytes().len() <= limit
+            && values[0]
+                .as_bytes()
+                .iter()
+                .all(|b| (0x21..=0x7e).contains(b));
+        if self.session_valid {
+            let mut value = values[0].clone();
+            value.set_sensitive(true);
+            self.template.headers_mut().insert("mcp-session-id", value);
+        }
+    }
+
+    async fn reply(
+        &self,
+        message: &Value,
+        received: &Mutex<Reception>,
+        end: Instant,
+    ) -> Result<ControlObservation, ClientError> {
+        let ping = message["method"] == "ping";
+        let body = if ping {
+            json!({"jsonrpc":"2.0","id":message["id"],"result":{}})
+        } else {
+            json!({"jsonrpc":"2.0","id":message["id"],"error":{"code":-32601,"message":"Client method not supported"}})
+        };
+        let body = serde_json::to_vec(&body).map_err(|_| internal_error())?;
+        let mut request = self.template.try_clone().ok_or_else(internal_error)?;
+        let outcome = async {
+            if !self.session_valid {
+                return Err("invalid_response");
+            }
+            if body.len() > self.request_limit {
+                return Err("request_bound");
+            }
+            if Instant::now() >= end {
+                return Err("deadline_exhausted");
+            }
+            prepare_request(&mut request, body, "2025-11-25")?;
+            let remaining = end.saturating_duration_since(Instant::now());
+            *request.timeout_mut() = Some(
+                request
+                    .timeout()
+                    .copied()
+                    .map_or(remaining, |t| t.min(remaining)),
+            );
+            received.lock().map_err(|_| "transport_failure")?.send = "unknown";
+            let response = match timeout_at(end, self.client.execute(request)).await {
+                Ok(Ok(response)) => response,
+                Ok(Err(error)) => {
+                    return Err(if error.is_timeout() {
+                        "deadline_exhausted"
+                    } else {
+                        "transport_failure"
+                    });
+                }
+                Err(_) => return Err("deadline_exhausted"),
+            };
+            receive_reply(response, received, end).await?;
+            let state = received.lock().map_err(|_| "transport_failure")?;
+            match state.status {
+                Some(202) if state.seen == 0 => Ok(()),
+                Some(200..=299) => Err("invalid_response"),
+                Some(401 | 403) => Err("authorization_required"),
+                Some(404) if self.template.headers().contains_key("mcp-session-id") => {
+                    Err("session_expired")
+                }
+                _ => Err("http_status"),
+            }
+        }
+        .await;
+        control_observation(
+            received,
+            if ping {
+                "ping_reply"
+            } else {
+                "unsupported_request_reply"
+            },
+            outcome,
+        )
+    }
+}
+
+fn control_observation(
+    state: &Mutex<Reception>,
+    kind: &str,
+    outcome: Result<(), &str>,
+) -> Result<ControlObservation, ClientError> {
+    let received = state.lock().map_err(|_| internal_error())?;
+    let mut value = json!({"control":kind,"exchange":received.wire_observation(),"disposition":if outcome.is_ok() {"accepted"} else {"refused"}});
+    if let Err(reason) = outcome {
+        value["refusal"] = json!(reason);
+    }
+    serde_json::from_value(value).map_err(|_| internal_error())
+}
+
+async fn receive_reply(
+    mut response: reqwest::Response,
+    state: &Mutex<Reception>,
+    end: Instant,
+) -> Result<(), &'static str> {
+    {
+        let mut received = state.lock().map_err(|_| "transport_failure")?;
+        received.send = "send_observed";
+        let status = response.status().as_u16();
+        if !(100..=599).contains(&status) {
+            return Err("invalid_response");
+        }
+        received.status = Some(status);
+    }
+    let encoded = response
+        .headers()
+        .get_all("content-encoding")
+        .iter()
+        .any(|v| v != "identity");
+    loop {
+        let chunk = timeout_at(end, response.chunk()).await;
+        let mut received = state.lock().map_err(|_| "transport_failure")?;
+        match chunk {
+            Ok(Ok(Some(chunk))) if received.append(&chunk) => {}
+            Ok(Ok(Some(_))) => return Err("response_bound"),
+            Ok(Ok(None)) => {
+                received.whole = true;
+                break;
+            }
+            Ok(Err(error)) => {
+                return Err(if error.is_timeout() {
+                    "deadline_exhausted"
+                } else {
+                    "transport_failure"
+                });
+            }
+            Err(_) => return Err("deadline_exhausted"),
+        }
+        if Instant::now() >= end {
+            return Err("deadline_exhausted");
+        }
+    }
+    if Instant::now() >= end {
+        Err("deadline_exhausted")
+    } else if encoded {
+        Err("unsupported_response")
+    } else {
+        Ok(())
+    }
 }
 
 #[derive(Clone, Copy)]
@@ -569,6 +822,8 @@ struct Reception {
     terminal: bool,
     send: &'static str,
     status: Option<u16>,
+    stream: Vec<StreamMessage>,
+    shared: Option<Arc<AtomicUsize>>,
 }
 impl Reception {
     fn new(limit: usize) -> Self {
@@ -580,15 +835,32 @@ impl Reception {
             terminal: false,
             send: "not_sent",
             status: None,
+            stream: Vec::new(),
+            shared: None,
         }
     }
     fn append(&mut self, bytes: &[u8]) -> bool {
         self.seen = self.seen.saturating_add(bytes.len());
-        let keep = self.limit.saturating_sub(self.bytes.len()).min(bytes.len());
+        let mut keep = self.limit.saturating_sub(self.bytes.len()).min(bytes.len());
+        if let Some(shared) = &self.shared {
+            let available = shared
+                .fetch_update(Ordering::Relaxed, Ordering::Relaxed, |n| {
+                    Some(n.saturating_sub(keep))
+                })
+                .expect("infallible update");
+            keep = keep.min(available);
+        }
         self.bytes.extend_from_slice(&bytes[..keep]);
-        self.seen <= self.limit
+        self.seen <= self.limit && keep == bytes.len()
     }
     fn observation(&self) -> Value {
+        let mut value = self.wire_observation();
+        if !self.stream.is_empty() {
+            value["stream"] = json!({"messages":self.stream});
+        }
+        value
+    }
+    fn wire_observation(&self) -> Value {
         let mut value = json!({
             "send":self.send, "terminal":if self.terminal {"correlated_terminal"} else {"incomplete"},
             "response":{"bytes":STANDARD.encode(&self.bytes),
@@ -600,6 +872,15 @@ impl Reception {
             value["http_status"] = json!(status);
         }
         value
+    }
+    fn consume_message(&mut self) {
+        if self.shared.is_none() {
+            self.limit = self.limit.saturating_sub(self.bytes.len());
+        }
+        self.bytes.clear();
+        self.seen = 0;
+        self.whole = false;
+        self.terminal = false;
     }
     fn refuse(&self, reason: &str) -> Result<ExchangeResult, ClientError> {
         carrier(
@@ -703,26 +984,46 @@ fn carrier(mut value: Value) -> Result<ExchangeResult, ClientError> {
 }
 
 async fn receive(
-    mut response: reqwest::Response,
+    response: reqwest::Response,
     mut received: Reception,
-    id: &Value,
-    event_limit: usize,
-    end: Instant,
-    semantics: HttpSemantics,
+    context: &ResponseContext,
 ) -> Result<ExchangeResult, ClientError> {
-    let media = response
-        .headers()
-        .get("content-type")
-        .and_then(|v| v.to_str().ok())
-        .and_then(|v| v.split(';').next())
-        .unwrap_or("")
-        .trim()
-        .to_ascii_lowercase();
-    let encoded = response
-        .headers()
-        .get_all("content-encoding")
-        .iter()
-        .any(|v| v != "identity");
+    let mut controls = Controls::default();
+    let result = receive_inner(response, &mut received, context, &mut controls).await;
+    let overflow = controls.finish(&mut received, context.end).await?;
+    let mut result = if overflow {
+        received.refuse("response_bound")?
+    } else {
+        result?
+    };
+    let observation = match &mut result {
+        ExchangeResult::V0(branch) => &mut branch.value.observation,
+        ExchangeResult::V1(branch) => &mut branch.value.observation,
+        ExchangeResult::V2(branch) => &mut branch.value.observation,
+    };
+    if !received.stream.is_empty() {
+        observation.stream = EssPresence::Present(Box::new(StreamObservation {
+            messages: received.stream.into_iter().map(Box::new).collect(),
+        }));
+    }
+    Ok(result)
+}
+
+async fn receive_inner(
+    mut response: reqwest::Response,
+    received: &mut Reception,
+    context: &ResponseContext,
+    controls: &mut Controls,
+) -> Result<ExchangeResult, ClientError> {
+    let ResponseContext {
+        id,
+        event_limit,
+        end,
+        semantics,
+        ..
+    } = context;
+    let end = *end;
+    let (media, encoded) = response_format(&response);
     let status = received.status.unwrap_or(0);
     let status_reason = match status {
         200..=299 => None,
@@ -731,9 +1032,19 @@ async fn receive(
         _ => Some("http_status"),
     };
     let is_sse = media == "text/event-stream" && status_reason.is_none() && !encoded;
-    let mut sse = Events::new(event_limit);
+    let mode = if !context.controlled {
+        EventMode::Raw
+    } else if matches!(semantics, HttpSemantics::Modern) {
+        EventMode::Modern
+    } else {
+        EventMode::Legacy
+    };
+    let mut sse = Events::new(*event_limit, mode);
     loop {
-        let chunk = match timeout_at(end, response.chunk()).await {
+        let chunk = match controls
+            .drive(received, timeout_at(end, response.chunk()))
+            .await?
+        {
             Ok(Ok(chunk)) => chunk,
             Ok(Err(error)) => {
                 return received.refuse(if error.is_timeout() {
@@ -749,12 +1060,10 @@ async fn receive(
         };
         if is_sse {
             for byte in chunk {
-                if let Some(result) = sse.byte(byte, &mut received, id)? {
-                    return if Instant::now() >= end {
-                        received.refuse("deadline_exhausted")
-                    } else {
-                        Ok(result)
-                    };
+                if let Some(frame) = sse.byte(byte, received, id)? {
+                    if let Some(result) = dispatch_frame(frame, received, context, controls)? {
+                        return Ok(result);
+                    }
                 }
             }
         } else if !received.append(&chunk) {
@@ -765,12 +1074,10 @@ async fn receive(
         }
     }
     if is_sse {
-        if let Some(result) = sse.end(&mut received, id)? {
-            return if Instant::now() >= end {
-                received.refuse("deadline_exhausted")
-            } else {
-                Ok(result)
-            };
+        if let Some(frame) = sse.end(received, id)? {
+            if let Some(result) = dispatch_frame(frame, received, context, controls)? {
+                return Ok(result);
+            }
         }
         // An EOF never dispatches a pending SSE event. Only line delimiters do.
         received.whole = false;
@@ -808,10 +1115,183 @@ async fn receive(
     }
 }
 
+fn response_format(response: &reqwest::Response) -> (String, bool) {
+    let media = response
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .and_then(|v| v.split(';').next())
+        .unwrap_or("")
+        .trim()
+        .to_ascii_lowercase();
+    let encoded = response
+        .headers()
+        .get_all("content-encoding")
+        .iter()
+        .any(|v| v != "identity");
+    (media, encoded)
+}
+
+enum Frame {
+    Terminal(ExchangeResult),
+    Message(Value),
+}
+fn terminal_frame(result: ExchangeResult) -> Frame {
+    Frame::Terminal(result)
+}
+
+fn dispatch_frame(
+    frame: Frame,
+    received: &mut Reception,
+    context: &ResponseContext,
+    controls: &mut Controls,
+) -> Result<Option<ExchangeResult>, ClientError> {
+    if Instant::now() >= context.end {
+        return received.refuse("deadline_exhausted").map(Some);
+    }
+    let Frame::Message(message) = frame else {
+        let Frame::Terminal(result) = frame else {
+            unreachable!()
+        };
+        return Ok(Some(result));
+    };
+    let raw = received.wire_observation();
+    if message.get("id").is_none() {
+        received.stream.push(
+            serde_json::from_value(json!({"kind":"notification","value":raw}))
+                .map_err(|_| internal_error())?,
+        );
+        received.consume_message();
+        return Ok(None);
+    }
+    let Some(control) = &context.control else {
+        return received.refuse("invalid_response").map(Some);
+    };
+    controls.start(control, message, received, context.end)?;
+    received.consume_message();
+    Ok(None)
+}
+
+struct PendingReply {
+    raw: Value,
+    kind: &'static str,
+    state: Arc<Mutex<Reception>>,
+}
+#[derive(Default)]
+struct Controls {
+    jobs: FuturesUnordered<BoxFuture<'static, (usize, Result<ControlObservation, ClientError>)>>,
+    pending: BTreeMap<usize, PendingReply>,
+    overflow: bool,
+}
+impl Controls {
+    fn start(
+        &mut self,
+        port: &ControlPort,
+        message: Value,
+        received: &mut Reception,
+        end: Instant,
+    ) -> Result<(), ClientError> {
+        let port = port.fork()?;
+        let shared = received.shared.clone().ok_or_else(internal_error)?;
+        let mut reception = Reception::new(shared.load(Ordering::Relaxed));
+        reception.shared = Some(shared);
+        let state = Arc::new(Mutex::new(reception));
+        let kind = if message["method"] == "ping" {
+            "ping_reply"
+        } else {
+            "unsupported_request_reply"
+        };
+        let raw = received.wire_observation();
+        let index = received.stream.len();
+        // Internal placeholder only; finish replaces every slot before a report
+        // is returned. It reserves original message order independently of I/O.
+        received.stream.push(
+            serde_json::from_value(json!({"kind":"notification","value":raw}))
+                .map_err(|_| internal_error())?,
+        );
+        self.pending.insert(
+            index,
+            PendingReply {
+                raw,
+                kind,
+                state: state.clone(),
+            },
+        );
+        self.jobs.push(Box::pin(async move {
+            (index, port.reply(&message, &state, end).await)
+        }));
+        Ok(())
+    }
+    fn complete(
+        &mut self,
+        index: usize,
+        reply: ControlObservation,
+        received: &mut Reception,
+    ) -> Result<(), ClientError> {
+        let pending = self.pending.remove(&index).ok_or_else(internal_error)?;
+        let reply = serde_json::to_value(reply).map_err(|_| internal_error())?;
+        self.overflow |= reply["refusal"] == "response_bound";
+        received.stream[index] = serde_json::from_value(
+            json!({"kind":"server_request","value":{"request":pending.raw,"reply":reply}}),
+        )
+        .map_err(|_| internal_error())?;
+        Ok(())
+    }
+    async fn drive<F: Future>(
+        &mut self,
+        received: &mut Reception,
+        read: F,
+    ) -> Result<F::Output, ClientError> {
+        tokio::pin!(read);
+        loop {
+            tokio::select! {
+                result = &mut read => return Ok(result),
+                Some((index, reply)) = self.jobs.next(), if !self.jobs.is_empty() => {
+                    self.complete(index, reply?, received)?;
+                }
+            }
+        }
+    }
+    async fn finish(
+        &mut self,
+        received: &mut Reception,
+        end: Instant,
+    ) -> Result<bool, ClientError> {
+        while !self.jobs.is_empty() {
+            match timeout_at(end, self.jobs.next()).await {
+                Ok(Some((index, reply))) => self.complete(index, reply?, received)?,
+                Ok(None) | Err(_) => break,
+            }
+        }
+        // The exchange owns these futures directly. Dropping it or reaching its
+        // deadline drops every pending reply; no library control task survives.
+        drop(std::mem::take(&mut self.jobs));
+        let unresolved: Vec<_> = self.pending.keys().copied().collect();
+        for index in unresolved {
+            let pending = &self.pending[&index];
+            let reply =
+                control_observation(&pending.state, pending.kind, Err("deadline_exhausted"))?;
+            self.complete(index, reply, received)?;
+        }
+        Ok(self.overflow)
+    }
+}
+
 #[derive(Clone, Copy)]
 enum StreamStart {
     Initial,
     Passed,
+}
+enum LineEnding {
+    None,
+    PendingCr,
+    SkipLf(Option<usize>),
+}
+#[derive(Clone, Copy)]
+enum EventMode {
+    Raw,
+    Modern,
+    Legacy,
 }
 
 struct Events {
@@ -821,11 +1301,12 @@ struct Events {
     event_type: Vec<u8>,
     has_data: bool,
     line_data_started: bool,
-    pending_cr: bool,
+    ending: LineEnding,
     stream_start: StreamStart,
+    mode: EventMode,
 }
 impl Events {
-    fn new(limit: usize) -> Self {
+    fn new(limit: usize, mode: EventMode) -> Self {
         Self {
             limit,
             octets: 0,
@@ -833,8 +1314,9 @@ impl Events {
             event_type: Vec::new(),
             has_data: false,
             line_data_started: false,
-            pending_cr: false,
+            ending: LineEnding::None,
             stream_start: StreamStart::Initial,
+            mode,
         }
     }
     fn byte(
@@ -842,13 +1324,31 @@ impl Events {
         byte: u8,
         received: &mut Reception,
         id: &Value,
-    ) -> Result<Option<ExchangeResult>, ClientError> {
-        if self.pending_cr {
-            self.pending_cr = false;
+    ) -> Result<Option<Frame>, ClientError> {
+        let ending = std::mem::replace(&mut self.ending, LineEnding::None);
+        if let LineEnding::SkipLf(previous) = ending {
+            if byte == b'\n' {
+                let count = previous.unwrap_or(self.octets).saturating_add(1);
+                if count > self.limit {
+                    return received
+                        .refuse("sse_event_bound")
+                        .map(terminal_frame)
+                        .map(Some);
+                }
+                if previous.is_none() {
+                    self.octets = count;
+                }
+                return Ok(None);
+            }
+        }
+        if matches!(ending, LineEnding::PendingCr) {
             if byte == b'\n' {
                 self.octets = self.octets.saturating_add(1);
                 if self.octets > self.limit {
-                    return received.refuse("sse_event_bound").map(Some);
+                    return received
+                        .refuse("sse_event_bound")
+                        .map(terminal_frame)
+                        .map(Some);
                 }
                 return self.line(received, id);
             }
@@ -858,10 +1358,21 @@ impl Events {
         }
         self.octets = self.octets.saturating_add(1);
         if self.octets > self.limit {
-            return received.refuse("sse_event_bound").map(Some);
+            return received
+                .refuse("sse_event_bound")
+                .map(terminal_frame)
+                .map(Some);
         }
         match byte {
-            b'\r' => self.pending_cr = true,
+            // A bare CR completes a line. Waiting for the next byte can
+            // deadlock a legacy peer waiting for its ping reply. A following
+            // LF is suppressed as a second delimiter but still charged, even
+            // when it arrives in a later network chunk after a control reply.
+            b'\r' if !matches!(self.mode, EventMode::Raw) => {
+                self.ending = LineEnding::SkipLf(self.line.is_empty().then_some(self.octets));
+                return self.line(received, id);
+            }
+            b'\r' => self.ending = LineEnding::PendingCr,
             b'\n' => return self.line(received, id),
             _ => {
                 self.line.push(byte);
@@ -870,7 +1381,10 @@ impl Events {
                     if !self.line_data_started {
                         self.line_data_started = true;
                         if self.has_data && !received.append(b"\n") {
-                            return received.refuse("response_bound").map(Some);
+                            return received
+                                .refuse("response_bound")
+                                .map(terminal_frame)
+                                .map(Some);
                         }
                         self.has_data = true;
                     }
@@ -878,18 +1392,17 @@ impl Events {
                         && !(field_line.len() == 6 && byte == b' ')
                         && !received.append(&[byte])
                     {
-                        return received.refuse("response_bound").map(Some);
+                        return received
+                            .refuse("response_bound")
+                            .map(terminal_frame)
+                            .map(Some);
                     }
                 }
             }
         }
         Ok(None)
     }
-    fn line(
-        &mut self,
-        received: &mut Reception,
-        id: &Value,
-    ) -> Result<Option<ExchangeResult>, ClientError> {
+    fn line(&mut self, received: &mut Reception, id: &Value) -> Result<Option<Frame>, ClientError> {
         let line = std::mem::take(&mut self.line);
         let line = without_bom(
             &line,
@@ -901,10 +1414,36 @@ impl Events {
             if self.has_data {
                 received.whole = true;
                 if !self.event_type.is_empty() && self.event_type != b"message" {
-                    return received.refuse("unsupported_response").map(Some);
+                    return received
+                        .refuse("unsupported_response")
+                        .map(terminal_frame)
+                        .map(Some);
+                }
+                // Legacy Streamable HTTP explicitly permits an empty data
+                // priming event. It carries no JSON-RPC message or authority.
+                if matches!(self.mode, EventMode::Legacy) && received.bytes.is_empty() {
+                    self.event_type.clear();
+                    self.has_data = false;
+                    received.whole = false;
+                    return Ok(None);
+                }
+                if !matches!(self.mode, EventMode::Raw) {
+                    if let Some(message) =
+                        parse(&received.bytes).filter(|v| v.get("method").is_some())
+                    {
+                        if !valid_message(&message) {
+                            return received
+                                .refuse("invalid_response")
+                                .map(terminal_frame)
+                                .map(Some);
+                        }
+                        self.event_type.clear();
+                        self.has_data = false;
+                        return Ok(Some(Frame::Message(message)));
+                    }
                 }
                 if let Some(result) = received.envelope(id, true)? {
-                    return Ok(Some(result));
+                    return Ok(Some(terminal_frame(result)));
                 }
                 // Completed notifications are not the pending terminal message.
                 received.bytes.clear();
@@ -921,11 +1460,17 @@ impl Events {
             let value = value.strip_prefix(b" ").unwrap_or(value);
             if field == b"data" && !data_started {
                 if self.has_data && !received.append(b"\n") {
-                    return received.refuse("response_bound").map(Some);
+                    return received
+                        .refuse("response_bound")
+                        .map(terminal_frame)
+                        .map(Some);
                 }
                 self.has_data = true;
                 if !received.append(value) {
-                    return received.refuse("response_bound").map(Some);
+                    return received
+                        .refuse("response_bound")
+                        .map(terminal_frame)
+                        .map(Some);
                 }
             } else if field == b"event" {
                 self.event_type = value.to_vec();
@@ -933,17 +1478,24 @@ impl Events {
         }
         Ok(None)
     }
-    fn end(
-        &mut self,
-        received: &mut Reception,
-        id: &Value,
-    ) -> Result<Option<ExchangeResult>, ClientError> {
-        if self.pending_cr {
-            self.pending_cr = false;
+    fn end(&mut self, received: &mut Reception, id: &Value) -> Result<Option<Frame>, ClientError> {
+        if matches!(self.ending, LineEnding::PendingCr) {
+            self.ending = LineEnding::None;
             return self.line(received, id);
         }
         Ok(None)
     }
+}
+
+fn valid_message(message: &Value) -> bool {
+    message["jsonrpc"] == "2.0"
+        && message["method"].as_str().is_some_and(|m| !m.is_empty())
+        && message.get("id").is_none_or(valid_id)
+        && message.get("result").is_none()
+        && message.get("error").is_none()
+        && message
+            .get("params")
+            .is_none_or(|p| p.is_object() || p.is_array())
 }
 
 fn without_bom(line: &[u8], stream_start: StreamStart) -> &[u8] {

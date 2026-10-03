@@ -6,6 +6,38 @@ summary: Revision-specific HTTP progress, control-message and shutdown observati
 # These are immutable observations, never persisted requests, capabilities,
 # credentials or a way to manufacture a runtime cancellation handle.
 types:
+  - name: mcp.http_lifecycle.StreamObservation
+    kind: struct
+    fields:
+      - {name: messages, type: "List<mcp.http_lifecycle.StreamMessage>"}
+    # L8: actual message order and separate control responses are retained in
+    # the originating exchange, including its failure paths. Cumulative retained
+    # message bytes, control response bytes and final response together consume
+    # the existing response ceiling. Exhaustion refuses without silent eviction.
+    # Framing retains its independent per-event bound. No stream resumption.
+    # L9: control I/O cannot block observing the original terminal. Controls and
+    # the original receiver share an atomic retention allowance; each separate
+    # request future is owned by the exchange and shares its deadline. Unfinished
+    # control futures are dropped before return or when the exchange is dropped.
+    # A delayed control acknowledgement does not turn an already observed valid
+    # business result into an unknown outcome. A control overflow still refuses
+    # the overall bounded exchange, preserving any observed business terminal.
+  - name: mcp.http_lifecycle.StreamMessage
+    kind: union
+    tag: kind
+    variants:
+      notification: mcp.http_exchange.WireObservation
+      progress: mcp.http_lifecycle.ProgressObservation
+      server_request: mcp.http_lifecycle.ServerRequestObservation
+  - name: mcp.http_lifecycle.ServerRequestObservation
+    kind: struct
+    fields:
+      - {name: request, type: mcp.http_exchange.WireObservation}
+      - {name: reply, type: mcp.http_lifecycle.ControlObservation}
+    # Received request and the observation of its one separate reply attempt.
+    # Legacy initialization may receive ping before its final result. A session
+    # header must pass the configured header bound and syntax/uniqueness checks
+    # before a reply echoes it. Modern requests get no reply and stay refused.
   - name: mcp.http_lifecycle.ProgressDisposition
     kind: enum
     variants: [accepted, unmatched_token, non_increasing]
@@ -17,7 +49,7 @@ types:
       - {name: total, type: "Optional<Json>"}
       - {name: message, type: "Optional<String>"}
       - {name: disposition, type: mcp.http_lifecycle.ProgressDisposition}
-      - {name: exchange, type: mcp.http_exchange.ExchangeObservation}
+      - {name: exchange, type: mcp.http_exchange.WireObservation}
     # L1: progress/total must be actual JSON numbers, preserved without f64
     # coercion. A token must match an explicitly opted-in active request. Unknown
     # tokens are retained as unmatched observations, never related progress.
@@ -41,7 +73,7 @@ types:
     fields:
       - {name: control, type: mcp.http_lifecycle.ControlKind}
       - {name: disposition, type: mcp.http_lifecycle.ControlDisposition}
-      - {name: exchange, type: mcp.http_exchange.ExchangeObservation}
+      - {name: exchange, type: mcp.http_exchange.WireObservation}
       - {name: refusal, type: "Optional<mcp.http_exchange.RefusalReason>"}
     # L3: accepted requires an actual response: empty202 for a notification or
     # JSON-RPC reply POST, 2xx for DELETE. Only DELETE permits405, represented

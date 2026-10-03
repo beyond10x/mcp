@@ -1,0 +1,24 @@
+type: ess-scenario/4
+domain: mcp.strict_stream_checks
+scenario: stream-setup-session-duplicate-2025-11-25
+summary: Actual stream-setup-session-duplicate under configured 2025-11-25.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_stream_checks.ObserveStream
+    input: {case: stream-setup-session-duplicate, revision: "2025-11-25"}
+    outcome: observed
+    response:
+      kind: "result"
+      reason: "absent"
+      setup_reason: "invalid_session_header"
+      requests: 1
+      replies: 0
+      messages: 1
+      notifications: 0
+      disposition: "refused"
+      side_refusal: "invalid_response"
+      id_agreement: true
+      header_agreement: true
+      retained_bound: true
+      own_payload: true
+

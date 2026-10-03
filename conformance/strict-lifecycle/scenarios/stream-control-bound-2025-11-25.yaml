@@ -1,0 +1,24 @@
+type: ess-scenario/4
+domain: mcp.strict_stream_checks
+scenario: stream-control-bound-2025-11-25
+summary: Actual stream-control-bound under configured 2025-11-25.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_stream_checks.ObserveStream
+    input: {case: stream-control-bound, revision: "2025-11-25"}
+    outcome: observed
+    response:
+      kind: "refused"
+      reason: "response_bound"
+      setup_reason: "absent"
+      requests: 4
+      replies: 1
+      messages: 1
+      notifications: 0
+      disposition: "refused"
+      side_refusal: "response_bound"
+      id_agreement: true
+      header_agreement: true
+      retained_bound: true
+      own_payload: false
+

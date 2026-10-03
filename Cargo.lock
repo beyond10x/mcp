@@ -153,6 +153,7 @@ dependencies = [
  "clap",
  "ess-conformance",
  "ess-primitives",
+ "futures",
  "http",
  "jsonschema",
  "reqwest 0.13.4",
