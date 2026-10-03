@@ -1,0 +1,19 @@
+type: ess-scenario/4
+domain: mcp.strict_connection_checks
+scenario: setup-request-bound-2025-11-25
+summary: Actual setup-request-bound wire observations under configured 2025-11-25.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_connection_checks.ObserveSetup
+    input: {case: setup-request-bound, revision: "2025-11-25"}
+    outcome: observed
+    response:
+      ready: false
+      calls: 0
+      reason: "exchange_refused"
+      first_method: ""
+      last_method: ""
+      session_echoed: false
+      configured_revision: ""
+      business_kind: ""
+      modern_metadata: false

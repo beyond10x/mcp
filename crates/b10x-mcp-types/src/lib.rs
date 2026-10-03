@@ -1,7 +1,7 @@
 #![forbid(unsafe_code)]
 //! I/O-free public values for the b10x MCP client.
 
-/// Generated structural carriers for strict HTTP exchanges.
+/// Generated structural carriers for strict HTTP exchanges and connection setup.
 ///
 /// These codecs do not establish the constraints in `types-report.json` or
 /// truthful wire observations. Use the strict receiver to obtain observations.

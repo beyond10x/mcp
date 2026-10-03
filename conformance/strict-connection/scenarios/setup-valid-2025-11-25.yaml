@@ -1,0 +1,19 @@
+type: ess-scenario/4
+domain: mcp.strict_connection_checks
+scenario: setup-valid-2025-11-25
+summary: Actual setup-valid wire observations under configured 2025-11-25.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_connection_checks.ObserveSetup
+    input: {case: setup-valid, revision: "2025-11-25"}
+    outcome: observed
+    response:
+      ready: true
+      calls: 2
+      reason: ""
+      first_method: "initialize"
+      last_method: "notifications/initialized"
+      session_echoed: true
+      configured_revision: "2025-11-25"
+      business_kind: ""
+      modern_metadata: false

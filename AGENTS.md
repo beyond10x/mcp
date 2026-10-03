@@ -31,7 +31,7 @@
 
 `cargo xtask gate` (also `task check`) checks the exact ESS/AEP versions and source
 revisions in `toolchain.json`, validates ESS, compares the generated constructor,
-HTTP replay and strict HTTP suites, generated exchange types and remaining refusal
+HTTP replay, strict HTTP and connection suites, generated types and remaining refusal
 identities, and validates AEP. It then runs `cargo fmt --all --check`,
 `cargo check --workspace --locked`, `cargo test --workspace --all-features --locked`,
 `cargo clippy --workspace --all-targets --all-features --locked -- -D warnings` and

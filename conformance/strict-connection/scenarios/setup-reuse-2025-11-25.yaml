@@ -1,0 +1,19 @@
+type: ess-scenario/4
+domain: mcp.strict_connection_checks
+scenario: setup-reuse-2025-11-25
+summary: Actual setup-reuse wire observations under configured 2025-11-25.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_connection_checks.ObserveSetup
+    input: {case: setup-reuse, revision: "2025-11-25"}
+    outcome: observed
+    response:
+      ready: true
+      calls: 3
+      reason: ""
+      first_method: "initialize"
+      last_method: "tools/call"
+      session_echoed: true
+      configured_revision: "2025-11-25"
+      business_kind: "result"
+      modern_metadata: false

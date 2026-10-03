@@ -1,0 +1,19 @@
+type: ess-scenario/4
+domain: mcp.strict_connection_checks
+scenario: setup-deadline-2025-11-25
+summary: Actual setup-deadline wire observations under configured 2025-11-25.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_connection_checks.ObserveSetup
+    input: {case: setup-deadline, revision: "2025-11-25"}
+    outcome: observed
+    response:
+      ready: false
+      calls: 2
+      reason: "deadline_exhausted"
+      first_method: "initialize"
+      last_method: "notifications/initialized"
+      session_echoed: true
+      configured_revision: ""
+      business_kind: ""
+      modern_metadata: false

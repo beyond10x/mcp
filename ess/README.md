@@ -49,7 +49,7 @@ missing native invariant observation, skipped case or undeclared coverage remain
 visible; do not weaken nominal constraints or fabricate state to remove it.
 
 `cargo xtask gate` and `task check` validate the specification, regenerate and
-compare the partial suite byte-for-byte, check all eight partial refusals and all
+compare the partial suite byte-for-byte, check all nine partial refusals and all
 three full authored-selection refusals, validate AEP and run the target through
 workspace tests. Unexpected synthesis success is drift requiring review, just as
 a new refusal or missing case is. The narrower `cargo xtask specification` performs
@@ -64,5 +64,8 @@ obligations. Rust type projection succeeds but represents Bytes as padded-base64
 String and Integer as `serde_json::Number`; structural decoding does not enforce
 base64, integrality or invariants. The strict receiver guards its admitted inputs
 and produces observations from actual bytes. The gate regenerates all four data
-library artifacts and the separate 27-scenario strict HTTP binding suite.
+library artifacts, the separate 43-scenario strict HTTP binding suite and the
+32-scenario connection setup suite. Ten connection values add to the original
+22 exchange values; 21 runtime codec obligations remain. The new CacheHints
+invariant adds one explicit synthesis refusal to the previous eight.
 See [coverage](coverage.md) for what this execution does and does not establish.

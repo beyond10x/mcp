@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-03T04:37:40Z",
+  "actor": "human:timo",
+  "artifact": "story:strict-http-connection",
+  "kind": "story",
+  "revision": 5,
+  "change": {
+    "change": "evidence",
+    "kind": "test_result",
+    "source": "Rust1.88 cargo xtask gate; 49 native passed; setup32 and strictHTTP43 targets; SHA256 a0c7259209db628912afbb0189937736a1cce991a8e0d2411f8b5c15bedc3396",
+    "reference": ".cache/mcp-next-runtime/connection/gate-final.log"
+  }
+}

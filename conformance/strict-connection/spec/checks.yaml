@@ -1,0 +1,30 @@
+domain: mcp.strict_connection_checks
+summary: Actual revision-fixed HTTP setup and subsequent raw exchange on the same runtime handle.
+types:
+  - name: mcp.strict_connection_checks.Case
+    kind: enum
+    variants: [setup-valid, setup-reuse, setup-revision-mismatch, setup-invalid-description, setup-peer-error, setup-ambiguous400, setup-request-bound, setup-invalid-input, setup-deadline, setup-invalid-session, setup-duplicate-session, setup-session-bound, setup-notification-refused, setup-notification-body, setup-sessionless, setup-missing-info, setup-missing-cache, setup-negative-ttl, setup-unknown-result, setup-metadata-conflict, setup-unicode-name]
+  - name: mcp.strict_connection_checks.Revision
+    kind: enum
+    variants: ["2025-11-25", "2026-07-28"]
+commands:
+  - name: mcp.strict_connection_checks.ObserveSetup
+    input:
+      - {name: case, type: mcp.strict_connection_checks.Case}
+      - {name: revision, type: mcp.strict_connection_checks.Revision}
+    response:
+      - {name: ready, type: Boolean}
+      - {name: calls, type: Integer}
+      - {name: reason, type: String}
+      - {name: first_method, type: String}
+      - {name: last_method, type: String}
+      - {name: session_echoed, type: Boolean}
+      - {name: configured_revision, type: String}
+      - {name: business_kind, type: String}
+      - {name: modern_metadata, type: Boolean}
+    outcomes:
+      - {name: observed, returns: true}
+    # Binding runs real public connection setup and optionally a raw family
+    # exchange, observes actual result and captured HTTP requests, then joins
+    # fixture teardown. It does not read expected response values. No clock,
+    # transport, setup or teardown error is counted as a passed observation.

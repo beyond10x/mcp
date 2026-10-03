@@ -26,6 +26,7 @@ struct Pins {
     scenarios: Vec<String>,
     http_replay_scenarios: Vec<String>,
     strict_http_scenarios: Vec<String>,
+    strict_connection_scenarios: Vec<String>,
     partial_refusals: Vec<String>,
     authored_refusals: Vec<String>,
 }
@@ -264,7 +265,7 @@ pub(super) fn check(root: &Path) -> Result<(), String> {
         &fs::read(root.join("conformance/http-replay/suite.json")).map_err(|e| e.to_string())?,
         &pins.http_replay_scenarios,
     )?;
-    check_strict_http(root, &ess, temporary.path(), &pins.strict_http_scenarios)?;
+    check_strict_profiles(root, &ess, temporary.path(), &pins)?;
     run(
         Command::new(aep)
             .args(["plan", "artifact", "validate"])
@@ -272,9 +273,19 @@ pub(super) fn check(root: &Path) -> Result<(), String> {
         0,
     )?;
     println!(
-        "specification: constructor, HTTP replay and strict HTTP suites plus generated types verified; explicit partial refusal inventory retained; execution follows in workspace tests; full conformance remains inconclusive"
+        "specification: constructor, HTTP replay, strict HTTP and connection suites plus generated types verified; explicit partial refusal inventory retained; execution follows in workspace tests; full conformance remains inconclusive"
     );
     Ok(())
+}
+
+fn check_strict_profiles(
+    root: &Path,
+    ess: &Path,
+    temporary: &Path,
+    pins: &Pins,
+) -> Result<(), String> {
+    check_strict_http(root, ess, temporary, &pins.strict_http_scenarios)?;
+    check_strict_connection(root, ess, temporary, &pins.strict_connection_scenarios)
 }
 
 fn check_strict_http(
@@ -335,6 +346,12 @@ fn check_strict_http(
                 "mcp.http_exchange.ExchangeInput",
                 "--root",
                 "mcp.http_exchange.ExchangeResult",
+                "--root",
+                "mcp.http_connection.SetupInput",
+                "--root",
+                "mcp.http_connection.PeerDescription",
+                "--root",
+                "mcp.http_connection.SetupRefusal",
                 "--out",
             ])
             .arg(&generated)
@@ -357,6 +374,40 @@ fn check_strict_http(
         }
     }
     Ok(())
+}
+
+fn check_strict_connection(
+    root: &Path,
+    ess: &Path,
+    temporary: &Path,
+    ids: &[String],
+) -> Result<(), String> {
+    let suite = temporary.join("strict-connection.json");
+    let output = run(
+        Command::new(ess)
+            .args([
+                "verify",
+                "conform",
+                "synthesize",
+                "--path",
+                "conformance/strict-connection/spec",
+                "--scenarios",
+                "conformance/strict-connection/scenarios",
+                "--out",
+            ])
+            .arg(&suite)
+            .current_dir(root),
+        0,
+    )?;
+    if !refusals(&output).is_empty() {
+        return Err("strict connection selection has synthesis refusals".into());
+    }
+    check_suite(
+        &fs::read(suite).map_err(|e| e.to_string())?,
+        &fs::read(root.join("conformance/strict-connection/suite.json"))
+            .map_err(|e| e.to_string())?,
+        ids,
+    )
 }
 
 pub(super) fn bootstrap(root: &Path) -> Result<(), String> {

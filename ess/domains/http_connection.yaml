@@ -1,0 +1,105 @@
+domain: mcp.http_connection
+summary: Immutable setup profile and peer description for one revision-fixed HTTP boundary.
+
+# Basis: Connectors client/v1alpha1/semantics.md sections1–4 at af8aefad;
+# upstream2026-07-28 at5f5440bb and2025-11-25 at38c84e9f. These are
+# immutable values, not a persisted connection, identity or custody relation.
+types:
+  - name: mcp.http_connection.ImplementationInfo
+    kind: struct
+    fields:
+      - {name: name, type: String}
+      - {name: version, type: String}
+    # Only the required implementation fields are sent for the client. Optional
+    # reported server identity fields remain in PeerDescription.raw_result.
+
+  - name: mcp.http_connection.SetupInput
+    kind: struct
+    fields:
+      - {name: revision, type: mcp.http_observations.ProtocolRevision}
+      - {name: client_info, type: mcp.http_connection.ImplementationInfo}
+      - {name: budget, type: mcp.http_exchange.ExchangeBudget}
+      - {name: session_id_octets, type: mcp.http_observations.OctetCount}
+    # One configured revision, no preferred list or fallback. Empty client
+    # capabilities are the selected Connectors-compatible strict profile.
+    # Endpoint/credential/network policy are consumer-owned ports, never these
+    # generated values. All setup phases share one absolute caller deadline.
+    # UNMAPPED C4: the caller-supplied HTTP builder must not install hidden MCP
+    # protocol/session/routing header defaults. Its public API cannot inspect
+    # or remove such defaults. Validate the explicit request-template headers;
+    # this model cannot prove the opaque consumer network port's configuration.
+
+  - name: mcp.http_connection.ListCapability
+    kind: struct
+    fields:
+      - {name: list_changed, type: "Optional<Boolean>"}
+
+  - name: mcp.http_connection.ResourceCapability
+    kind: struct
+    fields:
+      - {name: list_changed, type: "Optional<Boolean>"}
+      - {name: subscribe, type: "Optional<Boolean>"}
+
+  - name: mcp.http_connection.ServerCapabilities
+    kind: struct
+    fields:
+      - {name: tools, type: "Optional<mcp.http_connection.ListCapability>"}
+      - {name: resources, type: "Optional<mcp.http_connection.ResourceCapability>"}
+      - {name: prompts, type: "Optional<mcp.http_connection.ListCapability>"}
+      - {name: reported_keys, type: "List<String>"}
+    # Absent family is unsupported; present {} is advertised, not empty content.
+    # Unknown keys remain strings and exact unknown values remain in raw_result.
+    # No server advertisement authorizes its projection into consumer operations.
+
+  - name: mcp.http_connection.CacheScope
+    kind: enum
+    variants: [public, private]
+
+  - name: mcp.http_connection.CacheHints
+    kind: struct
+    fields:
+      - {name: ttl_ms, type: Integer}
+      - {name: scope, type: mcp.http_connection.CacheScope}
+    invariants: [ttl_ms >= 0]
+    # Hints are observations only. Setup does not enable a response cache.
+
+  - name: mcp.http_connection.PeerDescription
+    kind: struct
+    fields:
+      - {name: configured_revision, type: mcp.http_observations.ProtocolRevision}
+      - {name: reported_versions, type: "List<String>"}
+      - {name: capabilities, type: mcp.http_connection.ServerCapabilities}
+      - {name: server_info, type: "Optional<mcp.http_connection.ImplementationInfo>"}
+      - {name: instructions, type: "Optional<String>"}
+      - {name: cache_hints, type: "Optional<mcp.http_connection.CacheHints>"}
+      - {name: raw_result, type: Json}
+      - {name: exchange_observation, type: mcp.http_exchange.ExchangeObservation}
+    # Raw description includes unknown versions/capabilities/metadata. It is
+    # untrusted display data; never diagnostics, endpoint selection or authority.
+    # Modern requires resultType complete, supportedVersions, capabilities and
+    # cache hints; optional serverInfo lives under its named _meta key. Legacy
+    # requires protocolVersion, capabilities and serverInfo, with no invented
+    # modern cache hints. Both must explicitly support the configured revision.
+    # UNMAPPED C1: the structural carrier cannot prove that typed fields project
+    # the observed raw result, that the revision was not switched, or that the
+    # received terminal was complete/correlated. The runtime parser must prove it.
+
+  - name: mcp.http_connection.SetupRefusalReason
+    kind: enum
+    variants: [invalid_input, exchange_refused, peer_error, invalid_description, revision_mismatch, invalid_session_header, session_header_bound, notification_refused, deadline_exhausted]
+
+  - name: mcp.http_connection.SetupRefusal
+    kind: struct
+    fields:
+      - {name: reason, type: mcp.http_connection.SetupRefusalReason}
+      - {name: exchange, type: "Optional<mcp.http_exchange.ExchangeResult>"}
+      - {name: notification, type: "Optional<mcp.http_exchange.ExchangeObservation>"}
+    # Reason is safe and local; optional exchange observations remain untrusted
+    # and potentially sensitive. No session header, credential or endpoint text.
+    # UNMAPPED C2: ready runtime handles are produced only after verified modern
+    # discovery or legacy initialize plus an accepted empty202 notification;
+    # no failed setup yields a usable handle. One deadline covers every phase.
+    # UNMAPPED C3: an optional legacy session header must be unique, nonempty,
+    # visibleASCII and within the configured byte ceiling. Private runtime
+    # storage is redacted/zeroized; it is echoed on this boundary only. Modern
+    # never adopts a returned session header. No generated model carries it.

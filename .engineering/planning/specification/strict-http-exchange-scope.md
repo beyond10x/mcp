@@ -7,7 +7,7 @@ title: Source-grounded scope for strict HTTP observations before resource and pr
 relations:
 - serves: vision:consumer-owned-mcp-mechanics
 - informed_by: specification:governed-compatibility-baseline
-revision: 7
+revision: 8
 ---
 ## Current implementation direction — revision-fixed connection, 2026-10-03
 
@@ -221,3 +221,25 @@ The input's revision is not evidence of negotiation. Caller assignment and stdio
 ownership blockers remain unanswered. Mixed-feature old SDK decoding does not
 inherit the strict receiver's preservation guarantees. No MCP release is cut by
 this transport foundation, and the broad MCP goal remains incomplete.
+
+## Implemented setup milestone — 2026-10-03
+
+story:strict-http-connection implements the revision-fixed setup described above.
+The strict-http feature exposes strict_connection::connect and a reusable raw
+exchange handle. Modern uses server/discover; legacy validates initialize and
+an empty202 notification acknowledgement, retaining only a valid private session.
+PeerDescription preserves unknown peer values and typed capability presence;
+C1–C4 keep runtime and opaque-builder obligations explicit. Thirty-two setup
+scenarios plus native boundary cases execute against independent real HTTP framing.
+Disabling revision guards makes both revision-mismatch cases fail (30pass/2fail).
+The final Rust1.88 gate passed49 native tests and existing strictHTTP43/replay5/
+constructor9 target assertions. This adds10 immutable generated values (32total)
+and one unobserved product invariant (9partial synthesis refusals), not a stored
+connection entity or consumer custody decision.
+
+Next required implementation remains bounded list discovery with exact cursor,
+page/count/byte limits and typed family acceptance for tools, resources and prompts.
+The raw exchange result is not a usable admitted operation or a validated family
+result. Subsequent consumer work must prove inbound/outbound policy and error
+mapping, and preserve pending process-supervision and caller-to-Connection choices.
+Progress/cancellation/shutdown and final integrated acceptance/release remain open.

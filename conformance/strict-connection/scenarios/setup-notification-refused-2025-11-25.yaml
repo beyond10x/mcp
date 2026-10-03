@@ -1,0 +1,19 @@
+type: ess-scenario/4
+domain: mcp.strict_connection_checks
+scenario: setup-notification-refused-2025-11-25
+summary: Actual setup-notification-refused wire observations under configured 2025-11-25.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.strict_connection_checks.ObserveSetup
+    input: {case: setup-notification-refused, revision: "2025-11-25"}
+    outcome: observed
+    response:
+      ready: false
+      calls: 2
+      reason: "notification_refused"
+      first_method: "initialize"
+      last_method: "notifications/initialized"
+      session_echoed: true
+      configured_revision: ""
+      business_kind: ""
+      modern_metadata: false

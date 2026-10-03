@@ -7,3 +7,4 @@ domains:
   - mcp.constructor_checks
   - mcp.http_observations
   - mcp.http_exchange
+  - mcp.http_connection
