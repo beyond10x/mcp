@@ -2,6 +2,7 @@
 //!
 //! Catalogs are untrusted observations, not invocation admission or JSON Schema
 //! semantic validation. Generated Debug includes peer data and is not safe logging.
+mod controlled;
 use crate::strict_connection::StrictConnection;
 use b10x_mcp_types::http_exchange::{
     EssPresence, McpHttpConnectionCacheHints as CacheHints, McpHttpDiscoveryCatalog as Catalog,
@@ -58,6 +59,43 @@ pub async fn discover(
     limits: &ListLimits,
     deadline: Instant,
 ) -> Result<Catalog, Refusal> {
+    traverse(connection, family, limits, deadline, None)
+        .await
+        .map_err(controlled::raw)
+}
+/// Discover with explicit cancellation and a single independent teardown deadline.
+/// Completed page observations survive interruption, but never become a partial
+/// catalog. Cancellation between pages has no newly allocated request identity.
+pub async fn discover_cancellable(
+    connection: &mut StrictConnection,
+    family: Family,
+    limits: &ListLimits,
+    deadline: Instant,
+    cancellation: &crate::strict_cancellation::Cancellation,
+    teardown_deadline: Instant,
+) -> b10x_mcp_types::http_exchange::McpHttpLifecycleControlledDiscoveryResult {
+    let Some(teardown) = connection.traversal_deadline(teardown_deadline) else {
+        return controlled::outcome(Err(controlled::refusal(fault(Reason::V5), vec![])));
+    };
+    controlled::outcome(
+        traverse(
+            connection,
+            family,
+            limits,
+            deadline,
+            Some((cancellation, teardown)),
+        )
+        .await,
+    )
+}
+async fn traverse(
+    connection: &mut StrictConnection,
+    family: Family,
+    limits: &ListLimits,
+    deadline: Instant,
+    port: controlled::Port<'_>,
+) -> Result<Catalog, controlled::Failure> {
+    use controlled::refusal;
     let invalid = || refusal(fault(Reason::V5), vec![]);
     let pages = number(&limits.max_pages).ok_or_else(invalid)?;
     let items = number(&limits.max_items).ok_or_else(invalid)?;
@@ -81,9 +119,7 @@ pub async fn discover(
     let mut cursor = None;
     let mut identities = BTreeSet::new();
     loop {
-        if Instant::now() >= end {
-            return Err(refusal(fault(Reason::V0), observed));
-        }
+        controlled::boundary(port, end, &observed)?;
         if catalog.pages.len() >= pages {
             return Err(refusal(
                 (
@@ -97,10 +133,15 @@ pub async fn discover(
         let params = cursor
             .take()
             .map_or_else(|| json!({}), |value| json!({"cursor":value}));
-        let exchange = connection
-            .exchange(&format!("{}/list", label(&family)), params, end)
-            .await
-            .map_err(|_| refusal(fault(Reason::V3), observed.clone()))?;
+        let exchange = controlled::exchange(
+            connection,
+            &format!("{}/list", label(&family)),
+            params,
+            end,
+            port,
+            &observed,
+        )
+        .await?;
         observed.push(exchange.clone());
         let complete =
             complete(exchange).map_err(|reason| refusal(fault(reason), observed.clone()))?;
@@ -138,7 +179,7 @@ pub async fn discover(
         };
         catalog.pages.push(Box::new(page));
         if Instant::now() >= end {
-            return Err(refusal(fault(Reason::V0), observed));
+            controlled::boundary(port, end, &observed)?;
         }
         if cursor.is_none() {
             return Ok(catalog);

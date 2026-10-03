@@ -31,6 +31,7 @@ struct Pins {
     strict_invocation_scenarios: Vec<String>,
     strict_lifecycle_scenarios: Vec<String>,
     schema_lifecycle_scenarios: Vec<String>,
+    typed_lifecycle_scenarios: Vec<String>,
     partial_refusals: Vec<String>,
     authored_refusals: Vec<String>,
 }
@@ -293,7 +294,8 @@ fn check_strict_profiles(
     check_strict_discovery(root, ess, temporary, &pins.strict_discovery_scenarios)?;
     check_strict_invocation(root, ess, temporary, &pins.strict_invocation_scenarios)?;
     check_strict_lifecycle(root, ess, temporary, &pins.strict_lifecycle_scenarios)?;
-    check_schema_lifecycle(root, ess, temporary, &pins.schema_lifecycle_scenarios)
+    check_schema_lifecycle(root, ess, temporary, &pins.schema_lifecycle_scenarios)?;
+    check_typed_lifecycle(root, ess, temporary, &pins.typed_lifecycle_scenarios)
 }
 
 fn check_strict_lifecycle(
@@ -381,6 +383,51 @@ fn check_schema_lifecycle(
     check_suite(
         &fs::read(suite).map_err(|e| e.to_string())?,
         &fs::read(root.join("conformance/schema-lifecycle/suite.json"))
+            .map_err(|e| e.to_string())?,
+        ids,
+    )
+}
+
+fn check_typed_lifecycle(
+    root: &Path,
+    ess: &Path,
+    temporary: &Path,
+    ids: &[String],
+) -> Result<(), String> {
+    run(
+        Command::new(ess)
+            .args([
+                "specify",
+                "validate",
+                "--path",
+                "conformance/typed-lifecycle/spec",
+            ])
+            .current_dir(root),
+        0,
+    )?;
+    let suite = temporary.join("typed-lifecycle.json");
+    let text = run(
+        Command::new(ess)
+            .args([
+                "verify",
+                "conform",
+                "synthesize",
+                "--path",
+                "conformance/typed-lifecycle/spec",
+                "--scenarios",
+                "conformance/typed-lifecycle/scenarios",
+                "--out",
+            ])
+            .arg(&suite)
+            .current_dir(root),
+        0,
+    )?;
+    if !refusals(&text).is_empty() {
+        return Err("typed lifecycle selection has synthesis refusals".into());
+    }
+    check_suite(
+        &fs::read(suite).map_err(|e| e.to_string())?,
+        &fs::read(root.join("conformance/typed-lifecycle/suite.json"))
             .map_err(|e| e.to_string())?,
         ids,
     )
@@ -576,6 +623,14 @@ fn check_generated_types(root: &Path, ess: &Path, temporary: &Path) -> Result<()
                 "mcp.http_lifecycle.ControlledExchange",
                 "--root",
                 "mcp.http_lifecycle.ControlledSchemaResult",
+                "--root",
+                "mcp.http_lifecycle.ControlledDiscoveryResult",
+                "--root",
+                "mcp.http_lifecycle.ControlledToolResult",
+                "--root",
+                "mcp.http_lifecycle.ControlledResourceResult",
+                "--root",
+                "mcp.http_lifecycle.ControlledPromptResult",
                 "--out",
             ])
             .arg(&generated)

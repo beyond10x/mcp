@@ -1,0 +1,5286 @@
+{
+  "provenance": {
+    "suite_version": "ess-conformance/28",
+    "system": "mcp",
+    "specification_version": "v1",
+    "spec_digest": "fbc638014b28002310c44f6aeaa5a2fc4a38c809403d7e234531209675166f26",
+    "contract_digest": "4795eab46c2bb9f195c663cc37f9ad70d119b29ccbc089b5124f85ab044f339b"
+  },
+  "scenarios": {
+    "mcp.typed_lifecycle_checks.ObserveTypedLifecycle/outcome/observed": {
+      "purpose": "`mcp.typed_lifecycle_checks.ObserveTypedLifecycle` answers `observed` for an input no other branch's guard claims",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "worker-input"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {}
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/discovery-drop-refresh-2025-11-25": {
+      "purpose": "Actual discovery-drop-refresh with configured revision 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "discovery-drop-refresh"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": false,
+              "body_preserved": false,
+              "business_calls": 0.0,
+              "catalog_items": 0.0,
+              "cause": "absent",
+              "closed": 1.0,
+              "control_reason": "absent",
+              "exchange_retained": false,
+              "explicit_reaped": false,
+              "id_agreement": true,
+              "kind": "dropped",
+              "list_calls": 3.0,
+              "notifications": 0.0,
+              "phase": "absent",
+              "prior_pages": 0.0,
+              "protocol_agreement": true,
+              "reason": "absent",
+              "reuse_refused": true,
+              "worker_gone": false,
+              "worker_kill": "absent",
+              "worker_state": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/discovery-drop-refresh-2026-07-28": {
+      "purpose": "Actual discovery-drop-refresh with configured revision 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "discovery-drop-refresh"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": false,
+              "body_preserved": false,
+              "business_calls": 0.0,
+              "catalog_items": 0.0,
+              "cause": "absent",
+              "closed": 1.0,
+              "control_reason": "absent",
+              "exchange_retained": false,
+              "explicit_reaped": false,
+              "id_agreement": true,
+              "kind": "dropped",
+              "list_calls": 3.0,
+              "notifications": 0.0,
+              "phase": "absent",
+              "prior_pages": 0.0,
+              "protocol_agreement": true,
+              "reason": "absent",
+              "reuse_refused": true,
+              "worker_gone": false,
+              "worker_kill": "absent",
+              "worker_state": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/discovery-first-2025-11-25": {
+      "purpose": "Actual discovery-first with configured revision 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "discovery-first"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": true,
+              "body_preserved": false,
+              "business_calls": 0.0,
+              "catalog_items": 0.0,
+              "cause": "caller_cancelled",
+              "closed": 1.0,
+              "control_reason": "absent",
+              "exchange_retained": false,
+              "explicit_reaped": false,
+              "id_agreement": true,
+              "kind": "interrupted",
+              "list_calls": 1.0,
+              "notifications": 1.0,
+              "phase": "absent",
+              "prior_pages": 0.0,
+              "protocol_agreement": true,
+              "reason": "absent",
+              "reuse_refused": true,
+              "worker_gone": false,
+              "worker_kill": "absent",
+              "worker_state": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/discovery-first-2026-07-28": {
+      "purpose": "Actual discovery-first with configured revision 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "discovery-first"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": true,
+              "body_preserved": false,
+              "business_calls": 0.0,
+              "catalog_items": 0.0,
+              "cause": "caller_cancelled",
+              "closed": 1.0,
+              "control_reason": "absent",
+              "exchange_retained": false,
+              "explicit_reaped": false,
+              "id_agreement": true,
+              "kind": "interrupted",
+              "list_calls": 1.0,
+              "notifications": 0.0,
+              "phase": "absent",
+              "prior_pages": 0.0,
+              "protocol_agreement": true,
+              "reason": "absent",
+              "reuse_refused": true,
+              "worker_gone": false,
+              "worker_kill": "absent",
+              "worker_state": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/discovery-later-2025-11-25": {
+      "purpose": "Actual discovery-later with configured revision 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "discovery-later"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": true,
+              "body_preserved": false,
+              "business_calls": 0.0,
+              "catalog_items": 0.0,
+              "cause": "caller_cancelled",
+              "closed": 1.0,
+              "control_reason": "absent",
+              "exchange_retained": false,
+              "explicit_reaped": false,
+              "id_agreement": true,
+              "kind": "interrupted",
+              "list_calls": 2.0,
+              "notifications": 1.0,
+              "phase": "absent",
+              "prior_pages": 1.0,
+              "protocol_agreement": true,
+              "reason": "absent",
+              "reuse_refused": true,
+              "worker_gone": false,
+              "worker_kill": "absent",
+              "worker_state": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/discovery-later-2026-07-28": {
+      "purpose": "Actual discovery-later with configured revision 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "discovery-later"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": true,
+              "body_preserved": false,
+              "business_calls": 0.0,
+              "catalog_items": 0.0,
+              "cause": "caller_cancelled",
+              "closed": 1.0,
+              "control_reason": "absent",
+              "exchange_retained": false,
+              "explicit_reaped": false,
+              "id_agreement": true,
+              "kind": "interrupted",
+              "list_calls": 2.0,
+              "notifications": 0.0,
+              "phase": "absent",
+              "prior_pages": 1.0,
+              "protocol_agreement": true,
+              "reason": "absent",
+              "reuse_refused": true,
+              "worker_gone": false,
+              "worker_kill": "absent",
+              "worker_state": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/discovery-timeout-later-2025-11-25": {
+      "purpose": "Actual discovery-timeout-later with configured revision 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "discovery-timeout-later"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": true,
+              "body_preserved": false,
+              "business_calls": 0.0,
+              "catalog_items": 0.0,
+              "cause": "deadline_exhausted",
+              "closed": 1.0,
+              "control_reason": "absent",
+              "exchange_retained": false,
+              "explicit_reaped": false,
+              "id_agreement": true,
+              "kind": "interrupted",
+              "list_calls": 2.0,
+              "notifications": 1.0,
+              "phase": "absent",
+              "prior_pages": 1.0,
+              "protocol_agreement": true,
+              "reason": "absent",
+              "reuse_refused": true,
+              "worker_gone": false,
+              "worker_kill": "absent",
+              "worker_state": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/discovery-timeout-later-2026-07-28": {
+      "purpose": "Actual discovery-timeout-later with configured revision 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "discovery-timeout-later"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": true,
+              "body_preserved": false,
+              "business_calls": 0.0,
+              "catalog_items": 0.0,
+              "cause": "deadline_exhausted",
+              "closed": 1.0,
+              "control_reason": "absent",
+              "exchange_retained": false,
+              "explicit_reaped": false,
+              "id_agreement": true,
+              "kind": "interrupted",
+              "list_calls": 2.0,
+              "notifications": 0.0,
+              "phase": "absent",
+              "prior_pages": 1.0,
+              "protocol_agreement": true,
+              "reason": "absent",
+              "reuse_refused": true,
+              "worker_gone": false,
+              "worker_kill": "absent",
+              "worker_state": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/prompt-wire-2025-11-25": {
+      "purpose": "Actual prompt-wire with configured revision 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "prompt-wire"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": true,
+              "body_preserved": false,
+              "business_calls": 1.0,
+              "catalog_items": 0.0,
+              "cause": "caller_cancelled",
+              "closed": 1.0,
+              "control_reason": "absent",
+              "exchange_retained": false,
+              "explicit_reaped": false,
+              "id_agreement": true,
+              "kind": "interrupted",
+              "list_calls": 1.0,
+              "notifications": 1.0,
+              "phase": "dispatch",
+              "prior_pages": 0.0,
+              "protocol_agreement": true,
+              "reason": "absent",
+              "reuse_refused": false,
+              "worker_gone": false,
+              "worker_kill": "absent",
+              "worker_state": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/prompt-wire-2026-07-28": {
+      "purpose": "Actual prompt-wire with configured revision 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "prompt-wire"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": true,
+              "body_preserved": false,
+              "business_calls": 1.0,
+              "catalog_items": 0.0,
+              "cause": "caller_cancelled",
+              "closed": 1.0,
+              "control_reason": "absent",
+              "exchange_retained": false,
+              "explicit_reaped": false,
+              "id_agreement": true,
+              "kind": "interrupted",
+              "list_calls": 1.0,
+              "notifications": 0.0,
+              "phase": "dispatch",
+              "prior_pages": 0.0,
+              "protocol_agreement": true,
+              "reason": "absent",
+              "reuse_refused": false,
+              "worker_gone": false,
+              "worker_kill": "absent",
+              "worker_state": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/resource-timeout-wire-2025-11-25": {
+      "purpose": "Actual resource-timeout-wire with configured revision 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "resource-timeout-wire"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": true,
+              "body_preserved": false,
+              "business_calls": 1.0,
+              "catalog_items": 0.0,
+              "cause": "deadline_exhausted",
+              "closed": 1.0,
+              "control_reason": "absent",
+              "exchange_retained": false,
+              "explicit_reaped": false,
+              "id_agreement": true,
+              "kind": "interrupted",
+              "list_calls": 1.0,
+              "notifications": 1.0,
+              "phase": "dispatch",
+              "prior_pages": 0.0,
+              "protocol_agreement": true,
+              "reason": "absent",
+              "reuse_refused": false,
+              "worker_gone": false,
+              "worker_kill": "absent",
+              "worker_state": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/resource-timeout-wire-2026-07-28": {
+      "purpose": "Actual resource-timeout-wire with configured revision 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "resource-timeout-wire"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": true,
+              "body_preserved": false,
+              "business_calls": 1.0,
+              "catalog_items": 0.0,
+              "cause": "deadline_exhausted",
+              "closed": 1.0,
+              "control_reason": "absent",
+              "exchange_retained": false,
+              "explicit_reaped": false,
+              "id_agreement": true,
+              "kind": "interrupted",
+              "list_calls": 1.0,
+              "notifications": 0.0,
+              "phase": "dispatch",
+              "prior_pages": 0.0,
+              "protocol_agreement": true,
+              "reason": "absent",
+              "reuse_refused": false,
+              "worker_gone": false,
+              "worker_kill": "absent",
+              "worker_state": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/resource-wire-2025-11-25": {
+      "purpose": "Actual resource-wire with configured revision 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "resource-wire"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": true,
+              "body_preserved": false,
+              "business_calls": 1.0,
+              "catalog_items": 0.0,
+              "cause": "caller_cancelled",
+              "closed": 1.0,
+              "control_reason": "absent",
+              "exchange_retained": false,
+              "explicit_reaped": false,
+              "id_agreement": true,
+              "kind": "interrupted",
+              "list_calls": 1.0,
+              "notifications": 1.0,
+              "phase": "dispatch",
+              "prior_pages": 0.0,
+              "protocol_agreement": true,
+              "reason": "absent",
+              "reuse_refused": false,
+              "worker_gone": false,
+              "worker_kill": "absent",
+              "worker_state": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/resource-wire-2026-07-28": {
+      "purpose": "Actual resource-wire with configured revision 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "resource-wire"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": true,
+              "body_preserved": false,
+              "business_calls": 1.0,
+              "catalog_items": 0.0,
+              "cause": "caller_cancelled",
+              "closed": 1.0,
+              "control_reason": "absent",
+              "exchange_retained": false,
+              "explicit_reaped": false,
+              "id_agreement": true,
+              "kind": "interrupted",
+              "list_calls": 1.0,
+              "notifications": 0.0,
+              "phase": "dispatch",
+              "prior_pages": 0.0,
+              "protocol_agreement": true,
+              "reason": "absent",
+              "reuse_refused": false,
+              "worker_gone": false,
+              "worker_kill": "absent",
+              "worker_state": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/tool-expired-teardown-2025-11-25": {
+      "purpose": "Actual tool-expired-teardown with configured revision 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "tool-expired-teardown"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": true,
+              "body_preserved": false,
+              "business_calls": 1.0,
+              "catalog_items": 1.0,
+              "cause": "caller_cancelled",
+              "closed": 1.0,
+              "control_reason": "deadline_exhausted",
+              "exchange_retained": false,
+              "explicit_reaped": false,
+              "id_agreement": true,
+              "kind": "interrupted",
+              "list_calls": 1.0,
+              "notifications": 0.0,
+              "phase": "dispatch",
+              "prior_pages": 0.0,
+              "protocol_agreement": true,
+              "reason": "absent",
+              "reuse_refused": false,
+              "worker_gone": false,
+              "worker_kill": "absent",
+              "worker_state": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/tool-expired-teardown-2026-07-28": {
+      "purpose": "Actual tool-expired-teardown with configured revision 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "tool-expired-teardown"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": true,
+              "body_preserved": false,
+              "business_calls": 1.0,
+              "catalog_items": 1.0,
+              "cause": "caller_cancelled",
+              "closed": 1.0,
+              "control_reason": "absent",
+              "exchange_retained": false,
+              "explicit_reaped": false,
+              "id_agreement": true,
+              "kind": "interrupted",
+              "list_calls": 1.0,
+              "notifications": 0.0,
+              "phase": "dispatch",
+              "prior_pages": 0.0,
+              "protocol_agreement": true,
+              "reason": "absent",
+              "reuse_refused": false,
+              "worker_gone": false,
+              "worker_kill": "absent",
+              "worker_state": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/tool-wire-2025-11-25": {
+      "purpose": "Actual tool-wire with configured revision 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "tool-wire"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": true,
+              "body_preserved": false,
+              "business_calls": 1.0,
+              "catalog_items": 1.0,
+              "cause": "caller_cancelled",
+              "closed": 1.0,
+              "control_reason": "absent",
+              "exchange_retained": false,
+              "explicit_reaped": false,
+              "id_agreement": true,
+              "kind": "interrupted",
+              "list_calls": 1.0,
+              "notifications": 1.0,
+              "phase": "dispatch",
+              "prior_pages": 0.0,
+              "protocol_agreement": true,
+              "reason": "absent",
+              "reuse_refused": false,
+              "worker_gone": false,
+              "worker_kill": "absent",
+              "worker_state": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/tool-wire-2026-07-28": {
+      "purpose": "Actual tool-wire with configured revision 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "tool-wire"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": true,
+              "body_preserved": false,
+              "business_calls": 1.0,
+              "catalog_items": 1.0,
+              "cause": "caller_cancelled",
+              "closed": 1.0,
+              "control_reason": "absent",
+              "exchange_retained": false,
+              "explicit_reaped": false,
+              "id_agreement": true,
+              "kind": "interrupted",
+              "list_calls": 1.0,
+              "notifications": 0.0,
+              "phase": "dispatch",
+              "prior_pages": 0.0,
+              "protocol_agreement": true,
+              "reason": "absent",
+              "reuse_refused": false,
+              "worker_gone": false,
+              "worker_kill": "absent",
+              "worker_state": "absent"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/worker-drop-2025-11-25": {
+      "purpose": "Actual worker-drop with configured revision 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "worker-drop"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": false,
+              "body_preserved": false,
+              "business_calls": 0.0,
+              "catalog_items": 1.0,
+              "cause": "absent",
+              "closed": 0.0,
+              "control_reason": "absent",
+              "exchange_retained": false,
+              "explicit_reaped": true,
+              "id_agreement": true,
+              "kind": "dropped",
+              "list_calls": 1.0,
+              "notifications": 0.0,
+              "phase": "absent",
+              "prior_pages": 0.0,
+              "protocol_agreement": true,
+              "reason": "absent",
+              "reuse_refused": true,
+              "worker_gone": true,
+              "worker_kill": "requested",
+              "worker_state": "retained"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/worker-drop-2026-07-28": {
+      "purpose": "Actual worker-drop with configured revision 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "worker-drop"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": false,
+              "body_preserved": false,
+              "business_calls": 0.0,
+              "catalog_items": 1.0,
+              "cause": "absent",
+              "closed": 0.0,
+              "control_reason": "absent",
+              "exchange_retained": false,
+              "explicit_reaped": true,
+              "id_agreement": true,
+              "kind": "dropped",
+              "list_calls": 1.0,
+              "notifications": 0.0,
+              "phase": "absent",
+              "prior_pages": 0.0,
+              "protocol_agreement": true,
+              "reason": "absent",
+              "reuse_refused": true,
+              "worker_gone": true,
+              "worker_kill": "requested",
+              "worker_state": "retained"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/worker-input-2025-11-25": {
+      "purpose": "Actual worker-input with configured revision 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "worker-input"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": false,
+              "body_preserved": false,
+              "business_calls": 0.0,
+              "catalog_items": 1.0,
+              "cause": "caller_cancelled",
+              "closed": 0.0,
+              "control_reason": "absent",
+              "exchange_retained": false,
+              "explicit_reaped": false,
+              "id_agreement": true,
+              "kind": "interrupted",
+              "list_calls": 1.0,
+              "notifications": 0.0,
+              "phase": "input_validation",
+              "prior_pages": 0.0,
+              "protocol_agreement": true,
+              "reason": "absent",
+              "reuse_refused": false,
+              "worker_gone": true,
+              "worker_kill": "requested",
+              "worker_state": "reaped"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/worker-input-2026-07-28": {
+      "purpose": "Actual worker-input with configured revision 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "worker-input"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": false,
+              "body_preserved": false,
+              "business_calls": 0.0,
+              "catalog_items": 1.0,
+              "cause": "caller_cancelled",
+              "closed": 0.0,
+              "control_reason": "absent",
+              "exchange_retained": false,
+              "explicit_reaped": false,
+              "id_agreement": true,
+              "kind": "interrupted",
+              "list_calls": 1.0,
+              "notifications": 0.0,
+              "phase": "input_validation",
+              "prior_pages": 0.0,
+              "protocol_agreement": true,
+              "reason": "absent",
+              "reuse_refused": false,
+              "worker_gone": true,
+              "worker_kill": "requested",
+              "worker_state": "reaped"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/worker-output-2025-11-25": {
+      "purpose": "Actual worker-output with configured revision 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "worker-output"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": false,
+              "body_preserved": true,
+              "business_calls": 1.0,
+              "catalog_items": 1.0,
+              "cause": "caller_cancelled",
+              "closed": 0.0,
+              "control_reason": "absent",
+              "exchange_retained": true,
+              "explicit_reaped": false,
+              "id_agreement": true,
+              "kind": "interrupted",
+              "list_calls": 1.0,
+              "notifications": 0.0,
+              "phase": "output_validation",
+              "prior_pages": 0.0,
+              "protocol_agreement": true,
+              "reason": "absent",
+              "reuse_refused": false,
+              "worker_gone": true,
+              "worker_kill": "requested",
+              "worker_state": "reaped"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/worker-output-2026-07-28": {
+      "purpose": "Actual worker-output with configured revision 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "worker-output"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": false,
+              "body_preserved": true,
+              "business_calls": 1.0,
+              "catalog_items": 1.0,
+              "cause": "caller_cancelled",
+              "closed": 0.0,
+              "control_reason": "absent",
+              "exchange_retained": true,
+              "explicit_reaped": false,
+              "id_agreement": true,
+              "kind": "interrupted",
+              "list_calls": 1.0,
+              "notifications": 0.0,
+              "phase": "output_validation",
+              "prior_pages": 0.0,
+              "protocol_agreement": true,
+              "reason": "absent",
+              "reuse_refused": false,
+              "worker_gone": true,
+              "worker_kill": "requested",
+              "worker_state": "reaped"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/worker-output-bound-2025-11-25": {
+      "purpose": "Actual worker-output-bound with configured revision 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "worker-output-bound"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": false,
+              "body_preserved": true,
+              "business_calls": 1.0,
+              "catalog_items": 1.0,
+              "cause": "absent",
+              "closed": 0.0,
+              "control_reason": "absent",
+              "exchange_retained": true,
+              "explicit_reaped": false,
+              "id_agreement": true,
+              "kind": "refused",
+              "list_calls": 1.0,
+              "notifications": 0.0,
+              "phase": "output_validation",
+              "prior_pages": 0.0,
+              "protocol_agreement": true,
+              "reason": "schema_unavailable",
+              "reuse_refused": false,
+              "worker_gone": false,
+              "worker_kill": "not_attempted",
+              "worker_state": "no_child"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/worker-output-bound-2026-07-28": {
+      "purpose": "Actual worker-output-bound with configured revision 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "worker-output-bound"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": false,
+              "body_preserved": true,
+              "business_calls": 1.0,
+              "catalog_items": 1.0,
+              "cause": "absent",
+              "closed": 0.0,
+              "control_reason": "absent",
+              "exchange_retained": true,
+              "explicit_reaped": false,
+              "id_agreement": true,
+              "kind": "refused",
+              "list_calls": 1.0,
+              "notifications": 0.0,
+              "phase": "output_validation",
+              "prior_pages": 0.0,
+              "protocol_agreement": true,
+              "reason": "schema_unavailable",
+              "reuse_refused": false,
+              "worker_gone": false,
+              "worker_kill": "not_attempted",
+              "worker_state": "no_child"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/worker-preflight-2025-11-25": {
+      "purpose": "Actual worker-preflight with configured revision 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "worker-preflight"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": false,
+              "body_preserved": false,
+              "business_calls": 0.0,
+              "catalog_items": 1.0,
+              "cause": "caller_cancelled",
+              "closed": 0.0,
+              "control_reason": "absent",
+              "exchange_retained": false,
+              "explicit_reaped": false,
+              "id_agreement": true,
+              "kind": "interrupted",
+              "list_calls": 1.0,
+              "notifications": 0.0,
+              "phase": "output_preflight",
+              "prior_pages": 0.0,
+              "protocol_agreement": true,
+              "reason": "absent",
+              "reuse_refused": false,
+              "worker_gone": true,
+              "worker_kill": "requested",
+              "worker_state": "reaped"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/worker-preflight-2026-07-28": {
+      "purpose": "Actual worker-preflight with configured revision 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "worker-preflight"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": false,
+              "body_preserved": false,
+              "business_calls": 0.0,
+              "catalog_items": 1.0,
+              "cause": "caller_cancelled",
+              "closed": 0.0,
+              "control_reason": "absent",
+              "exchange_retained": false,
+              "explicit_reaped": false,
+              "id_agreement": true,
+              "kind": "interrupted",
+              "list_calls": 1.0,
+              "notifications": 0.0,
+              "phase": "output_preflight",
+              "prior_pages": 0.0,
+              "protocol_agreement": true,
+              "reason": "absent",
+              "reuse_refused": false,
+              "worker_gone": true,
+              "worker_kill": "requested",
+              "worker_state": "reaped"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/worker-retained-2025-11-25": {
+      "purpose": "Actual worker-retained with configured revision 2025-11-25.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "worker-retained"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2025-11-25"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": false,
+              "body_preserved": false,
+              "business_calls": 0.0,
+              "catalog_items": 1.0,
+              "cause": "caller_cancelled",
+              "closed": 0.0,
+              "control_reason": "absent",
+              "exchange_retained": false,
+              "explicit_reaped": true,
+              "id_agreement": true,
+              "kind": "interrupted",
+              "list_calls": 1.0,
+              "notifications": 0.0,
+              "phase": "input_validation",
+              "prior_pages": 0.0,
+              "protocol_agreement": true,
+              "reason": "absent",
+              "reuse_refused": true,
+              "worker_gone": true,
+              "worker_kill": "requested",
+              "worker_state": "retained"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    },
+    "mcp.typed_lifecycle_checks/authored/worker-retained-2026-07-28": {
+      "purpose": "Actual worker-retained with configured revision 2026-07-28.",
+      "steps": [
+        {
+          "step": "execute_command",
+          "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+          "input": {
+            "case": {
+              "kind": "literal",
+              "value": "worker-retained"
+            },
+            "revision": {
+              "kind": "literal",
+              "value": "2026-07-28"
+            }
+          }
+        },
+        {
+          "step": "expect_outcome",
+          "outcome": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        },
+        {
+          "step": "expect_direct_response",
+          "response": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": {
+              "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+              "outcome": "observed"
+            },
+            "fields": [
+              {
+                "name": "kind",
+                "type": "String"
+              },
+              {
+                "name": "phase",
+                "type": "String"
+              },
+              {
+                "name": "cause",
+                "type": "String"
+              },
+              {
+                "name": "reason",
+                "type": "String"
+              },
+              {
+                "name": "worker_state",
+                "type": "String"
+              },
+              {
+                "name": "worker_kill",
+                "type": "String"
+              },
+              {
+                "name": "attempted",
+                "type": "Boolean"
+              },
+              {
+                "name": "control_reason",
+                "type": "String"
+              },
+              {
+                "name": "business_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "list_calls",
+                "type": "Integer"
+              },
+              {
+                "name": "notifications",
+                "type": "Integer"
+              },
+              {
+                "name": "closed",
+                "type": "Integer"
+              },
+              {
+                "name": "catalog_items",
+                "type": "Integer"
+              },
+              {
+                "name": "prior_pages",
+                "type": "Integer"
+              },
+              {
+                "name": "exchange_retained",
+                "type": "Boolean"
+              },
+              {
+                "name": "body_preserved",
+                "type": "Boolean"
+              },
+              {
+                "name": "id_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "protocol_agreement",
+                "type": "Boolean"
+              },
+              {
+                "name": "worker_gone",
+                "type": "Boolean"
+              },
+              {
+                "name": "reuse_refused",
+                "type": "Boolean"
+              },
+              {
+                "name": "explicit_reaped",
+                "type": "Boolean"
+              }
+            ],
+            "declarations": {},
+            "expected": {
+              "attempted": false,
+              "body_preserved": false,
+              "business_calls": 0.0,
+              "catalog_items": 1.0,
+              "cause": "caller_cancelled",
+              "closed": 0.0,
+              "control_reason": "absent",
+              "exchange_retained": false,
+              "explicit_reaped": true,
+              "id_agreement": true,
+              "kind": "interrupted",
+              "list_calls": 1.0,
+              "notifications": 0.0,
+              "phase": "input_validation",
+              "prior_pages": 0.0,
+              "protocol_agreement": true,
+              "reason": "absent",
+              "reuse_refused": true,
+              "worker_gone": true,
+              "worker_kill": "requested",
+              "worker_state": "retained"
+            }
+          }
+        }
+      ],
+      "source": [
+        {
+          "kind": "domain",
+          "name": "mcp.typed_lifecycle_checks"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Case"
+        },
+        {
+          "kind": "type",
+          "name": "mcp.typed_lifecycle_checks.Revision"
+        },
+        {
+          "kind": "command",
+          "name": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle"
+        },
+        {
+          "kind": "outcome",
+          "name": {
+            "command": "mcp.typed_lifecycle_checks.ObserveTypedLifecycle",
+            "outcome": "observed"
+          }
+        }
+      ]
+    }
+  }
+}

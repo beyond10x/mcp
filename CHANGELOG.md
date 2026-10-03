@@ -12,7 +12,6 @@ All notable changes to this project will be documented in this file.
   failures preserve bounded response bytes and never trigger retries. Dropped
   exchanges retain their request identity as an unknown outcome and require
   shutdown before fresh setup. Caller-owned configuration remains reusable.
-  Typed invocation cancellation remains unfinished.
 - Strict connections retain bounded, ordered SSE observations in each exchange.
   Legacy ping and unsupported server requests receive separate JSON-RPC reply
   POSTs, including initialization-time ping with validated session headers.
@@ -39,8 +38,14 @@ All notable changes to this project will be documented in this file.
   the child; both execution APIs refuse reuse until `reap_pending` observes exit.
   Dropping a controlled future requests termination and retains that handle.
   Dropping the worker itself offers kill-on-drop without an observed reap barrier.
-  Typed invocation integration remains unfinished; the original `run` API retains
-  its existing cleanup behavior.
+  The original `run` API retains its existing cleanup behavior.
+- Controlled tool, resource and prompt methods retain the phase and actual
+  worker/HTTP observations when cancelled. Stopped output validation preserves
+  the business response and sends no cancellation notification for that terminal.
+  Parameter headers, catalog admission and result parsing use the existing checks.
+  `InvocationClient::reap_schema_worker` exposes bounded explicit worker cleanup.
+  Controlled discovery retains completed page observations without promoting a
+  partial catalog. A cancelled or dropped refresh invalidates the previous catalog.
 - `strict_invocation::InvocationClient` obtains private same-connection catalogs
   and exposes typed tool, resource and prompt results. It preserves content and
   opaque fields, validates schema semantics offline in a bounded Rust worker,

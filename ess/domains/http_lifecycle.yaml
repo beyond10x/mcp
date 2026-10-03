@@ -6,6 +6,79 @@ summary: Revision-specific HTTP progress, control-message and shutdown observati
 # These are immutable observations, never persisted requests, capabilities,
 # credentials or a way to manufacture a runtime cancellation handle.
 types:
+  - name: mcp.http_lifecycle.InvocationPhase
+    kind: enum
+    variants: [admission, input_validation, output_preflight, dispatch, output_validation]
+  - name: mcp.http_lifecycle.InvocationInterruption
+    kind: struct
+    fields:
+      - {name: cause, type: mcp.http_lifecycle.StopCause}
+      - {name: phase, type: mcp.http_lifecycle.InvocationPhase}
+      - {name: worker, type: "Optional<mcp.http_lifecycle.WorkerCleanup>"}
+      - {name: cancellation, type: "Optional<mcp.http_lifecycle.CancellationObservation>"}
+      - {name: exchange, type: "Optional<mcp.http_exchange.ExchangeResult>"}
+    # L12: awaited interruption uses caller_cancelled/deadline_exhausted only.
+    # Before an HTTP exchange is prepared there is no request ID or fabricated
+    # HTTP exchange. An actually prepared request can truthfully remain not_sent.
+    # A worker interruption carries its actual cleanup. After a business response,
+    # output-validation interruption preserves that exchange and sends no new
+    # cancellation notification for an already-terminal request. A dispatch stop
+    # carries the connection's actual cancellation observation. It never means
+    # business failure, rollback, or completion of validation that did not finish.
+  - name: mcp.http_lifecycle.ControlledInvocationRefusal
+    kind: struct
+    fields:
+      - {name: refusal, type: mcp.http_invocation.Refusal}
+      - {name: phase, type: mcp.http_lifecycle.InvocationPhase}
+      - {name: worker, type: "Optional<mcp.http_lifecycle.WorkerCleanup>"}
+    # Worker execution/IPC refusal must not discard retained child ownership.
+    # Ordinary semantic schema mismatches carry the existing invocation reason.
+  - name: mcp.http_lifecycle.ControlledToolResult
+    kind: union
+    tag: kind
+    variants:
+      completed: mcp.http_invocation.ToolResult
+      interrupted: mcp.http_lifecycle.InvocationInterruption
+      refused: mcp.http_lifecycle.ControlledInvocationRefusal
+  - name: mcp.http_lifecycle.ControlledResourceResult
+    kind: union
+    tag: kind
+    variants:
+      completed: mcp.http_invocation.ResourceResult
+      interrupted: mcp.http_lifecycle.InvocationInterruption
+      refused: mcp.http_lifecycle.ControlledInvocationRefusal
+  - name: mcp.http_lifecycle.ControlledPromptResult
+    kind: union
+    tag: kind
+    variants:
+      completed: mcp.http_invocation.PromptResult
+      interrupted: mcp.http_lifecycle.InvocationInterruption
+      refused: mcp.http_lifecycle.ControlledInvocationRefusal
+  - name: mcp.http_lifecycle.DiscoveryInterruption
+    kind: struct
+    fields:
+      - {name: cause, type: mcp.http_lifecycle.StopCause}
+      - {name: exchanges, type: "List<mcp.http_exchange.ExchangeResult>"}
+      - {name: cancellation, type: "Optional<mcp.http_lifecycle.CancellationObservation>"}
+    # L13: exchanges are the completed attempts preceding this stop, not an admitted
+    # catalog prefix. A stop between pages has no new request identity. A stop in
+    # an attempted page carries its actual cancellation observation separately.
+    # Cancellation is checked before each page; an already observed final page
+    # is not erased by a later signal. One fixed traversal deadline and one fixed
+    # capped teardown deadline cover the whole traversal, never reset per page.
+  - name: mcp.http_lifecycle.ControlledDiscoveryResult
+    kind: union
+    tag: kind
+    variants:
+      completed: mcp.http_discovery.Catalog
+      interrupted: mcp.http_lifecycle.DiscoveryInterruption
+      refused: mcp.http_discovery.Refusal
+    # L14: InvocationClient invalidates its old selected-family catalog before
+    # any controlled refresh, including before a local stop or a dropped future.
+    # Only completed discovery can replace it. Projection of modern parameter
+    # headers and exclusion of invalid annotations are identical to raw discovery.
+    # Opaque peer values are moved directly through generated carriers, not decoded
+    # again through serde's private-number representation. No new consumer authority.
   - name: mcp.http_lifecycle.WorkerCleanupState
     kind: enum
     variants: [no_child, reaped, retained]

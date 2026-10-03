@@ -96,8 +96,8 @@ supported negotiated-revision inputs. This tests the transport envelope, not
 negotiation or a modern typed family result. The target consumes only fixture
 inputs and returns actual request counts and receiver fields after joined teardown.
 
-The receiver, connection, discovery, invocation and lifecycle project78 ESS model types. The four generated artifacts are
-regenerated and compared by the gate. Their35 structural-codec obligations remain
+The receiver, connection, discovery, invocation and lifecycle project 93 ESS model types. The four generated artifacts are
+regenerated and compared by the gate. Their 45 structural-codec obligations remain
 visible in `types-report.json`. Numeric input guards require nonnegative byte
 limits representable on this host and positive millisecond values representable as
 u64; a nonrepresentable input is refused before I/O. Canonical base64, exact request
@@ -149,10 +149,9 @@ A revision-check mutation fails exactly both mismatch scenarios (30 passed,2fail
 This is author mutation evidence, not an independent review. The network builder's
 absence of hidden protocol-header defaults remains a named consumer-port obligation.
 
-Remaining work includes typed invocation revision/family checks, JSON Schema
-semantic validation, concrete tool/resource/prompt operations, complete progress/cancellation/
-shutdown handling, consumer admission and credential integration, and the open
-caller/stdio ownership decisions. The constructor scenario bodies remain unchanged
+The later selections below cover typed invocation, schema validation and selected
+progress/cancellation/shutdown behavior. Consumer admission and credential integration
+and the open caller/stdio ownership decisions remain unfinished. The constructor scenario bodies remain unchanged
 with regenerated model digests; their nine partial and three authored refusals
 remain. Report/2 still reports inconclusive conformance and unknown coverage.
 
@@ -228,8 +227,8 @@ and Connectors consumer integration remain open.
 ## Partial strict HTTP lifecycle implementation
 
 The new `mcp.http_lifecycle` domain and nonrecursive `WireObservation` add thirteen
-immutable observation types; the new controlled-exchange union brings the current
-projection to78 values with35 structural-codec obligations. L1–L10 record runtime
+immutable observation types; controlled worker and typed-call outcomes bring the current
+projection to 93 values with 45 structural-codec obligations. L1–L14 record runtime
 obligations separately. Progress and explicit connection cancellation now execute
 over actual streams below; type generation alone establishes neither.
 
@@ -280,5 +279,28 @@ interrupted stream history plus the cancellation acknowledgement. The peer joins
 only after observing the cancelled sockets close. No rollback or remote termination
 is inferred from a cancellation acknowledgement.
 
-The full lifecycle story remains active: typed invocation cancellation and awaited
-schema-worker kill/reap still need implementation and their named scenarios.
+The separate Linux schema-worker selection has 15 scenarios (14 authored). Actual
+Rust processes establish the PID barrier and `/proc` absence after an observed
+reap. Expired teardown retains ownership and refuses both execution APIs until
+explicit cleanup succeeds. A dropped controlled future requests termination and
+retains its child handle. A kill request alone never proves reap. Falsifying the
+retained-child report causes the three intended retention scenarios to fail.
+
+The Linux typed lifecycle selection adds 31 scenarios (30 authored), covering input
+validation, output-schema preflight, post-response validation, retained/dropped
+worker ownership, post-response IPC capacity, HTTP cancellation and deadlines,
+expired notification teardown, and interrupted/dropped discovery in both revisions.
+It invokes the public typed client against actual HTTP peers and Rust workers.
+An observed business response survives stopped validation; no cancellation POST
+is sent for that terminal. Prior discovery exchanges remain observations, and
+cancelled or dropped refreshes cannot promote a partial or stale catalog. Native
+tests also exercise controlled tools/resources/prompts, modern parameter headers,
+argument admission, exact numbers and opaque private-marker objects. A peer
+writing headers does not prove the client observed them before cancellation;
+an attempted send can truthfully remain unknown in the client observation.
+
+Both process selections require Linux and `test-schema-worker`, enabled by the
+repository gate. Other platform/feature combinations do not execute those selections;
+the existing HTTP lifecycle selection remains available with `strict-http` alone.
+These are selected lifecycle measurements, not a claim of full-system conformance.
+Connectors consumer integration and the final release remain separate unfinished work.

@@ -1,0 +1,31 @@
+type: ess-scenario/4
+domain: mcp.typed_lifecycle_checks
+scenario: discovery-first-2026-07-28
+summary: Actual discovery-first with configured revision 2026-07-28.
+timeline:
+  - at: 2026-10-03T00:00:00Z
+    command: mcp.typed_lifecycle_checks.ObserveTypedLifecycle
+    input: {case: discovery-first, revision: "2026-07-28"}
+    outcome: observed
+    response:
+      kind: "interrupted"
+      phase: "absent"
+      cause: "caller_cancelled"
+      reason: "absent"
+      worker_state: "absent"
+      worker_kill: "absent"
+      attempted: true
+      control_reason: "absent"
+      business_calls: 0
+      list_calls: 1
+      notifications: 0
+      closed: 1
+      catalog_items: 0
+      prior_pages: 0
+      exchange_retained: false
+      body_preserved: false
+      id_agreement: true
+      protocol_agreement: true
+      worker_gone: false
+      reuse_refused: true
+      explicit_reaped: false

@@ -1,5 +1,6 @@
 //! Typed invocation over privately owned, same-connection discovery observations.
 //! The consumer still owns grants. Peer content and generated Debug are untrusted.
+mod controlled;
 use crate::{
     parameter_headers, schema_worker::SchemaWorker, strict_connection::StrictConnection,
     strict_discovery,
@@ -89,15 +90,20 @@ impl InvocationClient {
         limits: &ListLimits,
         deadline: Instant,
     ) -> Result<Catalog, DiscoveryRefusal> {
-        self.catalogs.retain(|c| c.family.as_ref() != &family);
+        self.invalidate(&family);
+        let catalog =
+            strict_discovery::discover(&mut self.connection, family, limits, deadline).await?;
+        Ok(self.store_catalog(catalog))
+    }
+    fn invalidate(&mut self, family: &Family) {
+        self.catalogs.retain(|c| c.family.as_ref() != family);
         if matches!(family, Family::V2) {
             self.tools.clear();
             self.rejected.clear();
         }
-        let mut catalog =
-            strict_discovery::discover(&mut self.connection, family.clone(), limits, deadline)
-                .await?;
-        if matches!(family, Family::V2) {
+    }
+    fn store_catalog(&mut self, mut catalog: Catalog) -> Catalog {
+        if matches!(catalog.family.as_ref(), Family::V2) {
             for descriptor in &catalog.descriptors {
                 if let Descriptor::V2(tool) = descriptor.as_ref() {
                     let projection = if self.modern() {
@@ -122,7 +128,7 @@ impl InvocationClient {
             catalog.descriptors.retain(|d| matches!(d.as_ref(), Descriptor::V2(t) if self.tools.contains_key(&t.value.name)));
         }
         self.catalogs.push(catalog.clone());
-        Ok(catalog)
+        catalog
     }
     /// Usable tool descriptors; raw observations and excluded tools confer no authority.
     pub fn tools(&self) -> impl Iterator<Item = &Tool> {
@@ -246,13 +252,7 @@ impl InvocationClient {
         in_time(end).map_err(|r| observed(r, &exchange))?;
         Ok(result)
     }
-    /// Read a discovered URI once, with no cache or stale-success fallback.
-    pub async fn read_resource(
-        &mut self,
-        uri: &str,
-        deadline: Instant,
-    ) -> Result<ResourceResult, Refusal> {
-        let end = self.end(deadline)?;
+    fn check_resource(&self, uri: &str) -> Result<(), Refusal> {
         if !self
             .catalog(&Family::V1)?
             .descriptors
@@ -261,25 +261,9 @@ impl InvocationClient {
         {
             return Err(refusal(Reason::V6));
         }
-        let exchange = self
-            .connection
-            .exchange("resources/read", json!({"uri":uri}), end)
-            .await
-            .map_err(|_| refusal(Reason::V2))?;
-        let result =
-            parse_resource(&exchange, self.modern()).map_err(|r| observed(r, &exchange))?;
-        in_time(end).map_err(|r| observed(r, &exchange))?;
-        Ok(result)
+        Ok(())
     }
-    /// Fetch a discovered prompt with only declared string arguments. Returned
-    /// instructions and links stay data; this operation executes neither.
-    pub async fn get_prompt(
-        &mut self,
-        name: &str,
-        arguments: Value,
-        deadline: Instant,
-    ) -> Result<PromptResult, Refusal> {
-        let end = self.end(deadline)?;
+    fn check_prompt(&self, name: &str, arguments: &Value) -> Result<(), Refusal> {
         let prompt = self
             .catalog(&Family::V0)?
             .descriptors
@@ -303,6 +287,36 @@ impl InvocationClient {
         {
             return Err(refusal(Reason::V2));
         }
+        Ok(())
+    }
+    /// Read a discovered URI once, with no cache or stale-success fallback.
+    pub async fn read_resource(
+        &mut self,
+        uri: &str,
+        deadline: Instant,
+    ) -> Result<ResourceResult, Refusal> {
+        let end = self.end(deadline)?;
+        self.check_resource(uri)?;
+        let exchange = self
+            .connection
+            .exchange("resources/read", json!({"uri":uri}), end)
+            .await
+            .map_err(|_| refusal(Reason::V2))?;
+        let result =
+            parse_resource(&exchange, self.modern()).map_err(|r| observed(r, &exchange))?;
+        in_time(end).map_err(|r| observed(r, &exchange))?;
+        Ok(result)
+    }
+    /// Fetch a discovered prompt with only declared string arguments. Returned
+    /// instructions and links stay data; this operation executes neither.
+    pub async fn get_prompt(
+        &mut self,
+        name: &str,
+        arguments: Value,
+        deadline: Instant,
+    ) -> Result<PromptResult, Refusal> {
+        let end = self.end(deadline)?;
+        self.check_prompt(name, &arguments)?;
         let exchange = self
             .connection
             .exchange(

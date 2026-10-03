@@ -322,13 +322,33 @@ impl StrictConnection {
         teardown_deadline: Instant,
     ) -> Result<b10x_mcp_types::http_exchange::McpHttpLifecycleControlledExchange, ClientError>
     {
+        self.exchange_cancellable_with_parameters(
+            method,
+            params,
+            reqwest::header::HeaderMap::new(),
+            deadline,
+            cancellation,
+            teardown_deadline,
+        )
+        .await
+    }
+
+    pub(crate) async fn exchange_cancellable_with_parameters(
+        &mut self,
+        method: &str,
+        params: Value,
+        parameters: reqwest::header::HeaderMap,
+        deadline: Instant,
+        cancellation: &crate::strict_cancellation::Cancellation,
+        teardown_deadline: Instant,
+    ) -> Result<b10x_mcp_types::http_exchange::McpHttpLifecycleControlledExchange, ClientError>
+    {
         use crate::strict_cancellation;
         use b10x_mcp_types::http_exchange::McpHttpObservationsSendObservation as Send;
         let teardown = self
             .traversal_deadline(teardown_deadline)
             .ok_or_else(local_error)?;
-        let (mut wire, request) =
-            self.prepare_exchange(method, params, reqwest::header::HeaderMap::new())?;
+        let (mut wire, request) = self.prepare_exchange(method, params, parameters)?;
         let control_request = request.try_clone().ok_or_else(local_error)?;
         let result = async {
             let exchange = strict_http::cancellable_exchange(

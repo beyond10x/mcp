@@ -142,8 +142,23 @@ exchange or cancellation. Modern closes its stream; legacy attempts one
 uses only the remaining response-byte allowance. Its acknowledgement proves no
 remote rollback. An already observed terminal wins over later cancellation during
 side I/O. Unread late bytes are not reported as observed. Raw `exchange` retains
-its existing timeout behavior. Carrying cancellation and worker-cleanup observations
-through typed invocation is still under implementation.
+its existing timeout behavior.
+
+`InvocationClient` exposes `call_tool_cancellable`, `read_resource_cancellable`,
+`get_prompt_cancellable` and `discover_cancellable` with the same explicit signal
+and separate absolute teardown deadline. Typed interruptions name the phase and
+retain actual worker or HTTP observations. Stopping output validation after a
+business response preserves that response without sending a new cancellation
+notification for it. Discovery interruption keeps prior page observations but
+returns no partial catalog. A refresh invalidates the old selected-family catalog
+before awaiting any I/O, including when the refresh future is later dropped.
+
+Use `reap_schema_worker(deadline)` to observe exit of a retained schema child
+through the owning invocation client. Await this before consuming `shutdown` when
+an observed worker-exit barrier is required; `shutdown` closes the HTTP connection,
+and dropping the worker itself only initiates termination. A dropped HTTP exchange
+still requires shutdown and fresh setup. Repeated cancellation uses one monotonic
+signal; explicitly start a fresh signal for a subsequent operation.
 
 The caller supplies authority and network policy;
 the builder must contain no hidden MCP protocol/session/routing header defaults.

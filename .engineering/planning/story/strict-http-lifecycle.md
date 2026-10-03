@@ -2,7 +2,7 @@
 format: aep.planning-md/3
 id: story:strict-http-lifecycle
 kind: story
-status: active
+status: implemented
 title: Deliver revision-specific strict HTTP lifecycle
 relations:
 - serves: vision:consumer-owned-mcp-mechanics
@@ -21,6 +21,8 @@ scope:
   path: conformance/schema-lifecycle
 - confidence: inferred
   path: conformance/strict-lifecycle
+- confidence: inferred
+  path: conformance/typed-lifecycle
 - confidence: cited
   path: crates/b10x-mcp-client/Cargo.toml
 - confidence: cited
@@ -33,10 +35,14 @@ scope:
   path: crates/b10x-mcp-client/src/strict_cancellation.rs
 - confidence: cited
   path: crates/b10x-mcp-client/src/strict_connection.rs
+- confidence: inferred
+  path: crates/b10x-mcp-client/src/strict_discovery
 - confidence: cited
   path: crates/b10x-mcp-client/src/strict_discovery.rs
 - confidence: cited
   path: crates/b10x-mcp-client/src/strict_http.rs
+- confidence: inferred
+  path: crates/b10x-mcp-client/src/strict_invocation
 - confidence: cited
   path: crates/b10x-mcp-client/src/strict_invocation.rs
 - confidence: inferred
@@ -55,10 +61,11 @@ scope:
   path: ess-inputs.yaml
 - confidence: inferred
   path: toolchain.json
-revision: 13
+revision: 17
 transitions:
 - {from: "draft", to: "proposed", at: "2026-10-03T06:29:28Z", actor: "human:timo", revision: 4}
 - {from: "proposed", to: "active", at: "2026-10-03T06:29:28Z", actor: "human:timo", revision: 5}
+- {from: "active", to: "implemented", at: "2026-10-03T10:00:49Z", actor: "human:timo", revision: 17, decided_on: {"recorded":{"test_result":4}}}
 ---
 # Revision-specific strict HTTP lifecycle
 
@@ -341,3 +348,51 @@ Actual Connectors inbound/outbound integration and the verified final release
 remain required; existing consumer ownership decisions remain unanswered.
 The three workers are still quota-exhausted; review here is the coordinator's,
 not an independent approval. No source release is claimed by this checkpoint.
+
+## Typed lifecycle checkpoint and library completion, 2026-10-03
+
+Controlled typed tools/resources/prompts and discovery now preserve the original
+catalog admission, parameter-header projection, schema semantics and opaque JSON.
+Cancellation is checked at each await boundary against a fixed operation deadline
+and independent fixed teardown deadline. Interruption before exchange preparation
+invents no request id; HTTP interruption retains the actual connection observation.
+Input validation, output preflight and post-response validation retain their phase
+and actual worker cleanup state. Stopped post-response validation retains the
+original exchange and never cancels a terminal business request. Explicit bounded
+reap precedes consuming shutdown when a worker exit barrier is required.
+
+A refresh invalidates the selected catalog before its first await. Only a complete
+traversal replaces admission. Cancelled/dropped refreshes cannot promote a prefix
+or stale catalog; completed earlier pages remain observations. No consumer
+credential, authority, rollback, retry, stdio ownership or tenant mapping is invented.
+The model now projects 93 values with 45 structural-codec obligations (L1–L14).
+
+Rust 1.88 cargo xtask gate exited 0: 116 native tests, 0 failed, 0 ignored,
+42 summary lines. It validates/regenerates ESS and AEP, checks fmt and the locked
+default workspace, and runs all-feature tests, all-target Clippy and denied-warning
+docs. Constructor 9, HTTP replay 5, strict HTTP 43, connection 32, discovery 111,
+invocation 54, HTTP lifecycle 105, schema lifecycle 15 and typed lifecycle 31 are
+separate executed ESS selections, not full-system conformance. The original nine
+partial synthesis and three authored constructor refusals remain explicit.
+
+Typed lifecycle ran 31 passed, 0 failed/error/skipped/unsupported three times after
+restoration. A deliberate author mutation discarding the original response failed
+exactly worker-output and worker-output-bound in both revisions: 27 passed, 4 failed,
+0 error/skipped/unsupported. It was restored before the full green gate. Earlier
+worker retention, cancellation notification, exact progress and control-budget
+mutations remain recorded in the preceding checkpoints. These are author controls.
+
+Gate SHA256: 06eee956b87ac193a499d0679892a77191affe2119474b1609f0ef87e648344c
+Mutation SHA256: 3ae1aa6abc28584e95bf35a0cae885409bc666780f2249abd0650a9ccfcce40c
+Typed suite SHA256: 2490b6dc2a30c35fe43001d3854375afc2b4389481702145700479b8df06dd70
+Logs/reports: .cache/mcp-next-runtime/lifecycle/typed-*.
+The deterministic ESS clock is not the execution wall clock. Initial fixture
+mistakes and omitted constructor --scenarios selection were corrected without
+weakening runtime guards or inventories; the gate then passed.
+
+The coordinator's separate read-only review covers controlled admission, fixed
+budgets, actual child ownership, terminal retention and catalog invalidation.
+Existing workers are quota-exhausted; no independent or human approval is claimed.
+This completes this library story's selected lifecycle scope only. Actual Connectors
+local inbound and outbound HTTP integration, unresolved cloud caller mapping and
+outbound stdio decisions, and the final verified release remain unfinished.
