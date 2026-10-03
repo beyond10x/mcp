@@ -24,6 +24,13 @@
     "mcp.constructor_checks/authored/result-success",
     "mcp.constructor_checks/authored/result-tool-error"
   ],
+  "http_replay_scenarios": [
+    "mcp.http_replay_checks.ObserveSessionCall/outcome/observed",
+    "mcp.http_replay_checks/authored/default-expired",
+    "mcp.http_replay_checks/authored/default-success",
+    "mcp.http_replay_checks/authored/injected-expired",
+    "mcp.http_replay_checks/authored/injected-success"
+  ],
   "partial_refusals": [
     "refusal[ESS-SYNTH-001]: outcome mcp.constructor_checks.MakeConnectionId/returned has no scenario `mcp.constructor_checks.MakeConnectionId/outcome/returned`",
     "refusal[ESS-SYNTH-001]: outcome mcp.constructor_checks.MakeToolSnapshot/returned has no scenario `mcp.constructor_checks.MakeToolSnapshot/outcome/returned`",

@@ -120,6 +120,8 @@ name = "b10x-mcp-client"
 version = "0.1.2"
 dependencies = [
  "b10x-mcp-types",
+ "ess-conformance",
+ "ess-primitives",
  "http",
  "reqwest 0.13.4",
  "rmcp",

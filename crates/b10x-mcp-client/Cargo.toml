@@ -14,5 +14,9 @@ rmcp = { workspace = true, features = ["client", "transport-child-process", "tra
 serde_json.workspace = true
 tokio.workspace = true
 
+[dev-dependencies]
+ess-conformance = { git = "https://github.com/beyond10x/ess", rev = "8700d0808e8f3b19711629d8a17afc5281680f58" }
+ess-primitives = { git = "https://github.com/beyond10x/ess", rev = "8700d0808e8f3b19711629d8a17afc5281680f58" }
+
 [lints]
 workspace = true

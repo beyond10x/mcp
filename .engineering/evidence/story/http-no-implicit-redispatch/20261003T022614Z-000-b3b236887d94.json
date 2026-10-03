@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-03T02:26:14Z",
+  "actor": "human:timo",
+  "artifact": "story:http-no-implicit-redispatch",
+  "kind": "story",
+  "revision": 8,
+  "change": {
+    "change": "evidence",
+    "kind": "test_result",
+    "source": "Actual retained HTTP conformance target: 5passed/0failed/0error/0unsupported/0skipped. Enabling SDK recovery causes exactly default-expired and injected-expired to fail (3passed/2failed), then original source restored byte-for-byte. Reports use a deterministic logical clock, so this record dates the observed execution instead of importing that clock as wall time.",
+    "reference": ".cache/mcp-next-runtime/no-redispatch-probe/conformance-first.log"
+  }
+}

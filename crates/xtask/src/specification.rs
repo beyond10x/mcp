@@ -24,6 +24,7 @@ struct Pins {
     ess: Tool,
     aep: Tool,
     scenarios: Vec<String>,
+    http_replay_scenarios: Vec<String>,
     partial_refusals: Vec<String>,
     authored_refusals: Vec<String>,
 }
@@ -55,9 +56,7 @@ fn check_inventory(actual: &[String], expected: &[String]) -> Result<(), String>
 
 fn check_suite(actual: &[u8], committed: &[u8], ids: &[String]) -> Result<(), String> {
     if actual != committed {
-        return Err(
-            "generated constructor suite differs from conformance/constructors.json".into(),
-        );
+        return Err("generated conformance suite differs from committed bytes".into());
     }
     let suite: serde_json::Value = serde_json::from_slice(actual).map_err(|e| e.to_string())?;
     let scenarios = suite
@@ -143,20 +142,24 @@ fn refusals(text: &str) -> Vec<String> {
 }
 
 fn source_pins(root: &Path, pins: &Pins) -> Result<(), String> {
-    let manifest: toml::Value = toml::from_str(
-        &fs::read_to_string(root.join("crates/b10x-mcp-types/Cargo.toml"))
-            .map_err(|e| e.to_string())?,
-    )
-    .map_err(|e| e.to_string())?;
-    for name in ["ess-conformance", "ess-primitives"] {
-        if manifest
-            .get("dev-dependencies")
-            .and_then(|v| v.get(name))
-            .and_then(|v| v.get("rev"))
-            .and_then(toml::Value::as_str)
-            != Some(pins.ess.revision.as_str())
-        {
-            return Err(format!("{name} source revision differs from ESS tool pin"));
+    for package in ["b10x-mcp-types", "b10x-mcp-client"] {
+        let manifest: toml::Value = toml::from_str(
+            &fs::read_to_string(root.join(format!("crates/{package}/Cargo.toml")))
+                .map_err(|e| e.to_string())?,
+        )
+        .map_err(|e| e.to_string())?;
+        for name in ["ess-conformance", "ess-primitives"] {
+            if manifest
+                .get("dev-dependencies")
+                .and_then(|v| v.get(name))
+                .and_then(|v| v.get("rev"))
+                .and_then(toml::Value::as_str)
+                != Some(pins.ess.revision.as_str())
+            {
+                return Err(format!(
+                    "{package}: {name} source revision differs from ESS tool pin"
+                ));
+            }
         }
     }
     let project: serde_json::Value = serde_yaml::from_slice(
@@ -225,13 +228,49 @@ pub(super) fn check(root: &Path) -> Result<(), String> {
     )?;
     check_inventory(&refusals(&full), &pins.authored_refusals)?;
     run(
+        Command::new(&ess)
+            .args([
+                "specify",
+                "validate",
+                "--path",
+                "conformance/http-replay/spec",
+            ])
+            .current_dir(root),
+        0,
+    )?;
+    let http_suite = temporary.path().join("http-replay.json");
+    let http = run(
+        Command::new(&ess)
+            .args([
+                "verify",
+                "conform",
+                "synthesize",
+                "--path",
+                "conformance/http-replay/spec",
+                "--scenarios",
+                "conformance/http-replay/scenarios",
+                "--out",
+            ])
+            .arg(&http_suite)
+            .current_dir(root),
+        0,
+    )?;
+    if !refusals(&http).is_empty() {
+        return Err("HTTP replay selection has synthesis refusals".into());
+    }
+    check_suite(
+        &fs::read(&http_suite).map_err(|e| e.to_string())?,
+        &fs::read(root.join("conformance/http-replay/suite.json")).map_err(|e| e.to_string())?,
+        &pins.http_replay_scenarios,
+    )?;
+    run(
         Command::new(aep)
             .args(["plan", "artifact", "validate"])
             .current_dir(root),
         0,
     )?;
     println!(
-        "specification: exact partial suite and refusal inventory retained; execution follows in workspace tests; full conformance remains inconclusive"
+        "specification: exact constructor and HTTP replay suites retained; constructor refusal inventory unchanged; execution follows in workspace tests; full conformance remains inconclusive"
     );
     Ok(())
 }

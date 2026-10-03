@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-03T02:29:31Z",
+  "actor": "human:timo",
+  "artifact": "story:http-no-implicit-redispatch",
+  "kind": "story",
+  "revision": 8,
+  "change": {
+    "change": "evidence",
+    "kind": "test_result",
+    "source": "RUSTUP_TOOLCHAIN=1.88.0 RUSTC_WRAPPER= CARGO_BUILD_JOBS=2 cargo xtask gate; exit0; 27native tests passed/0failed/0ignored across22summaries, including actual five-scenario HTTP target; fmt, Clippy, docs and pinned specification checks passed. Log SHA256 88f4a9e8ef6787db9587eee2c0db2d5eb7222ac53a0ee3702a280186640fcdfc.",
+    "reference": ".cache/mcp-next-runtime/no-redispatch-probe/gate-retry.log"
+  }
+}

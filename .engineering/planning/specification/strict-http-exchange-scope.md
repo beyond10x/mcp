@@ -7,7 +7,7 @@ title: Source-grounded scope for strict HTTP observations before resource and pr
 relations:
 - serves: vision:consumer-owned-mcp-mechanics
 - informed_by: specification:governed-compatibility-baseline
-revision: 3
+revision: 5
 ---
 # Next MCP runtime slice: source-grounded scope
 
@@ -133,3 +133,19 @@ Root Rust1.88 taskcheck is running; its result is recorded separately aftercompl
 ## Integrated gate result — 2026-10-03
 
 RUSTUP_TOOLCHAIN=1.88.0 CARGO_BUILD_JOBS=2 RUSTC_WRAPPER=/usr/bin/sccache task check exited 0: 26 native tests passed, zero failed or ignored; formatting, Clippy and documentation passed. Specification validation, exact regenerated constructor inventory and AEP validation passed. The partial suite retains nine unchanged constructor scenario bodies and six explicit synthesis refusals; full authored synthesis retains three explicit refusals. No HTTP runtime conformance is established. Gate log SHA256: 71165edeffdabe0ed080b71c1d68dd0eafee522550aabfc1153fb3fe6b7dcac6.
+
+## Checked draft for bounded exchange inputs — 2026-10-03
+
+While shared-disk exhaustion prevents a new repository build, a scratch ESS proposal extends the reviewed observation model with RequestId, PositiveMilliseconds, ExchangeBudget and ExchangeInput. It separates byte ceilings for the request, response message and SSE event, and remaining execution/provider/connect milliseconds. One already-negotiated business exchange carries selected revision, typed identity and exact encoded request Bytes. It introduces no credentials, endpoint retargeting, entity, durable identity or ownership relation. These are explicit proposed design choices, not claims about current runtime APIs.
+
+Pinned ESS0.50 validated the combined5files; selected Rust generation emitted6types including two reused observation values. Four generated deliverables byte-match a second generation. Eight explicit runtime codec obligations remain; H5 actual monotonic deadline conservation and H6 encoded request/correlation/count coherence still require real behavior. No runtime conformance or independent design review was executed. Existing APIs, Limits, generated constructor suite and refusal inventory remain unchanged. Strict result/refusal design, review and actual generated-data guards precede runtime stories.
+
+Draft source .cache/mcp-next-runtime/exchange-input-draft/spec/ess/domains/http_exchange.yaml SHA2565948a7876e2290b9322aa0d9b3595b88c8ba221c806e0d937d8c16bddd8a9d8b. Report .cache/mcp-next-runtime/exchange-input-draft/report.md SHA256f8bfea4acb6bbf1244db4f9ed55ff27f7a0e44a4a47d0e3e6a5c06296c69b772. This is retained preparation, not promoted product source or completed implementation acceptance.
+
+## Checked draft for strict exchange results — 2026-10-03
+
+The input proposal now has a companion scratch result domain: seven new immutable values for optional HTTP status, independent send/terminal/byte observations, closed local refusal reasons, a complete raw result object, an opaque peer error and a tagged result/refusal union. Complete protocol results are not typed family results or business-success claims. Retention and correlation remain independent, so complete malformed/wrong-id bodies can be retained while still refused. No entity, credential, durable relation or new authority is introduced.
+
+Pinned ESS0.50 validates the combined five files. Generation rooted at ExchangeInput and ExchangeResult emits22types, whose four deliverable files byte-match a repeated projection. The actual generated standalone Rust crate passes cargo check under Rust1.88 (exit0,7.09s). Nineteen runtime codec obligations remain. H7 requires real correlation/exclusive result-error/body fidelity and H8 requires truthful refusal classification/no-redispatch/deadline conservation/safe diagnostics. H1-H6 remain. No HTTP runtime conformance is established.
+
+This remains a proposal: no product model or API promoted, no implementation story closed, no independent review claim. All three delegated agents report account usage exhaustion; the coordinator's separate design pass is disclosed as such. Source .cache/mcp-next-runtime/exchange-result-draft/spec/ess/domains/http_exchange.yaml SHA2561c5b44c655ec6a8584225cafb73d7cd66220e2a6d8d3a6cd4292517e8b9088dc; generated types.rs SHA2565a3ad65666f97c0ab480d1ed336cec28ba2d2656752b2937de4b9cf6c95ef5d9; report SHA2563580c1424c89a1d27c1dccc7c0ca5f61c5536788f0119185bc3342929f72572f. Existing suite and APIs remain unchanged until a reviewed runtime unit adopts the typed model and its guards.

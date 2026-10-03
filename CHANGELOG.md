@@ -18,6 +18,10 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- HTTP clients explicitly disable automatic session recovery that can resend an
+  ordinary tool request after a session-expired response. Both the default and
+  caller-supplied HTTP client entry points return the failure; a caller decides
+  whether to start a new operation. Tool annotations do not authorize a replay.
 - `AGENTS.md` no longer states that released contract directories are immutable. This repository has
   no contract directory and the gate checks none; the gate's four steps are named instead.
 

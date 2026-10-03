@@ -1,0 +1,6 @@
+format: ess/17
+# Bounded HTTP test-binding selection for the existing mcp system.
+# This does not replace the product model or the partial constructor selection.
+system: mcp
+version: v1
+domains: [mcp.http_replay_checks]

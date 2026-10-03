@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-03T02:16:17Z",
+  "actor": "human:timo",
+  "artifact": "story:http-no-implicit-redispatch",
+  "kind": "story",
+  "revision": 3,
+  "change": {
+    "change": "evidence",
+    "kind": "test_result",
+    "source": "Owned real HTTP baseline: both public constructors silently replayed a tools/call after session expiry (2calls/2initializations/success). Two positive controls passed at1call/1initialization. Rust1.88 probe 2passed/2failed exit101.",
+    "reference": ".cache/mcp-next-runtime/no-redispatch-probe/baseline.log"
+  }
+}
