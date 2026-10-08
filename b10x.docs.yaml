@@ -43,9 +43,6 @@ surfaces:
   - kind: supports
     label: Supplies reviewed protocol tools
     target: harness/docs
-  - kind: supports
-    label: Supplies governed outbound protocol tools
-    target: connectors/docs
   routeBase: /docs/mcp/
   sections:
   - kind: quickstart
