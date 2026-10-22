@@ -39,10 +39,7 @@ surfaces:
   maturity: development
   name: MCP
   primaryJourney: build-agents
-  relationships:
-  - kind: supports
-    label: Supplies reviewed protocol tools
-    target: harness/docs
+  relationships: []
   routeBase: /docs/mcp/
   sections:
   - kind: quickstart
