@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-11-22
+
+- Drop the documentation relationships to the retired harness and connectors docs
+  surfaces from the public documentation declaration. No library, wire or CLI change.
+
 ## [0.2.0] - 2026-10-08
 
 ### Added
